@@ -170,6 +170,19 @@ def test_differential_oracle_catches_a_steerable_ranker() -> None:
     assert {"INJECTION-OBEYED", "INJECTION-CHANGED-SCORE", "INJECTION-CHANGED-ORDER"} <= kinds
 
 
+def test_refusing_flagged_postings_is_allowed_but_newly_eligible_ones_are_findings() -> None:
+    """Agreed with lane A on #2: dropping a poisoned posting (content-integrity refusal) is fail-closed;
+    a posting that only becomes eligible after poisoning (A-F1/A-F3 dedup and phantom evasion) is not."""
+    jobs = synth.gen_jobs(6, seed=8)
+    poisoned = sec_inject.poison_jobs(jobs, seed=8)
+    clean = [{"job_id": j["id"], "score": 50.0 - i} for i, j in enumerate(jobs[:4])]
+    refused = clean[:3]  # one posting refused when poisoned
+    assert sec_inject.differential_findings(clean, refused, poisoned) == []
+    evaded = [*clean, {"job_id": jobs[5]["id"], "score": 10.0}]  # a former duplicate now eligible
+    findings = sec_inject.differential_findings(clean, evaded, poisoned)
+    assert [f.split()[0] for f in findings] == ["INJECTION-ADDED-MEMBERSHIP"]
+
+
 def test_canary_in_verbatim_passthrough_is_not_a_leak_but_paraphrase_is() -> None:
     job = sec_inject.poison_jobs(synth.gen_jobs(1), seed=0)[0]
     verbatim = set(job["requirements"])

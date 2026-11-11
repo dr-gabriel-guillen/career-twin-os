@@ -27,7 +27,7 @@ import re
 from collections import Counter, defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any
 
 from . import contracts, synth
@@ -179,13 +179,28 @@ def _success_types(spec: dict[str, Any]) -> set[str]:
     return SUCCESS_EVENTS.get(str(spec.get("primary_metric")), {"recruiter_screen", "interview", "offer"})
 
 
+def _historical_submission(app_events: list[dict[str, Any]]) -> bool:
+    return any(e.get("event_type") == "submitted" and e.get("actor") == "import" for e in app_events)
+
+
+def _exposure_time(app_events: list[dict[str, Any]], assigned_at: datetime | None) -> datetime | None:
+    """When the employer could first see the variant: the ``submitted`` event, else the assignment."""
+    for event in sorted(app_events, key=lambda e: str(e.get("recorded_at"))):
+        if event.get("event_type") == "submitted":
+            return parse_rfc3339(event.get("occurred_at") or event.get("recorded_at")) or assigned_at
+    return assigned_at
+
+
 def itt_counts(
     spec: dict[str, Any], assignments: list[dict[str, Any]], events: list[dict[str, Any]]
 ) -> tuple[dict[str, dict[str, int]], list[str]]:
     """Lane E's own intention-to-treat tally: per variant ``n_assigned`` / ``n_success`` and the counted event ids.
 
-    One success per assigned unit at most; only events inside the outcome window,
-    with a known outcome status and not imported history, are counted.
+    One success per assigned unit at most; only events inside the outcome window (measured from
+    exposure = the application's ``submitted`` event, falling back to assignment), with a known outcome
+    status, on applications that were not imported history, are counted. A reply *ingested* by an
+    importer (``actor: "import"``, e.g. lane B's synthetic mailbox) is a normal outcome; what makes an
+    outcome observational is a historical (imported) **submission**.
     """
     window = timedelta(days=int(spec.get("outcome_window_days") or 30))
     success = _success_types(spec)
@@ -203,15 +218,18 @@ def itt_counts(
         assigned_at = parse_rfc3339(assignment.get("assigned_at"))
         hit: str | None = None
         for app_id in assignment.get("application_ids", []):
-            for event in sorted(by_app.get(str(app_id), []), key=lambda e: str(e.get("recorded_at"))):
+            app_events = by_app.get(str(app_id), [])
+            if _historical_submission(app_events):
+                continue
+            start = _exposure_time(app_events, assigned_at)
+            for event in sorted(app_events, key=lambda e: str(e.get("recorded_at"))):
                 when = parse_rfc3339(event.get("occurred_at") or event.get("recorded_at"))
                 eligible = (
                     event.get("event_type") in success
                     and event.get("outcome_status") != "unknown"
-                    and event.get("actor") != "import"
-                    and assigned_at is not None
+                    and start is not None
                     and when is not None
-                    and assigned_at <= when <= assigned_at + window
+                    and start <= when <= start + window
                 )
                 if eligible and hit is None:
                     hit = str(event.get("id"))
@@ -408,9 +426,10 @@ def check_experiment_bundle(
             )
             continue
         owner = app_assignment.get(str(counted_event.get("application_id")))
-        assigned_at = parse_rfc3339(owner.get("assigned_at")) if owner else None
+        app_events = [e for e in events if e.get("application_id") == counted_event.get("application_id")]
+        start = _exposure_time(app_events, parse_rfc3339(owner.get("assigned_at")) if owner else None)
         when = parse_rfc3339(counted_event.get("occurred_at") or counted_event.get("recorded_at"))
-        if assigned_at and when and when > assigned_at + window:
+        if start and when and when > start + window:
             out.append(
                 Finding(
                     "EXP-LATE-OUTCOME-COUNTED",
@@ -422,9 +441,16 @@ def check_experiment_bundle(
             out.append(
                 Finding("EXP-UNKNOWN-OUTCOME-COUNTED", "high", f"{event_id!r} has outcome_status 'unknown'")
             )
-        if counted_event.get("actor") == "import":
+        # Cycle-2 correction: the first rule flagged every outcome with actor "import", which wrongly hit
+        # lane B's mailbox-ingested replies on randomised applications (B @ 84757ed). Observational means
+        # the application itself was imported history.
+        if _historical_submission(app_events):
             out.append(
-                Finding("EXP-OBSERVATIONAL-AS-RANDOMIZED", "high", f"{event_id!r} is imported history")
+                Finding(
+                    "EXP-OBSERVATIONAL-AS-RANDOMIZED",
+                    "high",
+                    f"{event_id!r} belongs to an application whose submission was imported history",
+                )
             )
     effect = analysis.get("effect") or {}
     numeric = all(isinstance(effect.get(k), (int, float)) for k in ("estimate", "ci_low", "ci_high"))
@@ -459,15 +485,26 @@ def check_experiment_bundle(
             )
     # Only comparable when the producer publishes which events it counted (asked of B on #3, Q3).
     # Without the list, late/unknown/imported-outcome exclusion is UNKNOWN, not a failure.
+    # Compare WHICH applications count as successes, not which event ids: when a recruiter replies twice,
+    # producer and E may legitimately pick different events for the same application (B collapses
+    # duplicates). Without any published list this is UNKNOWN, not a failure.
+    reported_apps = analysis.get("counted_success_application_ids")
     reported_counted = analysis.get("counted_event_ids")
-    if isinstance(reported_counted, list) and numeric and sorted(map(str, reported_counted)) != counted:
-        out.append(
-            Finding(
-                "EXP-COUNTED-EVENTS-DIFFER",
-                "medium",
-                f"analysis counted {len(reported_counted)} events, lane E's ITT tally counts {len(counted)}",
+    if reported_apps is None and isinstance(reported_counted, list):
+        reported_apps = [by_id[str(e)].get("application_id") for e in reported_counted if str(e) in by_id]
+    if isinstance(reported_apps, list) and numeric:
+        theirs = {str(a) for a in reported_apps}
+        mine = {str(by_id[e].get("application_id")) for e in counted if e in by_id}
+        if theirs != mine:
+            only_theirs, only_mine = sorted(theirs - mine), sorted(mine - theirs)
+            out.append(
+                Finding(
+                    "EXP-COUNTED-EVENTS-DIFFER",
+                    "medium",
+                    f"successes: analysis {len(theirs)} applications, lane E's ITT tally {len(mine)}; "
+                    f"only in analysis {only_theirs[:2]}, only in E's tally {only_mine[:2]}",
+                )
             )
-        )
     return out
 
 
@@ -564,6 +601,13 @@ def analysis_view(analysis: dict[str, Any], spec: dict[str, Any]) -> dict[str, A
             analysis.get("interpretation_limits"),
         ],
     }
+    outcomes = analysis.get("counted_outcomes")
+    if isinstance(outcomes, list):  # terminal reports since B @ ea01acb (answer to E's Q3 on #3)
+        successes = [o for o in outcomes if isinstance(o, dict) and o.get("status") == "success"]
+        view["counted_event_ids"] = [
+            str(o["counted_event_id"]) for o in successes if o.get("counted_event_id")
+        ]
+        view["counted_success_application_ids"] = sorted({str(o.get("application_id")) for o in successes})
     if analysis.get("phase") not in ("FINAL",) and view["decision"] == "DIFFERENCE-DETECTED":
         view["decision"] = "DIFFERENCE-DETECTED-NOT-FINAL"
     return view

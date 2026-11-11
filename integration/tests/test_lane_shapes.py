@@ -75,6 +75,64 @@ def test_b_native_bundle_still_catches_real_problems() -> None:
     )
 
 
+def _with_counted_outcomes(
+    report: dict[str, Any],
+    assignments: list[dict[str, Any]],
+    events: list[dict[str, Any]],
+    spec: dict[str, Any],
+) -> dict[str, Any]:
+    """Add B's terminal-report `counted_outcomes[]` (B @ ea01acb), built from E's own honest tally."""
+    _, counted = ei.itt_counts(spec, [ei.assignment_view(a) for a in assignments], events)
+    by_app = {e["application_id"]: e["id"] for e in events if e["id"] in set(counted)}
+    outcomes = [
+        {"application_id": a["application_id"], "unit_id": a["unit_id"], "arm": a["variant"],
+         "status": "success" if a["application_id"] in by_app else "no_success",
+         "counted_event_id": by_app.get(a["application_id"]), "flags": []}
+        for a in assignments
+    ]  # fmt: skip
+    return dict(report, counted_outcomes=outcomes)
+
+
+def test_b_counted_outcomes_enable_the_outcome_exclusion_checks() -> None:
+    spec, assignments, events, report = _b_world()
+    full = _with_counted_outcomes(report, assignments, events, spec)
+    view = ei.analysis_view(full, spec)
+    assert view["counted_event_ids"] and view["counted_success_application_ids"]
+    clean = [f for f in ei.check_experiment_bundle(spec, assignments, events, full) if f.severity != "low"]
+    assert [str(f) for f in clean] == []
+
+    # a late response counted as a success must now be caught
+    target = next(
+        a for a in assignments if a["application_id"] not in view["counted_success_application_ids"]
+    )
+    submitted = next(
+        e
+        for e in events
+        if e["application_id"] == target["application_id"] and e["event_type"] == "submitted"
+    )
+    late_ts = synth.ts(10_000_000)
+    late = dict(submitted, id="evt-late", event_type="recruiter_screen", recorded_at=late_ts, occurred_at=late_ts,
+                approval_token_ref=None)  # fmt: skip
+    tampered = copy.deepcopy(full)
+    for outcome in tampered["counted_outcomes"]:
+        if outcome["application_id"] == target["application_id"]:
+            outcome.update(status="success", counted_event_id="evt-late")
+    found = ei.codes(ei.check_experiment_bundle(spec, assignments, [*events, late], tampered))
+    assert {"EXP-LATE-OUTCOME-COUNTED", "EXP-COUNTED-EVENTS-DIFFER"} <= found
+
+
+def test_duplicate_replies_do_not_create_a_false_counted_mismatch() -> None:
+    """B collapses duplicate responses and may cite a different event than E for the same application."""
+    spec, assignments, events, report = _b_world()
+    full = _with_counted_outcomes(report, assignments, events, spec)
+    success = next(o for o in full["counted_outcomes"] if o["status"] == "success")
+    original = next(e for e in events if e["id"] == success["counted_event_id"])
+    duplicate = dict(original, id="evt-duplicate-reply")
+    success["counted_event_id"] = "evt-duplicate-reply"
+    found = ei.codes(ei.check_experiment_bundle(spec, assignments, [*events, duplicate], full))
+    assert "EXP-COUNTED-EVENTS-DIFFER" not in found
+
+
 def test_without_counted_event_ids_the_comparison_is_unknown_not_a_failure() -> None:
     """B publishes no counted-event list; E must not invent a mismatch (asked on #3, Q3)."""
     spec, assignments, events, report = _b_world()

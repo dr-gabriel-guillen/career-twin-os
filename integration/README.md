@@ -15,7 +15,12 @@ python -m ctint.sec_scan --root .. --tracked    # secrets / PII / private fixtur
 python -m ctint.sec_paid --root .. --tracked    # paid APIs, outbound contact, LinkedIn automation
 python -m ctint.runner --repo .. --base origin/main              # pinned-SHA integration run
 python -m ctint.runner --repo .. --base origin/main --allow-stub # same, undelivered stages filled by the labelled stub
+python -m ctint.runner --repo .. --base origin/main --allow-setup # also run lanes' setup (e.g. npm ci); non-hermetic
+python -m ctint.sec_ci --root ..                # workflow hygiene
 ```
+
+Fetch every lane branch first (`git fetch origin`); the runner defaults each lane to `origin/<lane branch>`
+and `--lane X=<sha>` pins one exactly.
 
 `ctint.runner` exits `0` PASS, `1` FAIL, `2` BLOCKED / NOT-INTEGRATED and writes `report.md` + `report.json`
 (with exact SHAs and a reproduce command) to `integration/.work/run-<utc>/`.
@@ -33,7 +38,13 @@ python -m ctint.runner --repo .. --base origin/main --allow-stub # same, undeliv
 | `ctint/atlas_quality.py` | 9 | Independent trustworthiness / continuity / k-NN preservation, reference PCA, fit-leakage and "neighbours taken from 2D" detection. |
 | `ctint/e2e.py`, `stub.py`, `runner.py`, `lane-manifest.schema.json` | 4, 7 | Artifact-exchange pipeline, labelled reference stub, disposable-worktree runner. |
 | `known_findings.json` | 1, 6 | Ledger of open findings on shared baseline code and contracts, each tied to a test. |
-| `THREAT_MODEL.md` | 5 | Threats, the test that covers each one, and residual risk. |
+| `THREAT_MODEL.md` | 5 | Threats T-01…T-14, the test that covers each one, what was observed on lane code, residual risk. |
+| `reviews/probe_lane_a_injection.py` | 5, 9 | Reproduces review findings A-F1…A-F3 against lane A at any pinned SHA (needs lane A's code; not in the isolated suite). |
+| `HANDOFF.md` | 12 | Final PASS / FAIL / BLOCKED / UNKNOWN matrix, evidence, owner decisions, demo instructions. |
+
+Lane status in a run: `PASS` (manifest valid, gates and declared tests pass) · `FAIL` · `UNDECLARED` (code
+pushed, no manifest) · `BLOCKED` (nothing integrable pushed). Lane-native shapes (A's envelopes, B's
+`careertwin.b.*` payloads, C's diagnostics) are mapped by renaming only; see `tests/test_lane_shapes.py`.
 
 ## How a lane plugs in
 

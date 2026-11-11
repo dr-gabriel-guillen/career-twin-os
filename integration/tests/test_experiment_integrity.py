@@ -251,9 +251,25 @@ def test_late_unknown_and_imported_outcomes_must_not_be_counted(world: World) ->
     late = synth.ts(200 + 160 * 50 + 60 * 24 * 45)
     assert "EXP-LATE-OUTCOME-COUNTED" in with_extra({"recorded_at": late, "occurred_at": late})
     assert "EXP-UNKNOWN-OUTCOME-COUNTED" in with_extra({"outcome_status": "unknown"})
-    assert "EXP-OBSERVATIONAL-AS-RANDOMIZED" in with_extra(
-        {"actor": "import", "outcome_status": "self-reported"}
+    # A reply ingested by an importer on a randomised application is a normal outcome (cycle-2 correction,
+    # lane B's synthetic mailbox @ 84757ed) ...
+    assert "EXP-OBSERVATIONAL-AS-RANDOMIZED" not in with_extra(
+        {"actor": "import", "outcome_status": "observed"}
     )
+    # ... but an outcome on an application whose submission was imported history is observational.
+    historical = [
+        dict(e, actor="import")
+        if e["application_id"] == target["unit_id"] and e["event_type"] == "submitted"
+        else e
+        for e in events
+    ]
+    extra = dict(
+        next(e for e in historical if e["application_id"] == target["unit_id"] and e["event_type"] == "submitted"),
+        id="evt-extra", event_type="recruiter_screen", approval_token_ref=None,
+    )  # fmt: skip
+    tampered = dict(analysis, counted_event_ids=[*analysis["counted_event_ids"], "evt-extra"])
+    found = ei.codes(ei.check_experiment_bundle(spec, assignments, [*historical, extra], tampered))
+    assert "EXP-OBSERVATIONAL-AS-RANDOMIZED" in found
     ghost = dict(analysis, counted_event_ids=[*analysis["counted_event_ids"], "evt-does-not-exist"])
     assert "EXP-COUNTED-UNKNOWN-EVENT" in ei.codes(
         ei.check_experiment_bundle(spec, assignments, events, ghost)

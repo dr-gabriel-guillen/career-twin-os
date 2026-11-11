@@ -87,6 +87,11 @@ def _expand(argv: list[str], values: dict[str, str]) -> list[str]:
 
 def run_command(argv: list[str], cwd: Path, env: dict[str, str], timeout_s: int) -> tuple[bool, str, str]:
     """(ok, detail, combined log). Never raises for command failures."""
+    # shell=False cannot find Windows launchers such as npm.cmd by bare name (observed with lane D's
+    # manifest @ 7686e8c), so resolve argv[0] against the command's own PATH first.
+    resolved = shutil.which(argv[0], path=env.get("PATH")) if argv else None
+    if resolved:
+        argv = [resolved, *argv[1:]]
     try:
         proc = subprocess.run(
             argv,
