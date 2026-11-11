@@ -1,0 +1,453 @@
+{
+ "job_freshness": {
+  "baseline_ordering": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "ai-eng-lead",
+   "platform",
+   "privacy-legal-ai",
+   "field-cto",
+   "ai-director"
+  ],
+  "convention": "'sensitive' if any ordering has Kendall tau < 0.8, the nearest role changes, or a role disappears",
+  "min_kendall_tau": 0.7143,
+  "n_postings_total": 1500,
+  "top1_unchanged_share": 0.5,
+  "undated_postings": 0,
+  "variants": {
+   "last_45_days": {
+    "centroid_displacement_share": 0.0846,
+    "kendall_tau": 0.7143,
+    "min_postings_per_role": 38,
+    "n_postings": 368,
+    "roles_compared": 8,
+    "roles_lost": [],
+    "top1_same": false,
+    "top3_overlap": 2,
+    "unstable_roles": []
+   },
+   "last_90_days": {
+    "centroid_displacement_share": 0.0489,
+    "kendall_tau": 0.9286,
+    "min_postings_per_role": 80,
+    "n_postings": 761,
+    "roles_compared": 8,
+    "roles_lost": [],
+    "top1_same": true,
+    "top3_overlap": 3,
+    "unstable_roles": []
+   }
+  },
+  "verdict": "sensitive"
+ },
+ "lexicon": {
+  "baseline_ordering": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "ai-eng-lead",
+   "platform",
+   "privacy-legal-ai",
+   "field-cto",
+   "ai-director"
+  ],
+  "convention": "'sensitive' if any ordering has Kendall tau < 0.8, the nearest role changes, or a role disappears",
+  "min_kendall_tau": 0.7143,
+  "top1_unchanged_share": 0.6667,
+  "variants": {
+   "aliases_disabled": {
+    "kendall_tau": 0.9286,
+    "roles_compared": 8,
+    "roles_lost": [],
+    "top1_same": true,
+    "top3_overlap": 3,
+    "unmapped_terms_baseline": 97,
+    "unmapped_terms_without_aliases": 502
+   },
+   "random_10%_of_features_dropped": [
+    {
+     "dropped_features": [
+      "contract-analysis",
+      "cost-optimization",
+      "customer-delivery",
+      "enterprise-sales",
+      "privacy-engineering"
+     ],
+     "kendall_tau": 0.7143,
+     "roles_compared": 8,
+     "roles_lost": [],
+     "top1_same": false,
+     "top3_overlap": 3
+    },
+    {
+     "dropped_features": [
+      "data-governance",
+      "llm-integration",
+      "org-design",
+      "python",
+      "rag"
+     ],
+     "kendall_tau": 0.8571,
+     "roles_compared": 8,
+     "roles_lost": [],
+     "top1_same": true,
+     "top3_overlap": 3
+    },
+    {
+     "dropped_features": [
+      "api-design",
+      "cloud-architecture",
+      "mlops",
+      "prompt-engineering",
+      "roadmap-planning"
+     ],
+     "kendall_tau": 0.9286,
+     "roles_compared": 8,
+     "roles_lost": [],
+     "top1_same": true,
+     "top3_overlap": 3
+    },
+    {
+     "dropped_features": [
+      "ai-safety",
+      "cloud-architecture",
+      "cost-optimization",
+      "infrastructure-as-code",
+      "security"
+     ],
+     "kendall_tau": 0.8571,
+     "roles_compared": 8,
+     "roles_lost": [],
+     "top1_same": true,
+     "top3_overlap": 2
+    },
+    {
+     "dropped_features": [
+      "contract-analysis",
+      "cost-optimization",
+      "kubernetes",
+      "ml-modeling",
+      "technical-discovery"
+     ],
+     "kendall_tau": 0.7143,
+     "roles_compared": 8,
+     "roles_lost": [],
+     "top1_same": false,
+     "top3_overlap": 2
+    }
+   ]
+  },
+  "verdict": "sensitive"
+ },
+ "missing_salary": {
+  "change_when_dropped": {
+   "kendall_tau": 0.4286,
+   "roles_compared": 8,
+   "roles_lost": [],
+   "top1_same": true,
+   "top3_overlap": 2
+  },
+  "compensation_comparable": true,
+  "compensation_coverage_by_role": {
+   "ai-architect": 0.4313,
+   "ai-director": 0.3614,
+   "ai-eng-lead": 0.4278,
+   "backend": 0.4157,
+   "fde": 0.3676,
+   "field-cto": 0.3663,
+   "platform": 0.3333,
+   "privacy-legal-ai": 0.3655
+  },
+  "compensation_unit_note": "one unit across roles; compared within that unit. 'SYN' is the synthetic generator's non-currency unit.",
+  "compensation_units_observed": [
+   "SYN/unknown"
+  ],
+  "handling": "Unknown compensation is never set to zero. In the reported ordering it is dropped and the role's other components are renormalised, which is equivalent to assuming its pay matches its other components; it can therefore rank a role with missing pay above one with known low pay. rank_bounds_for_roles_with_unknown_compensation shows the full range any pay value could give.",
+  "ordering_note": "A preference ordering of roles under the user's declared weights. It ranks options; it does not predict outcomes.",
+  "ordering_with_available_compensation": [
+   "backend",
+   "ai-director",
+   "ai-architect",
+   "fde",
+   "field-cto",
+   "platform",
+   "ai-eng-lead",
+   "privacy-legal-ai"
+  ],
+  "ordering_with_compensation_dropped": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "platform",
+   "ai-director",
+   "privacy-legal-ai",
+   "ai-eng-lead",
+   "field-cto"
+  ],
+  "rank_bounds_for_roles_with_unknown_compensation": {},
+  "rank_bounds_if_compensation_fully_unknown": {
+   "ai-architect": {
+    "best_possible_rank": 1,
+    "worst_possible_rank": 8
+   },
+   "ai-director": {
+    "best_possible_rank": 2,
+    "worst_possible_rank": 8
+   },
+   "ai-eng-lead": {
+    "best_possible_rank": 2,
+    "worst_possible_rank": 8
+   },
+   "backend": {
+    "best_possible_rank": 1,
+    "worst_possible_rank": 4
+   },
+   "fde": {
+    "best_possible_rank": 1,
+    "worst_possible_rank": 7
+   },
+   "field-cto": {
+    "best_possible_rank": 3,
+    "worst_possible_rank": 8
+   },
+   "platform": {
+    "best_possible_rank": 1,
+    "worst_possible_rank": 8
+   },
+   "privacy-legal-ai": {
+    "best_possible_rank": 2,
+    "worst_possible_rank": 8
+   }
+  },
+  "roles_with_unknown_compensation": [],
+  "top_choice_identifiable_without_compensation": false,
+  "unranked_with_available_compensation": []
+ },
+ "normalization": {
+  "change": {
+   "kendall_tau": 0.8571,
+   "roles_compared": 8,
+   "roles_lost": [],
+   "top1_same": true,
+   "top3_overlap": 3
+  },
+  "convention": "'sensitive' if any ordering has Kendall tau < 0.8, the nearest role changes, or a role disappears",
+  "map_knn_overlap_between_scalings": 0.084,
+  "min_kendall_tau": 0.8571,
+  "note": "Standardising gives rare features the same weight as common ones. Neither scaling is 'correct'; if conclusions differ, they depend on a modelling choice.",
+  "ordering_standardised": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "ai-eng-lead",
+   "platform",
+   "field-cto",
+   "ai-director",
+   "privacy-legal-ai"
+  ],
+  "ordering_unstandardised": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "ai-eng-lead",
+   "platform",
+   "privacy-legal-ai",
+   "field-cto",
+   "ai-director"
+  ],
+  "standardised": {
+   "explained_variance_cumulative": 0.2352,
+   "knn_recall_mean": 0.0751,
+   "top_loadings_axis1": [
+    "ctx:seniority-level",
+    "ai-strategy",
+    "stakeholder-management"
+   ],
+   "trustworthiness": 0.8692
+  },
+  "top1_unchanged_share": 1.0,
+  "unstandardised": {
+   "explained_variance_cumulative": 0.2488,
+   "knn_recall_mean": 0.1117,
+   "top_loadings_axis1": [
+    "stakeholder-management",
+    "ai-strategy",
+    "python"
+   ],
+   "trustworthiness": 0.8964
+  },
+  "verdict": "stable"
+ },
+ "seniority": {
+  "baseline_ordering": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "ai-eng-lead",
+   "platform",
+   "privacy-legal-ai",
+   "field-cto",
+   "ai-director"
+  ],
+  "convention": "the role ordering does not use seniority, so this check cannot move it; see the map overlap and centroid displacement for the effect on the picture",
+  "min_kendall_tau": null,
+  "top1_unchanged_share": null,
+  "variants": {
+   "20pct_bumped_one_level": {
+    "centroid_displacement_share": 0.0079,
+    "kendall_tau": 1.0,
+    "map_knn_overlap_with_baseline": 0.9394,
+    "n_bumped": 255,
+    "roles_compared": 8,
+    "roles_lost": [],
+    "top1_same": true,
+    "top3_overlap": 3
+   },
+   "all_seniority_unknown": {
+    "centroid_displacement_share": 0.2349,
+    "kendall_tau": 1.0,
+    "map_knn_overlap_with_baseline": 0.8563,
+    "roles_compared": 8,
+    "roles_lost": [],
+    "top1_same": true,
+    "top3_overlap": 3
+   }
+  },
+  "verdict": "not-applicable"
+ },
+ "source_volume": {
+  "baseline_ordering": [
+   "backend",
+   "fde",
+   "ai-architect",
+   "ai-eng-lead",
+   "platform",
+   "privacy-legal-ai",
+   "field-cto",
+   "ai-director"
+  ],
+  "convention": "'sensitive' if any ordering has Kendall tau < 0.8, the nearest role changes, or a role disappears",
+  "min_kendall_tau": 0.7143,
+  "n_postings_total": 1500,
+  "top1_unchanged_share": 0.9333,
+  "variants": {
+   "20%_of_postings": {
+    "centroid_displacement_share_mean": 0.1018,
+    "kendall_tau_mean": 0.8857,
+    "kendall_tau_min": 0.7857,
+    "n_postings": 300,
+    "repeats_completed": 5,
+    "roles_lost_any": [],
+    "top1_unchanged_share": 1.0,
+    "unstable_roles_mean": 0.0
+   },
+   "5%_of_postings": {
+    "centroid_displacement_share_mean": 0.2289,
+    "kendall_tau_mean": 0.7286,
+    "kendall_tau_min": 0.7143,
+    "n_postings": 75,
+    "repeats_completed": 5,
+    "roles_lost_any": [],
+    "top1_unchanged_share": 0.8,
+    "unstable_roles_mean": 3.0
+   },
+   "50%_of_postings": {
+    "centroid_displacement_share_mean": 0.0501,
+    "kendall_tau_mean": 0.9857,
+    "kendall_tau_min": 0.9286,
+    "n_postings": 750,
+    "repeats_completed": 5,
+    "roles_lost_any": [],
+    "top1_unchanged_share": 1.0,
+    "unstable_roles_mean": 0.0
+   }
+  },
+  "verdict": "sensitive"
+ },
+ "summary": {
+  "not_assessable_or_not_applicable": [
+   "seniority"
+  ],
+  "note": "Instability findings describe how much modelling choices and data volume move the analysis. They are not probabilities of career outcomes.",
+  "sensitive_to": [
+   "job_freshness",
+   "lexicon",
+   "missing_salary",
+   "source_volume",
+   "utility_weights"
+  ],
+  "stable_under": [
+   "normalization"
+  ]
+ },
+ "utility_weights": {
+  "baseline_ordering": [
+   "backend",
+   "ai-director",
+   "ai-architect",
+   "fde",
+   "field-cto",
+   "platform",
+   "ai-eng-lead",
+   "privacy-legal-ai"
+  ],
+  "dirichlet_concentration": 40.0,
+  "interpretation": "Share of weight perturbations under which the top-ranked role stays on top. A stability measure of the ordering, not a likelihood of any outcome.",
+  "kendall_tau_mean": 0.7643,
+  "kendall_tau_min": 0.3571,
+  "n_draws": 300,
+  "ordering_note": "A preference ordering of roles under the user's declared weights. It ranks options; it does not predict outcomes.",
+  "rank_range": {
+   "ai-architect": {
+    "baseline": 3,
+    "max": 6,
+    "min": 2
+   },
+   "ai-director": {
+    "baseline": 2,
+    "max": 7,
+    "min": 1
+   },
+   "ai-eng-lead": {
+    "baseline": 7,
+    "max": 8,
+    "min": 3
+   },
+   "backend": {
+    "baseline": 1,
+    "max": 4,
+    "min": 1
+   },
+   "fde": {
+    "baseline": 4,
+    "max": 6,
+    "min": 2
+   },
+   "field-cto": {
+    "baseline": 5,
+    "max": 7,
+    "min": 2
+   },
+   "platform": {
+    "baseline": 6,
+    "max": 8,
+    "min": 4
+   },
+   "privacy-legal-ai": {
+    "baseline": 8,
+    "max": 8,
+    "min": 5
+   }
+  },
+  "top_choice_unchanged_share": 0.75,
+  "unranked_at_baseline": [],
+  "verdict": "sensitive",
+  "weights_normalised": {
+   "compensation": 0.2,
+   "effort": 0.3,
+   "leadership": 0.1,
+   "skills": 0.4
+  }
+ }
+}

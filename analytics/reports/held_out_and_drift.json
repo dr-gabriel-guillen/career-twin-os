@@ -1,0 +1,573 @@
+{
+ "drift": {
+  "no_drift_control": {
+   "cutoff": "2026-08-02T00:00:00Z",
+   "drifted_families": [],
+   "families": {
+    "ai-architect": {
+     "centroid_shift": 0.283563,
+     "drifted": false,
+     "n_early": 95,
+     "n_late": 98,
+     "permutation_exceedance_share": 0.525921,
+     "shift_to_noise": 0.9843,
+     "shuffled_shift_mean": 0.288092,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.1078,
+       "feature": "rag"
+      },
+      {
+       "change": -0.1067,
+       "feature": "security"
+      },
+      {
+       "change": -0.0866,
+       "feature": "api-design"
+      },
+      {
+       "change": 0.0687,
+       "feature": "agent-orchestration"
+      },
+      {
+       "change": -0.0669,
+       "feature": "system-design"
+      }
+     ],
+     "underpowered": false
+    },
+    "ai-director": {
+     "centroid_shift": 0.273165,
+     "drifted": false,
+     "n_early": 95,
+     "n_late": 91,
+     "permutation_exceedance_share": 0.611493,
+     "shift_to_noise": 0.9535,
+     "shuffled_shift_mean": 0.286483,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1513,
+       "feature": "org-design"
+      },
+      {
+       "change": -0.1106,
+       "feature": "ai-evaluation"
+      },
+      {
+       "change": -0.0627,
+       "feature": "llm-integration"
+      },
+      {
+       "change": 0.0585,
+       "feature": "stakeholder-management"
+      },
+      {
+       "change": 0.0554,
+       "feature": "ai-safety"
+      }
+     ],
+     "underpowered": false
+    },
+    "ai-eng-lead": {
+     "centroid_shift": 0.327406,
+     "drifted": false,
+     "n_early": 94,
+     "n_late": 89,
+     "permutation_exceedance_share": 0.174266,
+     "shift_to_noise": 1.1223,
+     "shuffled_shift_mean": 0.291723,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.17,
+       "feature": "testing"
+      },
+      {
+       "change": 0.1297,
+       "feature": "ci-cd"
+      },
+      {
+       "change": -0.0858,
+       "feature": "ai-evaluation"
+      },
+      {
+       "change": 0.0833,
+       "feature": "mlops"
+      },
+      {
+       "change": 0.0686,
+       "feature": "risk-assessment"
+      }
+     ],
+     "underpowered": false
+    },
+    "backend": {
+     "centroid_shift": 0.31144,
+     "drifted": false,
+     "n_early": 86,
+     "n_late": 105,
+     "permutation_exceedance_share": 0.32792,
+     "shift_to_noise": 1.0554,
+     "shuffled_shift_mean": 0.295094,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.1687,
+       "feature": "observability"
+      },
+      {
+       "change": 0.1645,
+       "feature": "go"
+      },
+      {
+       "change": 0.0893,
+       "feature": "typescript"
+      },
+      {
+       "change": -0.0721,
+       "feature": "testing"
+      },
+      {
+       "change": 0.0646,
+       "feature": "customer-delivery"
+      }
+     ],
+     "underpowered": false
+    },
+    "fde": {
+     "centroid_shift": 0.3221,
+     "drifted": false,
+     "n_early": 97,
+     "n_late": 93,
+     "permutation_exceedance_share": 0.206121,
+     "shift_to_noise": 1.1031,
+     "shuffled_shift_mean": 0.29199,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.197,
+       "feature": "stakeholder-management"
+      },
+      {
+       "change": 0.0677,
+       "feature": "python"
+      },
+      {
+       "change": -0.061,
+       "feature": "legal-reasoning"
+      },
+      {
+       "change": 0.0607,
+       "feature": "aws"
+      },
+      {
+       "change": -0.0604,
+       "feature": "customer-delivery"
+      }
+     ],
+     "underpowered": false
+    },
+    "field-cto": {
+     "centroid_shift": 0.282263,
+     "drifted": false,
+     "n_early": 91,
+     "n_late": 94,
+     "permutation_exceedance_share": 0.445971,
+     "shift_to_noise": 1.0091,
+     "shuffled_shift_mean": 0.27972,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1122,
+       "feature": "system-design"
+      },
+      {
+       "change": -0.083,
+       "feature": "solution-design"
+      },
+      {
+       "change": -0.0776,
+       "feature": "regulatory-compliance"
+      },
+      {
+       "change": 0.0721,
+       "feature": "pre-sales-demos"
+      },
+      {
+       "change": -0.0706,
+       "feature": "enterprise-sales"
+      }
+     ],
+     "underpowered": false
+    },
+    "platform": {
+     "centroid_shift": 0.251054,
+     "drifted": false,
+     "n_early": 92,
+     "n_late": 84,
+     "permutation_exceedance_share": 0.82386,
+     "shift_to_noise": 0.8731,
+     "shuffled_shift_mean": 0.287555,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1517,
+       "feature": "go"
+      },
+      {
+       "change": 0.0787,
+       "feature": "sre"
+      },
+      {
+       "change": 0.0678,
+       "feature": "observability"
+      },
+      {
+       "change": -0.0554,
+       "feature": "cloud-architecture"
+      },
+      {
+       "change": 0.0507,
+       "feature": "risk-assessment"
+      }
+     ],
+     "underpowered": false
+    },
+    "privacy-legal-ai": {
+     "centroid_shift": 0.289861,
+     "drifted": false,
+     "n_early": 96,
+     "n_late": 100,
+     "permutation_exceedance_share": 0.33604,
+     "shift_to_noise": 1.052,
+     "shuffled_shift_mean": 0.275546,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.1429,
+       "feature": "python"
+      },
+      {
+       "change": -0.12,
+       "feature": "stakeholder-management"
+      },
+      {
+       "change": 0.1046,
+       "feature": "ai-safety"
+      },
+      {
+       "change": 0.0825,
+       "feature": "ai-evaluation"
+      },
+      {
+       "change": -0.0758,
+       "feature": "legal-reasoning"
+      }
+     ],
+     "underpowered": false
+    }
+   },
+   "n_early": 746,
+   "n_late": 754
+  },
+  "note": "The generator plants a requirement change in 'backend' only. The control uses the same seed without the change. Flagging uses a Bonferroni-adjusted permutation test.",
+  "planted_drift": {
+   "cutoff": "2026-08-02T00:00:00Z",
+   "drifted_families": [
+    "backend"
+   ],
+   "families": {
+    "ai-architect": {
+     "centroid_shift": 0.312698,
+     "drifted": false,
+     "n_early": 85,
+     "n_late": 100,
+     "permutation_exceedance_share": 0.353529,
+     "shift_to_noise": 1.0422,
+     "shuffled_shift_mean": 0.300046,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1612,
+       "feature": "ai-strategy"
+      },
+      {
+       "change": 0.0971,
+       "feature": "system-design"
+      },
+      {
+       "change": -0.0924,
+       "feature": "cloud-architecture"
+      },
+      {
+       "change": 0.0918,
+       "feature": "llm-integration"
+      },
+      {
+       "change": 0.08,
+       "feature": "mlops"
+      }
+     ],
+     "underpowered": false
+    },
+    "ai-director": {
+     "centroid_shift": 0.257415,
+     "drifted": false,
+     "n_early": 83,
+     "n_late": 98,
+     "permutation_exceedance_share": 0.7995,
+     "shift_to_noise": 0.8858,
+     "shuffled_shift_mean": 0.290596,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.0922,
+       "feature": "ai-evaluation"
+      },
+      {
+       "change": -0.092,
+       "feature": "technical-leadership"
+      },
+      {
+       "change": 0.0816,
+       "feature": "sre"
+      },
+      {
+       "change": -0.0676,
+       "feature": "customer-delivery"
+      },
+      {
+       "change": -0.0658,
+       "feature": "aws"
+      }
+     ],
+     "underpowered": false
+    },
+    "ai-eng-lead": {
+     "centroid_shift": 0.270625,
+     "drifted": false,
+     "n_early": 108,
+     "n_late": 84,
+     "permutation_exceedance_share": 0.655215,
+     "shift_to_noise": 0.946,
+     "shuffled_shift_mean": 0.286062,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1362,
+       "feature": "ci-cd"
+      },
+      {
+       "change": -0.0833,
+       "feature": "aws"
+      },
+      {
+       "change": 0.0794,
+       "feature": "mentoring"
+      },
+      {
+       "change": 0.0714,
+       "feature": "sql"
+      },
+      {
+       "change": -0.0714,
+       "feature": "mlops"
+      }
+     ],
+     "underpowered": false
+    },
+    "backend": {
+     "centroid_shift": 0.850589,
+     "drifted": true,
+     "n_early": 73,
+     "n_late": 90,
+     "permutation_exceedance_share": 0.000625,
+     "shift_to_noise": 2.547,
+     "shuffled_shift_mean": 0.333955,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.6367,
+       "feature": "llm-integration"
+      },
+      {
+       "change": 0.4889,
+       "feature": "rag"
+      },
+      {
+       "change": 0.1464,
+       "feature": "typescript"
+      },
+      {
+       "change": 0.1027,
+       "feature": "observability"
+      },
+      {
+       "change": 0.0884,
+       "feature": "python"
+      }
+     ],
+     "underpowered": false
+    },
+    "fde": {
+     "centroid_shift": 0.218442,
+     "drifted": false,
+     "n_early": 89,
+     "n_late": 125,
+     "permutation_exceedance_share": 0.939413,
+     "shift_to_noise": 0.7975,
+     "shuffled_shift_mean": 0.273913,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.0768,
+       "feature": "mentoring"
+      },
+      {
+       "change": 0.0627,
+       "feature": "typescript"
+      },
+      {
+       "change": -0.0627,
+       "feature": "cost-optimization"
+      },
+      {
+       "change": 0.0608,
+       "feature": "data-modeling"
+      },
+      {
+       "change": 0.0515,
+       "feature": "rag"
+      }
+     ],
+     "underpowered": false
+    },
+    "field-cto": {
+     "centroid_shift": 0.321847,
+     "drifted": false,
+     "n_early": 91,
+     "n_late": 91,
+     "permutation_exceedance_share": 0.167395,
+     "shift_to_noise": 1.1261,
+     "shuffled_shift_mean": 0.285794,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": 0.1648,
+       "feature": "technical-leadership"
+      },
+      {
+       "change": -0.1209,
+       "feature": "system-design"
+      },
+      {
+       "change": -0.0879,
+       "feature": "customer-delivery"
+      },
+      {
+       "change": 0.0769,
+       "feature": "sre"
+      },
+      {
+       "change": 0.0769,
+       "feature": "pre-sales-demos"
+      }
+     ],
+     "underpowered": false
+    },
+    "platform": {
+     "centroid_shift": 0.250998,
+     "drifted": false,
+     "n_early": 94,
+     "n_late": 87,
+     "permutation_exceedance_share": 0.845097,
+     "shift_to_noise": 0.8663,
+     "shuffled_shift_mean": 0.289724,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1198,
+       "feature": "cloud-architecture"
+      },
+      {
+       "change": -0.0745,
+       "feature": "data-modeling"
+      },
+      {
+       "change": 0.0679,
+       "feature": "distributed-systems"
+      },
+      {
+       "change": -0.063,
+       "feature": "mentoring"
+      },
+      {
+       "change": 0.0592,
+       "feature": "solution-design"
+      }
+     ],
+     "underpowered": false
+    },
+    "privacy-legal-ai": {
+     "centroid_shift": 0.31642,
+     "drifted": false,
+     "n_early": 99,
+     "n_late": 103,
+     "permutation_exceedance_share": 0.107433,
+     "shift_to_noise": 1.1536,
+     "shuffled_shift_mean": 0.274291,
+     "status": "compared",
+     "top_feature_changes": [
+      {
+       "change": -0.1522,
+       "feature": "data-governance"
+      },
+      {
+       "change": -0.1381,
+       "feature": "stakeholder-management"
+      },
+      {
+       "change": 0.0911,
+       "feature": "ai-evaluation"
+      },
+      {
+       "change": -0.079,
+       "feature": "security"
+      },
+      {
+       "change": -0.0719,
+       "feature": "solution-design"
+      }
+     ],
+     "underpowered": false
+    }
+   },
+   "n_early": 722,
+   "n_late": 778
+  }
+ },
+ "held_out": {
+  "held_out_residual_share_median": 0.7673,
+  "meaning": "Share of unseen synthetic postings whose nearest role centroid matches their generator family. The drop from full space to map-only is information the picture discards. This is a property of synthetic data, not a hiring metric.",
+  "n_held_out": 300,
+  "n_train": 1200,
+  "nearest_centroid_agreement_full_space": 0.9967,
+  "nearest_centroid_agreement_map_only": 0.8633,
+  "train_residual_share_median": 0.7663
+ },
+ "small_sample": {
+  "n_postings": 24,
+  "n_roles": 8,
+  "unstable_roles": [
+   "ai-architect",
+   "ai-director",
+   "ai-eng-lead",
+   "backend",
+   "fde",
+   "field-cto",
+   "privacy-legal-ai"
+  ]
+ }
+}

@@ -1,0 +1,1945 @@
+[
+ {
+  "assumptions": [
+   "All role requirements come from postings marked source='synthetic', grouped by role_family.",
+   "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
+   "Effort reference hours are vocabulary placeholders; real effort varies by person.",
+   "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
+   "Capacity assumes 6.0 hours per week for 12 month(s).",
+   "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
+  ],
+  "candidate_ref": "candidate-synthetic-001",
+  "id": "scn-402ca82f3c1debbd",
+  "outputs": {
+   "alternatives": {
+    "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
+    "paths": [
+     {
+      "assumed_tenure_months_total": 0.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       244.0,
+       840.0
+      ],
+      "entry_barriers_hardest_step": 1,
+      "entry_barriers_total": 1,
+      "fits_time_horizon": "blocked",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "direct",
+      "months_range": [
+       9.4,
+       32.2
+      ],
+      "pareto_optimal_on_time_and_barriers": true,
+      "path": [
+       "fde"
+      ],
+      "ranking_score": 3.004333,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         244.0,
+         840.0
+        ],
+        "entry_barriers_role_exposure": [
+         "customer-delivery"
+        ],
+        "label": "Forward Deployed Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           12.0,
+           40.0
+          ],
+          "feature": "typescript"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "solution-design"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "technical-discovery"
+         }
+        ],
+        "role": "fde",
+        "role_profile_unstable": false
+       }
+      ]
+     },
+     {
+      "assumed_tenure_months_total": 18.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       284.0,
+       1000.0
+      ],
+      "entry_barriers_hardest_step": 1,
+      "entry_barriers_total": 1,
+      "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "stepping-stone",
+      "months_range": [
+       28.9,
+       56.4
+      ],
+      "pareto_optimal_on_time_and_barriers": false,
+      "path": [
+       "ai-architect",
+       "fde"
+      ],
+      "ranking_score": 4.875167,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         176.0,
+         640.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Applied AI Architect",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "system-design"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "ai-evaluation"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "mlops"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "cloud-architecture"
+         }
+        ],
+        "role": "ai-architect",
+        "role_profile_unstable": false
+       },
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         108.0,
+         360.0
+        ],
+        "entry_barriers_role_exposure": [
+         "customer-delivery"
+        ],
+        "label": "Forward Deployed Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           12.0,
+           40.0
+          ],
+          "feature": "typescript"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "technical-discovery"
+         }
+        ],
+        "role": "fde",
+        "role_profile_unstable": false
+       }
+      ]
+     },
+     {
+      "assumed_tenure_months_total": 18.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       370.0,
+       1260.0
+      ],
+      "entry_barriers_hardest_step": 1,
+      "entry_barriers_total": 1,
+      "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "stepping-stone",
+      "months_range": [
+       32.2,
+       66.3
+      ],
+      "pareto_optimal_on_time_and_barriers": false,
+      "path": [
+       "backend",
+       "fde"
+      ],
+      "ranking_score": 5.511667,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         138.0,
+         460.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Backend Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           12.0,
+           40.0
+          ],
+          "feature": "typescript"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "go"
+         },
+         {
+          "current_evidence_level": 0.3,
+          "effort_hours_range": [
+           30.0,
+           100.0
+          ],
+          "feature": "sql"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "system-design"
+         }
+        ],
+        "role": "backend",
+        "role_profile_unstable": false
+       },
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         232.0,
+         800.0
+        ],
+        "entry_barriers_role_exposure": [
+         "customer-delivery"
+        ],
+        "label": "Forward Deployed Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "solution-design"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "technical-discovery"
+         }
+        ],
+        "role": "fde",
+        "role_profile_unstable": false
+       }
+      ]
+     }
+    ],
+    "same_budget": {
+     "better_than_your_plan": true,
+     "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
+     "core_summary": {
+      "contradicted": 0,
+      "evidenced": 2,
+      "no-evidence-on-file": 3,
+      "unknown": 0,
+      "weak-evidence": 3
+     },
+     "hours_used": 140.0,
+     "label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction per hour first; it may not be optimal",
+     "planned_actions": [
+      {
+       "effort_hours": 140.0,
+       "evidence_goal": "portfolio-project",
+       "skill": "solution-design"
+      }
+     ],
+     "requirement_shortfall": 1.493158,
+     "shortfall_vs_your_plan": -0.066038
+    }
+   },
+   "applied_actions": [
+    {
+     "blocked_by_contradiction": false,
+     "completion": 0.3077,
+     "effort_hours": 80.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "client-engagement",
+     "evidence_level_after": 0.3077,
+     "evidence_level_before": 0.0,
+     "feature": "customer-delivery",
+     "feature_ceiling": 1.0,
+     "feature_hours_total": 80.0,
+     "reaches_evidenced_level": false,
+     "reference_hours_assumed": 260.0,
+     "resolved_via": "exact",
+     "skill": "customer-delivery"
+    },
+    {
+     "blocked_by_contradiction": false,
+     "completion": 1.0,
+     "effort_hours": 60.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "portfolio-project",
+     "evidence_level_after": 0.8,
+     "evidence_level_before": 0.6,
+     "feature": "llm-integration",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 60.0,
+     "reaches_evidenced_level": true,
+     "reference_hours_assumed": 100.0,
+     "resolved_via": "exact",
+     "skill": "llm-integration"
+    }
+   ],
+   "atlas_entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd",
+   "baseline": {
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 2,
+     "no-evidence-on-file": 4,
+     "unknown": 0,
+     "weak-evidence": 2
+    },
+    "full_space_distance": 2.217664,
+    "nearest_roles_by_shortfall": [
+     "backend",
+     "fde",
+     "ai-architect"
+    ],
+    "requirement_shortfall": 1.704714,
+    "shortfall_rank_among_roles": 2
+   },
+   "confidence_in_role_description": {
+    "level": "high",
+    "meaning": "confidence in the description of the role's stated requirements; not confidence in any hiring outcome",
+    "reasons": [
+     "profile built from enough postings, stable under resampling, requirements mostly interpretable"
+    ]
+   },
+   "coverage_after": 0.375,
+   "coverage_before": 0.25,
+   "coverage_definition": "share of target_skills (stated in at least half of the target role's postings) with evidence at or above level 0.75; weak, missing and contradicted evidence do not count",
+   "delta": {
+    "core_requirements_evidenced": 1,
+    "full_space_distance": -0.109727,
+    "requirement_shortfall": -0.145518,
+    "shortfall_rank_among_roles": 0
+   },
+   "effort": {
+    "capacity_hours_within_horizon": 312.8,
+    "fits_time_budget": true,
+    "hours_per_week": 6.0,
+    "planned_hours": 140.0
+   },
+   "hypothetical": {
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 3,
+     "no-evidence-on-file": 3,
+     "unknown": 0,
+     "weak-evidence": 2
+    },
+    "full_space_distance": 2.107937,
+    "nearest_roles_by_shortfall": [
+     "backend",
+     "fde",
+     "ai-architect"
+    ],
+    "requirement_shortfall": 1.559196,
+    "shortfall_rank_among_roles": 2
+   },
+   "leadership_exposure": "low",
+   "leadership_exposure_definition": "mean share of target-role postings stating each leadership feature; bins: < 0.2 low, < 0.5 medium, else high",
+   "leadership_exposure_value": 0.0256,
+   "map_points": [
+    {
+     "coords": [
+      -1.082412,
+      0.210637
+     ],
+     "entity_id": "candidate-synthetic-001",
+     "fit_metric_ref": "gap:fde:requirement_shortfall",
+     "label": "Candidate (evidence on file)",
+     "neighborhood_quality": null,
+     "projection_id": "pca-8c1634a44e5a47de-2d",
+     "projection_method": "pca",
+     "representation_type": "candidate",
+     "source_vector_ref": "vec:sha256:950b1d46564e36f22edd7e2f",
+     "warnings": [
+      "map-position-is-not-a-fit-or-hiring-score"
+     ]
+    },
+    {
+     "coords": [
+      -1.09472,
+      0.30925
+     ],
+     "entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd",
+     "fit_metric_ref": "gap:fde:requirement_shortfall",
+     "label": "Hypothetical scenario",
+     "neighborhood_quality": null,
+     "projection_id": "pca-8c1634a44e5a47de-2d",
+     "projection_method": "pca",
+     "representation_type": "scenario",
+     "source_vector_ref": "vec:sha256:d24396ce05cefa6398df7745",
+     "warnings": [
+      "map-position-is-not-a-fit-or-hiring-score",
+      "hypothetical-scenario"
+     ]
+    }
+   ],
+   "metric_semantics": "Outputs are distances, counts, hours and ranks in a synthetic feature space. They are not probabilities of interview, offer or compensation.",
+   "model_ref": {
+    "model_id": "8c1634a44e5a47de",
+    "projection_id": "pca-8c1634a44e5a47de-2d",
+    "vocab_digest": "2490dd2e0ef8fc25"
+   },
+   "movement": {
+    "features_changed": 2,
+    "full_space_distance_to_role": {
+     "after": 2.107937,
+     "before": 2.217664,
+     "role": "fde"
+    },
+    "full_space_shift_length": 0.36698,
+    "map_shift": [
+     -0.012309,
+     0.098613
+    ],
+    "map_shift_length": 0.099378,
+    "note": "The map shows only part of a movement. Judge progress by full-space numbers.",
+    "per_feature": [
+     {
+      "change": 0.2,
+      "feature": "llm-integration",
+      "full_space_sq_distance_change": -0.032821,
+      "map_shift": [
+       -0.021585,
+       0.07343
+      ]
+     },
+     {
+      "change": 0.307692,
+      "feature": "customer-delivery",
+      "full_space_sq_distance_change": -0.441815,
+      "map_shift": [
+       0.009276,
+       0.025183
+      ]
+     }
+    ],
+    "share_of_movement_visible_on_map": 0.2708
+   },
+   "not_a_hiring_probability": true,
+   "remaining_missing_evidence": [
+    {
+     "acquisition": "study-or-project",
+     "feature": "solution-design",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8974,
+     "tier": "core"
+    },
+    {
+     "acquisition": "role-exposure",
+     "feature": "customer-delivery",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.8718,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "technical-discovery",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8077,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "rag",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.5128,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "typescript",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.5128,
+     "tier": "core"
+    }
+   ],
+   "schema_version": "scenario-outputs/0.1",
+   "target_label": "Forward Deployed Engineer",
+   "target_role_family": "fde",
+   "target_skills": [
+    "python",
+    "typescript",
+    "api-design",
+    "llm-integration",
+    "rag",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "uncertainty": "low",
+   "uncertainty_note": "Uncertainty of the role description, not of any outcome: profile built from enough postings, stable under resampling, requirements mostly interpretable",
+   "unmapped_actions": []
+  },
+  "planned_actions": [
+   {
+    "effort_hours": 80.0,
+    "evidence_goal": "client-engagement: one fictional integration",
+    "skill": "customer-delivery"
+   },
+   {
+    "effort_hours": 60.0,
+    "evidence_goal": "portfolio-project",
+    "skill": "llm-integration"
+   }
+  ],
+  "risks": [
+   "customer-delivery: 'client-engagement' is a user-stated assumption that the role exposure will exist; the simulator cannot verify that such an opportunity is available",
+   "llm-integration: about 40 of 60 planned hours have no effect (evidence already at this goal's ceiling 0.8)",
+   "1 core requirement(s) need in-role evidence this plan cannot produce: customer-delivery",
+   "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
+   "some posting requirements could not be interpreted; the requirement list is incomplete",
+   "only 27% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
+  ],
+  "status": "hypothetical",
+  "target_role": "fde",
+  "time_horizon_months": 12
+ },
+ {
+  "assumptions": [
+   "All role requirements come from postings marked source='synthetic', grouped by role_family.",
+   "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
+   "Effort reference hours are vocabulary placeholders; real effort varies by person.",
+   "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
+   "Capacity assumes 6.0 hours per week for 12 month(s).",
+   "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
+  ],
+  "candidate_ref": "candidate-synthetic-001",
+  "id": "scn-c98d97f9ac75f6bd",
+  "outputs": {
+   "alternatives": {
+    "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
+    "paths": [
+     {
+      "assumed_tenure_months_total": 0.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       176.0,
+       640.0
+      ],
+      "entry_barriers_hardest_step": 0,
+      "entry_barriers_total": 0,
+      "fits_time_horizon": "uncertain",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "direct",
+      "months_range": [
+       6.8,
+       24.5
+      ],
+      "pareto_optimal_on_time_and_barriers": true,
+      "path": [
+       "ai-architect"
+      ],
+      "ranking_score": 1.508167,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         176.0,
+         640.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Applied AI Architect",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "system-design"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "ai-evaluation"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "mlops"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "cloud-architecture"
+         }
+        ],
+        "role": "ai-architect",
+        "role_profile_unstable": false
+       }
+      ]
+     },
+     {
+      "assumed_tenure_months_total": 18.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       266.0,
+       940.0
+      ],
+      "entry_barriers_hardest_step": 0,
+      "entry_barriers_total": 0,
+      "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "stepping-stone",
+      "months_range": [
+       28.2,
+       54.1
+      ],
+      "pareto_optimal_on_time_and_barriers": false,
+      "path": [
+       "backend",
+       "ai-architect"
+      ],
+      "ranking_score": 3.730667,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         138.0,
+         460.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Backend Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           12.0,
+           40.0
+          ],
+          "feature": "typescript"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "go"
+         },
+         {
+          "current_evidence_level": 0.3,
+          "effort_hours_range": [
+           30.0,
+           100.0
+          ],
+          "feature": "sql"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "system-design"
+         }
+        ],
+        "role": "backend",
+        "role_profile_unstable": false
+       },
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         128.0,
+         480.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Applied AI Architect",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "ai-evaluation"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "mlops"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "cloud-architecture"
+         }
+        ],
+        "role": "ai-architect",
+        "role_profile_unstable": false
+       }
+      ]
+     },
+     {
+      "assumed_tenure_months_total": 18.0,
+      "caveats": [
+       "platform: evidence on file contradicts kubernetes; effort alone does not resolve a contradiction, so these are blockers, not study items",
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 1,
+      "effort_hours_range": [
+       332.0,
+       1160.0
+      ],
+      "entry_barriers_hardest_step": 1,
+      "entry_barriers_total": 0,
+      "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "stepping-stone",
+      "months_range": [
+       30.7,
+       62.5
+      ],
+      "pareto_optimal_on_time_and_barriers": false,
+      "path": [
+       "platform",
+       "ai-architect"
+      ],
+      "ranking_score": 5.256333,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [
+         "kubernetes"
+        ],
+        "effort_hours_range": [
+         204.0,
+         680.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Platform Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           12.0,
+           40.0
+          ],
+          "feature": "aws"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "infrastructure-as-code"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "ci-cd"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "observability"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "sre"
+         }
+        ],
+        "role": "platform",
+        "role_profile_unstable": false
+       },
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         128.0,
+         480.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Applied AI Architect",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "system-design"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "ai-evaluation"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "mlops"
+         }
+        ],
+        "role": "ai-architect",
+        "role_profile_unstable": false
+       }
+      ]
+     }
+    ],
+    "same_budget": {
+     "better_than_your_plan": true,
+     "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
+     "core_summary": {
+      "contradicted": 0,
+      "evidenced": 3,
+      "no-evidence-on-file": 2,
+      "unknown": 0,
+      "weak-evidence": 2
+     },
+     "hours_used": 160.0,
+     "label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction per hour first; it may not be optimal",
+     "planned_actions": [
+      {
+       "effort_hours": 80.0,
+       "evidence_goal": "portfolio-project",
+       "skill": "rag"
+      },
+      {
+       "effort_hours": 80.0,
+       "evidence_goal": "portfolio-project",
+       "skill": "mlops"
+      }
+     ],
+     "requirement_shortfall": 1.569364,
+     "shortfall_vs_your_plan": -0.017815
+    }
+   },
+   "applied_actions": [
+    {
+     "blocked_by_contradiction": false,
+     "completion": 1.0,
+     "effort_hours": 100.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "portfolio-project",
+     "evidence_level_after": 0.8,
+     "evidence_level_before": 0.0,
+     "feature": "mlops",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 100.0,
+     "reaches_evidenced_level": true,
+     "reference_hours_assumed": 100.0,
+     "resolved_via": "exact",
+     "skill": "mlops"
+    },
+    {
+     "blocked_by_contradiction": false,
+     "completion": 0.75,
+     "effort_hours": 60.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "portfolio-project",
+     "evidence_level_after": 0.6,
+     "evidence_level_before": 0.0,
+     "feature": "rag",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 60.0,
+     "reaches_evidenced_level": false,
+     "reference_hours_assumed": 100.0,
+     "resolved_via": "exact",
+     "skill": "rag"
+    }
+   ],
+   "atlas_entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd",
+   "baseline": {
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 1,
+     "no-evidence-on-file": 4,
+     "unknown": 0,
+     "weak-evidence": 2
+    },
+    "full_space_distance": 2.550435,
+    "nearest_roles_by_shortfall": [
+     "backend",
+     "fde",
+     "ai-architect"
+    ],
+    "requirement_shortfall": 1.962032,
+    "shortfall_rank_among_roles": 3
+   },
+   "confidence_in_role_description": {
+    "level": "high",
+    "meaning": "confidence in the description of the role's stated requirements; not confidence in any hiring outcome",
+    "reasons": [
+     "profile built from enough postings, stable under resampling, requirements mostly interpretable"
+    ]
+   },
+   "coverage_after": 0.2857,
+   "coverage_before": 0.1429,
+   "coverage_definition": "share of target_skills (stated in at least half of the target role's postings) with evidence at or above level 0.75; weak, missing and contradicted evidence do not count",
+   "delta": {
+    "core_requirements_evidenced": 1,
+    "full_space_distance": -0.275729,
+    "requirement_shortfall": -0.374853,
+    "shortfall_rank_among_roles": -1
+   },
+   "effort": {
+    "capacity_hours_within_horizon": 312.8,
+    "fits_time_budget": true,
+    "hours_per_week": 6.0,
+    "planned_hours": 160.0
+   },
+   "hypothetical": {
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 2,
+     "no-evidence-on-file": 2,
+     "unknown": 0,
+     "weak-evidence": 3
+    },
+    "full_space_distance": 2.274706,
+    "nearest_roles_by_shortfall": [
+     "backend",
+     "ai-architect",
+     "fde"
+    ],
+    "requirement_shortfall": 1.587179,
+    "shortfall_rank_among_roles": 2
+   },
+   "leadership_exposure": "low",
+   "leadership_exposure_definition": "mean share of target-role postings stating each leadership feature; bins: < 0.2 low, < 0.5 medium, else high",
+   "leadership_exposure_value": 0.0414,
+   "map_points": [
+    {
+     "coords": [
+      -1.082412,
+      0.210637
+     ],
+     "entity_id": "candidate-synthetic-001",
+     "fit_metric_ref": "gap:ai-architect:requirement_shortfall",
+     "label": "Candidate (evidence on file)",
+     "neighborhood_quality": null,
+     "projection_id": "pca-8c1634a44e5a47de-2d",
+     "projection_method": "pca",
+     "representation_type": "candidate",
+     "source_vector_ref": "vec:sha256:950b1d46564e36f22edd7e2f",
+     "warnings": [
+      "map-position-is-not-a-fit-or-hiring-score"
+     ]
+    },
+    {
+     "coords": [
+      -1.077869,
+      0.600075
+     ],
+     "entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd",
+     "fit_metric_ref": "gap:ai-architect:requirement_shortfall",
+     "label": "Hypothetical scenario",
+     "neighborhood_quality": null,
+     "projection_id": "pca-8c1634a44e5a47de-2d",
+     "projection_method": "pca",
+     "representation_type": "scenario",
+     "source_vector_ref": "vec:sha256:e975e534207c2256863b58a7",
+     "warnings": [
+      "map-position-is-not-a-fit-or-hiring-score",
+      "hypothetical-scenario"
+     ]
+    }
+   ],
+   "metric_semantics": "Outputs are distances, counts, hours and ranks in a synthetic feature space. They are not probabilities of interview, offer or compensation.",
+   "model_ref": {
+    "model_id": "8c1634a44e5a47de",
+    "projection_id": "pca-8c1634a44e5a47de-2d",
+    "vocab_digest": "2490dd2e0ef8fc25"
+   },
+   "movement": {
+    "features_changed": 2,
+    "full_space_distance_to_role": {
+     "after": 2.274706,
+     "before": 2.550435,
+     "role": "ai-architect"
+    },
+    "full_space_shift_length": 1.0,
+    "map_shift": [
+     0.004543,
+     0.389438
+    ],
+    "map_shift_length": 0.389464,
+    "note": "The map shows only part of a movement. Judge progress by full-space numbers.",
+    "per_feature": [
+     {
+      "change": 0.8,
+      "feature": "mlops",
+      "full_space_sq_distance_change": -0.681739,
+      "map_shift": [
+       0.053589,
+       0.222544
+      ]
+     },
+     {
+      "change": 0.6,
+      "feature": "rag",
+      "full_space_sq_distance_change": -0.648696,
+      "map_shift": [
+       -0.049046,
+       0.166894
+      ]
+     }
+    ],
+    "share_of_movement_visible_on_map": 0.389464
+   },
+   "not_a_hiring_probability": true,
+   "remaining_missing_evidence": [
+    {
+     "acquisition": "study-or-project",
+     "feature": "llm-integration",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.8986,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "cloud-architecture",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8696,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "system-design",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8551,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "rag",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.8406,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "ai-evaluation",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.7826,
+     "tier": "core"
+    }
+   ],
+   "schema_version": "scenario-outputs/0.1",
+   "target_label": "Applied AI Architect",
+   "target_role_family": "ai-architect",
+   "target_skills": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "uncertainty": "low",
+   "uncertainty_note": "Uncertainty of the role description, not of any outcome: profile built from enough postings, stable under resampling, requirements mostly interpretable",
+   "unmapped_actions": []
+  },
+  "planned_actions": [
+   {
+    "effort_hours": 100.0,
+    "evidence_goal": "portfolio-project",
+    "skill": "mlops"
+   },
+   {
+    "effort_hours": 60.0,
+    "evidence_goal": "portfolio-project",
+    "skill": "rag"
+   }
+  ],
+  "risks": [
+   "mlops: about 20 of 100 planned hours have no effect (evidence already at this goal's ceiling 0.8)",
+   "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
+   "some posting requirements could not be interpreted; the requirement list is incomplete",
+   "only 39% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
+  ],
+  "status": "hypothetical",
+  "target_role": "ai-architect",
+  "time_horizon_months": 12
+ },
+ {
+  "assumptions": [
+   "All role requirements come from postings marked source='synthetic', grouped by role_family.",
+   "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
+   "Effort reference hours are vocabulary placeholders; real effort varies by person.",
+   "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
+   "Capacity assumes 6.0 hours per week for 12 month(s).",
+   "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
+  ],
+  "candidate_ref": "candidate-synthetic-001",
+  "id": "scn-308de79a8b61071a",
+  "outputs": {
+   "alternatives": {
+    "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
+    "paths": [
+     {
+      "assumed_tenure_months_total": 0.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       176.0,
+       608.0
+      ],
+      "entry_barriers_hardest_step": 4,
+      "entry_barriers_total": 4,
+      "fits_time_horizon": "blocked",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "direct",
+      "months_range": [
+       6.8,
+       23.3
+      ],
+      "pareto_optimal_on_time_and_barriers": true,
+      "path": [
+       "field-cto"
+      ],
+      "ranking_score": 5.450167,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         176.0,
+         608.0
+        ],
+        "entry_barriers_role_exposure": [
+         "customer-delivery",
+         "enterprise-sales",
+         "executive-communication",
+         "stakeholder-management"
+        ],
+        "label": "Field CTO",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "ai-strategy"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "cloud-architecture"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "solution-design"
+         }
+        ],
+        "role": "field-cto",
+        "role_profile_unstable": false
+       }
+      ]
+     },
+     {
+      "assumed_tenure_months_total": 18.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       324.0,
+       1128.0
+      ],
+      "entry_barriers_hardest_step": 2,
+      "entry_barriers_total": 3,
+      "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "stepping-stone",
+      "months_range": [
+       30.4,
+       61.3
+      ],
+      "pareto_optimal_on_time_and_barriers": true,
+      "path": [
+       "fde",
+       "field-cto"
+      ],
+      "ranking_score": 6.183833,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         244.0,
+         840.0
+        ],
+        "entry_barriers_role_exposure": [
+         "customer-delivery"
+        ],
+        "label": "Forward Deployed Engineer",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           12.0,
+           40.0
+          ],
+          "feature": "typescript"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "solution-design"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           96.0,
+           320.0
+          ],
+          "feature": "technical-discovery"
+         }
+        ],
+        "role": "fde",
+        "role_profile_unstable": false
+       },
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         80.0,
+         288.0
+        ],
+        "entry_barriers_role_exposure": [
+         "enterprise-sales",
+         "executive-communication"
+        ],
+        "label": "Field CTO",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "ai-strategy"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "cloud-architecture"
+         }
+        ],
+        "role": "field-cto",
+        "role_profile_unstable": false
+       }
+      ]
+     },
+     {
+      "assumed_tenure_months_total": 18.0,
+      "caveats": [
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
+      ],
+      "contradiction_blockers_total": 0,
+      "effort_hours_range": [
+       176.0,
+       640.0
+      ],
+      "entry_barriers_hardest_step": 4,
+      "entry_barriers_total": 4,
+      "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
+      "kind": "stepping-stone",
+      "months_range": [
+       24.8,
+       42.5
+      ],
+      "pareto_optimal_on_time_and_barriers": false,
+      "path": [
+       "ai-architect",
+       "field-cto"
+      ],
+      "ranking_score": 7.008167,
+      "steps": [
+       {
+        "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         176.0,
+         640.0
+        ],
+        "entry_barriers_role_exposure": [],
+        "label": "Applied AI Architect",
+        "missing_study_or_project_evidence": [
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "system-design"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "ai-evaluation"
+         },
+         {
+          "current_evidence_level": 0.6,
+          "effort_hours_range": [
+           8.0,
+           32.0
+          ],
+          "feature": "llm-integration"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "rag"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           32.0,
+           128.0
+          ],
+          "feature": "mlops"
+         },
+         {
+          "current_evidence_level": 0.0,
+          "effort_hours_range": [
+           48.0,
+           160.0
+          ],
+          "feature": "cloud-architecture"
+         }
+        ],
+        "role": "ai-architect",
+        "role_profile_unstable": false
+       },
+       {
+        "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
+        "effort_hours_range": [
+         0.0,
+         0.0
+        ],
+        "entry_barriers_role_exposure": [
+         "customer-delivery",
+         "enterprise-sales",
+         "executive-communication",
+         "stakeholder-management"
+        ],
+        "label": "Field CTO",
+        "missing_study_or_project_evidence": [],
+        "role": "field-cto",
+        "role_profile_unstable": false
+       }
+      ]
+     }
+    ],
+    "same_budget": {
+     "better_than_your_plan": true,
+     "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
+     "core_summary": {
+      "contradicted": 0,
+      "evidenced": 2,
+      "no-evidence-on-file": 4,
+      "unknown": 0,
+      "weak-evidence": 1
+     },
+     "hours_used": 290.0,
+     "label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction per hour first; it may not be optimal",
+     "planned_actions": [
+      {
+       "effort_hours": 104.0,
+       "evidence_goal": "portfolio-project",
+       "skill": "cloud-architecture"
+      },
+      {
+       "effort_hours": 80.0,
+       "evidence_goal": "portfolio-project",
+       "skill": "ai-strategy"
+      },
+      {
+       "effort_hours": 106.0,
+       "evidence_goal": "portfolio-project",
+       "skill": "solution-design"
+      }
+     ],
+     "requirement_shortfall": 2.090151,
+     "shortfall_vs_your_plan": -0.021258
+    }
+   },
+   "applied_actions": [
+    {
+     "blocked_by_contradiction": false,
+     "completion": 1.0,
+     "effort_hours": 120.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "portfolio-project",
+     "evidence_level_after": 0.8,
+     "evidence_level_before": 0.0,
+     "feature": "cloud-architecture",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 120.0,
+     "reaches_evidenced_level": true,
+     "reference_hours_assumed": 130.0,
+     "resolved_via": "exact",
+     "skill": "cloud-architecture"
+    },
+    {
+     "blocked_by_contradiction": false,
+     "completion": 1.0,
+     "effort_hours": 80.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "portfolio-project",
+     "evidence_level_after": 0.8,
+     "evidence_level_before": 0.0,
+     "feature": "ai-strategy",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 80.0,
+     "reaches_evidenced_level": true,
+     "reference_hours_assumed": 100.0,
+     "resolved_via": "exact",
+     "skill": "ai-strategy"
+    },
+    {
+     "blocked_by_contradiction": false,
+     "completion": 0.3846,
+     "effort_hours": 30.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "coursework",
+     "evidence_level_after": 0.1154,
+     "evidence_level_before": 0.0,
+     "feature": "customer-delivery",
+     "feature_ceiling": 0.3,
+     "feature_hours_total": 30.0,
+     "reaches_evidenced_level": false,
+     "reference_hours_assumed": 260.0,
+     "resolved_via": "bundle",
+     "skill": "client-exposure"
+    },
+    {
+     "blocked_by_contradiction": false,
+     "completion": 0.3846,
+     "effort_hours": 30.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "coursework",
+     "evidence_level_after": 0.1154,
+     "evidence_level_before": 0.0,
+     "feature": "stakeholder-management",
+     "feature_ceiling": 0.3,
+     "feature_hours_total": 30.0,
+     "reaches_evidenced_level": false,
+     "reference_hours_assumed": 260.0,
+     "resolved_via": "bundle",
+     "skill": "client-exposure"
+    },
+    {
+     "blocked_by_contradiction": false,
+     "completion": 0.1923,
+     "effort_hours": 30.0,
+     "evidence_before_was_unknown": false,
+     "evidence_goal": "coursework",
+     "evidence_level_after": 0.1154,
+     "evidence_level_before": 0.0,
+     "feature": "technical-discovery",
+     "feature_ceiling": 0.6,
+     "feature_hours_total": 30.0,
+     "reaches_evidenced_level": false,
+     "reference_hours_assumed": 260.0,
+     "resolved_via": "bundle",
+     "skill": "client-exposure"
+    }
+   ],
+   "atlas_entity_id": "candidate-synthetic-001#scn-308de79a8b61071a",
+   "baseline": {
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 0,
+     "no-evidence-on-file": 7,
+     "unknown": 0,
+     "weak-evidence": 0
+    },
+    "full_space_distance": 3.388363,
+    "nearest_roles_by_shortfall": [
+     "backend",
+     "fde",
+     "ai-architect"
+    ],
+    "requirement_shortfall": 2.49916,
+    "shortfall_rank_among_roles": 8
+   },
+   "confidence_in_role_description": {
+    "level": "high",
+    "meaning": "confidence in the description of the role's stated requirements; not confidence in any hiring outcome",
+    "reasons": [
+     "profile built from enough postings, stable under resampling, requirements mostly interpretable"
+    ]
+   },
+   "coverage_after": 0.2857,
+   "coverage_before": 0.0,
+   "coverage_definition": "share of target_skills (stated in at least half of the target role's postings) with evidence at or above level 0.75; weak, missing and contradicted evidence do not count",
+   "delta": {
+    "core_requirements_evidenced": 2,
+    "full_space_distance": -0.274664,
+    "requirement_shortfall": -0.387751,
+    "shortfall_rank_among_roles": -2
+   },
+   "effort": {
+    "capacity_hours_within_horizon": 312.8,
+    "fits_time_budget": true,
+    "hours_per_week": 6.0,
+    "planned_hours": 290.0
+   },
+   "hypothetical": {
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 2,
+     "no-evidence-on-file": 3,
+     "unknown": 0,
+     "weak-evidence": 2
+    },
+    "full_space_distance": 3.113699,
+    "nearest_roles_by_shortfall": [
+     "backend",
+     "fde",
+     "ai-architect"
+    ],
+    "requirement_shortfall": 2.111409,
+    "shortfall_rank_among_roles": 6
+   },
+   "leadership_exposure": "low",
+   "leadership_exposure_definition": "mean share of target-role postings stating each leadership feature; bins: < 0.2 low, < 0.5 medium, else high",
+   "leadership_exposure_value": 0.1718,
+   "map_points": [
+    {
+     "coords": [
+      -1.082412,
+      0.210637
+     ],
+     "entity_id": "candidate-synthetic-001",
+     "fit_metric_ref": "gap:field-cto:requirement_shortfall",
+     "label": "Candidate (evidence on file)",
+     "neighborhood_quality": null,
+     "projection_id": "pca-8c1634a44e5a47de-2d",
+     "projection_method": "pca",
+     "representation_type": "candidate",
+     "source_vector_ref": "vec:sha256:950b1d46564e36f22edd7e2f",
+     "warnings": [
+      "map-position-is-not-a-fit-or-hiring-score"
+     ]
+    },
+    {
+     "coords": [
+      -0.807512,
+      0.258753
+     ],
+     "entity_id": "candidate-synthetic-001#scn-308de79a8b61071a",
+     "fit_metric_ref": "gap:field-cto:requirement_shortfall",
+     "label": "Hypothetical scenario",
+     "neighborhood_quality": null,
+     "projection_id": "pca-8c1634a44e5a47de-2d",
+     "projection_method": "pca",
+     "representation_type": "scenario",
+     "source_vector_ref": "vec:sha256:aed72ecfdf5153727bb35969",
+     "warnings": [
+      "map-position-is-not-a-fit-or-hiring-score",
+      "hypothetical-scenario"
+     ]
+    }
+   ],
+   "metric_semantics": "Outputs are distances, counts, hours and ranks in a synthetic feature space. They are not probabilities of interview, offer or compensation.",
+   "model_ref": {
+    "model_id": "8c1634a44e5a47de",
+    "projection_id": "pca-8c1634a44e5a47de-2d",
+    "vocab_digest": "2490dd2e0ef8fc25"
+   },
+   "movement": {
+    "features_changed": 5,
+    "full_space_distance_to_role": {
+     "after": 3.113699,
+     "before": 3.388363,
+     "role": "field-cto"
+    },
+    "full_space_shift_length": 1.148887,
+    "map_shift": [
+     0.2749,
+     0.048116
+    ],
+    "map_shift_length": 0.279079,
+    "note": "The map shows only part of a movement. Judge progress by full-space numbers.",
+    "per_feature": [
+     {
+      "change": 0.8,
+      "feature": "ai-strategy",
+      "full_space_sq_distance_change": -0.570811,
+      "map_shift": [
+       0.236186,
+       0.011171
+      ]
+     },
+     {
+      "change": 0.115385,
+      "feature": "stakeholder-management",
+      "full_space_sq_distance_change": -0.176915,
+      "map_shift": [
+       0.033313,
+       -0.009957
+      ]
+     },
+     {
+      "change": 0.8,
+      "feature": "cloud-architecture",
+      "full_space_sq_distance_change": -0.765405,
+      "map_shift": [
+       0.004598,
+       0.028204
+      ]
+     },
+     {
+      "change": 0.115385,
+      "feature": "customer-delivery",
+      "full_space_sq_distance_change": -0.189389,
+      "map_shift": [
+       0.003479,
+       0.009444
+      ]
+     },
+     {
+      "change": 0.115385,
+      "feature": "technical-discovery",
+      "full_space_sq_distance_change": -0.08336,
+      "map_shift": [
+       -0.002676,
+       0.009254
+      ]
+     }
+    ],
+    "share_of_movement_visible_on_map": 0.242913
+   },
+   "not_a_hiring_probability": true,
+   "remaining_missing_evidence": [
+    {
+     "acquisition": "role-exposure",
+     "feature": "executive-communication",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8919,
+     "tier": "core"
+    },
+    {
+     "acquisition": "role-exposure",
+     "feature": "customer-delivery",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.8784,
+     "tier": "core"
+    },
+    {
+     "acquisition": "role-exposure",
+     "feature": "enterprise-sales",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8649,
+     "tier": "core"
+    },
+    {
+     "acquisition": "study-or-project",
+     "feature": "solution-design",
+     "state": "no-evidence-on-file",
+     "stated_in_share_of_postings": 0.8649,
+     "tier": "core"
+    },
+    {
+     "acquisition": "role-exposure",
+     "feature": "stakeholder-management",
+     "state": "weak-evidence",
+     "stated_in_share_of_postings": 0.8243,
+     "tier": "core"
+    }
+   ],
+   "schema_version": "scenario-outputs/0.1",
+   "target_label": "Field CTO",
+   "target_role_family": "field-cto",
+   "target_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "uncertainty": "low",
+   "uncertainty_note": "Uncertainty of the role description, not of any outcome: profile built from enough postings, stable under resampling, requirements mostly interpretable",
+   "unmapped_actions": []
+  },
+  "planned_actions": [
+   {
+    "effort_hours": 120.0,
+    "evidence_goal": "portfolio-project",
+    "skill": "cloud-architecture"
+   },
+   {
+    "effort_hours": 80.0,
+    "evidence_goal": "portfolio-project",
+    "skill": "ai-strategy"
+   },
+   {
+    "effort_hours": 90.0,
+    "evidence_goal": "coursework",
+    "skill": "client-exposure"
+   }
+  ],
+  "risks": [
+   "customer-delivery: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3",
+   "stakeholder-management: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3",
+   "cloud-architecture: about 16 of 120 planned hours have no effect (evidence already at this goal's ceiling 0.8)",
+   "4 core requirement(s) need in-role evidence this plan cannot produce: executive-communication, customer-delivery, enterprise-sales, stakeholder-management",
+   "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
+   "some posting requirements could not be interpreted; the requirement list is incomplete",
+   "only 24% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
+  ],
+  "status": "hypothetical",
+  "target_role": "field-cto",
+  "time_horizon_months": 12
+ }
+]

@@ -1,0 +1,14 @@
+[project]
+name = "careertwin-atlas"
+version = "0.1.0"
+description = "CareerTwin OS lane C: synthetic career atlas, projection diagnostics and transition simulator"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+umap = ["umap-learn"]
+test = ["pytest", "jsonschema"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"
