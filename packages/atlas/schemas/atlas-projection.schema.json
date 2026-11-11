@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careertwin.local/lane-c/atlas-projection.v0.1.schema.json",
+  "title": "AtlasProjection",
+  "description": "Document for lane D's atlas page (api.projection_view). Superset of D's 'atlas-projection/0.1-proposed' stand-in. Lane C owned; not part of contracts/.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "projection_id",
+    "method",
+    "generated_at",
+    "input",
+    "axes",
+    "diagnostics",
+    "warnings",
+    "points",
+    "entities",
+    "paths",
+    "flags",
+    "synthetic_only",
+    "unplaced"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "atlas-projection/0.1"
+    },
+    "projection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "method": {
+      "enum": [
+        "pca",
+        "umap",
+        "interpretable-axes"
+      ]
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "representation",
+        "n_points",
+        "n_dims"
+      ],
+      "properties": {
+        "representation": {
+          "type": "string"
+        },
+        "n_points": {
+          "type": "integer"
+        },
+        "n_dims": {
+          "type": "integer"
+        }
+      }
+    },
+    "axes": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "explained_variance_ratio",
+          "description"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "explained_variance_ratio": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "required": [
+        "cumulative_explained_variance",
+        "trustworthiness",
+        "continuity",
+        "knn_recall",
+        "distance_spearman",
+        "normalized_stress",
+        "flags"
+      ],
+      "properties": {
+        "cumulative_explained_variance": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "trustworthiness": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "k",
+            "value"
+          ],
+          "properties": {
+            "k": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "value": {
+              "type": "number",
+              "maximum": 1
+            }
+          }
+        },
+        "continuity": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "k",
+            "value"
+          ],
+          "properties": {
+            "k": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "value": {
+              "type": "number",
+              "maximum": 1
+            }
+          }
+        },
+        "knn_recall": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "k",
+            "value"
+          ],
+          "properties": {
+            "k": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "value": {
+              "type": "number",
+              "maximum": 1
+            }
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity_id",
+          "projection_id",
+          "label",
+          "coords",
+          "source_vector_ref",
+          "representation_type",
+          "projection_method"
+        ],
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "projection_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "coords": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "type": "number"
+            }
+          },
+          "source_vector_ref": {
+            "type": "string"
+          },
+          "representation_type": {
+            "enum": [
+              "candidate",
+              "job",
+              "role-centroid",
+              "scenario"
+            ]
+          },
+          "projection_method": {
+            "enum": [
+              "pca",
+              "umap",
+              "interpretable-axes"
+            ]
+          },
+          "neighborhood_quality": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "fit_metric_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity_id",
+          "representation_type",
+          "role_family",
+          "evidence_basis",
+          "job_id",
+          "scenario_id",
+          "detail",
+          "top_skills"
+        ],
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "representation_type": {
+            "enum": [
+              "candidate",
+              "job",
+              "role-centroid",
+              "scenario"
+            ]
+          },
+          "role_family": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence_basis": {
+            "enum": [
+              "supported",
+              "self-reported",
+              "contradicted",
+              "unverified",
+              "mixed",
+              "not-applicable"
+            ]
+          },
+          "job_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scenario_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          },
+          "top_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "from_entity_id",
+          "to_entity_id",
+          "scenario_id",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "from_entity_id": {
+            "type": "string"
+          },
+          "to_entity_id": {
+            "type": "string"
+          },
+          "scenario_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "two_d_geometry_is_not_match_metric",
+        "not_hiring_probability",
+        "map_distortion_flagged"
+      ],
+      "properties": {
+        "two_d_geometry_is_not_match_metric": {
+          "const": true
+        },
+        "not_hiring_probability": {
+          "const": true
+        },
+        "map_distortion_flagged": {
+          "type": "boolean"
+        }
+      }
+    },
+    "synthetic_only": {
+      "type": "boolean"
+    },
+    "unplaced": {
+      "type": "array",
+      "description": "Entities with no observed skill features. Unknown is not average: they are not drawn.",
+      "items": {
+        "type": "object",
+        "required": [
+          "entity_id",
+          "reason"
+        ],
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

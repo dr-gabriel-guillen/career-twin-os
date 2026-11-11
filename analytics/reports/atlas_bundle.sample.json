@@ -396,6 +396,3352 @@
   "variance_not_shown": 0.7511716127686334,
   "warnings": []
  },
+ "entities": [
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00000",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00000",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "cloud-architecture",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00007",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00007",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "cost-optimization",
+    "customer-delivery",
+    "llm-integration",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00015",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00015",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "data-governance",
+    "data-modeling",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00022",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00022",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "cloud-architecture",
+    "distributed-systems",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00030",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00030",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "data-modeling",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00037",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00037",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "ci-cd",
+    "data-modeling",
+    "go",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00045",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00045",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00052",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00052",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "aws",
+    "budget-ownership"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00060",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00060",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "unknown posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00067",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00067",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "ci-cd"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00075",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00075",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "customer-delivery",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00082",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00082",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "cloud-architecture",
+    "customer-delivery",
+    "ml-modeling"
+   ]
+  },
+  {
+   "detail": "unknown posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00090",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00090",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "data-governance",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00097",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00097",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "ci-cd",
+    "data-modeling",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00105",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00105",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ci-cd",
+    "llm-integration",
+    "mlops",
+    "people-management",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00112",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00112",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "data-modeling",
+    "distributed-systems",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00120",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00120",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "aws",
+    "customer-delivery",
+    "llm-integration",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00127",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00127",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00135",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00135",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "backend-performance",
+    "ci-cd",
+    "data-modeling",
+    "distributed-systems",
+    "java"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00142",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00142",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "data-modeling",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00150",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00150",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "hiring",
+    "llm-integration",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00157",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00157",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "hiring",
+    "llm-integration",
+    "mentoring",
+    "mlops",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00165",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00165",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00172",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00172",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "pre-sales-demos"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00180",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00180",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "frontend",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00187",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00187",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "distributed-systems",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00195",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00195",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "aws",
+    "customer-delivery",
+    "llm-integration",
+    "prompt-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00202",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00202",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "backend-performance",
+    "ci-cd",
+    "go",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 12 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00210",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00210",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "unknown posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00217",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00217",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "kubernetes",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00225",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00225",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "contract-analysis",
+    "data-modeling",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00232",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00232",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00240",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00240",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00247",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00247",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "distributed-systems",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00255",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00255",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "cloud-architecture",
+    "customer-delivery",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 5 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00262",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00262",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "people-management",
+    "sql",
+    "system-design",
+    "testing"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00270",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00270",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00277",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00277",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "backend-performance",
+    "budget-ownership",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00285",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00285",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "ml-modeling"
+   ]
+  },
+  {
+   "detail": "expired posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00292",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00292",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "distributed-systems",
+    "infrastructure-as-code",
+    "kubernetes",
+    "observability"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00300",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00300",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "aws",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00307",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00307",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-safety",
+    "hiring",
+    "mlops",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00315",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00315",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00322",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00322",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "backend-performance",
+    "cloud-architecture",
+    "enterprise-sales",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00330",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00330",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "expired posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00337",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00337",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-safety",
+    "api-design",
+    "customer-delivery",
+    "prompt-engineering",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00345",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00345",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "ci-cd",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00352",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00352",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "cloud-architecture",
+    "customer-delivery",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00360",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00360",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00367",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00367",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ci-cd",
+    "hiring",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00375",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00375",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "expired posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00382",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00382",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "mlops",
+    "python",
+    "roadmap-planning",
+    "system-design"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00390",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00390",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "executive-communication",
+    "llm-integration",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00397",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00397",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "budget-ownership",
+    "llm-integration",
+    "prompt-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00405",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00405",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "cloud-architecture",
+    "data-modeling",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00412",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00412",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "data-modeling",
+    "go",
+    "observability"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00420",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00420",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "data-governance",
+    "go"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00427",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00427",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00435",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00435",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00442",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00442",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "aws",
+    "cloud-architecture",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00450",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00450",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "data-governance",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00457",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00457",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "ci-cd",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00465",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00465",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 16 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00472",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00472",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00480",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00480",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "expired posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00487",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00487",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "cost-optimization",
+    "customer-delivery",
+    "executive-communication",
+    "solution-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00495",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00495",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "aws",
+    "cloud-architecture",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00502",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00502",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00510",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00510",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "budget-ownership",
+    "hiring",
+    "people-management",
+    "security",
+    "sre"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00517",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00517",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00525",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00525",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "data-governance",
+    "java",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00532",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00532",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "hiring",
+    "llm-integration",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00540",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00540",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00547",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00547",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00555",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00555",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "cost-optimization",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00562",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00562",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "cloud-architecture",
+    "customer-delivery",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00570",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00570",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "backend-performance",
+    "ci-cd",
+    "cloud-architecture",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00577",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00577",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "ci-cd",
+    "distributed-systems",
+    "python",
+    "regulatory-compliance"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00585",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00585",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "cloud-architecture",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00592",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00592",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "customer-delivery",
+    "python",
+    "rag",
+    "solution-design"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00600",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00600",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00607",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00607",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "hiring",
+    "infrastructure-as-code",
+    "java",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "unknown posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00615",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00615",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "customer-delivery",
+    "hiring",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00622",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00622",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "customer-delivery",
+    "mentoring",
+    "python",
+    "rag"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00630",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00630",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-safety",
+    "api-design",
+    "customer-delivery",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00637",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00637",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "data-governance",
+    "infrastructure-as-code",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00645",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00645",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00652",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00652",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "data-governance",
+    "legal-reasoning",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00660",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00660",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "llm-integration",
+    "mentoring",
+    "mlops",
+    "system-design"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00667",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00667",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "contract-analysis",
+    "data-governance",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00675",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00675",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-safety",
+    "api-design",
+    "cloud-architecture",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00682",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00682",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00690",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00690",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00697",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00697",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "cost-optimization",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00705",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00705",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "ai-strategy",
+    "contract-analysis",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00712",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00712",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "contract-analysis",
+    "hiring",
+    "ml-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00720",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00720",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "executive-communication",
+    "hiring",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "expired posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00727",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00727",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "cost-optimization",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "expired posting; 16 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00735",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00735",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "budget-ownership",
+    "ci-cd",
+    "hiring",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00742",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00742",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-safety",
+    "api-design",
+    "backend-performance",
+    "data-modeling",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00750",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00750",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 5 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00757",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00757",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "legal-reasoning",
+    "regulatory-compliance",
+    "security"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00765",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00765",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "distributed-systems",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00772",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00772",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-safety",
+    "api-design",
+    "customer-delivery",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00780",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00780",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "backend-performance",
+    "cloud-architecture",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00787",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00787",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "distributed-systems",
+    "java"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00795",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00795",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "customer-delivery",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00802",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00802",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "ci-cd",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00810",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00810",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "ci-cd",
+    "distributed-systems",
+    "java"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00817",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00817",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00825",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00825",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "data-modeling",
+    "distributed-systems",
+    "java",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00832",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00832",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "data-modeling",
+    "llm-integration",
+    "mlops",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00840",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00840",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "hiring",
+    "mentoring",
+    "mlops",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00847",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00847",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00855",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00855",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "cloud-architecture",
+    "contract-analysis",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00862",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00862",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "api-design",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00870",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00870",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "data-modeling",
+    "distributed-systems",
+    "java",
+    "privacy-engineering",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00877",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00877",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "ci-cd",
+    "data-modeling",
+    "distributed-systems",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00885",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00885",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "contract-analysis",
+    "frontend",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00892",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00892",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "ci-cd",
+    "data-modeling",
+    "go",
+    "java"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00900",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00900",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00907",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00907",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "observability"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00915",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00915",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00922",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00922",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "data-governance",
+    "hiring",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00930",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00930",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "ci-cd",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "expired posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00937",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00937",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "java",
+    "llm-integration",
+    "mlops",
+    "people-management",
+    "system-design"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00945",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00945",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "data-governance",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00952",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00952",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "ci-cd",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00960",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00960",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "backend-performance",
+    "ci-cd",
+    "cloud-architecture",
+    "cost-optimization",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00967",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00967",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-safety",
+    "ci-cd",
+    "llm-integration",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00975",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00975",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "cost-optimization"
+   ]
+  },
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00982",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00982",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "aws",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 5 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00990",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00990",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "llm-integration",
+    "python",
+    "solution-design",
+    "technical-discovery"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00997",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00997",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "mlops",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01005",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01005",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "cloud-architecture",
+    "data-modeling",
+    "enterprise-sales",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01012",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01012",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01020",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01020",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "customer-delivery",
+    "data-governance",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01027",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01027",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01035",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01035",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "hiring",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01042",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01042",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "executive-communication",
+    "pre-sales-demos"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01050",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01050",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01057",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01057",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "go",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01065",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01065",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "aws",
+    "cloud-architecture",
+    "hiring",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01072",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01072",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "infrastructure-as-code",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01080",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01080",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "cost-optimization",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01087",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01087",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-safety",
+    "api-design",
+    "backend-performance",
+    "cost-optimization",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01095",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01095",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01102",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01102",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "cloud-architecture",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01110",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01110",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "ci-cd",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01117",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01117",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "executive-communication",
+    "hiring",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01125",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01125",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "contract-analysis",
+    "data-modeling",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01132",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01132",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01140",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01140",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ci-cd",
+    "legal-reasoning",
+    "llm-integration",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01147",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01147",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01155",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01155",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "api-design",
+    "backend-performance",
+    "ci-cd",
+    "go"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01162",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01162",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "cloud-architecture",
+    "data-modeling",
+    "mlops",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01170",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01170",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "distributed-systems",
+    "java",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01177",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01177",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-safety",
+    "ai-strategy",
+    "aws",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01185",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01185",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "aws",
+    "llm-integration",
+    "python",
+    "solution-design"
+   ]
+  },
+  {
+   "detail": "expired posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01192",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01192",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "kubernetes",
+    "llm-integration",
+    "ml-modeling",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01200",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01200",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "enterprise-sales",
+    "prompt-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01207",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01207",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "java",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01215",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01215",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "cloud-architecture",
+    "llm-integration",
+    "observability"
+   ]
+  },
+  {
+   "detail": "active posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01222",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01222",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "legal-reasoning",
+    "privacy-engineering",
+    "regulatory-compliance",
+    "risk-assessment"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01230",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01230",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-safety",
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01237",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01237",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "ci-cd",
+    "cost-optimization",
+    "distributed-systems",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01245",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01245",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "ci-cd",
+    "cloud-architecture",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01252",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01252",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "cost-optimization",
+    "data-governance",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01260",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01260",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01267",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01267",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "legal-reasoning",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01275",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01275",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01282",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01282",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "executive-communication",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01290",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01290",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "data-modeling",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01297",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01297",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "org-design",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "expired posting; 16 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01305",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01305",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "data-modeling",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01312",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01312",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "contract-analysis",
+    "data-governance",
+    "go",
+    "legal-reasoning",
+    "regulatory-compliance"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01320",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01320",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "aws",
+    "cloud-architecture",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "unknown posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01327",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01327",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ci-cd",
+    "hiring",
+    "llm-integration",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01335",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01335",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "api-design",
+    "data-governance",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01342",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01342",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-strategy",
+    "aws",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01350",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01350",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "executive-communication",
+    "roadmap-planning"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01357",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01357",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ci-cd",
+    "hiring",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01365",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01365",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "data-modeling",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01372",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01372",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "llm-integration",
+    "prompt-engineering",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01380",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01380",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01387",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01387",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "data-modeling",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01395",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01395",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "data-modeling",
+    "distributed-systems",
+    "python"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01402",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01402",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ci-cd",
+    "cloud-architecture",
+    "distributed-systems",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01410",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01410",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01417",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01417",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "java"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01425",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01425",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "frontend",
+    "ml-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01432",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01432",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01440",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01440",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "cost-optimization",
+    "distributed-systems",
+    "enterprise-sales",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01447",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01447",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "contract-analysis",
+    "cost-optimization",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01455",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01455",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01462",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01462",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "budget-ownership",
+    "ci-cd",
+    "cloud-architecture",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01470",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01470",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01477",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01477",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01485",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01485",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "ci-cd",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-01492",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-01492",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "enterprise-sales",
+    "infrastructure-as-code",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "centroid of 160 posting(s)",
+   "entity_id": "role:ai-architect",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag"
+   ]
+  },
+  {
+   "detail": "centroid of 202 posting(s)",
+   "entity_id": "role:ai-director",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "centroid of 187 posting(s)",
+   "entity_id": "role:ai-eng-lead",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "centroid of 166 posting(s)",
+   "entity_id": "role:backend",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design"
+   ]
+  },
+  {
+   "detail": "centroid of 185 posting(s)",
+   "entity_id": "role:fde",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "api-design",
+    "llm-integration",
+    "customer-delivery",
+    "solution-design"
+   ]
+  },
+  {
+   "detail": "centroid of 202 posting(s)",
+   "entity_id": "role:field-cto",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "centroid of 201 posting(s)",
+   "entity_id": "role:platform",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability"
+   ]
+  },
+  {
+   "detail": "centroid of 197 posting(s)",
+   "entity_id": "role:privacy-legal-ai",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance"
+   ]
+  },
+  {
+   "detail": "evidence on file (claims), held-out point",
+   "entity_id": "candidate-synthetic-001",
+   "evidence_basis": "mixed",
+   "job_id": null,
+   "representation_type": "candidate",
+   "role_family": null,
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "distributed-systems",
+    "python",
+    "testing",
+    "ai-evaluation"
+   ]
+  }
+ ],
  "flags": {
   "map_distortion_flagged": true,
   "not_hiring_probability": true,
@@ -406,6 +3752,9 @@
   "median_residual_share": 0.764851,
   "statement": "This 2-D map keeps 24.9% of the total variance across 52 features; 75.1% is not visible. On average 11% of a point's 10 nearest map neighbours are true nearest neighbours in the full feature space. Rank agreement between map distances and full-space distances is 0.70 (1.00 would be perfect). For the median posting, 76% of its squared distance from the average posting lies outside the map. Read the map as a sketch. Use full-space distances and the gap analysis for decisions.",
   "variance_not_shown": 0.7511716127686334
+ },
+ "input_sources": {
+  "synthetic": 1500
  },
  "points": [
   {
@@ -4241,7 +7590,9 @@
   "axes": [
    {
     "component": 1,
+    "description": "Explains 13.9% of total variance. Increases with: stakeholder-management, ai-strategy, technical-leadership. Decreases with: python, aws.",
     "explained_variance_ratio": 0.1388599952323773,
+    "label": "PCA axis 1",
     "negative": [
      {
       "feature": "python",
@@ -4273,7 +7624,9 @@
    },
    {
     "component": 2,
+    "description": "Explains 11.0% of total variance. Increases with: llm-integration, mlops, system-design. Decreases with: nothing prominent.",
     "explained_variance_ratio": 0.10996839199898935,
+    "label": "PCA axis 2",
     "negative": [],
     "positive": [
      {
@@ -4454,6 +7807,7 @@
  "schema_version": "atlas-bundle-0.1.0",
  "skipped_inputs": [],
  "synthetic_only": true,
+ "unplaced": [],
  "warnings": [
   "mean-imputed 82 unknown cells (0.11%); variance along those features is understated"
  ]

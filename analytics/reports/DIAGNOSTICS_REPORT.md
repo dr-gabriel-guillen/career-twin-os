@@ -114,7 +114,7 @@ Scenario `scn-0866a46635c9dded` (290 planned hours, horizon 12 months):
 
 ## 7. Scale
 
-5000 synthetic vectors × 52 features: fit 1.23 s, bundle with diagnostics 4.89 s on this machine (timings vary by hardware).
+5000 synthetic vectors × 52 features: fit 2.57 s, bundle with diagnostics 8.76 s on this machine (timings vary by hardware).
 
 ## 8. Limits
 

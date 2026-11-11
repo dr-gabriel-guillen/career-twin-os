@@ -18,7 +18,7 @@ from .clustering import cluster_stability, label_clusters
 from .diagnostics import diagnose_projection, seed_variation
 from .engine import AtlasEngine
 from .errors import AtlasError, InvalidInputError, OptionalDependencyMissing
-from .features import FeatureVector
+from .features import STATE_STATED, FeatureVector, parse_utc
 from .pca import fit_pca, subspace_agreement
 from .points import MAP_IS_NOT_FIT, PROJECTION_METHODS, atlas_point
 from .projectors import (build_interpretable_axes, random_projection, umap_available, umap_project)
@@ -44,19 +44,32 @@ def _project(engine: AtlasEngine, method: str, dims: int, seed: int) -> dict[str
                                     f"refit with n_components={dims} for a {dims}-D map")
         comps = engine.model.components[:dims]
         evr = engine.model.explained_variance_ratio[:dims]
+        axes_out = []
+        for a in engine.model.loadings()[:dims]:
+            up = ", ".join(x["feature"] for x in a["positive"][:3]) or "nothing prominent"
+            down = ", ".join(x["feature"] for x in a["negative"][:3]) or "nothing prominent"
+            axes_out.append({**a, "label": f"PCA axis {a['component']}",
+                             "description": f"Explains {a['explained_variance_ratio']:.1%} of total variance. "
+                                            f"Increases with: {up}. Decreases with: {down}."})
         return {"coords": engine.coords[:, :dims], "projection_id": f"pca-{engine.model.model_id}-{dims}d",
                 "evr": evr, "apply": lambda x: ((x - engine.model.mean) / engine.model.scale) @ comps.T,
-                "axes": engine.model.loadings()[:dims], "warnings": list(engine.model.warnings)}
+                "axes": axes_out, "warnings": list(engine.model.warnings)}
     if method == "interpretable-axes":
         axes = build_interpretable_axes(engine.vocab, dims)
+        axes_out = [{**a, "label": a["name"], "explained_variance_ratio": None,
+                     "description": f"{a['positive_pole']} (+) versus {a['negative_pole']} (-); {a['formula']}. "
+                                    "Hand-defined axis, not a variance decomposition."}
+                    for a in axes.definitions]
         return {"coords": axes.transform(engine.X), "projection_id": axes.projection_id + f"-{dims}d",
                 "evr": None, "apply": lambda x: axes.transform(x)[0],
-                "axes": list(axes.definitions), "warnings": list(axes.warnings),
+                "axes": axes_out, "warnings": list(axes.warnings),
                 "axis_cosines": axes.axis_cosines()}
     if method == "umap":
         coords = umap_project(engine.Z, seed=seed, n_components=dims)
+        axes_out = [{"label": f"UMAP dimension {i + 1}", "explained_variance_ratio": None,
+                     "description": "No interpretable meaning: UMAP axes are arbitrary."} for i in range(dims)]
         return {"coords": coords, "projection_id": f"umap-{engine.model.model_id}-s{seed}-{dims}d",
-                "evr": None, "apply": None, "axes": [],
+                "evr": None, "apply": None, "axes": axes_out,
                 "warnings": ["umap is stochastic and non-linear: axes have no meaning, distances "
                              "between clusters are not interpretable, held-out points are not placed"]}
     raise InvalidInputError(f"method must be one of {PROJECTION_METHODS}")
@@ -82,6 +95,26 @@ def _information_loss(diag: dict[str, Any], residual: np.ndarray | None, dims: i
     parts.append("Read the map as a sketch. Use full-space distances and the gap analysis for decisions.")
     return {"statement": " ".join(parts), "variance_not_shown": diag["variance_not_shown"],
             "median_residual_share": None if median_res is None else round(median_res, 6)}
+
+
+def _evidence_basis(vec: FeatureVector) -> str:
+    """Aggregate claim status behind a candidate-derived point, read from provenance only."""
+    statuses = set()
+    for refs in vec.provenance.values():
+        for ref in refs:
+            parts = ref.split(":")
+            if parts[0] == "claim" and len(parts) >= 3:
+                statuses.add("unverified" if parts[-1] == "expired" else parts[2])
+    known = statuses & {"supported", "self-reported", "contradicted", "unverified"}
+    if not known:
+        return "not-applicable"
+    return next(iter(known)) if len(known) == 1 else "mixed"
+
+
+def _top_features(vec: FeatureVector, limit: int = 5) -> list[str]:
+    pairs = [(float(v), n) for n, v, s in zip(vec.feature_names, vec.values, vec.states)
+             if s == STATE_STATED and not n.startswith("ctx:")]
+    return [n for _, n in sorted(pairs, key=lambda t: (-t[0], t[1]))[:limit]]
 
 
 def build_atlas_bundle(
@@ -121,8 +154,17 @@ def build_atlas_bundle(
         step = n / max(max_job_points, 1)
         emit = sorted({int(i * step) for i in range(max_job_points)})
     points: list[dict[str, Any]] = []
+    entities: list[dict[str, Any]] = []
+    unplaced: list[dict[str, Any]] = [dict(u) for u in engine.unplaced]
     for i in emit:
         v = engine.matrix.vectors[i]
+        n_stated = int(((v.states == STATE_STATED) & np.array([not f.startswith("ctx:") for f in v.feature_names])).sum())
+        entities.append({"entity_id": v.entity_id, "representation_type": "job",
+                         "role_family": v.meta.get("role_family"), "evidence_basis": "not-applicable",
+                         "job_id": v.entity_id, "scenario_id": None,
+                         "detail": f"{v.meta.get('status', 'unknown')} posting; {n_stated} stated skill(s); "
+                                   f"{int(engine.n_imputed[i])} unknown feature(s)",
+                         "top_skills": _top_features(v)})
         warn = [MAP_IS_NOT_FIT]
         if engine.n_imputed[i]:
             warn.append(f"imputed-unknown-features:{int(engine.n_imputed[i])}")
@@ -154,12 +196,31 @@ def build_atlas_bundle(
         vec = p.as_vector(engine.matrix.vocab_digest)
         points.append(atlas_point(vec.entity_id, p.label, proj["apply"](p.centroid), vec.vector_ref,
                                   "role-centroid", method, pid, None, None, warn))
+        entities.append({"entity_id": vec.entity_id, "representation_type": "role-centroid", "role_family": fam,
+                         "evidence_basis": "not-applicable", "job_id": None, "scenario_id": None,
+                         "detail": f"centroid of {p.n_postings} posting(s)"
+                                   + ("; unstable" if stab["unstable"] else ""),
+                         "top_skills": p.core_features()[:5]})
 
     candidate_block = None
+    placed_ids: set[str] = set()
     for vec in ([candidate] if candidate is not None else []) + list(extra_vectors):
         engine.check_vector(vec)
         if not can_place:
             continue
+        if not engine.has_observed_skills(vec):
+            unplaced.append({"entity_id": vec.entity_id, "label": vec.label, "source_vector_ref": vec.vector_ref,
+                             "reason": "no observed skill features: unknown, not placed on the map"})
+            continue
+        placed_ids.add(vec.entity_id)
+        scenario_id = vec.entity_id.rsplit("#", 1)[1] if vec.kind == "scenario" and "#" in vec.entity_id else None
+        entities.append({"entity_id": vec.entity_id,
+                         "representation_type": vec.kind if vec.kind in ("candidate", "scenario") else "candidate",
+                         "role_family": None, "evidence_basis": _evidence_basis(vec), "job_id": None,
+                         "scenario_id": scenario_id,
+                         "detail": "hypothetical evidence after planned actions" if vec.kind == "scenario"
+                         else "evidence on file (claims), held-out point",
+                         "top_skills": _top_features(vec)})
         x = engine.imputed(vec)
         warn = [MAP_IS_NOT_FIT]
         n_unknown = int(np.isnan(vec.values).sum())
@@ -172,7 +233,7 @@ def build_atlas_bundle(
                                   method, pid, None, "role_table:requirement_shortfall", warn))
     if candidate is not None:
         candidate_block = {
-            "entity_id": candidate.entity_id, "placed_on_map": bool(can_place),
+            "entity_id": candidate.entity_id, "placed_on_map": candidate.entity_id in placed_ids,
             "role_table": [{k2: (round(v2, 6) if isinstance(v2, float) else v2) for k2, v2 in r.items()}
                            for r in engine.role_table(candidate)],
             "role_table_note": "Ordered by requirement_shortfall (full feature space). map_distance is "
@@ -195,10 +256,19 @@ def build_atlas_bundle(
                     "warnings": stab["warnings"]}
 
     warnings = list(dict.fromkeys(list(engine.warnings) + proj["warnings"] + diag["warnings"]))
+    sources: dict[str, int] = {}
+    for v in engine.matrix.vectors:
+        src = str(v.meta.get("source") or "unknown")
+        sources[src] = sources.get(src, 0) + 1
+    synthetic_only = set(sources) == {"synthetic"}
+    if not synthetic_only:
+        warnings.append("inputs are not all marked source='synthetic'; this package cannot verify provenance "
+                        "and makes no claim that the data is synthetic")
     bundle = {
         "schema_version": BUNDLE_SCHEMA_VERSION,
         "generated_by": f"careertwin_atlas {__version__}",
-        "synthetic_only": True,
+        "synthetic_only": synthetic_only,
+        "input_sources": dict(sorted(sources.items())),
         "flags": {
             "two_d_geometry_is_not_match_metric": True,
             "not_hiring_probability": True,
@@ -213,6 +283,8 @@ def build_atlas_bundle(
             "held_out_points_supported": bool(can_place), "seed": seed,
         },
         "points": points,
+        "entities": entities,
+        "unplaced": unplaced,
         "diagnostics": diag,
         "information_loss": _information_loss(diag, residual, dims),
         "role_centroids": centroids,
@@ -222,6 +294,79 @@ def build_atlas_bundle(
         "warnings": warnings,
     }
     return bundle
+
+
+def projection_view(bundle: dict[str, Any], generated_at: str,
+                    scenarios: Sequence[dict[str, Any]] = ()) -> dict[str, Any]:
+    """Reshape a bundle into the projection document lane D's atlas page consumes.
+
+    Field names follow lane D's ``atlas-projection/0.1-proposed`` stand-in (axes with ``label`` /
+    ``description``, metrics as ``{k, value}``, ``entities`` and ``paths``), plus lane C's flags and
+    information-loss statement. ``generated_at`` is supplied by the caller: this package never
+    reads the clock. Each scenario adds its hypothetical point and a candidate -> scenario path.
+    """
+    if parse_utc(generated_at) is None:
+        raise InvalidInputError("generated_at must be an ISO-8601 timestamp with a UTC offset")
+    if not isinstance(bundle, dict) or bundle.get("schema_version") != BUNDLE_SCHEMA_VERSION:
+        raise InvalidInputError(f"expected a {BUNDLE_SCHEMA_VERSION} bundle")
+    proj, diag = bundle["projection"], bundle["diagnostics"]
+    k = diag["k_neighbours"]
+
+    def metric(value: float | None) -> dict[str, Any] | None:
+        return None if value is None else {"k": k, "value": round(float(value), 6)}
+
+    points = list(bundle["points"])
+    entities = list(bundle["entities"])
+    have = {p["entity_id"] for p in points}
+    paths = []
+    for sc in scenarios:
+        out = sc.get("outputs", {}) if isinstance(sc, dict) else {}
+        if out.get("model_ref", {}).get("projection_id") != proj["projection_id"]:
+            raise InvalidInputError(f"scenario {sc.get('id') if isinstance(sc, dict) else sc!r} was computed for "
+                                    "another projection; rebuild it with this engine and method")
+        cand_pt, scen_pt = out["map_points"][0], out["map_points"][1]
+        for pt, kind in ((cand_pt, "candidate"), (scen_pt, "scenario")):
+            if pt["entity_id"] not in have:
+                have.add(pt["entity_id"])
+                points.append(pt)
+                entities.append({"entity_id": pt["entity_id"], "representation_type": kind, "role_family": None,
+                                 "evidence_basis": "not-applicable", "job_id": None,
+                                 "scenario_id": sc["id"] if kind == "scenario" else None,
+                                 "detail": "hypothetical evidence after planned actions" if kind == "scenario"
+                                 else "evidence on file (claims), held-out point",
+                                 "top_skills": [a["feature"] for a in out["applied_actions"]][:5]
+                                 if kind == "scenario" else []})
+        paths.append({"id": f"path:{sc['id']}", "from_entity_id": cand_pt["entity_id"],
+                      "to_entity_id": scen_pt["entity_id"], "scenario_id": sc["id"],
+                      "label": f"Hypothetical move toward {out['target_label']} "
+                               f"({out['movement']['share_of_movement_visible_on_map']} of it visible on the map)"})
+    return {
+        "schema_version": "atlas-projection/0.1",
+        "projection_id": proj["projection_id"],
+        "method": proj["method"],
+        "generated_at": generated_at,
+        "input": {"representation": f"skill-evidence vectors, vocabulary {proj['vocab_version']} "
+                                    f"({proj['vocab_digest']})",
+                  "n_points": proj["n_points_fitted"], "n_dims": diag["n_features"]},
+        "axes": [{"label": a["label"], "explained_variance_ratio": a.get("explained_variance_ratio"),
+                  "description": a["description"]} for a in proj["axes"]],
+        "diagnostics": {
+            "cumulative_explained_variance": diag["explained_variance_cumulative"],
+            "trustworthiness": metric(diag["trustworthiness"]),
+            "continuity": metric(diag["continuity"]),
+            "knn_recall": metric(diag["knn_recall_mean"]),
+            "distance_spearman": diag["distance_spearman"],
+            "normalized_stress": diag["normalized_stress"],
+            "flags": list(diag["flags"]),
+        },
+        "warnings": [bundle["information_loss"]["statement"]] + list(bundle["warnings"]),
+        "points": points,
+        "entities": entities,
+        "paths": paths,
+        "flags": dict(bundle["flags"]),
+        "synthetic_only": bundle["synthetic_only"],
+        "unplaced": list(bundle["unplaced"]),
+    }
 
 
 def compare_projections(engine: AtlasEngine, k: int = 10, seeds: Sequence[int] = (0, 1, 2, 3, 4),

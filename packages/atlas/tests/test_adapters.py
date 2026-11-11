@@ -91,21 +91,63 @@ def test_downstream_analysis_runs_on_lane_a_vectors(contracts):
     assert any("seniority is unknown" in c for a in sc["outputs"]["alternatives"]["paths"] for c in a["caveats"])
 
 
-def test_unobserved_rows_become_unknown_not_zero():
+def test_unobserved_rows_are_masked_not_drawn_at_the_origin():
+    """Lane A, RFC #12 point 5: observed=false means unknown; mask it rather than project it."""
     payload = _payload()
     payload["jobs"][0]["values"] = [0.0] * len(A_VOCAB)
     payload["jobs"][0]["observed"] = False
-    engine = engine_from_skill_vectors(payload, n_boot=5)["engine"]
+    res = engine_from_skill_vectors(payload, n_boot=5)
+    engine = res["engine"]
+    assert len(engine.matrix) == 89 and "jp_fake0000" not in engine.matrix.ids
+    assert engine.unplaced[0]["entity_id"] == "jp_fake0000"
+    assert engine.unplaced[0]["source_vector_ref"] == "a-skillvec/tax-test/jp_fake0000"
+    assert "unknown, not placed" in engine.unplaced[0]["reason"]
+    bundle = build_atlas_bundle(engine, res["candidate"], include_clusters=False)
+    assert "jp_fake0000" not in {p["entity_id"] for p in bundle["points"]}
+    assert [u["entity_id"] for u in bundle["unplaced"]] == ["jp_fake0000"]
+    assert any("not placed on the map" in w for w in bundle["warnings"])
     first = engine.matrix.vectors[0]
-    assert np.all(first.states == STATE_UNKNOWN) and np.all(np.isnan(first.values))
-    assert engine.n_imputed[0] == len(A_VOCAB)
-    np.testing.assert_allclose(engine.coords[0], 0.0, atol=1e-9)             # sits at the mean, flagged as imputed
-    second = engine.matrix.vectors[1]
-    assert set(second.states.tolist()) <= {STATE_STATED, STATE_NOT_STATED}
+    assert set(first.states.tolist()) <= {STATE_STATED, STATE_NOT_STATED}
     lying = _payload()
     lying["jobs"][0]["observed"] = False                                     # claims unobserved but carries values
     engine2 = engine_from_skill_vectors(lying, n_boot=5)["engine"]
     assert len(engine2.skipped) == 1 and "observed is false but non-zero" in engine2.skipped[0]["reason"]
+
+
+def test_candidate_with_no_observed_skills_is_not_placed():
+    payload = _payload()
+    payload["candidate"]["values"] = [0.0] * len(A_VOCAB)
+    payload["candidate"]["observed"] = False
+    res = engine_from_skill_vectors(payload, n_boot=5)
+    assert np.all(res["candidate"].states == STATE_UNKNOWN)
+    bundle = build_atlas_bundle(res["engine"], res["candidate"], include_clusters=False)
+    assert bundle["candidate"]["placed_on_map"] is False
+    assert "candidate-synthetic-001" not in {p["entity_id"] for p in bundle["points"]}
+    assert bundle["unplaced"][0]["entity_id"] == "candidate-synthetic-001"
+
+
+def test_provenance_is_reported_not_assumed_and_records_restore_capture_time(jobs):
+    payload = _payload()
+    res = engine_from_skill_vectors(payload, n_boot=5)
+    bundle = build_atlas_bundle(res["engine"], None, include_clusters=False)
+    assert bundle["synthetic_only"] is False                                 # the payload does not say so
+    assert bundle["input_sources"] == {"lane-a-skill-vectors": 90}
+    assert any("cannot verify provenance" in w for w in bundle["warnings"])
+    assert any("no records supplied" in n for n in res["notes"])
+    assert all(v.meta["fetched_at"] is None for v in res["engine"].matrix.vectors)
+    records = [{"posting": {"id": j["entity_id"], "fetched_at": "2026-10-0%dT00:00:00Z" % (1 + i % 9),
+                            "source": "greenhouse"}, "ext": {"synthetic": True}}
+               for i, j in enumerate(payload["jobs"][:60])]
+    joined = engine_from_skill_vectors(payload, n_boot=5, records=records + ["garbage", {"posting": {}}])
+    stamps = [v.meta["fetched_at"] for v in joined["engine"].matrix.vectors]
+    assert sum(s is not None for s in stamps) == 60
+    assert any("capture time joined from records for 60 of 90" in n for n in joined["notes"])
+    b2 = build_atlas_bundle(joined["engine"], None, include_clusters=False)
+    assert b2["input_sources"] == {"lane-a-skill-vectors": 30, "synthetic": 60} and b2["synthetic_only"] is False
+    marked = engine_from_skill_vectors({**payload, "synthetic": True}, n_boot=5)
+    assert build_atlas_bundle(marked["engine"], None, include_clusters=False)["synthetic_only"] is True
+    with pytest.raises(InvalidInputError):
+        engine_from_skill_vectors(payload, records="records")
 
 
 def test_placeholder_families_are_unlabelled_on_both_routes(jobs, vocab):

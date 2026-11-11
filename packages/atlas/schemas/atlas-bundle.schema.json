@@ -5,42 +5,124 @@
   "description": "Lane C owned envelope around frozen AtlasPoint objects. Not part of contracts/ until an RFC is acknowledged.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "generated_by", "synthetic_only", "flags", "projection", "points",
-               "diagnostics", "information_loss", "role_centroids", "clusters", "candidate",
-               "skipped_inputs", "warnings"],
+  "required": [
+    "schema_version",
+    "generated_by",
+    "synthetic_only",
+    "input_sources",
+    "flags",
+    "projection",
+    "points",
+    "entities",
+    "unplaced",
+    "diagnostics",
+    "information_loss",
+    "role_centroids",
+    "clusters",
+    "candidate",
+    "skipped_inputs",
+    "warnings"
+  ],
   "properties": {
-    "schema_version": {"const": "atlas-bundle-0.1.0"},
-    "generated_by": {"type": "string"},
-    "synthetic_only": {"const": true},
+    "schema_version": {
+      "const": "atlas-bundle-0.1.0"
+    },
+    "generated_by": {
+      "type": "string"
+    },
+    "synthetic_only": {
+      "type": "boolean",
+      "description": "true only when every fitted input is marked source='synthetic'. false means 'not verified', not 'real data'."
+    },
     "flags": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["two_d_geometry_is_not_match_metric", "not_hiring_probability", "map_distortion_flagged"],
+      "required": [
+        "two_d_geometry_is_not_match_metric",
+        "not_hiring_probability",
+        "map_distortion_flagged"
+      ],
       "properties": {
-        "two_d_geometry_is_not_match_metric": {"const": true},
-        "not_hiring_probability": {"const": true},
-        "map_distortion_flagged": {"type": "boolean"}
+        "two_d_geometry_is_not_match_metric": {
+          "const": true
+        },
+        "not_hiring_probability": {
+          "const": true
+        },
+        "map_distortion_flagged": {
+          "type": "boolean"
+        }
       }
     },
     "projection": {
       "type": "object",
-      "required": ["projection_id", "method", "n_map_dims", "model_id", "vocab_version", "vocab_digest",
-                   "standardize", "n_points_fitted", "n_job_points_emitted", "axes",
-                   "held_out_points_supported", "seed"],
+      "required": [
+        "projection_id",
+        "method",
+        "n_map_dims",
+        "model_id",
+        "vocab_version",
+        "vocab_digest",
+        "standardize",
+        "n_points_fitted",
+        "n_job_points_emitted",
+        "axes",
+        "held_out_points_supported",
+        "seed"
+      ],
       "properties": {
-        "projection_id": {"type": "string", "minLength": 1},
-        "method": {"enum": ["pca", "umap", "interpretable-axes"]},
-        "n_map_dims": {"enum": [2, 3]},
-        "model_id": {"type": "string"},
-        "vocab_version": {"type": "string"},
-        "vocab_digest": {"type": "string"},
-        "standardize": {"type": "boolean"},
-        "n_points_fitted": {"type": "integer", "minimum": 2},
-        "n_job_points_emitted": {"type": "integer", "minimum": 0},
-        "axes": {"type": "array"},
-        "axis_cosines": {"type": ["array", "null"]},
-        "held_out_points_supported": {"type": "boolean"},
-        "seed": {"type": "integer"}
+        "projection_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method": {
+          "enum": [
+            "pca",
+            "umap",
+            "interpretable-axes"
+          ]
+        },
+        "n_map_dims": {
+          "enum": [
+            2,
+            3
+          ]
+        },
+        "model_id": {
+          "type": "string"
+        },
+        "vocab_version": {
+          "type": "string"
+        },
+        "vocab_digest": {
+          "type": "string"
+        },
+        "standardize": {
+          "type": "boolean"
+        },
+        "n_points_fitted": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "n_job_points_emitted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "axes": {
+          "type": "array"
+        },
+        "axis_cosines": {
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "held_out_points_supported": {
+          "type": "boolean"
+        },
+        "seed": {
+          "type": "integer"
+        }
       }
     },
     "points": {
@@ -48,59 +130,321 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["entity_id", "projection_id", "label", "coords", "source_vector_ref",
-                     "representation_type", "projection_method"],
+        "required": [
+          "entity_id",
+          "projection_id",
+          "label",
+          "coords",
+          "source_vector_ref",
+          "representation_type",
+          "projection_method"
+        ],
         "properties": {
-          "entity_id": {"type": "string"},
-          "projection_id": {"type": "string"},
-          "label": {"type": "string"},
-          "coords": {"type": "array", "minItems": 2, "maxItems": 3, "items": {"type": "number"}},
-          "source_vector_ref": {"type": "string"},
-          "representation_type": {"enum": ["candidate", "job", "role-centroid", "scenario"]},
-          "projection_method": {"enum": ["pca", "umap", "interpretable-axes"]},
-          "neighborhood_quality": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
-          "fit_metric_ref": {"type": ["string", "null"]},
-          "warnings": {"type": "array", "items": {"type": "string"}}
+          "entity_id": {
+            "type": "string"
+          },
+          "projection_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "coords": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "type": "number"
+            }
+          },
+          "source_vector_ref": {
+            "type": "string"
+          },
+          "representation_type": {
+            "enum": [
+              "candidate",
+              "job",
+              "role-centroid",
+              "scenario"
+            ]
+          },
+          "projection_method": {
+            "enum": [
+              "pca",
+              "umap",
+              "interpretable-axes"
+            ]
+          },
+          "neighborhood_quality": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "fit_metric_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },
     "diagnostics": {
       "type": "object",
-      "required": ["n_points", "n_features", "n_map_dims", "k_neighbours", "explained_variance_cumulative",
-                   "variance_not_shown", "trustworthiness", "continuity", "knn_recall_mean",
-                   "distance_spearman", "normalized_stress", "flags", "warnings", "interpretation"],
+      "required": [
+        "n_points",
+        "n_features",
+        "n_map_dims",
+        "k_neighbours",
+        "explained_variance_cumulative",
+        "variance_not_shown",
+        "trustworthiness",
+        "continuity",
+        "knn_recall_mean",
+        "distance_spearman",
+        "normalized_stress",
+        "flags",
+        "warnings",
+        "interpretation"
+      ],
       "properties": {
-        "trustworthiness": {"type": ["number", "null"], "maximum": 1},
-        "continuity": {"type": ["number", "null"], "maximum": 1},
-        "knn_recall_mean": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
-        "distance_spearman": {"type": ["number", "null"], "minimum": -1, "maximum": 1},
-        "normalized_stress": {"type": ["number", "null"], "minimum": 0},
-        "explained_variance_cumulative": {"type": ["number", "null"], "minimum": 0, "maximum": 1.000001},
-        "variance_not_shown": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
-        "flags": {"type": "array", "items": {"type": "string"}},
-        "warnings": {"type": "array", "items": {"type": "string"}},
-        "interpretation": {"type": "string"}
+        "trustworthiness": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "maximum": 1
+        },
+        "continuity": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "maximum": 1
+        },
+        "knn_recall_mean": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "distance_spearman": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": -1,
+          "maximum": 1
+        },
+        "normalized_stress": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "explained_variance_cumulative": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1.000001
+        },
+        "variance_not_shown": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretation": {
+          "type": "string"
+        }
       }
     },
     "information_loss": {
       "type": "object",
-      "required": ["statement", "variance_not_shown", "median_residual_share"],
-      "properties": {"statement": {"type": "string", "minLength": 20}}
+      "required": [
+        "statement",
+        "variance_not_shown",
+        "median_residual_share"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
     },
     "role_centroids": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["role", "label", "n_postings", "unstable", "reasons", "core_features"],
-        "properties": {"unstable": {"type": "boolean"}, "n_postings": {"type": "integer", "minimum": 1}}
+        "required": [
+          "role",
+          "label",
+          "n_postings",
+          "unstable",
+          "reasons",
+          "core_features"
+        ],
+        "properties": {
+          "unstable": {
+            "type": "boolean"
+          },
+          "n_postings": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
       }
     },
-    "clusters": {"type": ["object", "null"]},
-    "candidate": {
-      "type": ["object", "null"],
-      "required": ["entity_id", "placed_on_map", "role_table", "role_table_note", "warnings"]
+    "clusters": {
+      "type": [
+        "object",
+        "null"
+      ]
     },
-    "skipped_inputs": {"type": "array"},
-    "warnings": {"type": "array", "items": {"type": "string"}}
+    "candidate": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "entity_id",
+        "placed_on_map",
+        "role_table",
+        "role_table_note",
+        "warnings"
+      ]
+    },
+    "skipped_inputs": {
+      "type": "array"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "input_sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity_id",
+          "representation_type",
+          "role_family",
+          "evidence_basis",
+          "job_id",
+          "scenario_id",
+          "detail",
+          "top_skills"
+        ],
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "representation_type": {
+            "enum": [
+              "candidate",
+              "job",
+              "role-centroid",
+              "scenario"
+            ]
+          },
+          "role_family": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence_basis": {
+            "enum": [
+              "supported",
+              "self-reported",
+              "contradicted",
+              "unverified",
+              "mixed",
+              "not-applicable"
+            ]
+          },
+          "job_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scenario_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          },
+          "top_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "description": "Side table keyed by entity_id for what AtlasPoint cannot hold."
+    },
+    "unplaced": {
+      "type": "array",
+      "description": "Entities with no observed skill features. Unknown is not average: they are not drawn.",
+      "items": {
+        "type": "object",
+        "required": [
+          "entity_id",
+          "reason"
+        ],
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
   }
 }

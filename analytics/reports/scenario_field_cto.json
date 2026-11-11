@@ -405,6 +405,7 @@
     "skill": "client-exposure"
    }
   ],
+  "atlas_entity_id": "candidate-synthetic-001#scn-0866a46635c9dded",
   "baseline": {
    "core_summary": {
     "contradicted": 0,
@@ -429,6 +430,9 @@
     "profile built from enough postings, stable under resampling, requirements mostly interpretable"
    ]
   },
+  "coverage_after": 0.0,
+  "coverage_before": 0.0,
+  "coverage_definition": "share of target_skills (stated in at least half of the target role's postings) with evidence at or above level 0.75; weak, missing and contradicted evidence do not count",
   "delta": {
    "core_requirements_evidenced": 0,
    "full_space_distance": -0.239319,
@@ -458,6 +462,9 @@
    "requirement_shortfall": 2.126806,
    "shortfall_rank_among_roles": 6
   },
+  "leadership_exposure": "low",
+  "leadership_exposure_definition": "mean share of target-role postings stating each leadership feature; bins: < 0.2 low, < 0.5 medium, else high",
+  "leadership_exposure_value": 0.1648,
   "map_points": [
    {
     "coords": [
@@ -623,7 +630,21 @@
     "tier": "core"
    }
   ],
+  "schema_version": "scenario-outputs/0.1",
   "target_label": "Field CTO",
+  "target_role_family": "field-cto",
+  "target_skills": [
+   "ai-strategy",
+   "cloud-architecture",
+   "customer-delivery",
+   "solution-design",
+   "enterprise-sales",
+   "executive-communication",
+   "stakeholder-management",
+   "technical-leadership"
+  ],
+  "uncertainty": "low",
+  "uncertainty_note": "Uncertainty of the role description, not of any outcome: profile built from enough postings, stable under resampling, requirements mostly interpretable",
   "unmapped_actions": []
  },
  "planned_actions": [

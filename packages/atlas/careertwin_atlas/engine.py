@@ -33,6 +33,7 @@ class AtlasEngine:
     skipped: tuple[Mapping[str, str], ...]
     seed: int
     warnings: tuple[str, ...] = field(default_factory=tuple)
+    unplaced: tuple[Mapping[str, str], ...] = field(default_factory=tuple)
 
     # -- construction ---------------------------------------------------------------
     @classmethod
@@ -65,14 +66,25 @@ class AtlasEngine:
                      skipped: Sequence[Mapping[str, str]] = (),
                      role_labels: Mapping[str, str] | None = None) -> "AtlasEngine":
         """Fit from ready-made feature vectors (for example lane A's published skill vectors)."""
-        vectors = list(vectors)
         skipped = [dict(s) for s in skipped]
+        if any(v.vocab_digest != vocab.digest() or v.feature_names != vocab.feature_names for v in vectors):
+            raise FeatureSpaceMismatchError("vectors were not built with the supplied vocabulary")
+        # A vector with no readable skill at all is UNKNOWN, not "average". Mean imputation would
+        # draw it at the centre of the map, so it is kept out of the fit and reported instead.
+        skill_cols = [i for i, f in enumerate(vocab.features) if f.group != "context"]
+        usable: list[FeatureVector] = []
+        unplaced: list[dict[str, str]] = []
+        for v in vectors:
+            if skill_cols and bool(np.all(v.states[skill_cols] == STATE_UNKNOWN)):
+                unplaced.append({"entity_id": v.entity_id, "label": v.label, "source_vector_ref": v.vector_ref,
+                                 "reason": "no observed skill features: unknown, not placed on the map"})
+            else:
+                usable.append(v)
+        vectors = usable
         if len(vectors) < 2:
             raise DegenerateInputError(
                 f"need at least two usable postings to fit an atlas; got {len(vectors)} "
-                f"({len(skipped)} skipped)")
-        if any(v.vocab_digest != vocab.digest() or v.feature_names != vocab.feature_names for v in vectors):
-            raise FeatureSpaceMismatchError("vectors were not built with the supplied vocabulary")
+                f"({len(skipped)} skipped, {len(unplaced)} with no observed skills)")
         matrix = build_matrix(vectors)
         model = fit_pca(matrix.X, matrix.feature_names, matrix.vocab_digest,
                         n_components=n_components, standardize=standardize)
@@ -85,13 +97,16 @@ class AtlasEngine:
         warnings = list(model.warnings)
         if skipped:
             warnings.append(f"{len(skipped)} posting(s) skipped as unusable or duplicate")
+        if unplaced:
+            warnings.append(f"{len(unplaced)} posting(s) have no observed skill features and are not placed "
+                            "on the map (unknown is not average)")
         unlabelled = sum(1 for v in vectors if not v.meta.get("role_family"))
         if unlabelled:
             warnings.append(f"{unlabelled} posting(s) have no role_family and are excluded from role profiles")
         return cls(vocab=vocab, matrix=matrix, model=model, X=X, Z=Z, coords=rep["coords"],
                    residual_share=rep["residual_share"], n_imputed=rep["n_imputed"],
                    profiles=profiles, stability=centroid_stability(profiles),
-                   skipped=tuple(skipped), seed=seed, warnings=tuple(warnings))
+                   skipped=tuple(skipped), seed=seed, warnings=tuple(warnings), unplaced=tuple(unplaced))
 
     # -- helpers --------------------------------------------------------------------
     def check_vector(self, vec: FeatureVector) -> None:
@@ -99,6 +114,26 @@ class AtlasEngine:
             raise FeatureSpaceMismatchError(
                 f"vector {vec.entity_id!r} uses vocabulary {vec.vocab_digest}; "
                 f"engine was fitted on {self.matrix.vocab_digest}")
+
+    def has_observed_skills(self, vec: FeatureVector) -> bool:
+        """False when every skill feature of ``vec`` is UNKNOWN (such a vector must not be placed)."""
+        self.check_vector(vec)
+        cols = [i for i, f in enumerate(self.vocab.features) if f.group != "context"]
+        return not cols or not bool(np.all(vec.states[cols] == STATE_UNKNOWN))
+
+    def resolve_role(self, text: object) -> str:
+        """Accept a role family id or its display label (case-insensitive); return the family id."""
+        if isinstance(text, str) and text in self.profiles:
+            return text
+        if isinstance(text, str) and text.strip():
+            wanted = text.strip().casefold()
+            hits = sorted(f for f, p in self.profiles.items()
+                          if f.casefold() == wanted or p.label.casefold() == wanted)
+            if len(hits) == 1:
+                return hits[0]
+            if len(hits) > 1:
+                raise InvalidInputError(f"role {text!r} is ambiguous: matches {hits}")
+        raise InvalidInputError(f"unknown role {text!r}; known: {sorted(self.profiles)}")
 
     def imputed(self, vec: FeatureVector) -> np.ndarray:
         self.check_vector(vec)

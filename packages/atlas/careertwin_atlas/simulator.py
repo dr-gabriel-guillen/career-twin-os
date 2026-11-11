@@ -17,7 +17,7 @@ import numpy as np
 
 from .engine import AtlasEngine
 from .errors import InvalidInputError
-from .features import STATE_CONTRADICTED, STATE_STATED, STATE_UNKNOWN, FeatureVector
+from .features import STATE_CONTRADICTED, STATE_STATED, STATE_UNKNOWN, FeatureVector, sanitize_label
 from .gaps import EVIDENCED_LEVEL, analyze_gap, candidate_state, explain_movement
 from .graph import ELIGIBILITY_NOTE, WEEKS_PER_MONTH, TransitionGraph, build_transition_graph, plan_paths
 from .points import MAP_IS_NOT_FIT, atlas_point
@@ -33,6 +33,26 @@ ROLE_CAPABLE_GOALS = frozenset({"client-engagement", "in-role", "verified-work-s
 NON_ROLE_CAP = 0.3
 DEFAULT_GOAL = "coursework"
 MAX_ACTIONS = 50
+GOAL_TEXT_MAX = 300
+SCENARIO_OUTPUTS_VERSION = "scenario-outputs/0.1"
+LEADERSHIP_BINS = (0.2, 0.5)          # < 0.2 low, < 0.5 medium, otherwise high. Reading convention.
+
+
+def parse_evidence_goal(text: object) -> tuple[str | None, str]:
+    """Split an ``evidence_goal`` into (recognised kind | None, free text).
+
+    The contract types ``evidence_goal`` as a free string. Lane C recognises either a bare
+    kind (``"portfolio-project"``) or a ``"kind: free text"`` prefix
+    (``"portfolio-project: publish a small evaluation harness"``). Anything else is free text
+    with no recognised kind; the caller then applies the default kind and says so.
+    """
+    if not isinstance(text, str) or not text.strip():
+        return None, ""
+    head, sep, tail = text.partition(":")
+    token = normalize_token(head)
+    if token in EVIDENCE_GOALS:
+        return token, tail.strip() if sep else ""
+    return None, text.strip()
 NO_PROBABILITY_NOTE = ("Outputs are distances, counts, hours and ranks in a synthetic feature space. "
                        "They are not probabilities of interview, offer or compensation.")
 
@@ -59,7 +79,7 @@ def _validate_actions(planned_actions: Sequence[Mapping[str, Any]]) -> list[dict
             raise InvalidInputError(f"planned_actions[{n}].evidence_goal must be a string")
         clean: dict[str, Any] = {"skill": skill.strip()[:64], "effort_hours": float(hours)}
         if goal is not None:
-            clean["evidence_goal"] = goal.strip()[:64]
+            clean["evidence_goal"] = sanitize_label(goal, "")[:GOAL_TEXT_MAX]
         out.append(clean)
     return out
 
@@ -84,13 +104,14 @@ def apply_actions(engine: AtlasEngine, candidate: FeatureVector,
         if not features:
             unmapped.append(raw)
             continue
-        goal_token = normalize_token(a.get("evidence_goal")) if a.get("evidence_goal") else None
-        if goal_token in EVIDENCE_GOALS:
+        goal_token, _ = parse_evidence_goal(a.get("evidence_goal"))
+        if goal_token is not None:
             goal, cap = goal_token, EVIDENCE_GOALS[goal_token]
         else:
             goal, cap = DEFAULT_GOAL, EVIDENCE_GOALS[DEFAULT_GOAL]
             assumptions.append(f"action on {raw!r}: evidence goal missing or not recognised; "
-                               f"treated as {DEFAULT_GOAL} (evidence level capped at {cap})")
+                               f"treated as {DEFAULT_GOAL} (evidence level capped at {cap}). Prefix the "
+                               f"goal with a kind, for example 'portfolio-project: ...', to change this")
         hours_each = a["effort_hours"] / len(features)
         for f in features:
             i = index[f]
@@ -207,8 +228,11 @@ def simulate_transition(
 ) -> dict[str, Any]:
     """Build one hypothetical ``TransitionScenario`` for a candidate, target role and plan."""
     engine.check_vector(candidate)
-    if not isinstance(target_role, str) or target_role not in engine.profiles:
-        raise InvalidInputError(f"unknown target_role {target_role!r}; known: {sorted(engine.profiles)}")
+    target_input = target_role
+    try:
+        target_role = engine.resolve_role(target_role)
+    except InvalidInputError as exc:
+        raise InvalidInputError(f"unknown target_role: {exc}") from exc
     if isinstance(time_horizon_months, bool) or not isinstance(time_horizon_months, int) or time_horizon_months < 1:
         raise InvalidInputError("time_horizon_months must be an integer >= 1")
     if isinstance(hours_per_week, bool) or not isinstance(hours_per_week, (int, float)) \
@@ -276,6 +300,15 @@ def simulate_transition(
     if not result["applied"]:
         risks.append("no planned action could be simulated; hypothetical equals baseline")
 
+    target_skills = p.core_features()
+    cov_before = before["core_summary"]["evidenced"] / len(target_skills) if target_skills else None
+    cov_after = after["core_summary"]["evidenced"] / len(target_skills) if target_skills else None
+    lead_idx = [i for i, f in enumerate(engine.vocab.features) if f.group == "leadership"]
+    lead_value = float(p.prevalence[lead_idx].mean()) if lead_idx else None
+    lead_level = ("unknown" if lead_value is None else "low" if lead_value < LEADERSHIP_BINS[0]
+                  else "medium" if lead_value < LEADERSHIP_BINS[1] else "high")
+    uncertainty = {"high": "low", "medium": "medium", "low": "high"}[conf["level"]]
+
     proj_b, proj_a = engine.project(candidate), engine.project(scenario_vec)
     point_warnings = [MAP_IS_NOT_FIT, "hypothetical-scenario"]
     points = [
@@ -289,9 +322,24 @@ def simulate_transition(
     paths = plan_paths(engine, graph, candidate, target_role, hours_per_week=hours_per_week,
                        horizon_months=time_horizon_months, top=3)
     outputs = {
+        "schema_version": SCENARIO_OUTPUTS_VERSION,
         "not_a_hiring_probability": True,
         "metric_semantics": NO_PROBABILITY_NOTE,
+        "target_role_family": target_role,
         "target_label": p.label,
+        "target_skills": target_skills,
+        "coverage_before": None if cov_before is None else round(cov_before, 4),
+        "coverage_after": None if cov_after is None else round(cov_after, 4),
+        "coverage_definition": "share of target_skills (stated in at least half of the target role's "
+                               f"postings) with evidence at or above level {EVIDENCED_LEVEL}; weak, missing "
+                               "and contradicted evidence do not count",
+        "leadership_exposure": lead_level,
+        "leadership_exposure_value": None if lead_value is None else round(lead_value, 4),
+        "leadership_exposure_definition": "mean share of target-role postings stating each leadership feature; "
+                                          f"bins: < {LEADERSHIP_BINS[0]} low, < {LEADERSHIP_BINS[1]} medium, else high",
+        "uncertainty": uncertainty,
+        "uncertainty_note": "Uncertainty of the role description, not of any outcome: " + "; ".join(conf["reasons"]),
+        "atlas_entity_id": scenario_vec.entity_id,
         "baseline": before,
         "hypothetical": after,
         "delta": {
@@ -323,7 +371,7 @@ def simulate_transition(
     return {
         "id": scenario_id,
         "candidate_ref": candidate.entity_id,
-        "target_role": target_role,
+        "target_role": target_input.strip() if isinstance(target_input, str) else target_role,
         "planned_actions": actions,
         "time_horizon_months": time_horizon_months,
         "status": "hypothetical",

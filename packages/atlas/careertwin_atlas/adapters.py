@@ -24,7 +24,7 @@ import numpy as np
 from .engine import AtlasEngine
 from .errors import InvalidInputError
 from .features import (STATE_NOT_STATED, STATE_STATED, STATE_UNKNOWN, FeatureVector, normalize_family,
-                       sanitize_label)
+                       parse_utc, sanitize_label)
 from .vocabulary import normalize_token
 from .vocabulary import ACQ_STUDY, FeatureDef, Vocabulary, default_vocabulary
 
@@ -87,7 +87,9 @@ def vocabulary_from_names(names: Sequence[Any], version: str) -> tuple[Vocabular
     return Vocabulary(f"upstream:{version.strip()[:80]}", tuple(feats), {}, frozenset()), notes
 
 
-def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str) -> FeatureVector:
+def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
+                   postings: Mapping[str, Mapping[str, Any]] | None = None,
+                   payload_synthetic: bool = False) -> FeatureVector:
     if not isinstance(row, Mapping):
         raise InvalidInputError(f"{where}: row must be an object")
     entity_id = row.get("entity_id")
@@ -119,10 +121,14 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str) -> Featur
     prov = {name: (f"{ref or 'upstream'}#{name}",)
             for name, st in zip(vocab.feature_names, states) if st == STATE_STATED}
     family = normalize_family(row.get("role_family")) if kind == "job" else None
+    record = (postings or {}).get(entity_id.strip())
+    fetched = record.get("fetched_at") if record and parse_utc(record.get("fetched_at")) else None
+    synthetic = payload_synthetic or bool(record and record.get("_synthetic"))
     meta = {
-        "role_family": family, "fetched_at": None,
+        "role_family": family, "fetched_at": fetched,
         "status": row.get("status") if row.get("status") in ("active", "expired", "unknown") else "unknown",
-        "source": "lane-a-skill-vectors", "min_qualifications": (), "n_requirements": 0,
+        "source": "synthetic" if synthetic else "lane-a-skill-vectors",
+        "min_qualifications": (), "n_requirements": 0,
         "n_unmapped_requirements": 0, "compensation_mid": None, "compensation_currency": None,
         "source_evidence": (),
     }
@@ -135,15 +141,34 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str) -> Featur
 
 
 def engine_from_skill_vectors(payload: Any, standardize: bool = False, n_components: int = 2,
-                              seed: int = 0, n_boot: int = 50) -> dict[str, Any]:
+                              seed: int = 0, n_boot: int = 50,
+                              records: Sequence[Any] | None = None) -> dict[str, Any]:
     """Fit an atlas from lane A's ``skill_vectors`` payload.
 
     Returns ``{"engine", "candidate", "notes"}``. ``candidate`` is ``None`` when the payload
     has no candidate row. ``notes`` lists everything this route cannot know (see below);
     callers should surface them next to the map.
+
+    ``records`` (optional) are lane A JobRecords or JobPostings for the same postings. They are
+    joined on ``entity_id == posting.id`` to recover capture time (enables freshness and drift
+    checks) and the ``ext.synthetic`` marker. Nothing else is taken from them.
     """
     if not isinstance(payload, Mapping):
         raise InvalidInputError("skill-vector payload must be an object")
+    postings: dict[str, dict[str, Any]] = {}
+    if records is not None:
+        if isinstance(records, (str, bytes)) or not isinstance(records, Sequence):
+            raise InvalidInputError("records must be a sequence")
+        for item in records:
+            if not isinstance(item, Mapping):
+                continue
+            posting = item.get("posting") if isinstance(item.get("posting"), Mapping) else item
+            pid = posting.get("id")
+            if isinstance(pid, str) and pid:
+                ext = item.get("ext") if isinstance(item.get("ext"), Mapping) else {}
+                postings[pid] = {"fetched_at": posting.get("fetched_at"),
+                                 "_synthetic": posting.get("source") == "synthetic" or ext.get("synthetic") is True}
+    payload_synthetic = payload.get("synthetic") is True
     version = payload.get("api_version")
     if version != A_API_VERSION:
         raise InvalidInputError(f"unsupported api_version {version!r}; this adapter is pinned to {A_API_VERSION!r}")
@@ -158,7 +183,7 @@ def engine_from_skill_vectors(payload: Any, standardize: bool = False, n_compone
     seen: set[str] = set()
     for pos, row in enumerate(rows):
         try:
-            v = _row_to_vector(row, vocab, "job", f"jobs[{pos}]")
+            v = _row_to_vector(row, vocab, "job", f"jobs[{pos}]", postings, payload_synthetic)
         except InvalidInputError as exc:
             skipped.append({"position": str(pos), "reason": str(exc)})
             continue
@@ -176,11 +201,16 @@ def engine_from_skill_vectors(payload: Any, standardize: bool = False, n_compone
     candidate = None
     if payload.get("candidate") is not None:
         candidate = _row_to_vector(payload["candidate"], vocab, "candidate", "candidate")
+    joined = sum(1 for v in vectors if v.meta.get("fetched_at"))
     notes.extend([
         "lane-A skill vectors carry no 'contradicted' state: a contradicted claim is indistinguishable "
-        "from missing evidence on this route",
-        "lane-A skill vectors carry no seniority, requirement lines, compensation or capture time: "
-        "seniority steps, minimum qualifications, salary sensitivity and freshness are not assessable here",
+        "from missing evidence on this route (build the candidate from ProfileClaim objects with "
+        "claims_to_vector(claims, engine.vocab, ...) to keep it)",
+        "lane-A skill vectors carry no seniority, requirement lines or compensation: seniority steps, "
+        "minimum qualifications and salary sensitivity are not assessable on this route",
+        f"capture time joined from records for {joined} of {len(vectors)} posting(s); freshness and drift "
+        "checks need it" if records is not None else
+        "no records supplied: capture time is unknown, so freshness and drift checks are not assessable",
         "job values use lane A's encoding (1 = required, 0.5 = preferred, 0 = not listed); candidate values "
         "use lane A's evidence weights (supported 1, self-reported 0.5, unverified 0.25)",
     ])
