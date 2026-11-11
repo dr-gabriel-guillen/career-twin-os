@@ -1,0 +1,224 @@
+{
+ "note": "Held-out cohort: same scenarios, a seed never used while developing the analysis.",
+ "scorecard": {
+  "false_alarms": 1,
+  "rows": [
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference (negative control)",
+    "phase": "FINAL",
+    "scenario": "aa-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference (negative control)",
+    "phase": "FINAL",
+    "scenario": "aa-02",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference (negative control)",
+    "phase": "FINAL",
+    "scenario": "aa-03",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference (negative control)",
+    "phase": "FINAL",
+    "scenario": "aa-04",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.30",
+    "phase": "FINAL",
+    "scenario": "big-01",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.30",
+    "phase": "FINAL",
+    "scenario": "big-02",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.25",
+    "phase": "FINAL",
+    "scenario": "big-03",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.04, far below what this sample can detect",
+    "phase": "FINAL",
+    "scenario": "small-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.05, underpowered",
+    "phase": "FINAL",
+    "scenario": "small-02",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect -0.03, underpowered",
+    "phase": "FINAL",
+    "scenario": "small-03",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [
+     "treatment"
+    ],
+    "ground_truth": "no true difference; strong within-employer correlation that would fool an application-level test",
+    "phase": "FINAL",
+    "scenario": "cl-null-01",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference",
+    "phase": "FINAL",
+    "scenario": "cl-null-02",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.30",
+    "phase": "FINAL",
+    "scenario": "cl-big-01",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference; treatment arm is abandoned before submission far more often",
+    "phase": "FINAL",
+    "scenario": "attr-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.22 but a quarter of both arms was never submitted",
+    "phase": "FINAL",
+    "scenario": "attr-02",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.30; analysed before windows closed",
+    "phase": "INTERIM",
+    "scenario": "interim-01",
+    "verdict": "INTERIM_NO_CLAIM"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference; only 60% enrolled, experiment still running",
+    "phase": "INTERIM",
+    "scenario": "interim-02",
+    "verdict": "INTERIM_NO_CLAIM"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.10; user closed it at 50% enrolment",
+    "phase": "STOPPED_EARLY",
+    "scenario": "early-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [
+     "evals"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "arm 'evals' +0.30, arm 'brevity' 0.00",
+    "phase": "FINAL",
+    "scenario": "three-01",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.15 with 20 units per arm",
+    "phase": "FINAL",
+    "scenario": "tiny-01",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.25",
+    "phase": "FINAL",
+    "scenario": "consent-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference; staff postings respond far less (stratification must absorb it)",
+    "phase": "FINAL",
+    "scenario": "strat-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [],
+    "false_alarm_arms": [],
+    "ground_truth": "no true difference; many late, ambiguous and duplicate replies",
+    "phase": "FINAL",
+    "scenario": "noisy-01",
+    "verdict": "INCONCLUSIVE"
+   },
+   {
+    "claimed_arms": [
+     "treatment"
+    ],
+    "false_alarm_arms": [],
+    "ground_truth": "true effect +0.20",
+    "phase": "FINAL",
+    "scenario": "mid-01",
+    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  ]
+ },
+ "seed": 911,
+ "verdict_counts": {
+  "EVIDENCE_FOR_DIFFERENCE": 8,
+  "INCONCLUSIVE": 14,
+  "INTERIM_NO_CLAIM": 2
+ }
+}

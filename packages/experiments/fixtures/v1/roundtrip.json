@@ -1,0 +1,758 @@
+{
+ "application": {
+  "assignment": {
+   "application_id": "app-roundtrip-1",
+   "assigned_at": "2026-03-02T09:00:00Z",
+   "assignment_id": "asg-0000000",
+   "design_hash": "e92addfe29e05a67e0e40b43ad6efa1c7deb053af88ebf3939423a801332f111",
+   "experiment_id": "exp-roundtrip",
+   "reused_unit": false,
+   "stratum": "seniority=senior",
+   "unit_id": "app-roundtrip-1",
+   "unit_kind": "application",
+   "variant": "control"
+  },
+  "effective_events": [
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "saved",
+    "experiment_id": null,
+    "id": "evt-0000000",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": null,
+    "source": "user:manual"
+   },
+   {
+    "actor": "system",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "drafted",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000001",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "system:resume-engine"
+   },
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": "apr-000002-0322186e",
+    "event_type": "approved",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000002",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "user:approval-dialog"
+   },
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": "apr-000002-0322186e",
+    "event_type": "submitted",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000003",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "self-reported",
+    "recorded_at": "2026-03-02T10:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "user:manual-submission-report"
+   },
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "recruiter_screen",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000004",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": "2026-03-08T07:00:00Z",
+    "outcome_status": "self-reported",
+    "recorded_at": "2026-03-08T10:00:00Z",
+    "resume_variant_id": null,
+    "source": "user:manual-response-entry"
+   }
+  ],
+  "events": [
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "saved",
+    "experiment_id": null,
+    "id": "evt-0000000",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": null,
+    "source": "user:manual"
+   },
+   {
+    "actor": "system",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "drafted",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000001",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "system:resume-engine"
+   },
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": "apr-000002-0322186e",
+    "event_type": "approved",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000002",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "user:approval-dialog"
+   },
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": "apr-000002-0322186e",
+    "event_type": "submitted",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000003",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "self-reported",
+    "recorded_at": "2026-03-02T10:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "user:manual-submission-report"
+   },
+   {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "recruiter_screen",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000004",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": "2026-03-08T07:00:00Z",
+    "outcome_status": "self-reported",
+    "recorded_at": "2026-03-08T10:00:00Z",
+    "resume_variant_id": null,
+    "source": "user:manual-response-entry"
+   }
+  ],
+  "projection": {
+   "amended_event_ids": [],
+   "application_id": "app-roundtrip-1",
+   "employer_id": "emp-fictional-roundtrip",
+   "event_count": 5,
+   "experiment_id": "exp-roundtrip",
+   "historical": false,
+   "job_id": "fake-roundtrip-1",
+   "last_changed_by": {
+    "actor": "user",
+    "source": "user:manual-response-entry"
+   },
+   "lifecycle_flags": [],
+   "milestones": {
+    "interview": null,
+    "offer": null,
+    "recruiter_screen": "2026-03-08T07:00:00Z",
+    "rejected": null,
+    "withdrawn": null
+   },
+   "resume_variant_id": "rv-b5ed262fd422accdda59",
+   "stage": "recruiter_screen",
+   "stage_since": "2026-03-08T07:00:00Z",
+   "submitted_at": "2026-03-02T10:00:00Z",
+   "terminal": false,
+   "voided_event_ids": []
+  }
+ },
+ "approval_request": {
+  "action": "submit_application",
+  "confirmation_phrase": "I approve submit_application for app-roundtrip-1 [0322186eb79f]",
+  "content_hash": "0322186eb79fc9f6c860714ef0fea3884a184598aa70e25875059e2961f844e5",
+  "subject_id": "app-roundtrip-1"
+ },
+ "assignment": {
+  "application_id": "app-roundtrip-1",
+  "assigned_at": "2026-03-02T09:00:00Z",
+  "assignment_id": "asg-0000000",
+  "design_hash": "e92addfe29e05a67e0e40b43ad6efa1c7deb053af88ebf3939423a801332f111",
+  "experiment_id": "exp-roundtrip",
+  "reused_unit": false,
+  "stratum": "seniority=senior",
+  "unit_id": "app-roundtrip-1",
+  "unit_kind": "application",
+  "variant": "control"
+ },
+ "calls": {
+  "approve_package": {
+   "api_version": "b.v1",
+   "data": {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": "apr-000002-0322186e",
+    "event_type": "approved",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000002",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "observed",
+    "recorded_at": "2026-03-02T09:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "user:approval-dialog"
+   },
+   "method": "approve_package",
+   "ok": true,
+   "text_fields": "untrusted_plaintext"
+  },
+  "record_response": {
+   "api_version": "b.v1",
+   "data": {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": null,
+    "event_type": "recruiter_screen",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000004",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": "2026-03-08T07:00:00Z",
+    "outcome_status": "self-reported",
+    "recorded_at": "2026-03-08T10:00:00Z",
+    "resume_variant_id": null,
+    "source": "user:manual-response-entry"
+   },
+   "method": "record_response",
+   "ok": true,
+   "text_fields": "untrusted_plaintext"
+  },
+  "record_user_submission": {
+   "api_version": "b.v1",
+   "data": {
+    "actor": "user",
+    "application_id": "app-roundtrip-1",
+    "approval_token_ref": "apr-000002-0322186e",
+    "event_type": "submitted",
+    "experiment_id": "exp-roundtrip",
+    "id": "evt-0000003",
+    "job_id": "fake-roundtrip-1",
+    "notes": "",
+    "occurred_at": null,
+    "outcome_status": "self-reported",
+    "recorded_at": "2026-03-02T10:00:00Z",
+    "resume_variant_id": "rv-b5ed262fd422accdda59",
+    "source": "user:manual-submission-report"
+   },
+   "method": "record_user_submission",
+   "ok": true,
+   "text_fields": "untrusted_plaintext"
+  },
+  "replayed_approval_is_refused": {
+   "api_version": "b.v1",
+   "error": {
+    "message": "'approved' is not allowed from stage 'recruiter_screen'; allowed: ['interview', 'offer', 'rejected', 'withdrawn']",
+    "type": "WorkflowError"
+   },
+   "method": "approve_package",
+   "ok": false,
+   "text_fields": "untrusted_plaintext"
+  }
+ },
+ "experiment": {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.5,
+   "minimum_units_per_arm": 10,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 15,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "e92addfe29e05a67e0e40b43ad6efa1c7deb053af88ebf3939423a801332f111",
+  "design_notes": [
+   "planned_power=0.820",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2026-03-02T09:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Roundtrip demonstration).",
+   "id": "exp-roundtrip",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "400e0356efa264a072802b099dcf326bfd2134c08525baddf3c18d84c1267046",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 15 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Roundtrip demonstration",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ "inputs": {
+  "job_posting": {
+   "employment_type": "full-time",
+   "fetched_at": "2026-01-05T09:00:00Z",
+   "id": "fake-roundtrip-1",
+   "organization": "Fictional Roundtrip Works",
+   "remote_policy": "remote",
+   "role_family": "fde",
+   "seniority": "senior",
+   "skills": [
+    "python",
+    "typescript",
+    "api-design",
+    "ai-evaluation",
+    "customer-delivery"
+   ],
+   "source": "synthetic",
+   "source_id": "fake-roundtrip-1",
+   "status": "active",
+   "title": "Forward Deployed Engineer",
+   "url": "https://example.invalid/jobs/fake-roundtrip-1"
+  },
+  "profile_claims": [
+   {
+    "claim_text": "Designed a fictional partner API used by 3 synthetic teams",
+    "claim_type": "achievement",
+    "evidence_ids": [
+     "evidence-synthetic-claim-api"
+    ],
+    "id": "claim-api",
+    "skills": [
+     "api-design",
+     "python"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Built a synthetic evaluation harness for model regressions",
+    "claim_type": "achievement",
+    "evidence_ids": [
+     "evidence-synthetic-claim-eval"
+    ],
+    "id": "claim-eval",
+    "skills": [
+     "ai-evaluation",
+     "python"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Operated fictional workloads on AWS with infrastructure as code",
+    "claim_type": "achievement",
+    "evidence_ids": [
+     "evidence-synthetic-claim-aws"
+    ],
+    "id": "claim-aws",
+    "skills": [
+     "aws"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Shipped a TypeScript dashboard for a fictional client",
+    "claim_type": "achievement",
+    "evidence_ids": [],
+    "id": "claim-ts",
+    "skills": [
+     "typescript"
+    ],
+    "status": "self-reported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Led a synthetic threat-modelling exercise",
+    "claim_type": "achievement",
+    "evidence_ids": [
+     "evidence-synthetic-claim-sec"
+    ],
+    "id": "claim-sec",
+    "skills": [
+     "security"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Ran an MLOps platform at planetary scale",
+    "claim_type": "achievement",
+    "evidence_ids": [],
+    "id": "claim-mlops",
+    "skills": [
+     "mlops"
+    ],
+    "status": "unverified",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Closed enterprise deals worth millions",
+    "claim_type": "achievement",
+    "evidence_ids": [],
+    "id": "claim-sales",
+    "skills": [
+     "enterprise-sales"
+    ],
+    "status": "contradicted",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Confidential fictional project",
+    "claim_type": "achievement",
+    "evidence_ids": [
+     "evidence-synthetic-claim-private"
+    ],
+    "id": "claim-private",
+    "skills": [
+     "distributed-systems"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "private"
+   },
+   {
+    "claim_text": "Held a fictional certification",
+    "claim_type": "achievement",
+    "evidence_ids": [
+     "evidence-synthetic-claim-old"
+    ],
+    "id": "claim-old",
+    "skills": [
+     "cloud-architecture"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": "2025-01-01T00:00:00Z",
+    "visibility": "shareable"
+   },
+   {
+    "claim_text": "Claims support but has no evidence attached",
+    "claim_type": "achievement",
+    "evidence_ids": [],
+    "id": "claim-noev",
+    "skills": [
+     "customer-delivery"
+    ],
+    "status": "supported",
+    "subject_id": "candidate-synthetic-001",
+    "updated_at": "2026-01-05T09:00:00Z",
+    "valid_to": null,
+    "visibility": "shareable"
+   }
+  ]
+ },
+ "integrity": {
+  "anchors": {
+   "applications": {
+    "head": "e66d9573c2e41b394fe410987823af1e755afe81aa9e762911aa1949903ca879",
+    "journal": "applications",
+    "length": 5
+   },
+   "approvals": {
+    "head": "650eec02fd976b035da2a2c57ee84b4f741595509ee72ace135c71655fad653c",
+    "journal": "approvals",
+    "length": 4
+   },
+   "assignments": {
+    "head": "3ad5f02b04980094859eb4178795e7003f0d00a73d1cb70ce894c1de7b894cac",
+    "journal": "assignments",
+    "length": 1
+   },
+   "experiments": {
+    "head": "a7459e6dbc6bc1ecb065dd416d34603743111fbdaf0e16c63b333548eafb26d6",
+    "journal": "experiments",
+    "length": 3
+   },
+   "variants": {
+    "head": "e49482f3bcc81a696392abead194dd252fc8c2235b4c6c4e5fdc6e0cce43161a",
+    "journal": "resume-variants",
+    "length": 1
+   }
+  },
+  "verified": true
+ },
+ "interim_report": {
+  "as_of": "2026-03-08T10:00:00Z",
+  "blinded_progress": {
+   "applications_with_known_outcome": 1,
+   "pooled_success_rate": 1.0
+  },
+  "claim": null,
+  "comparisons": [],
+  "design_hash": "e92addfe29e05a67e0e40b43ad6efa1c7deb053af88ebf3939423a801332f111",
+  "evidence_type": "randomized_controlled",
+  "experiment_id": "exp-roundtrip",
+  "flow": {
+   "assigned_applications": 1,
+   "assigned_units": 1,
+   "by_arm": {
+    "control": {
+     "applications": 1,
+     "censored": 0,
+     "deviations": 0,
+     "missing": 0,
+     "no_success": null,
+     "success": null,
+     "units": 1,
+     "withdrawn": 0
+    },
+    "treatment": {
+     "applications": 0,
+     "censored": 0,
+     "deviations": 0,
+     "missing": 0,
+     "no_success": null,
+     "success": null,
+     "units": 0,
+     "withdrawn": 0
+    }
+   },
+   "corrected_events": 0,
+   "planned_units": 30,
+   "screened_out_applications": 0
+  },
+  "interpretation_limits": [
+   "An effect estimate is a difference in response rates inside this experiment's eligibility universe; it is not a probability of being hired and does not transfer to other roles or employers.",
+   "Outcomes are self-reported or imported by the user; they are not verified with employers.",
+   "One candidate, one job market period: results describe this candidate's applications only."
+  ],
+  "outcome_data_flags": [
+   "exposure_time_from_recorded_at"
+  ],
+  "phase": "INTERIM",
+  "preregistered": {
+   "alpha": 0.05,
+   "assignment_unit": "application",
+   "control": "control",
+   "minimum_units_per_arm": 10,
+   "outcome_window_days": 30,
+   "planned_units_per_arm": 15,
+   "primary_metric": "recruiter_screen",
+   "strata": [
+    "seniority"
+   ]
+  },
+  "reasons_withheld": [
+   "ENROLMENT_INCOMPLETE: the planned sample has not been reached",
+   "NO_PEEKING: a fixed-horizon design gives no valid interim test; arm-level results are withheld until the final analysis"
+  ],
+  "schema": "careertwin.b.analysis-report.v1",
+  "title": "Roundtrip demonstration",
+  "verdict": "INTERIM_NO_CLAIM",
+  "warnings": [
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ]
+ },
+ "note": "Synthetic end-to-end trace. All people, employers and postings are fictional.",
+ "outcome": {
+  "counted_event_id": "evt-0000004",
+  "event_at": "2026-03-08T07:00:00Z",
+  "exposed_at": "2026-03-02T10:00:00Z",
+  "flags": [
+   "exposure_time_from_recorded_at"
+  ],
+  "metric": "recruiter_screen",
+  "status": "success",
+  "window_end": "2026-04-01T10:00:00Z"
+ },
+ "resume_variant": {
+  "bullets": [
+   {
+    "claim_id": "claim-api",
+    "claim_status": "supported",
+    "claim_text_hash": "d8f47f7681c9e61ab3957035629361e87e97f62fa1874229de3dbce232a27082",
+    "contains_markup_like_text": false,
+    "evidence_hash": "886c1666e3b1bcb137a3e3981e63621e1a054030d58b8b4723c262392a8bb0b6",
+    "evidence_ids": [
+     "evidence-synthetic-claim-api"
+    ],
+    "manual_override": false,
+    "skills": [
+     "api-design",
+     "python"
+    ],
+    "text": "Designed a fictional partner API used by 3 synthetic teams"
+   },
+   {
+    "claim_id": "claim-eval",
+    "claim_status": "supported",
+    "claim_text_hash": "81e356303c09142ec3671466f2ca72feba3b4e69161bddbf3c0825e660da8db2",
+    "contains_markup_like_text": false,
+    "evidence_hash": "6ce9f7faeb79d4e5d7c0b902d6760c14f3651760aefb83bbe40bc54881bf5c3c",
+    "evidence_ids": [
+     "evidence-synthetic-claim-eval"
+    ],
+    "manual_override": false,
+    "skills": [
+     "ai-evaluation",
+     "python"
+    ],
+    "text": "Built a synthetic evaluation harness for model regressions"
+   },
+   {
+    "claim_id": "claim-ts",
+    "claim_status": "self-reported",
+    "claim_text_hash": "d0be245e0e79233a3d5f534373e468fbd62f7185c2cbb8141e91074abd1dfd70",
+    "contains_markup_like_text": false,
+    "evidence_hash": "ae0023fc1ea993b94343cf6de5c7958c450adf6b232759cb2cd643f3d26f0aa8",
+    "evidence_ids": [],
+    "manual_override": false,
+    "skills": [
+     "typescript"
+    ],
+    "text": "Shipped a TypeScript dashboard for a fictional client"
+   },
+   {
+    "claim_id": "claim-aws",
+    "claim_status": "supported",
+    "claim_text_hash": "4c471847e648404fd97996b1224660a13370fb78943ef20abd1f8dd2b8284bca",
+    "contains_markup_like_text": false,
+    "evidence_hash": "ee477b085645042ec088c6fdc8046a0f5a949d14b9316ca2484387cd058736a3",
+    "evidence_ids": [
+     "evidence-synthetic-claim-aws"
+    ],
+    "manual_override": false,
+    "skills": [
+     "aws"
+    ],
+    "text": "Operated fictional workloads on AWS with infrastructure as code"
+   }
+  ],
+  "change_note": "initial selection",
+  "content_hash": "b5ed262fd422accdda591d89d4b3fcb4fe17ec60b41931631551348335cc7b80",
+  "created_at": "2026-03-02T09:00:00Z",
+  "created_by": "system",
+  "id": "rv-b5ed262fd422accdda59",
+  "job_id": "fake-roundtrip-1",
+  "label": "control",
+  "lineage_id": "rv-b5ed262fd422accdda59",
+  "parent_id": null,
+  "refused_claims": [
+   {
+    "claim_id": "claim-mlops",
+    "reason": "unverified"
+   },
+   {
+    "claim_id": "claim-noev",
+    "reason": "supported_without_evidence"
+   },
+   {
+    "claim_id": "claim-old",
+    "reason": "expired"
+   },
+   {
+    "claim_id": "claim-private",
+    "reason": "private_visibility"
+   },
+   {
+    "claim_id": "claim-sales",
+    "reason": "contradicted_by_evidence"
+   }
+  ],
+  "schema": "careertwin.b.resume-variant.v1",
+  "subject_id": "candidate-synthetic-001",
+  "unproven_requirements": [
+   "customer-delivery"
+  ],
+  "version": 1,
+  "warnings": [
+   "SELF_REPORTED: this bullet rests on the user's own statement, not on evidence",
+   "UNPROVEN_REQUIREMENTS: no evidence-backed claim covers: customer-delivery"
+  ]
+ }
+}

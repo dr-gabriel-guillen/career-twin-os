@@ -1,0 +1,77 @@
+{
+ "as_of": "2031-05-05T19:40:00Z",
+ "by_covariate": {
+  "cold-employer": {
+   "rv-hist-plain": {
+    "applications": 89,
+    "interval_95": [
+     0.054118546891964145,
+     0.1811368993077429
+    ],
+    "rate": 0.10112359550561797,
+    "successes": 9
+   },
+   "rv-hist-polished": {
+    "applications": 21,
+    "interval_95": [
+     0.02651876743807452,
+     0.2891413907391825
+    ],
+    "rate": 0.09523809523809523,
+    "successes": 2
+   }
+  },
+  "warm-employer": {
+   "rv-hist-plain": {
+    "applications": 21,
+    "interval_95": [
+     0.10628013022636473,
+     0.45091173682950747
+    ],
+    "rate": 0.23809523809523808,
+    "successes": 5
+   },
+   "rv-hist-polished": {
+    "applications": 109,
+    "interval_95": [
+     0.22442993568724834,
+     0.39450444845318267
+    ],
+    "rate": 0.30275229357798167,
+    "successes": 33
+   }
+  }
+ },
+ "claim": null,
+ "evidence_type": "observational",
+ "excluded_applications": 0,
+ "ground_truth": "true résumé effect is exactly 0; the gap between groups is produced entirely by which employers received which résumé",
+ "groups": {
+  "rv-hist-plain": {
+   "applications": 110,
+   "interval_95": [
+    0.07734981388847,
+    0.20235021060652514
+   ],
+   "rate": 0.12727272727272726,
+   "successes": 14
+  },
+  "rv-hist-polished": {
+   "applications": 130,
+   "interval_95": [
+    0.20041698278268355,
+    0.35129143007628477
+   ],
+   "rate": 0.2692307692307692,
+   "successes": 35
+  }
+ },
+ "metric": "recruiter_screen",
+ "schema": "careertwin.b.observational-summary.v1",
+ "verdict": "OBSERVATIONAL_ONLY",
+ "warnings": [
+  "OBSERVATIONAL: these applications were not randomised. The user chose which résumé went where, so groups differ in employer, role, seniority and timing. Differences are associations, not effects.",
+  "NO_TEST_REPORTED: no p-value or winner is computed for non-randomised comparisons.",
+  "To learn whether a variant works, preregister a randomised experiment."
+ ]
+}

@@ -1,0 +1,228 @@
+{
+ "false_alarm_rate": 0.027777777777777776,
+ "false_alarm_rate_interval_95": [
+  0.007651021904494577,
+  0.09574175221438222
+ ],
+ "false_alarms": 2,
+ "large_effect_experiments_run": 64,
+ "large_effect_scenarios": [
+  "big-01",
+  "big-02",
+  "big-03",
+  "cl-big-01",
+  "attr-02",
+  "three-01",
+  "consent-01",
+  "mid-01"
+ ],
+ "missed_detections": 17,
+ "null_experiments_run": 72,
+ "null_scenarios": [
+  "aa-01",
+  "aa-02",
+  "aa-03",
+  "aa-04",
+  "cl-null-01",
+  "cl-null-02",
+  "attr-01",
+  "strat-01",
+  "noisy-01"
+ ],
+ "replications": [
+  {
+   "false_alarms": 1,
+   "seed": 1001,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "EVIDENCE_FOR_DIFFERENCE",
+    "big-03": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "EVIDENCE_FOR_DIFFERENCE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 0,
+   "seed": 1002,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "EVIDENCE_FOR_DIFFERENCE",
+    "big-03": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "INCONCLUSIVE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 1,
+   "seed": 1003,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "EVIDENCE_FOR_DIFFERENCE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "EVIDENCE_FOR_DIFFERENCE",
+    "big-03": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "INCONCLUSIVE",
+    "mid-01": "EVIDENCE_FOR_DIFFERENCE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 0,
+   "seed": 1004,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "EVIDENCE_FOR_DIFFERENCE",
+    "big-03": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "INCONCLUSIVE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 2,
+   "seed": 1005,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "INCONCLUSIVE",
+    "big-03": "INCONCLUSIVE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "EVIDENCE_FOR_DIFFERENCE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 0,
+   "seed": 1006,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "EVIDENCE_FOR_DIFFERENCE",
+    "big-03": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "EVIDENCE_FOR_DIFFERENCE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 0,
+   "seed": 1007,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "big-02": "INCONCLUSIVE",
+    "big-03": "INCONCLUSIVE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "EVIDENCE_FOR_DIFFERENCE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  },
+  {
+   "false_alarms": 0,
+   "seed": 1008,
+   "verdicts": {
+    "aa-01": "INCONCLUSIVE",
+    "aa-02": "INCONCLUSIVE",
+    "aa-03": "INCONCLUSIVE",
+    "aa-04": "INCONCLUSIVE",
+    "attr-01": "INCONCLUSIVE",
+    "attr-02": "INCONCLUSIVE",
+    "big-01": "INCONCLUSIVE",
+    "big-02": "EVIDENCE_FOR_DIFFERENCE",
+    "big-03": "INCONCLUSIVE",
+    "cl-big-01": "EVIDENCE_FOR_DIFFERENCE",
+    "cl-null-01": "INCONCLUSIVE",
+    "cl-null-02": "INCONCLUSIVE",
+    "consent-01": "EVIDENCE_FOR_DIFFERENCE",
+    "mid-01": "EVIDENCE_FOR_DIFFERENCE",
+    "noisy-01": "INCONCLUSIVE",
+    "strat-01": "INCONCLUSIVE",
+    "three-01": "EVIDENCE_FOR_DIFFERENCE"
+   }
+  }
+ ],
+ "seeds": [
+  1001,
+  1002,
+  1003,
+  1004,
+  1005,
+  1006,
+  1007,
+  1008
+ ]
+}
