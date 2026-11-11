@@ -37,6 +37,9 @@ from .outdir import OutputPathError
 from .timeutil import parse_rfc3339
 
 USABLE_CLAIM_STATUSES = ("supported", "self-reported")
+#: what actor "system" may record (same set as lane B's workflow); everything else needs a person or an import
+SYSTEM_MAY_RECORD = ("saved", "drafted", "note")
+OUTCOME_EVENT_TYPES = ("recruiter_screen", "interview", "rejected", "offer")
 
 
 @dataclass(frozen=True)
@@ -253,6 +256,22 @@ def v_resume(a: Path, count: int) -> list[str]:
         )
     if variant.get("schema") == "careertwin.b.resume-variant.v1":
         # Lane B's native shape (published on #5; E promised on #3 to follow B's names): one claim per bullet.
+        # In this shape a bullet IS a claim, verbatim. Text that differs from the cited claim is content
+        # nobody has evidence for (consolidation probe: an appended "grew revenue 300% as CTO" passed).
+        for index, bullet in enumerate(variant.get("bullets", [])):
+            if not isinstance(bullet, dict):
+                continue
+            claim = claims.get(bullet.get("claim_id"))
+            if bullet.get("manual_override"):
+                problems.append(
+                    f"resume_variant.json: bullet {index} is a manual override; an automated run has no "
+                    "person who could have written it"
+                )
+            elif claim is not None and bullet.get("text") != claim.get("claim_text"):
+                problems.append(
+                    f"resume_variant.json: bullet {index} text is not the text of claim "
+                    f"{bullet.get('claim_id')!r} it cites (invented or embellished content)"
+                )
         variant = dict(
             variant,
             claim_ids=[b.get("claim_id") for b in variant.get("bullets", []) if isinstance(b, dict)],
@@ -303,11 +322,26 @@ def v_events(a: Path, count: int) -> list[str]:
     mine = [e for e in events if e.get("job_id") == pin["job_id"]]
     if not mine:
         return [*problems, f"events.json: no event for the pinned role {pin['job_id']!r}"]
+    for event in events:
+        if event.get("actor") == "system" and event.get("event_type") not in SYSTEM_MAY_RECORD:
+            problems.append(
+                f"events.json: {event.get('id')!r} is a {event.get('event_type')!r} event recorded by 'system'; "
+                "approvals, submissions, withdrawals and outcomes come from the user or an import, never from "
+                "the system (invented application outcome)"
+            )
     by_app: dict[str, list[dict[str, Any]]] = {}
     for event in mine:
         by_app.setdefault(str(event.get("application_id")), []).append(event)
     complete = False
     for app_id, stream in by_app.items():
+        seen_submission = False
+        for event in stream:
+            seen_submission = seen_submission or event.get("event_type") == "submitted"
+            if event.get("event_type") in OUTCOME_EVENT_TYPES and not seen_submission:
+                problems.append(
+                    f"events.json: {event.get('id')!r} reports {event.get('event_type')!r} for application "
+                    f"{app_id!r} before any submission was recorded"
+                )
         times = [parse_rfc3339(e.get("recorded_at")) for e in stream]
         if any(x is None or y is None or x > y for x, y in zip(times, times[1:], strict=False)):
             problems.append(f"events.json: application {app_id!r} events are not in recorded order")

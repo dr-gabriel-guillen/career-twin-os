@@ -1,0 +1,11 @@
+{
+  "batch": "CT-2026-11-10-B01",
+  "note": "Commits assembled by `python -m ctint.acceptance`. Nothing here is merged; change a pin only after the integration runner has passed on it.",
+  "base": "bc957fd7ed98ad1bf97eb5abc19d64b146de8dcf",
+  "lanes": {
+    "A": "0b331ea6ab365f355e3635b9b4467191a0cf9fae",
+    "B": "755ccae1b4208ac96cbc39d9c4071fa4188c2224",
+    "C": "f76e24c869bad2819810ac06e8b31f067aacf338",
+    "D": "b6a4340836a43d9026f6e0d0b5c60db229de4a62"
+  }
+}

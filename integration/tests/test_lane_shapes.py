@@ -244,6 +244,94 @@ def test_v_resume_accepts_b_native_variant(tmp_path: Path) -> None:
     assert any("private claim" in p for p in e2e.v_resume(tmp_path, 0))
 
 
+def test_v_resume_rejects_text_that_is_not_the_cited_claim(tmp_path: Path) -> None:
+    """Consolidation probe: a bullet citing a real claim but carrying invented text passed lane E's check."""
+    claims = synth.gen_claims(seed=1)
+    usable = [
+        c for c in claims if c["status"] in e2e.USABLE_CLAIM_STATUSES and c["visibility"] != "private"
+    ][:3]  # fmt: skip
+    _write(tmp_path, "claims.json", claims)
+    _write(tmp_path, "pin.json", {"job_id": "job-x"})
+    native = {
+        "schema": "careertwin.b.resume-variant.v1", "id": "rv-1", "job_id": "job-x",
+        "bullets": [{"claim_id": c["id"], "text": c["claim_text"], "claim_status": c["status"]} for c in usable],
+    }  # fmt: skip
+    _write(tmp_path, "resume_variant.json", native)
+    assert e2e.v_resume(tmp_path, 0) == []
+    embellished = copy.deepcopy(native)
+    embellished["bullets"][1]["text"] += " and grew revenue 300% as Chief Technology Officer"
+    _write(tmp_path, "resume_variant.json", embellished)
+    problems = e2e.v_resume(tmp_path, 0)
+    assert len(problems) == 1 and "bullet 1" in problems[0] and "invented or embellished" in problems[0]
+    overridden = copy.deepcopy(embellished)
+    overridden["bullets"][1]["manual_override"] = (
+        True  # the flag must not launder invented text in a pipeline
+    )
+    _write(tmp_path, "resume_variant.json", overridden)
+    assert any("manual override" in p for p in e2e.v_resume(tmp_path, 0))
+
+
+def _application(job_id: str, variant_id: str) -> list[dict[str, Any]]:
+    def event(n: int, kind: str, actor: str, **extra: Any) -> dict[str, Any]:
+        return {
+            "id": f"evt-{n}", "application_id": "app-1", "job_id": job_id, "event_type": kind,
+            "recorded_at": f"2026-03-02T09:{10 + n:02d}:00Z", "actor": actor, "source": "synthetic:test",
+            "outcome_status": "self-reported", **extra,
+        }  # fmt: skip
+
+    return [
+        event(0, "saved", "user"),
+        event(1, "drafted", "system", resume_variant_id=variant_id),
+        event(2, "approved", "user", approval_token_ref="apr-1", resume_variant_id=variant_id),
+        event(3, "submitted", "user", approval_token_ref="apr-1", resume_variant_id=variant_id),
+    ]
+
+
+def test_v_events_rejects_outcomes_and_decisions_recorded_by_the_system(tmp_path: Path) -> None:
+    """Consolidation probe: an 'offer' appended by actor 'system' passed lane E's check."""
+    _write(tmp_path, "pin.json", {"job_id": "job-x"})
+    _write(tmp_path, "resume_variant.json", {"id": "rv-1"})
+    events = _application("job-x", "rv-1")
+    _write(tmp_path, "events.json", events)
+    assert e2e.v_events(tmp_path, 0) == []
+    for kind in ("offer", "rejected", "interview", "recruiter_screen", "withdrawn", "approved"):
+        invented = [
+            *events,
+            dict(events[-1], id="evt-9", event_type=kind, actor="system", recorded_at="2026-03-02T09:30:00Z"),
+        ]
+        _write(tmp_path, "events.json", invented)
+        problems = e2e.v_events(tmp_path, 0)
+        assert any("recorded by 'system'" in p and repr(kind) in p for p in problems), kind
+    # The same outcomes reported by the user or an import are legitimate.
+    for actor in ("user", "import"):
+        real = [
+            *events,
+            dict(
+                events[-1],
+                id="evt-9",
+                event_type="interview",
+                actor=actor,
+                recorded_at="2026-03-02T09:30:00Z",
+            ),
+        ]
+        _write(tmp_path, "events.json", real)
+        assert e2e.v_events(tmp_path, 0) == [], actor
+    # A note by the system is allowed; an outcome before any submission is not.
+    _write(
+        tmp_path,
+        "events.json",
+        [*events, dict(events[1], id="evt-9", event_type="note", recorded_at="2026-03-02T09:30:00Z")],
+    )
+    assert e2e.v_events(tmp_path, 0) == []
+    early = [
+        events[0],
+        dict(events[0], id="evt-8", event_type="offer", recorded_at="2026-03-02T09:10:30Z"),
+        *events[1:],
+    ]
+    _write(tmp_path, "events.json", early)
+    assert any("before any submission" in p for p in e2e.v_events(tmp_path, 0))
+
+
 def test_v_atlas_allows_reported_unplaced_vectors_only(tmp_path: Path) -> None:
     from ctint import atlas_quality
 
