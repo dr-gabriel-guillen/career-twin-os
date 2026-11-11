@@ -244,6 +244,12 @@ def test_offline_env_scrubs_credentials(monkeypatch: pytest.MonkeyPatch, tmp_pat
     assert not {k for k, v in env.items() if v == "should-not-leak"}
     assert env["HTTPS_PROXY"] == runner.DEAD_PROXY and env["HOME"] == str(tmp_path / "home")
     assert env["PIP_NO_INDEX"] == "1"
+    # Regression (run final5): the empty home must look like a profile, or installed Chrome will not start.
+    home = tmp_path / "home"
+    assert env["USERPROFILE"] == str(home)
+    assert Path(env["LOCALAPPDATA"]) == home / "AppData" / "Local" and Path(env["LOCALAPPDATA"]).is_dir()
+    assert Path(env["APPDATA"]) == home / "AppData" / "Roaming" and Path(env["APPDATA"]).is_dir()
+    assert not any(p.is_file() for p in home.rglob("*")), "nothing is copied from the real profile"
     monkeypatch.setenv("ProgramFiles", r"C:\Program Files")
     kept = {k.upper(): v for k, v in runner.offline_env(tmp_path / "home2").items()}
     assert kept.get("PROGRAMFILES") == r"C:\Program Files"  # Windows env keys are case-insensitive

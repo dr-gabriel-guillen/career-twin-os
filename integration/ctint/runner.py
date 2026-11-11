@@ -68,10 +68,17 @@ DEAD_PROXY = "http://127.0.0.1:9"
 def offline_env(home: Path) -> dict[str, str]:
     """Minimal environment for lane commands: nothing secret is inherited, proxies point nowhere."""
     env = {k: v for k, v in os.environ.items() if k.upper() in _KEEP_ENV}
-    home.mkdir(parents=True, exist_ok=True)
+    # The empty home is shaped like a user profile. Windows resolves the "local application data"
+    # folder from USERPROFILE and fails if it does not exist; an installed Chrome then cannot tell its
+    # own default data directory from the temporary one a test runner gives it and refuses to start
+    # ("DevTools remote debugging requires a non-default data directory", run final5). Nothing is
+    # copied from the operator's real profile.
+    roaming, local = home / "AppData" / "Roaming", home / "AppData" / "Local"
+    for directory in (roaming, local):
+        directory.mkdir(parents=True, exist_ok=True)
     env.update(
         {
-            "HOME": str(home), "USERPROFILE": str(home), "APPDATA": str(home), "LOCALAPPDATA": str(home),
+            "HOME": str(home), "USERPROFILE": str(home), "APPDATA": str(roaming), "LOCALAPPDATA": str(local),
             "XDG_CONFIG_HOME": str(home), "XDG_CACHE_HOME": str(home),
             "CT_OFFLINE": "1", "CI": "1", "PYTHONIOENCODING": "utf-8", "PYTHONDONTWRITEBYTECODE": "1",
             "HTTP_PROXY": DEAD_PROXY, "HTTPS_PROXY": DEAD_PROXY, "ALL_PROXY": DEAD_PROXY,
