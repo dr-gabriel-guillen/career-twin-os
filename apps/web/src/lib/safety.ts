@@ -41,6 +41,9 @@ export function classifyLink(raw: string): LinkVerdict {
   if (url.username || url.password) return { kind: "blocked", reason: "The link embeds credentials." };
   const host = url.hostname.toLowerCase();
   if (isPrivateHost(host)) return { kind: "blocked", reason: "The link points at a local or numeric network address." };
+  // Single-label hosts are intranet-style names, never a public posting. URL parsers also turn
+  // a triple-slash link with an empty authority into a single-label host, which lands here.
+  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(host)) return { kind: "blocked", reason: "The link does not point at a public host name." };
   const notes: string[] = [];
   if (url.protocol === "http:") notes.push("This link is not encrypted (http).");
   if (RESERVED_TLDS.some((t) => host.endsWith(t)) || RESERVED_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) {

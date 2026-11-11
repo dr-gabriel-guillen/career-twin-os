@@ -333,7 +333,7 @@ export default function AtlasPage() {
                   <td className="ct-num">{p.coords[1]!.toFixed(2)}</td>
                   <td className="ct-num">{p.neighborhood_quality === null || p.neighborhood_quality === undefined ? "Unknown" : percent(p.neighborhood_quality)}</td>
                   <td>
-                    <button type="button" className="ct-btn ct-btn--sm" aria-pressed={p.entity_id === selectedId} onClick={() => setSelectedId(p.entity_id === selectedId ? null : p.entity_id)} aria-label={`Select ${truncate(p.label, 60)}`}>
+                    <button type="button" className="ct-btn ct-btn--sm" aria-pressed={p.entity_id === selectedId} onClick={() => setSelectedId(p.entity_id === selectedId ? null : p.entity_id)} aria-label={`${p.entity_id === selectedId ? "Selected" : "Select"}: ${truncate(p.label, 60)}`}>
                       {p.entity_id === selectedId ? "Selected" : "Select"}
                     </button>
                   </td>

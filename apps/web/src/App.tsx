@@ -1,20 +1,20 @@
-import { Component, lazy, Suspense, useEffect, useState, type ErrorInfo, type ReactNode } from "react";
+import { Component, useEffect, useState, type ErrorInfo, type ReactNode } from "react";
 import { HashRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { AnnouncerProvider, Badge, Banner, Button, ErrorState, LoadingState } from "@careertwin/ui";
 import { totalRejected } from "@/adapters";
 import { Page } from "@/components/common";
 import { AppProvider, useShell } from "@/state/AppContext";
 
-const OverviewPage = lazy(() => import("@/pages/OverviewPage"));
-const JobsPage = lazy(() => import("@/pages/JobsPage"));
-const MatchingPage = lazy(() => import("@/pages/MatchingPage"));
-const EvidencePage = lazy(() => import("@/pages/EvidencePage"));
-const ResumePage = lazy(() => import("@/pages/ResumePage"));
-const ApplicationsPage = lazy(() => import("@/pages/ApplicationsPage"));
-const ExperimentsPage = lazy(() => import("@/pages/ExperimentsPage"));
-const AtlasPage = lazy(() => import("@/pages/AtlasPage"));
-const SimulatorPage = lazy(() => import("@/pages/SimulatorPage"));
-const SettingsPage = lazy(() => import("@/pages/SettingsPage"));
+import OverviewPage from "@/pages/OverviewPage";
+import JobsPage from "@/pages/JobsPage";
+import MatchingPage from "@/pages/MatchingPage";
+import EvidencePage from "@/pages/EvidencePage";
+import ResumePage from "@/pages/ResumePage";
+import ApplicationsPage from "@/pages/ApplicationsPage";
+import ExperimentsPage from "@/pages/ExperimentsPage";
+import AtlasPage from "@/pages/AtlasPage";
+import SimulatorPage from "@/pages/SimulatorPage";
+import SettingsPage from "@/pages/SettingsPage";
 
 export const NAV = [
   { to: "/", label: "Overview" },
@@ -135,7 +135,6 @@ function Shell() {
               </ErrorState>
             ) : (
               <ErrorBoundary resetKey={location.pathname}>
-                <Suspense fallback={<LoadingState />}>
                   <Routes>
                     <Route path="/" element={<OverviewPage />} />
                     <Route path="/jobs" element={<JobsPage />} />
@@ -149,7 +148,6 @@ function Shell() {
                     <Route path="/settings" element={<SettingsPage />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
-                </Suspense>
               </ErrorBoundary>
             )}
           </div>

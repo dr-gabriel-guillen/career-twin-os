@@ -5,11 +5,22 @@ import type { ClaimStatus, JobPosting } from "@/contracts/types";
 import { classifyLink } from "@/lib/safety";
 import { humanise } from "@/lib/format";
 
+/**
+ * True until the first screen has mounted. On the initial page load focus is left
+ * alone, so the first Tab reaches the skip link; on later navigations focus moves
+ * to the new heading so keyboard and screen-reader users land on the new content.
+ */
+let firstScreen = true;
+
 /** Page frame: sets the document title and moves focus to the heading on navigation. */
 export function Page({ title, lead, actions, children }: { title: string; lead?: ReactNode; actions?: ReactNode; children: ReactNode }) {
   const ref = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     document.title = `${title} — CareerTwin OS (synthetic demo)`;
+    if (firstScreen) {
+      firstScreen = false;
+      return;
+    }
     ref.current?.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }, [title]);
