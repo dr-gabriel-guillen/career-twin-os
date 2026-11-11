@@ -49,6 +49,8 @@ class ApplicationStore:
         self.clock = clock or Clock()
         self.approvals = approvals
         self.variant_hash = variant_hash
+        # set by the experiment lab: application_id -> journaled assignment (or None)
+        self.assignment_lookup: Callable[[str], dict[str, Any] | None] | None = None
         self.journal = Journal(path, name="applications")
         self._events: dict[str, dict[str, Any]] = {}      # event id -> journal body
         self._order: dict[str, list[str]] = {}            # application id -> event ids
@@ -103,17 +105,42 @@ class ApplicationStore:
             raise WorkflowError("historical applications are recorded by the 'import' actor")
         if actor == "import" and not historical:
             raise WorkflowError("the 'import' actor may only open historical applications")
-        return self.append_event(application_id=application_id, job_id=job_id, event_type="saved",
-                                 actor=actor, source=source, outcome_status="observed",
-                                 occurred_at=occurred_at, notes=notes,
-                                 _ext={"employer_id": employer_id, "historical": historical})
+        return self._append(application_id=application_id, job_id=job_id, event_type="saved",
+                            actor=actor, source=source, outcome_status="observed",
+                            occurred_at=occurred_at, notes=notes,
+                            ext={"employer_id": employer_id, "historical": historical})  # type: ignore[return-value]
 
     def append_event(self, *, application_id: str, job_id: str, event_type: str, actor: str,
                      source: str, outcome_status: str, occurred_at: str | None = None,
                      resume_variant_id: str | None = None, experiment_id: str | None = None,
                      approval_token_ref: str | None = None, notes: str = "",
-                     event_id: str | None = None, on_duplicate: str = "raise",
-                     _ext: dict[str, Any] | None = None) -> dict[str, Any] | None:
+                     event_id: str | None = None, on_duplicate: str = "raise") -> dict[str, Any] | None:
+        """Record one event. The opening event goes through open_application() and
+        corrections through correct_event(); neither can be forged from here."""
+        if event_type == "saved":
+            raise WorkflowError("use open_application() so the employer link is recorded")
+        return self._append(application_id=application_id, job_id=job_id, event_type=event_type, actor=actor,
+                            source=source, outcome_status=outcome_status, occurred_at=occurred_at,
+                            resume_variant_id=resume_variant_id, experiment_id=experiment_id,
+                            approval_token_ref=approval_token_ref, notes=notes, event_id=event_id,
+                            on_duplicate=on_duplicate, ext=None)
+
+    def _append(self, *, application_id: str, job_id: str, event_type: str, actor: str,
+                source: str, outcome_status: str, occurred_at: str | None = None,
+                resume_variant_id: str | None = None, experiment_id: str | None = None,
+                approval_token_ref: str | None = None, notes: str = "",
+                event_id: str | None = None, on_duplicate: str = "raise",
+                ext: dict[str, Any] | None = None) -> dict[str, Any] | None:
+        _ext = ext
+        if self.assignment_lookup is not None and event_type != "saved":
+            assigned = self.assignment_lookup(application_id)
+            if assigned is None and experiment_id is not None:
+                raise WorkflowError("no journaled assignment for this application; assign it before "
+                                    "linking events to an experiment")
+            if assigned is not None:
+                if experiment_id not in (None, assigned["experiment_id"]):
+                    raise WorkflowError("application is assigned to a different experiment (crossover refused)")
+                experiment_id = assigned["experiment_id"]  # the journaled assignment is the source of truth
         require_id(application_id, "application_id")
         require_id(job_id, "job_id")
         source = clean_text(source, field="source", max_len=200)
@@ -153,8 +180,6 @@ class ApplicationStore:
         if history or meta:
             if meta is None or meta["job_id"] != job_id:
                 raise WorkflowError("job_id of an application is immutable")
-        elif event_type == "saved" and "employer_id" not in ext:
-            raise WorkflowError("use open_application() so the employer link is recorded")
         stage = replay(history)
         check_transition(stage, event_type, actor)
         historical = bool(meta["historical"]) if meta else bool(ext.get("historical"))
@@ -166,8 +191,11 @@ class ApplicationStore:
             self._guard_approved(event, historical)
         elif event_type == "submitted":
             self._guard_submitted(event, history, historical)
-        elif event_type in ("drafted",) and resume_variant_id is not None and self.variant_hash:
-            self.variant_hash(resume_variant_id)  # must exist
+        elif event_type == "drafted" and resume_variant_id is not None and self.variant_hash and not historical:
+            try:
+                self.variant_hash(resume_variant_id)
+            except KeyError:
+                raise WorkflowError(f"unknown résumé variant {resume_variant_id!r}") from None
         body = {"event": event, "ext": ext}
         self.journal.append("event", body, now)
         self._index(body)
@@ -194,9 +222,12 @@ class ApplicationStore:
             raise WorkflowError("approval must name the exact résumé variant")
         if self.approvals is None or self.variant_hash is None:
             raise WorkflowError("approval gate is not configured; refusing to record approval")
+        try:
+            digest = self.variant_hash(event["resume_variant_id"])
+        except KeyError:
+            raise WorkflowError(f"unknown résumé variant {event['resume_variant_id']!r}") from None
         package = submission_package_hash(event["application_id"], event["job_id"],
-                                          event["resume_variant_id"],
-                                          self.variant_hash(event["resume_variant_id"]))
+                                          event["resume_variant_id"], digest)
         self.approvals.consume(event["approval_token_ref"], action=ap.SUBMIT_APPLICATION,
                                subject_id=event["application_id"], content_hash=package,
                                used_for=event["id"])
@@ -273,12 +304,12 @@ class ApplicationStore:
                 raise CorrectionError("occurred_at cannot be in the future")
         else:
             raise CorrectionError("action must be 'void' or 'amend'")
-        return self.append_event(
+        return self._append(
             application_id=app_id, job_id=target["job_id"], event_type="note", actor="user",
             source=source, outcome_status="observed",
             notes=f"CORRECTION {action} of {target_event_id}: {reason}"[:4000],
-            _ext={"correction": {"target": target_event_id, "action": action,
-                                 "changes": changes, "reason": reason}})  # type: ignore[return-value]
+            ext={"correction": {"target": target_event_id, "action": action,
+                                "changes": changes, "reason": reason}})  # type: ignore[return-value]
 
     # -- reading ---------------------------------------------------------
     def application_ids(self) -> list[str]:
