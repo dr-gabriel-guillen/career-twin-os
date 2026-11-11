@@ -26,12 +26,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numpy as np  # noqa: E402
 
 from careertwin_atlas.adapters import vocabulary_from_names  # noqa: E402
-from careertwin_atlas.api import build_atlas_bundle  # noqa: E402
+from careertwin_atlas.api import build_atlas_bundle, projection_view  # noqa: E402
 from careertwin_atlas.diagnostics import knn_sets  # noqa: E402
 from careertwin_atlas.engine import AtlasEngine  # noqa: E402
 from careertwin_atlas.errors import AtlasError, InvalidInputError  # noqa: E402
 from careertwin_atlas.features import (STATE_NOT_STATED, STATE_STATED, FeatureVector, claims_to_vector,  # noqa: E402
-                                       normalize_family, sanitize_label)
+                                       normalize_family, parse_utc, sanitize_label)
 from careertwin_atlas.gaps import analyze_gap  # noqa: E402
 from careertwin_atlas.simulator import simulate_transition  # noqa: E402
 from careertwin_atlas.vocabulary import ACQ_STUDY, default_vocabulary  # noqa: E402
@@ -58,7 +58,10 @@ def _write(path: Path, doc) -> None:
                     encoding="utf-8", newline="\n")
 
 
-def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
+def _engine_from_vectors(vectors_path: Path, seed: int):
+    """Fit the atlas on E's vectors bundle. Both stages call this with the same inputs and seed, so they
+    share one deterministic model (same model_id and projection_id). Lane D finding on #5: the scenario
+    stage used to refit on jobs.json in lane C's vocabulary, so its points belonged to another projection."""
     bundle = _read(vectors_path)
     if not isinstance(bundle, dict) or not isinstance(bundle.get("vectors"), list):
         raise InvalidInputError("vectors.json must be an object with 'vocabulary' and 'vectors'")
@@ -96,7 +99,38 @@ def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
                   "source": job.get("source", "unknown"), "fetched_at": job.get("fetched_at"),
                   "status": job.get("status", "unknown"), "min_qualifications": (), "n_requirements": 0,
                   "n_unmapped_requirements": 0, "compensation_mid": None}))
-    engine = AtlasEngine.from_vectors(vectors, vocab, seed=seed, n_boot=20)
+    return AtlasEngine.from_vectors(vectors, vocab, seed=seed, n_boot=20), vocab, notes, jobs
+
+
+def _data_as_of(jobs: dict) -> str:
+    """Latest capture time in the inputs. Used as the view's generated_at: lane C never reads the clock."""
+    stamps = sorted(parse_utc(j.get("fetched_at")) for j in jobs.values() if parse_utc(j.get("fetched_at")))
+    return stamps[-1].strftime("%Y-%m-%dT%H:%M:%SZ") if stamps else "1970-01-01T00:00:00Z"
+
+
+def _candidate(artifacts: Path, vocab):
+    claims_path = artifacts / "claims.json"
+    if not claims_path.is_file():
+        return None, None
+    claims = _read(claims_path)
+    if not isinstance(claims, list) or not claims or not isinstance(claims[0], dict):
+        raise InvalidInputError("claims.json must be a non-empty list of ProfileClaim objects")
+    subject = claims[0].get("subject_id")
+    if not isinstance(subject, str) or not subject:
+        raise InvalidInputError("claims must carry subject_id")
+    return claims_to_vector(claims, vocab, subject), claims
+
+
+def _view(engine, cand, scenarios, generated_at: str) -> dict:
+    placeable = cand if cand is not None and engine.has_observed_skills(cand) else None
+    bundle = build_atlas_bundle(engine, placeable, k=K, include_clusters=False)
+    view = projection_view(bundle, generated_at, scenarios if placeable is not None else [])
+    view["warnings"].append("generated_at is the latest capture time in the inputs; lane C never reads the clock")
+    return view
+
+
+def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
+    engine, vocab, notes, jobs = _engine_from_vectors(vectors_path, seed)
     atlas = build_atlas_bundle(engine, None, k=K, seed=seed, include_clusters=False)
     points = [p for p in atlas["points"] if p["representation_type"] == "job"]
     fitted_refs = [v.vector_ref for v in engine.matrix.vectors]
@@ -122,9 +156,12 @@ def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
         "warnings": atlas["warnings"],
     })
     out_dir.mkdir(parents=True, exist_ok=True)
-    # serialise both before writing either, so a failure never leaves a half-written stage
+    cand, _ = _candidate(vectors_path.parent, vocab)
+    view = _view(engine, cand, [], _data_as_of(jobs))
+    # serialise everything before writing anything, so a failure never leaves a half-written stage
     texts = {name: json.dumps(doc, indent=1, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n"
-             for name, doc in (("atlas_points.json", points), ("atlas_diagnostics.json", diag))}
+             for name, doc in (("atlas_points.json", points), ("atlas_diagnostics.json", diag),
+                               ("atlas.pca.json", view))}
     for name, text in texts.items():
         (out_dir / name).write_text(text, encoding="utf-8", newline="\n")
     return {"points": len(points), "unplaced": len(atlas["unplaced"]), "trustworthiness": diag["trustworthiness"]}
@@ -146,8 +183,15 @@ def scenario(artifacts: Path, seed: int = 0, hours_per_week: float = 6.0, horizo
     pinned = next((j for j in jobs if isinstance(j, dict) and j.get("id") == pin["job_id"]), None)
     if pinned is None:
         raise InvalidInputError(f"pinned job {pin['job_id']!r} is not in jobs.json")
-    vocab = default_vocabulary()
-    engine = AtlasEngine.fit(jobs, vocab, seed=seed, n_boot=20)
+    vectors_path = artifacts / "vectors.json"
+    if vectors_path.is_file():
+        engine, vocab, _, jobs_by_id = _engine_from_vectors(vectors_path, seed)
+        route = "vectors.json (same model as atlas.project)"
+    else:
+        vocab = default_vocabulary()
+        engine = AtlasEngine.fit(jobs, vocab, seed=seed, n_boot=20)
+        jobs_by_id = {j["id"]: j for j in jobs if isinstance(j, dict) and isinstance(j.get("id"), str)}
+        route = "jobs.json in lane C's vocabulary (no vectors.json present)"
     family = normalize_family(pinned.get("role_family"))
     if family not in engine.profiles:
         raise InvalidInputError(f"pinned job has role_family {pinned.get('role_family')!r}, which has no role profile "
@@ -169,8 +213,14 @@ def scenario(artifacts: Path, seed: int = 0, hours_per_week: float = 6.0, horizo
                              "and not a recommendation.")
     sc["assumptions"].append(f"Target role is the pinned job's role_family {family!r}; the pinned job "
                              f"{pin['job_id']!r} is one of {engine.profiles[family].n_postings} postings in that profile.")
-    _write(artifacts / "scenarios.json", [sc])
-    return {"scenario": sc["id"], "target": family, "actions": len(plan)}
+    sc["assumptions"].append(f"Fitted on {route}.")
+    view = _view(engine, cand, [sc], _data_as_of(jobs_by_id))
+    texts = {name: json.dumps(doc, indent=1, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n"
+             for name, doc in (("scenarios.json", [sc]), ("atlas.pca.json", view))}
+    for name, text in texts.items():
+        (artifacts / name).write_text(text, encoding="utf-8", newline="\n")
+    return {"scenario": sc["id"], "target": family, "actions": len(plan),
+            "projection_id": sc["outputs"]["model_ref"]["projection_id"]}
 
 
 def main(argv=None) -> int:

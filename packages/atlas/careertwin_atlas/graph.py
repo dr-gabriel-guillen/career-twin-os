@@ -32,7 +32,7 @@ from .features import STATE_CONTRADICTED, STATE_UNKNOWN, FeatureVector, finite_n
 from .gaps import EVIDENCED_LEVEL
 from .vocabulary import ACQ_ROLE, SENIORITY_FEATURE
 
-WEEKS_PER_MONTH = 4.345
+WEEKS_PER_MONTH = 4.345   # 365 / 7 / 12 (D noted on #5 that 365.25/7/12 = 4.348; the code uses 365)
 
 
 def hours_needed(level: float, cap: float, reference_hours: float) -> float:

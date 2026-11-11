@@ -95,3 +95,25 @@ def test_manifest_matches_lane_e_shape():
     assert set(manifest["stages"]) == {"atlas.project", "simulator.scenario"}
     assert all(stage["mock"] is False for stage in manifest["stages"].values())
     assert all(t["network"] is False for t in manifest["tests"])
+
+
+def test_both_stages_share_one_model_and_write_the_projection_view(artifacts, contracts):
+    """Lane D finding on #5 (C at 85c0536): the stages fitted two different models in one run."""
+    jsonschema = pytest.importorskip("jsonschema")
+    assert e2e_stage.main(["project", "--vectors", str(artifacts / "vectors.json"), "--out-dir", str(artifacts)]) == 0
+    points = json.loads((artifacts / "atlas_points.json").read_text(encoding="utf-8"))
+    first_view = json.loads((artifacts / "atlas.pca.json").read_text(encoding="utf-8"))
+    assert e2e_stage.main(["scenario", "--artifacts", str(artifacts)]) == 0
+    sc = json.loads((artifacts / "scenarios.json").read_text(encoding="utf-8"))[0]
+    view = json.loads((artifacts / "atlas.pca.json").read_text(encoding="utf-8"))
+    pid = points[0]["projection_id"]
+    assert sc["outputs"]["model_ref"]["projection_id"] == pid == view["projection_id"] == first_view["projection_id"]
+    assert {p["projection_id"] for p in sc["outputs"]["map_points"]} == {pid}
+    kinds = {p["representation_type"] for p in view["points"]}
+    assert {"job", "role-centroid", "candidate", "scenario"} <= kinds
+    assert len(view["paths"]) == 1 and view["paths"][0]["scenario_id"] == sc["id"]
+    assert any("Fitted on vectors.json (same model as atlas.project)" in a for a in sc["assumptions"])
+    schema = json.loads((PKG_ROOT / "schemas" / "atlas-projection.schema.json").read_text(encoding="utf-8"))
+    assert not list(jsonschema.Draft202012Validator(schema).iter_errors(view))
+    assert view["generated_at"] != "1970-01-01T00:00:00Z"               # taken from the inputs' capture times
+    assert all(p["representation_type"] == "job" for p in points)        # E's file stays postings-only

@@ -53,7 +53,8 @@ See the DELIVERED comment for the count at the final SHA. All run offline in abo
 |---|---|---|---|
 | A | `399415569da4f089a8dee2635fb1b13ce246b035` | A's CLI: corpus (n=600), import, skill-vectors, query → C adapters | 602 jobs; 617 / 616 points on the two routes, 0 invalid against `contracts/atlas-point.schema.json`; `synthetic_only: true`; scenario valid |
 | E | `a2e50e339bec831c9bb3f814d38b52bfb535771e` | E's stub (240 jobs) → C `e2e_stage.py` → E's own `verify_atlas`, `v_atlas`, `v_scenarios` | 0 findings; trustworthiness C 0.9297 vs E 0.9229 (tie handling, explained on #4) |
-| D | `e11ad5ce97c5909f5584c239f6acaefbb5e69e11` | read D's `-proposed` shapes; C emits a superset | pinned files in `analytics/reports/for-lane-d/`; D has not yet consumed them |
+| D | `9c24d101e67dfbd01f3516c70e50dc17478072be` | D's own report on #5: C's `atlas-projection/0.1` and `scenario-outputs/0.1` validate in D's strict validators and render in D's browser tests | ACKNOWLEDGED by D. D found that the two pipeline stages fitted two different models; fixed (both stages now share one model and write `atlas.pca.json`), test `test_both_stages_share_one_model_and_write_the_projection_view` |
+| E (review) | E `25de805a11a2cadd60c4d53a9919ecac1956bc56`, C `85c0536` | E's integration runner with A's real vectors | both stages PASS; E's independent recomputation agrees; no findings against C |
 
 Links: A RFC #12 (C's ACK and re-pin), D #5 (C → D delivery), E #4 (E → C request and C's ACK), C's checkpoints on #4.
 
@@ -92,7 +93,7 @@ The reviewer's second point under 15 is a **policy question, left open for the o
 - The PCA sign convention can flip when two loadings tie exactly in magnitude (reported by review cycle 1, not repaired).
 - The drift test caps its permutation budget at 20,000; with more than ~400 compared families it reports `underpowered` instead of a verdict.
 - Contradiction scope is an open owner decision (see cycle 2, finding 15).
-- Lane D does not yet render lane C output; D's UI uses its own stand-in.
+- Lane D renders lane C's pinned samples; in pipeline mode D's E2E is not yet reading the pipeline artifacts end to end (E's BLOCKED note on #5).
 - Repository is PUBLIC. Personal-data work stays blocked until the owner makes it private and approves.
 
 ## No-data-exposure statement
@@ -101,7 +102,7 @@ Every posting, employer, claim, scenario and compensation figure in this lane is
 
 ## Next exact work
 
-1. Lane D: consume `analytics/reports/for-lane-d/` (or call `projection_view`) and answer the six requests on #5.
+1. Lane D: re-run the integrated pipeline against the final SHA and confirm the atlas shows candidate, scenario and path from `atlas.pca.json`.
 2. Lane E: run the integration runner against lane C at the final SHA and post findings on #4.
 3. Owner: decide on the placeholder assumptions listed above; decide whether `schemas/transition-scenario-outputs.schema.json` should become an RFC to type `TransitionScenario.outputs` (E ledger E-F005).
 4. Optional: run `compare_projections` where `umap-learn` is installed, offline, and report the UMAP row.
