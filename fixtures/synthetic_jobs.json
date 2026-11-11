@@ -1,0 +1,64 @@
+[
+  {
+    "id": "fake-fde-1",
+    "title": "Forward Deployed Engineer",
+    "organization": "Fictional Meridian Systems",
+    "role_family": "fde",
+    "skills": [
+      "python",
+      "typescript",
+      "api-design",
+      "ai-evaluation",
+      "customer-delivery"
+    ],
+    "seniority": "senior",
+    "remote_policy": "remote",
+    "target_trajectory": 0.85
+  },
+  {
+    "id": "fake-ai-2",
+    "title": "Applied AI Architect",
+    "organization": "Fictional Quartz Labs",
+    "role_family": "ai-architect",
+    "skills": [
+      "python",
+      "aws",
+      "api-design",
+      "ai-evaluation",
+      "mlops"
+    ],
+    "seniority": "staff",
+    "remote_policy": "hybrid",
+    "target_trajectory": 0.9
+  },
+  {
+    "id": "fake-cto-3",
+    "title": "Field CTO",
+    "organization": "Fictional Aurora Enterprises",
+    "role_family": "field-cto",
+    "skills": [
+      "enterprise-sales",
+      "cloud-architecture",
+      "executive-communication",
+      "customer-delivery",
+      "ai-strategy"
+    ],
+    "seniority": "director",
+    "remote_policy": "remote",
+    "target_trajectory": 1
+  },
+  {
+    "id": "fake-backend-4",
+    "title": "Backend Engineer",
+    "organization": "Fictional Nebula Software",
+    "role_family": "backend",
+    "skills": [
+      "python",
+      "api-design",
+      "distributed-systems"
+    ],
+    "seniority": "senior",
+    "remote_policy": "onsite",
+    "target_trajectory": 0.2
+  }
+]
