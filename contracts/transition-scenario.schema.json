@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "TransitionScenario",
+  "required": [
+    "id",
+    "candidate_ref",
+    "target_role",
+    "planned_actions",
+    "time_horizon_months",
+    "status",
+    "assumptions",
+    "outputs"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "candidate_ref": {
+      "type": "string"
+    },
+    "target_role": {
+      "type": "string"
+    },
+    "planned_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "skill",
+          "effort_hours"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "skill": {
+            "type": "string"
+          },
+          "effort_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "evidence_goal": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "time_horizon_months": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "const": "hypothetical"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outputs": {
+      "type": "object"
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
