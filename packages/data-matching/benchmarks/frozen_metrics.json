@@ -13,7 +13,7 @@
   "precision_at_10": 0.9,
   "precision_at_10_strong": 0.9,
   "recall_at_20": 0.5294,
-  "result_hash": "f59a3efef438913dcb901abfde8953b272535cd8e601330db4f8ab3116cf820f",
+  "result_hash": "4f5f46dde11e7db03c890354a0afc4642259b231bc536c2ca58a1b7805c9099c",
   "seed": 20261110,
   "top_n": 20
  },

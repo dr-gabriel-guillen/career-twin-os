@@ -49,10 +49,11 @@ PREFERENCES = obj([], {
 })
 PREFERENCES.update({"$id": "https://careertwin.local/lane-a/a-preferences.v0.1.schema.json", "title": "LaneAPreferences"})
 
-EXT = obj(["ext_version", "synthetic", "board", "employer", "timestamps", "status_reason", "location", "compensation",
+EXT = obj(["ext_version", "wire_format", "synthetic", "board", "employer", "timestamps", "status_reason", "location", "compensation",
            "skills_required", "skills_preferred", "cues", "security_flags", "quality_flags", "content_hash",
            "version", "dedup", "taxonomy_version"], {
     "ext_version": {"type": "string", "const": "a-ext/0.1"},
+    "wire_format": {"type": "string", "enum": ["greenhouse", "lever", "ashby", "synthetic", "user-import", "other-permitted"]},
     "synthetic": BOOL, "board": STR,
     "employer": obj(["id", "name", "key", "org_uid", "alias_ambiguous"], {"id": {"type": "string", "pattern": "^emp_[0-9a-f]{16}$"}, "name": STR, "key": STR, "org_uid": NSTR, "alias_ambiguous": BOOL}),
     "timestamps": obj(["captured_at", "posted_at", "updated_at", "expires_at"],
@@ -88,8 +89,9 @@ JOB_RECORD = obj(["posting", "ext"], {"posting": {"type": "object", "description
 JOB_RECORD.update({"$id": "https://careertwin.local/lane-a/a-job-record.v0.1.schema.json", "title": "LaneAJobRecord"})
 
 CONSTRAINT = obj(["constraint", "outcome", "detail"], {"constraint": STR, "outcome": {"type": "string", "enum": ["pass", "fail", "unknown"]}, "detail": STR})
-COMPONENT = obj(["group", "value", "configured_weight", "effective_weight", "contribution", "basis"], {
+COMPONENT = obj(["group", "value", "state", "configured_weight", "effective_weight", "contribution", "basis"], {
     "group": {"type": "string", "enum": ["near_term_fit", "strategic_utility"]}, "value": NUM01,
+    "state": {"type": "string", "enum": ["known", "unknown", "not-applicable"]},
     "configured_weight": {"type": "number", "minimum": 0}, "effective_weight": {"type": "number", "minimum": 0, "maximum": 1},
     "contribution": PCT, "basis": STR})
 EXPLANATION = obj(["job_id", "rank", "score", "score_type", "score_interval", "title", "organization", "role_family",
@@ -114,8 +116,8 @@ EXPLANATION = obj(["job_id", "rank", "score", "score_type", "score_interval", "t
         "status": {"type": "string", "enum": ["active", "unknown"]}, "reason": STR,
         "as_of": {"type": "string", "format": "date-time"}, "fetched_at": {"type": "string", "format": "date-time"}}),
     "compensation": obj(["stated", "state", "note"], {"stated": {"type": ["object", "null"]}, "state": STR, "note": STR}),
-    "provenance": obj(["source", "source_id", "url", "synthetic", "content_hash", "version", "duplicates_collapsed"], {
-        "source": STR, "source_id": STR, "url": STR, "synthetic": BOOL, "content_hash": STR,
+    "provenance": obj(["source", "wire_format", "source_id", "url", "synthetic", "content_hash", "version", "duplicates_collapsed"], {
+        "source": STR, "wire_format": STR, "source_id": STR, "url": STR, "synthetic": BOOL, "content_hash": STR,
         "version": {"type": "integer", "minimum": 1}, "duplicates_collapsed": STRS}),
     "cautions": STRS,
     "sensitivity": obj(["rank_best", "rank_worst", "method"], {"rank_best": {"type": "integer", "minimum": 1},

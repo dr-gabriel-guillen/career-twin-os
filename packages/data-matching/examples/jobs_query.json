@@ -29,7 +29,7 @@
       }
      ]
     },
-    "content_hash": "a8f4567f8bc8926bc1a67fc6cb33867f4faa9c33b337aeb662b7f27e4dd55c03",
+    "content_hash": "6e5e4c45d5b19f41f0e1054a44761d063c2f61ff638200b0306e16fac6c54c33",
     "cues": {
      "customer": 5,
      "enterprise": 9
@@ -91,7 +91,8 @@
      "posted_at": "2026-08-06T04:00:00Z",
      "updated_at": null
     },
-    "version": 1
+    "version": 1,
+    "wire_format": "ashby"
    },
    "posting": {
     "compensation": {
@@ -130,7 +131,7 @@
      "systems-integration",
      "typescript"
     ],
-    "source": "ashby",
+    "source": "synthetic",
     "source_evidence": [
      "capture:ashby/fictionalonyxsystems@2026-11-08T00:00:00Z",
      "payload-sha256:ee834eb65cf271deb971598682bbfe5262fb4bfca0c329863f5530100676742b",
@@ -152,7 +153,7 @@
      "state": "absent",
      "stated": []
     },
-    "content_hash": "04c673e21073ae69adfda07247eb71a5d04e78c6f551b20f391469890e1b3ebd",
+    "content_hash": "c6eab3c380c20663b86cec1dd19e8195dda4584990deb003162e5fa71683389f",
     "cues": {
      "customer": 5,
      "enterprise": 4
@@ -223,7 +224,8 @@
      "posted_at": "2026-10-07T05:00:00Z",
      "updated_at": "2026-10-07T05:00:00Z"
     },
-    "version": 1
+    "version": 1,
+    "wire_format": "greenhouse"
    },
    "posting": {
     "compensation": null,
@@ -258,7 +260,7 @@
      "technical-discovery",
      "typescript"
     ],
-    "source": "greenhouse",
+    "source": "synthetic",
     "source_evidence": [
      "capture:greenhouse/fictionalvespernetworks@2026-11-08T00:00:00Z",
      "payload-sha256:ff87ea5a17ef92c4156563255a57f774bdc99ab2b3c601a1b97f3ab0c21b09a8",

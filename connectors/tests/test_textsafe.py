@@ -149,3 +149,38 @@ def test_safe_urls_accepted(url):
 ])
 def test_unsafe_urls_rejected_with_reason(url, reason):
     assert url_problem(url) == reason
+
+
+# Cases from lane E's offline SSRF list (integration/ctint/sec_ssrf.py @ a2e50e3, ATTACK_URLS), copied as data.
+E_ATTACK_URLS = [
+    "https://127.0.0.1/feed", "https://localhost/feed", "https://LOCALHOST./feed", "https://[::1]/feed",
+    "https://[::ffff:127.0.0.1]/feed", "https://[::ffff:169.254.169.254]/latest/meta-data/",
+    "https://169.254.169.254/latest/meta-data/iam/security-credentials/", "https://metadata.google.internal/computeMetadata/v1/",
+    "https://10.0.0.5/feed", "https://172.16.4.1/feed", "https://192.168.1.10/feed", "https://100.64.0.1/feed",
+    "https://0.0.0.0/feed", "https://2130706433/feed", "https://0x7f000001/feed", "https://0x7f.1/feed", "https://0177.0.0.1/feed",
+    "https://127.1/feed", "https://[fd00::1]/feed", "https://[fe80::1%25eth0]/feed",
+    "https://jobs.fictional-meridian.example@127.0.0.1/feed", "https://user:pw@jobs.fictional-meridian.example/feed",
+    "https://jobs.fictional-meridian.example:8443/feed", "https://jobs.fictional-meridian.example:22/", "https://intranet/feed",
+    "https://build.corp/feed", "https://printer.local/feed", "https://kubernetes.default.svc/api",
+    "https://api.default.svc.cluster.local/x", "file:///etc/passwd", "gopher://127.0.0.1:6379/_FLUSHALL",
+    "ftp://jobs.fictional-meridian.example/feed", "javascript:alert(1)", "data:text/html,<script>alert(1)</script>",
+    "//169.254.169.254/latest", r"https:\\127.0.0.1\feed", r"https://jobs.fictional-meridian.example\@127.0.0.1/feed",
+    "https://jobs.fictional-meridian.example/feed\r\nHost: 127.0.0.1", " https://jobs.fictional-meridian.example/feed",
+    "https://раypal.example/feed", "https://xn--80ak6aa92e.example/feed", "",
+]
+E_BENIGN_URLS = [
+    "https://jobs.fictional-meridian.example/feed.json", "https://boards.fictional-quartz.example/v1/boards/quartz/jobs?content=true",
+    "https://jobs.fictional-meridian.example:443/feed.json", "https://JOBS.Fictional-Meridian.EXAMPLE/feed.json",
+    "https://203.0.113.10.fictional-meridian.example/feed", "https://8.8.8.8.example/feed",
+    "http://jobs.fictional-meridian.example/feed.json",  # plain http: links are stored, never fetched (documented decision)
+]
+
+
+@pytest.mark.parametrize("url", E_ATTACK_URLS)
+def test_lane_e_attack_urls_rejected(url):
+    assert url_problem(url) is not None
+
+
+@pytest.mark.parametrize("url", E_BENIGN_URLS)
+def test_lane_e_benign_urls_accepted(url):
+    assert url_problem(url) is None

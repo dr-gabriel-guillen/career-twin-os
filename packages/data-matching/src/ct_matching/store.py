@@ -131,7 +131,7 @@ class JobStore:
         if chain is None:
             ext["version"], ext["supersedes"] = 1, None
             self.versions[jid] = [env]
-            self.ledger.append(at, "created", jid, {"content_hash": ext["content_hash"], "source": posting["source"],
+            self.ledger.append(at, "created", jid, {"content_hash": ext["content_hash"], "source": posting["source"], "wire_format": ext["wire_format"],
                                                     "source_id": posting["source_id"], "payload_sha256": ext["payload_sha256"]})
             return "created"
         latest = chain[-1]
@@ -164,7 +164,7 @@ class JobStore:
         for jid in sorted(self.versions):
             latest = self.versions[jid][-1]
             p, e = latest["posting"], latest["ext"]
-            if p["source"] != source or e["board"] != board or p["source_id"] in seen or e.get("revoked"):
+            if e["wire_format"] != source or e["board"] != board or p["source_id"] in seen or e.get("revoked"):
                 continue
             if utc(at) <= utc(p["fetched_at"]):
                 continue  # an older snapshot cannot revoke a newer observation
@@ -188,7 +188,7 @@ class JobStore:
             groups.setdefault((emp, title_key(p["title"]), fold(p["location"] or ""), p["remote_policy"]), []).append(jid)
         info: dict[str, dict[str, Any]] = {}
         for key in sorted(groups):
-            members = sorted(groups[key], key=lambda j: (SOURCE_PRIORITY.get(latest[j]["posting"]["source"], 9), j))
+            members = sorted(groups[key], key=lambda j: (SOURCE_PRIORITY.get(latest[j]["ext"]["wire_format"], 9), j))
             clusters: list[list[str]] = []
             for jid in members:
                 tok = _tokens(latest[jid]["ext"]["description_text"]) or frozenset(latest[jid]["posting"]["skills"])
@@ -208,7 +208,7 @@ class JobStore:
                 canonical = cluster[0]
                 for jid in cluster:
                     same_board = sum(1 for other in cluster
-                                     if latest[other]["posting"]["source"] == latest[jid]["posting"]["source"]
+                                     if latest[other]["ext"]["wire_format"] == latest[jid]["ext"]["wire_format"]
                                      and latest[other]["ext"]["board"] == latest[jid]["ext"]["board"]) > 1
                     info[jid] = {"cluster_id": "dc_" + canonical[3:], "canonical_id": canonical,
                                  "is_canonical": jid == canonical, "members": list(cluster),
@@ -250,7 +250,7 @@ class JobStore:
         if self._dedup_dirty:
             self._recompute_dedup()
         ok, bad = self.ledger.verify()
-        return {"job_id": jid, "source": chain[-1]["posting"]["source"], "source_id": chain[-1]["posting"]["source_id"],
+        return {"job_id": jid, "source": chain[-1]["posting"]["source"], "wire_format": chain[-1]["ext"]["wire_format"], "source_id": chain[-1]["posting"]["source_id"],
                 "board": chain[-1]["ext"]["board"], "url": chain[-1]["posting"]["url"],
                 "license_note": chain[-1]["posting"].get("license_note", ""), "synthetic": chain[-1]["ext"]["synthetic"],
                 "versions": [{"version": e["ext"]["version"], "fetched_at": e["posting"]["fetched_at"],

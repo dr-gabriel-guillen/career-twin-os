@@ -175,6 +175,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -187,6 +195,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -224,6 +233,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -236,6 +253,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -273,6 +291,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -285,6 +311,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -322,6 +349,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -334,6 +369,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -371,6 +407,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -383,6 +427,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -420,6 +465,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -432,6 +485,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -469,6 +523,14 @@
                     ],
                     "type": "string"
                   },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
                   "value": {
                     "maximum": 1,
                     "minimum": 0,
@@ -481,6 +543,7 @@
                 "required": [
                   "group",
                   "value",
+                  "state",
                   "configured_weight",
                   "effective_weight",
                   "contribution",
@@ -703,10 +766,14 @@
               "version": {
                 "minimum": 1,
                 "type": "integer"
+              },
+              "wire_format": {
+                "type": "string"
               }
             },
             "required": [
               "source",
+              "wire_format",
               "source_id",
               "url",
               "synthetic",

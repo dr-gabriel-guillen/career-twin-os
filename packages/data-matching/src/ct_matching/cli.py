@@ -11,6 +11,7 @@ from ct_connectors import ConnectorError
 
 from . import corpus, evalbench
 from .service import RequestError, Service, _as_of, vault_from_profile
+from .matching import MatchRequestError
 from .store import JobStore
 from .vault import VaultError
 
@@ -103,6 +104,24 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--as-of", default=corpus.AS_OF)
     p.add_argument("--port", type=int, default=8765)
 
+    p = sub.add_parser("e2e", help="artifact stages for the lane E integration runner (integration-manifest.json)")
+    e2e_sub = p.add_subparsers(dest="stage", required=True)
+    q = e2e_sub.add_parser("jobs")
+    q.add_argument("--seed", type=int, default=corpus.DEFAULT_SEED)
+    q.add_argument("--count", type=int, default=180)
+    q.add_argument("--out", required=True)
+    q = e2e_sub.add_parser("claims")
+    q.add_argument("--out", required=True)
+    q = e2e_sub.add_parser("rank")
+    q.add_argument("--jobs", required=True)
+    q.add_argument("--claims", required=True)
+    q.add_argument("--out", required=True)
+    q.add_argument("--as-of")
+    q.add_argument("--preferences", help="JSON file with a-preferences; default: synthetic profile's preferences")
+    q = e2e_sub.add_parser("vectors")
+    q.add_argument("--jobs", required=True)
+    q.add_argument("--out", required=True)
+
     p = sub.add_parser("demo", help="generate → import → rank, print a compact shortlist")
     p.add_argument("--seed", type=int, default=corpus.DEFAULT_SEED)
     p.add_argument("--n", type=int, default=180)
@@ -157,6 +176,19 @@ def run(argv: list[str] | None = None) -> int:
                 pass
             finally:
                 server.server_close()
+        elif args.command == "e2e":
+            from . import e2e
+            if args.stage == "jobs":
+                summary = e2e.stage_jobs(args.seed, args.count, Path(args.out))
+            elif args.stage == "claims":
+                summary = e2e.stage_claims(Path(args.out))
+            elif args.stage == "rank":
+                prefs = _read_json(args.preferences) if args.preferences else None
+                summary = e2e.stage_rank(Path(args.jobs), Path(args.claims), Path(args.out),
+                                         _as_of(args.as_of) if args.as_of else None, prefs)
+            else:
+                summary = e2e.stage_vectors(Path(args.jobs), Path(args.out))
+            _emit(summary)
         elif args.command == "demo":
             service = Service()
             report = service.import_doc(corpus.generate(args.seed, args.n))
@@ -170,6 +202,9 @@ def run(argv: list[str] | None = None) -> int:
                                   "missing_skills": s["missing_skills"], "compensation": s["compensation"]["state"],
                                   "availability": s["availability"]["status"]} for s in result["shortlist"]],
                    "disclaimers": result["disclaimers"]})
+    except MatchRequestError as exc:
+        sys.stderr.write(json.dumps({"error": {"code": "bad-preferences", "message": str(exc)}}) + "\n")
+        return EXIT_DATA
     except (RequestError, ConnectorError, VaultError) as exc:
         code = getattr(exc, "code", None) or getattr(exc, "error_class", "error")
         sys.stderr.write(json.dumps({"error": {"code": code, "message": str(exc)}}) + "\n")

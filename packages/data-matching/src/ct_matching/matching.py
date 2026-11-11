@@ -375,6 +375,7 @@ def _explain(jid: str, item: dict[str, Any], position: int, near_rank: int | Non
             if comp["near" if group == "near_term_fit" else "strategic"] is not None and (comp["near"] is None or comp["strategic"] is None):
                 effective = (weights[name] / known) if value is not None and known > 0 else 0.0
             components[name] = {"group": group, "value": None if value is None else round(value, 4),
+                                "state": "known" if value is not None else ("not-applicable" if sig[name].get("na") else "unknown"),
                                 "configured_weight": weights[name], "effective_weight": round(effective, 4),
                                 "contribution": None if value is None else round(100 * effective * value, 2),
                                 "basis": sig[name]["basis"]}
@@ -413,7 +414,7 @@ def _explain(jid: str, item: dict[str, Any], position: int, near_rank: int | Non
         "availability": {"status": p["status"], "reason": e["status_reason"], "as_of": as_of, "fetched_at": p["fetched_at"]},
         "compensation": {"stated": p["compensation"], "state": e["compensation"]["state"],
                          "note": "source-stated, unverified" if p["compensation"] else "unknown; not inferred"},
-        "provenance": {"source": p["source"], "source_id": p["source_id"], "url": p["url"], "synthetic": e["synthetic"],
+        "provenance": {"source": p["source"], "wire_format": e["wire_format"], "source_id": p["source_id"], "url": p["url"], "synthetic": e["synthetic"],
                        "content_hash": e["content_hash"], "version": e.get("version", 1),
                        "duplicates_collapsed": [m for m in (e.get("dedup") or {}).get("members", []) if m != jid]},
         "cautions": sorted(set(e["quality_flags"]) | set(e["security_flags"])),

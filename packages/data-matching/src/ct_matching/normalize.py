@@ -367,6 +367,8 @@ def status_at(ext: dict[str, Any], fetched_at: str, as_of: datetime, ttl_days: i
         return "expired", "delisted-by-source"
     if any(f.startswith("time-anomaly") for f in ext.get("quality_flags", [])):
         return "unknown", "time-anomaly"
+    if "producer-status-unknown" in ext.get("quality_flags", []):
+        return "unknown", "producer-status-unknown"
     fetched = parse_ts(fetched_at)
     assert fetched is not None
     if as_of < fetched - timedelta(days=1):
@@ -392,6 +394,7 @@ def normalize(record: SourceRecord) -> dict[str, Any]:
     text = record.description_text
     ext: dict[str, Any] = {
         "ext_version": EXT_VERSION,
+        "wire_format": record.source,
         "synthetic": record.synthetic,
         "board": record.board,
         "employer": {"id": employer_id(record.organization), "name": record.organization,
@@ -417,7 +420,8 @@ def normalize(record: SourceRecord) -> dict[str, Any]:
     }
     posting: dict[str, Any] = {
         "id": job_id(record.source, record.board, record.source_id),
-        "source": record.source,
+        # B01: every synthetic capture is labelled "synthetic" in the frozen object; the ATS wire format moves to ext.
+        "source": "synthetic" if record.synthetic else record.source,
         "source_id": record.source_id,
         "title": record.title,
         "organization": record.organization,

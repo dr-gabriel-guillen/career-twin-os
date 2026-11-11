@@ -329,3 +329,45 @@ def test_legacy_main_fixture_profile_is_consumable(service):
     assert result["subject_id"] == "candidate-synthetic-001" and len(result["shortlist"]) == 5
     statuses = {m["proof_status"] for s in result["shortlist"] for m in s["matched_skills"]}
     assert statuses == {"self-reported"}, "a bare skills list is never treated as verified"
+
+
+def test_no_preference_signals_do_not_widen_interval():
+    """Mutation-test survivor #5: 'not-applicable' (user gave no preference) must not be treated as unknown."""
+    item = one(ranked([posting()], {}))
+    for name in ("workstyle", "transition_utility", "seniority_alignment"):
+        assert item["components"][name]["state"] == "not-applicable"
+        assert name not in item["unknown_inputs"]
+    assert item["score_interval"]["low"] == item["score"] == item["score_interval"]["high"]
+
+
+def test_component_state_marks_unknown_distinctly_from_zero():
+    item = one(ranked([posting(remote=None, location="Austin, TX")], {"remote": ["remote"], "target_roles": ["Backend Engineer"]}))
+    work = item["components"]["workstyle"]
+    assert work["state"] == "unknown" and work["value"] is None and work["contribution"] is None
+    known = one(ranked([posting(remote="Hybrid")], {"remote": ["remote", "hybrid"], "target_roles": ["Backend Engineer"]}))["components"]["workstyle"]
+    assert known["state"] == "known" and known["value"] == 0.7 and known["contribution"] is not None
+
+
+@pytest.mark.parametrize("prefs", [
+    json.loads('{"weights": {"skill_coverage": NaN}}'), json.loads('{"weights": {"workstyle": Infinity}}'),
+    json.loads('{"strategy_weight": NaN}'), json.loads('{"compensation_floor": {"currency": "USD", "amount": -Infinity}}'),
+    json.loads('{"compensation_floor": {"currency": "USD", "amount": NaN}}'),
+])
+def test_non_finite_numbers_are_rejected_everywhere(prefs):
+    """Lane E finding E-F008: NaN/Infinity accepted by json.loads must never reach a comparison."""
+    with pytest.raises(MatchRequestError):
+        ranked([posting()], prefs)
+
+
+def test_non_finite_pay_from_json_is_ignored():
+    job = json.loads('{"min": NaN, "max": Infinity, "currency": "USD", "period": "year"}')
+    item = one(ranked([posting(compensation=[job])]))
+    assert item["compensation"]["stated"] is None and item["compensation"]["state"] == "absent"
+
+
+def test_lone_surrogate_never_reaches_output():
+    """Lane E finding 2: a lone UTF-16 surrogate is schema-valid but breaks UTF-8 export."""
+    result = ranked([posting(title="Senior Backend Engineer \ud800", description="Requirements\n- Python \udfff")])
+    blob = json.dumps(result, ensure_ascii=False)
+    blob.encode("utf-8")
+    assert "\ud800" not in blob and "\udfff" not in blob

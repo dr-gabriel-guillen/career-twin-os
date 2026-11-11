@@ -1,0 +1,329 @@
+{
+ "tool": "packages/data-matching/tools/mutation_test.py",
+ "mutants_defined": 44,
+ "applied": 44,
+ "killed": 43,
+ "survived": [
+  {
+   "id": 5,
+   "file": "matching.py",
+   "meaning": "no-preference signals widen interval",
+   "outcome": "survived",
+   "detail": "484 passed in 21.96s"
+  }
+ ],
+ "not_applied": [],
+ "kill_rate": 0.9773,
+ "seconds": 636.8,
+ "results": [
+  {
+   "id": 0,
+   "file": "matching.py",
+   "meaning": "expired postings become rankable",
+   "outcome": "killed",
+   "detail": "1 failed, 5 passed in 1.46s"
+  },
+  {
+   "id": 1,
+   "file": "matching.py",
+   "meaning": "unknown availability always allowed",
+   "outcome": "killed",
+   "detail": "1 failed, 20 passed in 1.96s"
+  },
+  {
+   "id": 2,
+   "file": "matching.py",
+   "meaning": "compensation floor inverted",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 12.25s"
+  },
+  {
+   "id": 3,
+   "file": "matching.py",
+   "meaning": "unknown salary treated as failing",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 11.22s"
+  },
+  {
+   "id": 4,
+   "file": "matching.py",
+   "meaning": "duplicates ranked twice",
+   "outcome": "killed",
+   "detail": "1 failed, 5 passed in 0.88s"
+  },
+  {
+   "id": 5,
+   "file": "matching.py",
+   "meaning": "no-preference signals widen interval",
+   "outcome": "survived",
+   "detail": "484 passed in 21.96s"
+  },
+  {
+   "id": 6,
+   "file": "matching.py",
+   "meaning": "preferred skills weighted as required",
+   "outcome": "killed",
+   "detail": "1 failed, 14 passed in 1.77s"
+  },
+  {
+   "id": 7,
+   "file": "matching.py",
+   "meaning": "score relabelled as probability",
+   "outcome": "killed",
+   "detail": "1 failed, 5 passed in 1.63s"
+  },
+  {
+   "id": 8,
+   "file": "matching.py",
+   "meaning": "remote constraint disabled",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 17.61s"
+  },
+  {
+   "id": 9,
+   "file": "matching.py",
+   "meaning": "jurisdiction constraint disabled",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 18.55s"
+  },
+  {
+   "id": 10,
+   "file": "matching.py",
+   "meaning": "injection-flagged postings ranked",
+   "outcome": "killed",
+   "detail": "1 failed, 12 passed in 1.97s"
+  },
+  {
+   "id": 11,
+   "file": "normalize.py",
+   "meaning": "ambiguous currency accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 1 passed in 1.49s"
+  },
+  {
+   "id": 12,
+   "file": "normalize.py",
+   "meaning": "hourly pay passed off as annual",
+   "outcome": "killed",
+   "detail": "1 failed, 17 passed in 2.72s"
+  },
+  {
+   "id": 13,
+   "file": "normalize.py",
+   "meaning": "structured-vs-text salary conflict ignored",
+   "outcome": "killed",
+   "detail": "1 failed, 17 passed in 1.89s"
+  },
+  {
+   "id": 14,
+   "file": "normalize.py",
+   "meaning": "inverted salary range accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 17 passed in 1.95s"
+  },
+  {
+   "id": 15,
+   "file": "normalize.py",
+   "meaning": "zero salary accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 17 passed in 2.10s"
+  },
+  {
+   "id": 16,
+   "file": "normalize.py",
+   "meaning": "stale captures stay active",
+   "outcome": "killed",
+   "detail": "1 failed, 24 passed in 2.16s"
+  },
+  {
+   "id": 17,
+   "file": "normalize.py",
+   "meaning": "source expiry ignored",
+   "outcome": "killed",
+   "detail": "1 failed, 21 passed in 1.92s"
+  },
+  {
+   "id": 18,
+   "file": "normalize.py",
+   "meaning": "delisted postings stay active",
+   "outcome": "killed",
+   "detail": "1 failed, 21 passed in 1.72s"
+  },
+  {
+   "id": 19,
+   "file": "normalize.py",
+   "meaning": "ambiguous 'CA' guessed as US",
+   "outcome": "killed",
+   "detail": "1 failed, 121 passed in 16.76s"
+  },
+  {
+   "id": 20,
+   "file": "normalize.py",
+   "meaning": "unknown workplace policy guessed as remote",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 17.06s"
+  },
+  {
+   "id": 21,
+   "file": "normalize.py",
+   "meaning": "benefits text creates requirements",
+   "outcome": "killed",
+   "detail": "1 failed, 254 passed in 21.85s"
+  },
+  {
+   "id": 22,
+   "file": "store.py",
+   "meaning": "stale capture overwrites newer state",
+   "outcome": "killed",
+   "detail": "1 failed, 9 passed in 1.32s"
+  },
+  {
+   "id": 23,
+   "file": "store.py",
+   "meaning": "old snapshot revokes newer observation",
+   "outcome": "killed",
+   "detail": "1 failed, 290 passed in 28.11s"
+  },
+  {
+   "id": 24,
+   "file": "store.py",
+   "meaning": "distinct employers with same name merged",
+   "outcome": "killed",
+   "detail": "1 failed, 5 passed in 1.73s"
+  },
+  {
+   "id": 25,
+   "file": "store.py",
+   "meaning": "different roles with same title merged",
+   "outcome": "killed",
+   "detail": "1 failed, 300 passed in 31.20s"
+  },
+  {
+   "id": 26,
+   "file": "store.py",
+   "meaning": "ledger content edits undetected",
+   "outcome": "killed",
+   "detail": "1 failed, 39 passed in 41.37s"
+  },
+  {
+   "id": 27,
+   "file": "store.py",
+   "meaning": "empty snapshot mass-revokes",
+   "outcome": "killed",
+   "detail": "1 failed, 288 passed in 39.57s"
+  },
+  {
+   "id": 28,
+   "file": "vault.py",
+   "meaning": "credentials supported by a work sample",
+   "outcome": "killed",
+   "detail": "1 failed, 314 passed in 45.81s"
+  },
+  {
+   "id": 29,
+   "file": "vault.py",
+   "meaning": "evidence without hash supports claims",
+   "outcome": "killed",
+   "detail": "1 failed, 313 passed in 55.55s"
+  },
+  {
+   "id": 30,
+   "file": "vault.py",
+   "meaning": "contradicted claims stay usable",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 30.38s"
+  },
+  {
+   "id": 31,
+   "file": "vault.py",
+   "meaning": "unsupported claims can be made public",
+   "outcome": "killed",
+   "detail": "1 failed, 332 passed in 55.43s"
+  },
+  {
+   "id": 32,
+   "file": "vault.py",
+   "meaning": "revoked evidence still supports",
+   "outcome": "killed",
+   "detail": "1 failed, 329 passed in 20.58s"
+  },
+  {
+   "id": 33,
+   "file": "vault.py",
+   "meaning": "expired claims exported",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 11.02s"
+  },
+  {
+   "id": 34,
+   "file": "vault.py",
+   "meaning": "private claims leak into resume draft",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 10.74s"
+  },
+  {
+   "id": 35,
+   "file": "textsafe.py",
+   "meaning": "javascript:/file: URLs accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 11.96s"
+  },
+  {
+   "id": 36,
+   "file": "textsafe.py",
+   "meaning": "private/metadata IP URLs accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 77 passed in 11.80s"
+  },
+  {
+   "id": 37,
+   "file": "textsafe.py",
+   "meaning": "credential-bearing URLs accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 1 passed in 0.90s"
+  },
+  {
+   "id": 38,
+   "file": "textsafe.py",
+   "meaning": "script/style text leaks into descriptions",
+   "outcome": "killed",
+   "detail": "1 failed, 12 passed in 1.13s"
+  },
+  {
+   "id": 39,
+   "file": "textsafe.py",
+   "meaning": "display:none text kept",
+   "outcome": "killed",
+   "detail": "1 failed, 12 passed in 1.15s"
+  },
+  {
+   "id": 40,
+   "file": "textsafe.py",
+   "meaning": "hidden prompt injection not flagged",
+   "outcome": "killed",
+   "detail": "1 failed, 12 passed in 1.04s"
+  },
+  {
+   "id": 41,
+   "file": "_common.py",
+   "meaning": "duplicate ids inside one payload accepted",
+   "outcome": "killed",
+   "detail": "1 failed, 1 passed in 0.85s"
+  },
+  {
+   "id": 42,
+   "file": "_common.py",
+   "meaning": "numeric strings coerced to pay",
+   "outcome": "killed",
+   "detail": "1 failed, 386 passed in 20.97s"
+  },
+  {
+   "id": 43,
+   "file": "base.py",
+   "meaning": "naive timestamps assumed UTC",
+   "outcome": "killed",
+   "detail": "1 failed, 47 passed in 9.30s"
+  }
+ ],
+ "note": "Hand-picked semantic mutants over safety-relevant branches; not exhaustive operator coverage."
+}

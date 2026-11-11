@@ -247,14 +247,16 @@ def url_problem(url: object) -> str | None:
     if not host:
         return "no-host"
     host = host.rstrip(".").lower()
-    if port is not None and port not in (80, 443, 8443):
+    if port is not None and port not in (80, 443):
         return "unusual-port"
     try:
         host_ascii = host.encode("idna").decode("ascii") if not host.isascii() else host
     except UnicodeError:
         return "bad-idn"
     if host_ascii != host:
-        return "non-ascii-host"  # homograph risk; require punycode to be explicit
+        return "non-ascii-host"  # homograph risk
+    if any(label.startswith("xn--") for label in host.split(".")):
+        return "punycode-host"  # IDN homograph risk; no legitimate B01 fixture needs one
     candidate = host.strip("[]")
     try:
         ip = ipaddress.ip_address(candidate)
@@ -268,7 +270,7 @@ def url_problem(url: object) -> str | None:
     if "." not in host:
         return "single-label-host"
     if host == "localhost" or host.endswith((".localhost", ".local", ".internal", ".intranet", ".lan", ".home",
-                                              ".corp", ".arpa", ".onion")):
+                                              ".corp", ".arpa", ".onion", ".svc", ".cluster.local")):
         return "internal-host"
     if not re.fullmatch(r"[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+", host):
         return "bad-hostname"

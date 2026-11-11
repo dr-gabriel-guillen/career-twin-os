@@ -404,10 +404,22 @@
         "version": {
           "minimum": 1,
           "type": "integer"
+        },
+        "wire_format": {
+          "enum": [
+            "greenhouse",
+            "lever",
+            "ashby",
+            "synthetic",
+            "user-import",
+            "other-permitted"
+          ],
+          "type": "string"
         }
       },
       "required": [
         "ext_version",
+        "wire_format",
         "synthetic",
         "board",
         "employer",

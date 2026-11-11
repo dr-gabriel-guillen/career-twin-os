@@ -23,7 +23,7 @@ def build() -> dict[str, Any]:
     service = Service()
     report = service.import_doc(corpus.generate())
     service.vault, service.preferences = vault_from_profile(corpus.SYNTHETIC_PROFILE, corpus.AS_OF)
-    ranked = service.rank({"as_of": corpus.AS_OF, "top_n": 3})
+    ranked = service.rank({"as_of": corpus.AS_OF, "top_n": 10})
     top = ranked["shortlist"][0]["job_id"]
     listing = service.query({"as_of": corpus.AS_OF, "status": "active", "family": "fde", "limit": "2"})
     vectors = service.skill_vectors(corpus.AS_OF)

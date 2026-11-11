@@ -49,7 +49,7 @@
  "store": {
   "jobs": 190,
   "ledger_entries": 262,
-  "ledger_head": "8e7961c43fa615f41218b49b95d09c38e99180a7c5038b9a437e02cca2bd3e16",
+  "ledger_head": "45288cd7637086411e853339509c4c1e26437d4a88718fb5fc37b05b4105a6ff",
   "ledger_verified": true,
   "quarantined": 10,
   "versions": 195
