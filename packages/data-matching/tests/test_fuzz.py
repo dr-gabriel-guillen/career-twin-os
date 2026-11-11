@@ -147,7 +147,7 @@ def test_corpus_generator_never_emits_non_fictional_markers():
         blob = json.dumps(corpus.generate(seed=seed, n=100))
         hosts = set()
         import re
-        for match in re.finditer(r"https?://([A-Za-z0-9.-]+)", blob):
+        for match in re.finditer(r"https?://(?:[A-Za-z0-9:]+@)?([A-Za-z0-9.-]+)", blob):
             hosts.add(match.group(1).lower())
         allowed_exceptions = {"169.254.169.254", "localhost"}  # deliberately unsafe URLs that must be rejected on import
         assert all(h.endswith(".example") or h in allowed_exceptions for h in hosts), sorted(hosts)[:5]
