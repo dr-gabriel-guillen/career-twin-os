@@ -1,0 +1,32 @@
+{
+ "as_of": "2026-11-10T00:00:00Z",
+ "preferences": {
+  "compensation_floor": {
+   "amount": 150000,
+   "currency": "USD"
+  },
+  "employment_types": [
+   "full-time"
+  ],
+  "excluded_employers": [
+   "Fictional Onyx Works"
+  ],
+  "jurisdictions": [
+   "US"
+  ],
+  "remote": [
+   "remote",
+   "hybrid"
+  ],
+  "seniority_max": "director",
+  "seniority_min": "senior",
+  "seniority_target": "staff",
+  "strategy_weight": 0.5,
+  "target_roles": [
+   "Forward Deployed Engineer",
+   "Applied AI Architect",
+   "Field CTO"
+  ]
+ },
+ "top_n": 3
+}

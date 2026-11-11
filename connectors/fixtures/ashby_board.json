@@ -1,0 +1,71 @@
+{
+ "capture": {
+  "source": "ashby",
+  "board": "fictionalaurora",
+  "captured_at": "2026-11-08T00:00:00Z",
+  "organization": "Fictional Aurora Enterprises",
+  "org_uid": "org-fix-0003",
+  "license_note": "Synthetic recorded-shape fixture (CC0). Fictional employer; not a real vacancy; never fetched from any ATS.",
+  "synthetic": true,
+  "full_snapshot": true
+ },
+ "payload": {
+  "jobs": [
+   {
+    "id": "9f8e7d6c-0000-4000-8000-fictional0001",
+    "title": "Applied AI Architect",
+    "department": "Fictional Solutions",
+    "team": "Fictional AI",
+    "employmentType": "FullTime",
+    "location": "Seattle, WA",
+    "isRemote": false,
+    "workplaceType": "Hybrid",
+    "isListed": true,
+    "publishedAt": "2026-10-15T00:00:00.000+00:00",
+    "jobUrl": "https://jobs.fictional-aurora.example/9f8e7d6c-0001",
+    "applyUrl": "https://jobs.fictional-aurora.example/9f8e7d6c-0001/application",
+    "address": {
+     "postalAddress": {
+      "addressLocality": "Seattle",
+      "addressRegion": "WA",
+      "addressCountry": "US"
+     }
+    },
+    "descriptionHtml": "<p><em>This is a fictional posting generated for software testing.</em></p><h3>Requirements</h3><ul><li>LLM evaluation</li><li>Cloud architecture</li><li>Python</li></ul>",
+    "descriptionPlain": "Requirements: LLM evaluation, cloud architecture, Python",
+    "compensation": {
+     "compensationTierSummary": "$190K - $230K • 0.01% - 0.05%",
+     "summaryComponents": [
+      {
+       "compensationType": "Salary",
+       "interval": "1 YEAR",
+       "currencyCode": "USD",
+       "minValue": 190000,
+       "maxValue": 230000
+      },
+      {
+       "compensationType": "EquityPercentage",
+       "interval": "NONE",
+       "currencyCode": null,
+       "minValue": 0.01,
+       "maxValue": 0.05
+      }
+     ]
+    }
+   },
+   {
+    "id": "9f8e7d6c-0000-4000-8000-fictional0002",
+    "title": "Field CTO",
+    "department": "Fictional Field",
+    "employmentType": "FullTime",
+    "location": "Remote",
+    "isRemote": true,
+    "isListed": false,
+    "publishedAt": "2026-09-01T00:00:00.000+00:00",
+    "jobUrl": "https://jobs.fictional-aurora.example/9f8e7d6c-0002",
+    "applyUrl": "https://jobs.fictional-aurora.example/9f8e7d6c-0002/application",
+    "descriptionHtml": "<p><em>This is a fictional posting generated for software testing.</em></p><p>Executive briefings and AI strategy for enterprise accounts.</p>"
+   }
+  ]
+ }
+}

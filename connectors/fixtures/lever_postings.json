@@ -1,0 +1,67 @@
+{
+ "capture": {
+  "source": "lever",
+  "board": "fictionalquartz",
+  "captured_at": "2026-11-08T00:00:00Z",
+  "organization": "Fictional Quartz Labs",
+  "org_uid": "org-fix-0002",
+  "license_note": "Synthetic recorded-shape fixture (CC0). Fictional employer; not a real vacancy; never fetched from any ATS.",
+  "synthetic": true,
+  "full_snapshot": true
+ },
+ "payload": [
+  {
+   "id": "0a1b2c3d-0000-4000-8000-fictional0001",
+   "text": "Site Reliability Engineer",
+   "hostedUrl": "https://jobs.fictional-quartz.example/0a1b2c3d-0001",
+   "applyUrl": "https://jobs.fictional-quartz.example/0a1b2c3d-0001/apply",
+   "createdAt": 1791158400000,
+   "country": "US",
+   "workplaceType": "remote",
+   "categories": {
+    "commitment": "Full-time",
+    "location": "Denver, CO",
+    "team": "Fictional Platform",
+    "department": "Fictional Engineering"
+   },
+   "description": "<p><em>This is a fictional posting generated for software testing.</em></p><div>Operate fictional infrastructure.</div>",
+   "descriptionPlain": "Operate fictional infrastructure.",
+   "lists": [
+    {
+     "text": "Requirements",
+     "content": "<li>Kubernetes</li><li>Terraform</li><li>Linux</li>"
+    },
+    {
+     "text": "Nice to have",
+     "content": "<li>Golang</li>"
+    }
+   ],
+   "additional": "<div>Fictional benefits.</div>",
+   "salaryRange": {
+    "currency": "USD",
+    "interval": "per-year-salary",
+    "min": 150000,
+    "max": 185000
+   }
+  },
+  {
+   "id": "0a1b2c3d-0000-4000-8000-fictional0002",
+   "text": "Data Engineer (Contract)",
+   "hostedUrl": "https://jobs.fictional-quartz.example/0a1b2c3d-0002",
+   "applyUrl": "https://jobs.fictional-quartz.example/0a1b2c3d-0002/apply",
+   "createdAt": 1791244800000,
+   "workplaceType": "unspecified",
+   "categories": {
+    "location": "London, United Kingdom",
+    "team": "Fictional Data"
+   },
+   "description": "<p><em>This is a fictional posting generated for software testing.</em></p>",
+   "lists": [
+    {
+     "text": "Requirements",
+     "content": "<li>SQL</li><li>Data pipelines</li>"
+    }
+   ]
+  }
+ ]
+}
