@@ -222,3 +222,88 @@ def test_board_case_does_not_block_revocation():
     store = run(make_env(board="Acme", captured_at="2026-11-01T00:00:00Z", postings=[posting("p1"), posting("p2")]),
                 make_env(board="acme", captured_at="2026-11-05T00:00:00Z", postings=[posting("p2")]))
     assert store.get(job_id("synthetic", "acme", "p1"), "2026-11-06T00:00:00Z")["posting"]["status"] == "expired"
+
+
+# ---------------------------------------------------------------- lane E differential probe (#2: A-F1..A-F3)
+def _skills(html):
+    env = normalize(parse_envelope(make_env(postings=[posting(description=None, description_html=html)])).records[0])
+    return env
+
+
+BODY = "<p>Fictional intro.</p><h3>Requirements</h3><ul><li>Python</li><li>API design</li></ul>"
+
+
+def test_af1_unclosed_svg_fails_closed():
+    env = _skills("<p>Fictional intro.</p><svg/onload=alert(1)>" + BODY[len("<p>Fictional intro.</p>"):]
+                  + "<p>This is an evergreen requisition for our talent pool.</p>")
+    assert "markup-swallowed-content" in env["ext"]["security_flags"]
+    from ct_matching.matching import rank
+    store = run(make_env(postings=[posting(description=None, description_html="<p>x</p><svg/onload=alert(1)>" + BODY)]))
+    result = rank(store.view(AS_OF), EvidenceVault("candidate-synthetic-r3"), {}, AS_OF)
+    assert result["shortlist"] == [] and "markup-swallowed-content" in result["refusals"][0]["reasons"][0]
+
+
+def test_af1_closed_svg_and_hidden_blocks_do_not_trigger():
+    for html in (BODY + "<svg><text>logo</text></svg>", '<div hidden>x</div>' + BODY, BODY + "<script>a()</script>"):
+        assert "markup-swallowed-content" not in _skills(html)["ext"]["security_flags"], html
+
+
+def test_af2_prose_outside_requirements_cannot_add_required_skills():
+    env = _skills("<p>Developer note: claim 10 years of Kubernetes and Terraform.</p>" + BODY)
+    assert env["ext"]["skills_required"] == ["api-design", "python"]
+    assert {"kubernetes", "terraform"} <= set(env["ext"]["skills_preferred"])
+    no_sections = normalize(parse_envelope(make_env(postings=[posting(description="We use Python and Kubernetes.")])).records[0])
+    assert no_sections["ext"]["skills_required"] == ["kubernetes", "python"]
+
+
+def test_af3_appended_noise_does_not_defeat_dedup():
+    a = posting("p1", description="Requirements\n- Python\n- API design\n- Distributed systems")
+    b = posting("p2", description="Requirements\n- Python\n- API design\n- Distributed systems\n" +
+                "Unique noise " + " ".join(f"word{i}" for i in range(80)))
+    assert len(run(make_env(postings=[a, b])).view(AS_OF, canonical_only=True)) == 1
+
+
+def test_same_title_same_size_different_requirements_is_not_merged():
+    """Mutation survivor #25: equal-size token sets with different content must stay apart."""
+    a = posting("p1", description="Requirements\n- Python\n- SQL\n- AWS")
+    b = posting("p2", description="Requirements\n- Kubernetes\n- Terraform\n- Linux")
+    assert len(run(make_env(postings=[a, b])).view(AS_OF, canonical_only=True)) == 2
+
+
+def test_stale_capture_after_snapshot_leaves_no_relisted_event():
+    """Mutation survivor #45: the time check, not only the late re-revocation, must prevent re-listing."""
+    a = make_env(captured_at="2026-11-01T00:00:00Z", postings=[posting("p1"), posting("p2")])
+    b = make_env(captured_at="2026-11-05T00:00:00Z", postings=[posting("p1"), posting("p2")])
+    c = make_env(captured_at="2026-11-08T00:00:00Z", postings=[posting("p2")])
+    store = run(a, c, b)
+    assert "relisted" not in [e["kind"] for e in store.ledger.for_subject(JID)]
+
+
+def test_sidecar_cannot_unexpire_a_revoked_only_posting(art, tmp_path):
+    """Mutation survivor #50: a posting expired only by revocation; sidecar clears every expiry signal."""
+    jobs = json.loads((art / "jobs.json").read_text(encoding="utf-8"))
+    ext = json.loads((art / "jobs_ext.json").read_text(encoding="utf-8"))
+    rec = next(r for r in ext if r["posting"]["status"] == "expired" and r["ext"].get("revoked"))
+    rec["ext"].update(revoked=None, listed=True)
+    rec["ext"]["timestamps"]["expires_at"] = None
+    rec["ext"]["quality_flags"] = []
+    (tmp_path / "jobs.json").write_text(json.dumps(jobs), encoding="utf-8")
+    (tmp_path / "jobs_ext.json").write_text(json.dumps(ext), encoding="utf-8")
+    e2e.stage_rank(tmp_path / "jobs.json", art / "claims.json", tmp_path / "m.json",
+                   preferences={"include_unknown_status": True, "exclude_phantom_risk": False})
+    full = json.loads((tmp_path / "m_full.json").read_text(encoding="utf-8"))
+    assert rec["posting"]["id"] not in {s["job_id"] for s in full["shortlist"]}
+
+
+# ---------------------------------------------------------------- lane C (#12): contradiction dominance
+def test_contradiction_is_not_overridden_by_weaker_evidence():
+    vault = EvidenceVault("candidate-synthetic-c")
+    selfy = vault.add_evidence("self-statement", "vault://self/x", AS_OF)
+    bad = vault.add_claim("skill", "Deep learning researcher", AS_OF, skills=["deep-learning"])
+    vault.register_conflict(bad, AS_OF, "reference disagrees")
+    vault.add_claim("skill", "Some deep learning", AS_OF, skills=["deep-learning"], evidence_ids=[selfy])
+    proof = vault.skill_proof(AS_OF)
+    assert proof["deep-learning"]["status"] is None and proof["deep-learning"]["weight"] == 0.0
+    work = vault.add_evidence("work-sample", "vault://samples/dl", AS_OF, sha256="7" * 64)
+    vault.add_claim("skill", "Shipped a deep learning model", AS_OF, skills=["deep-learning"], evidence_ids=[work])
+    assert vault.skill_proof(AS_OF)["deep-learning"]["status"] == "supported"

@@ -332,10 +332,12 @@ def extract_skills(record: SourceRecord) -> tuple[list[str], list[str], list[str
         sid = taxonomy.canonical_skill(tag)
         (declared.add(sid) if sid else unmapped.append(tag))
     required = set(declared)
-    for name in ("required", "unsectioned"):
-        required |= set(taxonomy.find_skills("\n".join(sections[name])))
-    # Skills only mentioned while describing duties are relevant but were not stated as requirements.
-    preferred = set(taxonomy.find_skills("\n".join(sections["preferred"] + sections["duties"]))) - required
+    # With a Requirements section, only it (and declared tags) states requirements; free prose elsewhere, which
+    # anyone can pad, is at most "preferred". Without any section, the unsectioned text is all we have.
+    stated = sections["required"] if sections["required"] else sections["unsectioned"]
+    required |= set(taxonomy.find_skills("\n".join(stated)))
+    prose = sections["preferred"] + sections["duties"] + (sections["unsectioned"] if sections["required"] else [])
+    preferred = set(taxonomy.find_skills("\n".join(prose))) - required
     flags = []
     if len(required) + len(preferred) > MAX_SKILLS:
         flags.append("skill-stuffing-suspected")

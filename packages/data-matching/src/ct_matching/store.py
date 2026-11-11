@@ -68,6 +68,13 @@ def _tokens(text: str) -> frozenset[str]:
     return frozenset(t for t in re.findall(r"[a-z0-9+#]{3,}", fold(text)))
 
 
+def _dedup_tokens(env: dict[str, Any]) -> frozenset[str]:
+    """Near-duplicate key: required skills + requirement lines. Appended prose/noise cannot split a duplicate."""
+    core = frozenset("skill:" + s for s in env["ext"]["skills_required"])
+    return (core or _tokens(" ".join(env["posting"].get("requirements", [])))
+            or _tokens(env["ext"]["description_text"]) or frozenset(env["posting"]["skills"]))
+
+
 def _jaccard(a: frozenset[str], b: frozenset[str]) -> float:
     if not a and not b:
         return 1.0
@@ -229,8 +236,7 @@ class JobStore:
                 uids_by_employer.setdefault(emp, set()).add(e["employer"]["org_uid"])
             groups.setdefault((emp, title_key(p["title"]), fold(p["location"] or ""), p["remote_policy"]), []).append(jid)
         info: dict[str, dict[str, Any]] = {}
-        tokens = {jid: (_tokens(env["ext"]["description_text"]) or frozenset(env["posting"]["skills"]))
-                  for jid, env in latest.items()}
+        tokens = {jid: _dedup_tokens(env) for jid, env in latest.items()}
         self.dedup_capped_groups = 0
         for key in sorted(groups):
             members = sorted(groups[key], key=lambda j: (SOURCE_PRIORITY.get(latest[j]["ext"]["wire_format"], 9), j))

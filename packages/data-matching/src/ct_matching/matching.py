@@ -17,6 +17,7 @@ from .vault import PROOF_WEIGHT, EvidenceVault
 
 MATCH_API_VERSION = "a-match/0.1"
 SCORE_TYPE = "relative_heuristic_not_offer_probability"
+REFUSE_FLAGS = frozenset({"prompt-injection-suspected", "markup-swallowed-content"})
 NEAR_SIGNALS = ("skill_coverage", "proof_strength", "seniority_alignment", "workstyle")
 STRATEGIC_SIGNALS = ("transition_utility", "customer_proximity", "enterprise_delivery")
 DEFAULT_WEIGHTS = {"skill_coverage": 0.45, "proof_strength": 0.20, "seniority_alignment": 0.20, "workstyle": 0.15,
@@ -78,9 +79,11 @@ def _constraint(name: str, outcome: str, detail: str) -> dict[str, str]:
 def hard_constraints(env: dict[str, Any], prefs: dict[str, Any]) -> list[dict[str, str]]:
     p, e = env["posting"], env["ext"]
     out: list[dict[str, str]] = []
-    bad_flags = [f for f in e["security_flags"] if f == "prompt-injection-suspected"]
+    bad_flags = [f for f in e["security_flags"] if f in REFUSE_FLAGS]
     if bad_flags and not prefs.get("allow_flagged_content", False):
-        out.append(_constraint("content-integrity", "fail", "prompt-injection-suspected: posting text tries to instruct automated readers"))
+        reason = ("prompt-injection-suspected: posting text tries to instruct automated readers" if "prompt-injection-suspected" in bad_flags
+                  else "markup-swallowed-content: an unclosed element hides the rest of the posting")
+        out.append(_constraint("content-integrity", "fail", reason))
     else:
         out.append(_constraint("content-integrity", "pass", "no manipulation flags" if not bad_flags else "flagged content allowed by request"))
     if p["status"] == "expired":

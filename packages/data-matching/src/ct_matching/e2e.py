@@ -20,7 +20,7 @@ from .normalize import normalize, utc
 from .retrieval import skill_vector
 from .service import RequestError, Service, vault_from_profile
 from .store import JobStore
-from .vault import PROOF_WEIGHT, EvidenceVault, VaultError
+from .vault import PROOF_WEIGHT, EvidenceVault, VaultError, _contradiction_dominates
 
 E2E_VERSION = "a-e2e/0.1"
 REBUILT_FLAG = "rebuilt-from-bare-posting"
@@ -210,7 +210,7 @@ class ClaimsProof:
                     slot["claim_ids"].append(claim["id"])
                     if slot["status"] is None or PROOF_WEIGHT[status] > slot["weight"]:
                         slot["status"], slot["weight"] = status, PROOF_WEIGHT[status]
-        return out
+        return _contradiction_dominates(out)
 
 
 def _claims_verified(claims: list[dict[str, Any]], vault_path: Path) -> bool:

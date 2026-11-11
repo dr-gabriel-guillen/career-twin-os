@@ -23,6 +23,7 @@ FLAG_BIDI = "bidi-control-removed"
 FLAG_ZERO_WIDTH = "zero-width-removed"
 FLAG_TRUNCATED = "text-truncated"
 FLAG_FORMULA = "csv-formula-prefix"
+FLAG_SWALLOWED = "markup-swallowed-content"
 
 _BIDI = set("‪‫‬‭‮⁦⁧⁨⁩‎‏؜")
 _ZERO_WIDTH = set("​‌‍⁠﻿­᠎")
@@ -138,6 +139,7 @@ class _Extractor(HTMLParser):
         self.hidden_parts: list[str] = []
         self.stack: list[tuple[str, bool]] = []  # (tag, suppresses_text)
         self.flags: set[str] = set()
+        self.swallowed = False  # hidden text seen while a still-open element is suppressing
 
     def _suppressed(self) -> bool:
         return any(flag for _, flag in self.stack)
@@ -169,6 +171,9 @@ class _Extractor(HTMLParser):
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
+        if any(t == tag for t, _ in self.stack) and self._suppressed() and not any(
+                s for t, s in self.stack[: max(i for i, (t2, _) in enumerate(self.stack) if t2 == tag)]):
+            self.swallowed = False  # the suppressing element closed normally
         for idx in range(len(self.stack) - 1, -1, -1):
             if self.stack[idx][0] == tag:
                 del self.stack[idx:]
@@ -179,6 +184,7 @@ class _Extractor(HTMLParser):
     def handle_data(self, data: str) -> None:
         if self._suppressed():
             if data.strip():
+                self.swallowed = True
                 self.hidden_parts.append(data)
                 if not any(t in _SKIP_TAGS for t, _ in self.stack):
                     self.flags.add(FLAG_HIDDEN)
@@ -221,6 +227,10 @@ def sanitize_html(markup: object, *, entity_escaped: bool = False) -> tuple[str,
         flags.add(FLAG_ACTIVE)
     if any(suppress and tag in _SKIP_TAGS for tag, suppress in parser.stack):
         flags.add(FLAG_ACTIVE)  # unterminated <script>/<style> swallowing the rest of the document
+    if any(suppress for _, suppress in parser.stack) and parser.swallowed:
+        # e.g. "<svg/onload=x>" never closed: everything after it is invisible, including requirements and
+        # evergreen notices. The text cannot be trusted either way, so downstream must refuse the posting.
+        flags.add(FLAG_SWALLOWED)
     flags |= parser.flags
     text, tflags = clean_text("".join(parser.parts))
     flags |= set(tflags)

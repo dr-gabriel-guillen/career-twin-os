@@ -257,7 +257,7 @@ class EvidenceVault:
                     slot["claim_ids"].append(cid)
                     if PROOF_WEIGHT[claim["status"]] > slot["weight"] or slot["status"] is None:
                         slot["status"], slot["weight"] = claim["status"], PROOF_WEIGHT[claim["status"]]
-        return out
+        return _contradiction_dominates(out)
 
     def provenance(self, claim_id: str) -> dict[str, Any]:
         claim = self._claim(claim_id)
@@ -350,6 +350,14 @@ class EvidenceVault:
         if evidence_id not in self.evidence:
             raise VaultError("unknown-evidence", str(evidence_id)[:60])
         return self.evidence[evidence_id]
+
+
+def _contradiction_dominates(proof: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Only verified ("supported") evidence outweighs a contradiction; weaker claims do not."""
+    for slot in proof.values():
+        if slot["contradicted_claim_ids"] and slot["status"] not in (None, "supported"):
+            slot["status"], slot["weight"] = None, 0.0
+    return proof
 
 
 def _stamp(value: Any) -> str:
