@@ -23,7 +23,15 @@ Fetch every lane branch first (`git fetch origin`); the runner defaults each lan
 and `--lane X=<sha>` pins one exactly.
 
 `ctint.runner` exits `0` PASS, `1` FAIL, `2` BLOCKED / NOT-INTEGRATED and writes `report.md` + `report.json`
-(with exact SHAs and a reproduce command) to `integration/.work/run-<utc>/`.
+(with exact SHAs and a reproduce command) to a new `integration/.work/run-<utc>/`.
+
+**Output directory policy (`ctint/outdir.py`).** The runner never deletes a directory it did not create.
+`--out DIR` must be new, empty, or a previous run of this tool (it carries `.ctint-run.json` naming its own
+path), and a previous run is replaced only with `--overwrite`. Refused whatever they contain: a filesystem
+root or top-level directory, the home directory, the current directory, the system temp directory itself,
+the repository or anything containing it, anything inside `.git`, any path inside the repository other than
+`integration/.work/<name>`, and any path that is, or passes through, a symbolic link or junction out of the
+work tree. A refusal prints the reason, exits `2` and creates or removes nothing.
 
 ## What is here
 

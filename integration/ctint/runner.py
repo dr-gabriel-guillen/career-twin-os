@@ -13,7 +13,9 @@ Guarantees:
 * only a lane's OWNED paths are overlaid from its SHA, so a lane cannot smuggle
   changes to shared files or to another lane into the integration build;
 * lane commands run with a scrubbed environment (no credentials, dead proxy,
-  empty HOME). This is not a kernel sandbox — see THREAT_MODEL.md residuals.
+  empty HOME). This is not a kernel sandbox — see THREAT_MODEL.md residuals;
+* the output directory is never deleted unless this tool created it and
+  ``--overwrite`` is given; dangerous or linked paths are refused (ctint/outdir.py).
 
 Exit status: 0 PASS · 1 FAIL · 2 BLOCKED / NOT-INTEGRATED / UNKNOWN.
 """
@@ -37,7 +39,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
-from . import BATCH_ID, SESSION_ID, contracts, e2e, sec_paid, sec_scan
+from . import BATCH_ID, SESSION_ID, contracts, e2e, outdir, sec_paid, sec_scan
 from .lanes import LANES, MANIFEST_NAME, Lane, changed_paths, git, ownership_violations, resolve_sha
 from .paths import integration_dir
 from .stub import STUBS, StubProvider
@@ -389,13 +391,14 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
         if key not in lane_refs or not ref:
             raise SystemExit(f"--lane expects A|B|C|D=<ref>, got {item!r}")
         lane_refs[key] = ref
-    out = (
-        Path(args.out).resolve()
-        if args.out
-        else integration_dir() / ".work" / f"run-{datetime.now(UTC):%Y%m%dT%H%M%SZ}"
+    # Fail closed: the runner never deletes a directory it did not create (see ctint/outdir.py).
+    # A refused --out raises OutputPathError here, before the worktree or anything else is created.
+    out = outdir.prepare_output_dir(
+        args.out or None,
+        repo=repo,
+        work_root=integration_dir() / ".work",
+        overwrite=bool(getattr(args, "overwrite", False)),
     )
-    if out.exists():
-        shutil.rmtree(out)
     (out / "logs").mkdir(parents=True)
     temp = Path(tempfile.mkdtemp(prefix="ct-int-"))
     worktree = temp / "wt"
@@ -532,13 +535,26 @@ def build_parser() -> argparse.ArgumentParser:
     )  # fmt: skip
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--count", type=int, default=150)
-    parser.add_argument("--out", help="report directory (default: integration/.work/run-<utc>)")
+    parser.add_argument(
+        "--out",
+        help="report directory (default: a new integration/.work/run-<utc>). Must be new, empty, or a previous "
+        "run of this tool; inside the repository only integration/.work/<name> is accepted. Never deleted "
+        "unless it carries this tool's marker AND --overwrite is given.",
+    )
+    parser.add_argument(
+        "--overwrite", action="store_true",
+        help="replace --out if, and only if, it is a previous run directory created by this tool",
+    )  # fmt: skip
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    report, code = run(args)
+    try:
+        report, code = run(args)
+    except outdir.OutputPathError as exc:
+        print(f"ctint.runner: {exc}", file=sys.stderr)
+        return 2
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(render_markdown(report))

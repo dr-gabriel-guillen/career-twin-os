@@ -33,6 +33,7 @@ from typing import Any, Protocol
 
 from . import atlas_quality, contracts, sec_inject
 from . import experiment_integrity as ei
+from .outdir import OutputPathError
 from .timeutil import parse_rfc3339
 
 USABLE_CLAIM_STATUSES = ("supported", "self-reported")
@@ -611,6 +612,15 @@ def run_pipeline(
     run final4 lost lane D's assertion message to that truncation).
     """
     artifacts.mkdir(parents=True, exist_ok=True)
+    # The probe directory is deleted and recreated during the run. It must be one this run creates:
+    # a directory or link that already has that name is not ours, so the pipeline refuses to start
+    # rather than delete it.
+    probe_dir = artifacts.parent / f"{artifacts.name}.probe"
+    if probe_dir.exists() or probe_dir.is_symlink():
+        raise OutputPathError(
+            f"refusing to run: {probe_dir} already exists and the pipeline will not delete a directory "
+            "it did not create. Remove it yourself or use a new artifacts directory."
+        )
     results: list[StageResult] = []
     producer: dict[str, str] = {}  # artifact file name -> lane that created it ("E" for pin.json)
     for stage in STAGES:
@@ -669,9 +679,7 @@ def run_pipeline(
         except (ValueError, KeyError, TypeError, IndexError, AttributeError, OSError) as exc:
             result.problems.append(f"artifact could not be validated ({type(exc).__name__}: {exc})")
         if not result.problems and probes:
-            result.problems.extend(
-                _probe(stage, provider, artifacts, artifacts.parent / f"{artifacts.name}.probe", seed, count)
-            )
+            result.problems.extend(_probe(stage, provider, artifacts, probe_dir, seed, count))
         if result.problems:
             for name in stage.writes:  # an invalid artifact must not feed downstream stages
                 (artifacts / name).rename(artifacts / f"{name}.rejected")
@@ -681,8 +689,7 @@ def run_pipeline(
             pin = pin_top_role(artifacts)
             producer["pin.json"] = "E"
             result.notes.append(f"lane E pinned {pin['job_id']} (rank {pin['rank']})")
-    probe_dir = artifacts.parent / f"{artifacts.name}.probe"
-    if probe_dir.exists():
+    if probe_dir.exists() and not probe_dir.is_symlink():
         shutil.rmtree(probe_dir, ignore_errors=True)
     return results
 

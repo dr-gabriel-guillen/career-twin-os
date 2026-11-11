@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -17,7 +18,7 @@ from typing import Any
 
 import pytest
 
-from ctint import runner
+from ctint import outdir, runner
 from ctint.paths import repo_root
 
 GEN_JOBS = r"""
@@ -299,6 +300,100 @@ def test_passed_env_reaches_lane_commands_and_is_recorded(toy: Path, tmp_path: P
         report["passed_env"] == {"PW_CHANNEL": "chrome"}
         and "--pass-env PW_CHANNEL=chrome" in report["reproduce"]
     )
+
+
+# ---------------------------------------------------------------- output directory (PR #11 HIGH finding)
+
+
+def _precious(directory: Path) -> Path:
+    (directory / "nested").mkdir(parents=True, exist_ok=True)
+    for target in (directory / "DO-NOT-DELETE.txt", directory / "nested" / "DO-NOT-DELETE.txt"):
+        target.write_text("precious\n", encoding="utf-8")
+    return directory
+
+
+def _tree(directory: Path) -> list[str]:
+    return sorted(str(p.relative_to(directory)) for p in directory.rglob("*"))
+
+
+def _lanes_none() -> dict[str, str]:
+    return {"A": "none", "B": "none", "C": "none", "D": "none"}
+
+
+def test_out_naming_an_existing_directory_is_refused_and_nothing_is_deleted(
+    toy: Path, tmp_path: Path
+) -> None:
+    """The original defect: ``--out <existing dir>`` was removed recursively before the run started."""
+    victim = _precious(tmp_path / "victim")
+    before = _tree(victim)
+    worktrees_before = _git(toy, "worktree", "list")
+    for overwrite in (False, True):
+        with pytest.raises(outdir.OutputPathError, match="was not created by this tool"):
+            _run(toy, victim, _lanes_none(), overwrite=overwrite)
+        assert _tree(victim) == before
+    assert _git(toy, "worktree", "list") == worktrees_before, "refusal happens before any worktree is created"
+
+
+def test_cli_refuses_dot_parent_repository_and_home_with_exit_code_2(
+    toy: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    cwd = _precious(tmp_path / "cwd")
+    home = _precious(tmp_path / "home")
+    monkeypatch.chdir(cwd)
+    monkeypatch.setattr(Path, "home", classmethod(lambda cls: home))
+    (toy / "DO-NOT-DELETE.txt").write_text("precious\n", encoding="utf-8")
+    snapshots = {d: _tree(d) for d in (cwd, home)}
+    toy_files = sorted(p.name for p in toy.iterdir())
+    for requested in (".", "..", str(cwd), str(home), str(toy), str(toy / "contracts"), str(toy / ".git")):
+        code = runner.main(
+            ["--repo", str(toy), "--base", "main", "--lane", "A=none", "--out", requested, "--overwrite"]
+        )
+        captured = capsys.readouterr()
+        assert code == 2, requested
+        assert captured.err.startswith("ctint.runner: ") and "refusing output directory" in captured.err, (
+            requested
+        )
+        assert captured.out == "", "a refused run prints no report"
+    assert {d: _tree(d) for d in (cwd, home)} == snapshots
+    assert sorted(p.name for p in toy.iterdir()) == toy_files and (toy / "contracts").is_dir()
+
+
+def test_a_previous_run_is_only_replaced_with_overwrite(toy: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    first, _ = _run(toy, out, _lanes_none())
+    assert outdir.marker_matches(out.resolve()) and (out / "report.json").is_file()
+    (out / "keep-me.txt").write_text("evidence of the first run\n", encoding="utf-8")
+    with pytest.raises(outdir.OutputPathError, match="previous run"):
+        _run(toy, out, _lanes_none())
+    assert (out / "keep-me.txt").is_file() and (out / "report.json").is_file()
+    second, _ = _run(toy, out, _lanes_none(), overwrite=True)
+    assert not (out / "keep-me.txt").exists() and (out / "report.json").is_file()
+    assert outdir.marker_matches(out.resolve()) and second["verdict"] == first["verdict"]
+
+
+def test_a_leftover_probe_directory_is_not_deleted_by_the_pipeline(toy: Path, tmp_path: Path) -> None:
+    """``<out>/artifacts.probe`` is the pipeline's scratch space; one that already exists is not ours."""
+    out = tmp_path / "out"
+    out.mkdir()
+    # An empty --out is accepted, so plant the foreign directory through a marked previous run instead.
+    _run(toy, out, _lanes_none())
+    foreign = _precious(tmp_path / "foreign")
+    before = _tree(foreign)
+    # A marked run directory is replaced wholesale with --overwrite, links inside it are removed, not followed.
+    link = out / "artifacts.probe"
+    try:
+        os.symlink(foreign, link, target_is_directory=True)
+    except (OSError, NotImplementedError):
+        made = sys.platform == "win32" and (
+            subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(link), str(foreign)], capture_output=True
+            ).returncode
+            == 0
+        )
+        if not made:
+            pytest.skip("this platform cannot create a directory link without extra privileges")
+    _run(toy, out, _lanes_none(), overwrite=True)
+    assert _tree(foreign) == before
 
 
 @pytest.fixture(autouse=True)
