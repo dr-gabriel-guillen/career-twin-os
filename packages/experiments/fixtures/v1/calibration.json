@@ -1,0 +1,201 @@
+{
+ "note": "Monte-Carlo behaviour of the real decision core (analysis.infer). 'naive' is the wrong application-level z-test, shown only to quantify what cluster-aware analysis prevents.",
+ "runs": [
+  {
+   "alpha": 0.05,
+   "baseline": 0.2,
+   "claim_rate": 0.035,
+   "claim_rate_interval_95": [
+    0.025272263017112953,
+    0.04828662237445333
+   ],
+   "claims": 35,
+   "cluster_size": [
+    1,
+    1
+   ],
+   "icc": 0.0,
+   "interpretation": "false-alarm rate (true effect is 0)",
+   "missing_rate": 0.0,
+   "n_per_arm": 40,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 43,
+   "naive_rejection_rate": 0.043,
+   "naive_rejection_rate_interval_95": [
+    0.03207865341171337,
+    0.05741900384408401
+   ],
+   "seed": 101,
+   "true_effect": 0.0
+  },
+  {
+   "alpha": 0.05,
+   "baseline": 0.1,
+   "claim_rate": 0.005,
+   "claim_rate_interval_95": [
+    0.0021375355273244604,
+    0.011650955373375113
+   ],
+   "claims": 5,
+   "cluster_size": [
+    1,
+    1
+   ],
+   "icc": 0.0,
+   "interpretation": "false-alarm rate (true effect is 0)",
+   "missing_rate": 0.0,
+   "n_per_arm": 15,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 22,
+   "naive_rejection_rate": 0.022,
+   "naive_rejection_rate_interval_95": [
+    0.01457270776479106,
+    0.03308567334739963
+   ],
+   "seed": 101,
+   "true_effect": 0.0
+  },
+  {
+   "alpha": 0.05,
+   "baseline": 0.2,
+   "claim_rate": 0.041,
+   "claim_rate_interval_95": [
+    0.03036497108209832,
+    0.0551479932076413
+   ],
+   "claims": 41,
+   "cluster_size": [
+    2,
+    4
+   ],
+   "icc": 0.3,
+   "interpretation": "false-alarm rate (true effect is 0)",
+   "missing_rate": 0.0,
+   "n_per_arm": 30,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 134,
+   "naive_rejection_rate": 0.134,
+   "naive_rejection_rate_interval_95": [
+    0.11428107599412643,
+    0.15652011121729995
+   ],
+   "seed": 101,
+   "true_effect": 0.0
+  },
+  {
+   "alpha": 0.05,
+   "baseline": 0.3,
+   "claim_rate": 0.041,
+   "claim_rate_interval_95": [
+    0.03036497108209832,
+    0.0551479932076413
+   ],
+   "claims": 41,
+   "cluster_size": [
+    3,
+    5
+   ],
+   "icc": 0.5,
+   "interpretation": "false-alarm rate (true effect is 0)",
+   "missing_rate": 0.0,
+   "n_per_arm": 25,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 202,
+   "naive_rejection_rate": 0.202,
+   "naive_rejection_rate_interval_95": [
+    0.17827757825342377,
+    0.22800316980396712
+   ],
+   "seed": 101,
+   "true_effect": 0.0
+  },
+  {
+   "alpha": 0.05,
+   "baseline": 0.2,
+   "claim_rate": 0.0,
+   "claim_rate_interval_95": [
+    2.168404344971009e-19,
+    0.0038267584855551217
+   ],
+   "claims": 0,
+   "cluster_size": [
+    1,
+    1
+   ],
+   "icc": 0.0,
+   "interpretation": "false-alarm rate (true effect is 0)",
+   "missing_rate": 0.2,
+   "n_per_arm": 40,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 53,
+   "naive_rejection_rate": 0.053,
+   "naive_rejection_rate_interval_95": [
+    0.04074650524859452,
+    0.06867461683749176
+   ],
+   "seed": 101,
+   "true_effect": 0.0
+  },
+  {
+   "alpha": 0.05,
+   "baseline": 0.2,
+   "claim_rate": 0.84,
+   "claim_rate_interval_95": [
+    0.8159830663133126,
+    0.8614147379165099
+   ],
+   "claims": 840,
+   "cluster_size": [
+    1,
+    1
+   ],
+   "icc": 0.0,
+   "interpretation": "detection rate (power)",
+   "missing_rate": 0.0,
+   "n_per_arm": 60,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 868,
+   "naive_rejection_rate": 0.868,
+   "naive_rejection_rate_interval_95": [
+    0.8456051419027083,
+    0.8875783638519231
+   ],
+   "seed": 101,
+   "true_effect": 0.25
+  },
+  {
+   "alpha": 0.05,
+   "baseline": 0.2,
+   "claim_rate": 0.053,
+   "claim_rate_interval_95": [
+    0.04074650524859452,
+    0.06867461683749176
+   ],
+   "claims": 53,
+   "cluster_size": [
+    1,
+    1
+   ],
+   "icc": 0.0,
+   "interpretation": "detection rate (power)",
+   "missing_rate": 0.0,
+   "n_per_arm": 30,
+   "n_perm": 499,
+   "n_sims": 1000,
+   "naive_application_level_rejections": 78,
+   "naive_rejection_rate": 0.078,
+   "naive_rejection_rate_interval_95": [
+    0.06294716759073617,
+    0.09628261657107236
+   ],
+   "seed": 101,
+   "true_effect": 0.05
+  }
+ ]
+}

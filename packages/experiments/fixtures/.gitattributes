@@ -1,0 +1,2 @@
+# fixtures are hashed byte-for-byte in MANIFEST.json: never convert line endings
+* -text

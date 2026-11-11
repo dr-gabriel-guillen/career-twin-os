@@ -1,0 +1,1702 @@
+[
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 30,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 40,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "162081a499af94266ed2c46c97682c62e219722950fbfc0504b75876271f5b53",
+  "design_notes": [
+   "planned_power=0.497",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.50 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2026-03-02T09:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (A/A: identical résumé, two labels).",
+   "id": "exp-aa-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "405f34fe932a167d781000184d2550e2bab5b81d09e1ec9ce08d5f6b3e1981b7",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 40 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "A/A: identical résumé, two labels",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 45,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 60,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "05e7726c08ebc8116f7dbcb4357ede370d7c6a8a335b63da46875a17fd8e22bf",
+  "design_notes": [
+   "planned_power=0.670",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.67 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2026-05-10T19:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (A/A: larger sample).",
+   "id": "exp-aa-02",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "90afbb20f39db1ae6ba45db5f8d2942b182f9d4026fee89765dcb1a51cb8d91f",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 60 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "A/A: larger sample",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 3.0,
+   "assumed_icc": 0.3,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 22,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 30,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "a53742a87951964b0a2366df832a3b6f972174b9f7d1b8d105804effb205336a",
+  "design_notes": [
+   "planned_power=0.642",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.64 for the stated minimum detectable effect; an inconclusive result is the likely outcome"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "employer-cluster",
+   "consent_required": false,
+   "design_locked_at": "2026-07-31T11:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (A/A: employer clusters).",
+   "id": "exp-aa-03",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "0c28134829d63e14e8b3579e68c0a697b2588489a476fed6ce9e90feb741feb2",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 30 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "A/A: employer clusters",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 33,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 45,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "0ad47ba47f8953b5d282150637784e445d1b68462729ab98cee616332e5cb29d",
+  "design_notes": [
+   "planned_power=0.545",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.54 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "job",
+   "consent_required": false,
+   "design_locked_at": "2026-11-06T23:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (A/A: per-posting unit).",
+   "id": "exp-aa-04",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "82767c26cbc41abd2f3b2ba508083e37b05bc35828f15637dd6f1b6911e3ddc8",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 45 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "A/A: per-posting unit",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 45,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 60,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "341f56d5951854d33db24cbcbd599bca3691cb2a6fa915185e381ec7093065ea",
+  "design_notes": [
+   "planned_power=0.670",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.67 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2027-01-18T11:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Evaluation-first bullet order).",
+   "id": "exp-big-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "9874de1424269a8fcb1f9ef0686d9289405906b9e29f054e978ea508ac0e70aa",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 60 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Evaluation-first bullet order",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.15,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 52,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 70,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "bdef13447a1acf1385f5a6c701b963e6e64970aa5beefc330f3490bd3b59a7ef",
+  "design_notes": [
+   "planned_power=0.786",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.79 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2027-04-10T03:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Quantified impact bullets).",
+   "id": "exp-big-02",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "52d70c5c6bfdaebf2ce4186df0ec75d422b41983419a95b379c1cd2602a9bb0a",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 70 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Quantified impact bullets",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 60,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 80,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "cedfc253c94b25164769e6a3514a27a1a6f3d4470e85a705665ee492d43f989b",
+  "design_notes": [
+   "planned_power=0.794",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.79 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2027-07-06T21:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Role-matched summary line).",
+   "id": "exp-big-03",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "5c777754b6b4bc1c3ab3dc169b55df9b4cd89fe84bb8eb82c423fbe77fd4594f",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 80 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Role-matched summary line",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 22,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 30,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "f5af52333bfec7aeed8c008e110fd7a0517765dca1c993263fc996935818d05d",
+  "design_notes": [
+   "planned_power=0.391",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.39 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2027-10-08T19:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Shorter résumé).",
+   "id": "exp-small-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "9397800046a47fb8c24ced503e73d8522f1f1306a7ca6a488ba222455b3b8c56",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 30 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Shorter résumé",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 26,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 35,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "3a42c83fd5e989dae3b2b21c072f4cf14c67739ebe3182f491f1229df40ffd7f",
+  "design_notes": [
+   "planned_power=0.445",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.45 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2027-12-11T03:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Skills section first).",
+   "id": "exp-small-02",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "e50bb7827f5e064f3da7cf8c547414da9d6cab4277b5be5f41a2ef0406ddc541",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 35 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Skills section first",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 22,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 30,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "eb540d8d7cbdb9587f70ff5fe420338eba328bb0e967ec56e1c5e443570fca98",
+  "design_notes": [
+   "planned_power=0.391",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.39 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2028-02-15T12:20:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Certification line).",
+   "id": "exp-small-03",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "21f42d9ffd21092a582dc4ed57dc3602b80d447d8000a57bb352dc3fe2594118",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 30 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Certification line",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.3,
+   "assumed_cluster_size": 4.0,
+   "assumed_icc": 0.5,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 18,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 25,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "e8f5a2316b79ce1df2ff10c6eeb3eaf310cc3190554e4c7b409a5fd917740434",
+  "design_notes": [
+   "planned_power=0.446",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.45 for the stated minimum detectable effect; an inconclusive result is the likely outcome"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "employer-cluster",
+   "consent_required": false,
+   "design_locked_at": "2028-04-18T20:20:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Clustered A/A, strong employer effect).",
+   "id": "exp-cl-null-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "a2244e6588a9abac2df83e2511a0fa2f751c805faff2c93f7ef4b93d4c36b5f1",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 25 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Clustered A/A, strong employer effect",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 3.5,
+   "assumed_icc": 0.25,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 22,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 30,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "a10a207cac2fe4f9267df8180dea02f8b82475ffe01512027c005a8730e8843f",
+  "design_notes": [
+   "planned_power=0.703",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.70 for the stated minimum detectable effect; an inconclusive result is the likely outcome"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "employer-cluster",
+   "consent_required": false,
+   "design_locked_at": "2028-08-01T17:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Clustered A/A, moderate employer effect).",
+   "id": "exp-cl-null-02",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "a8844a14b7c7bfd6417c16122407bff4e0047fe788d2b46bed3cd7eace9aeb66",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 30 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Clustered A/A, moderate employer effect",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 3.0,
+   "assumed_icc": 0.15,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 30,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 40,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "dfad66cfb2e1fb31edcc83238779cf860ffbe32b2da0c8463d718f7bdf263635",
+  "design_notes": [
+   "planned_power=0.848"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "employer-cluster",
+   "consent_required": false,
+   "design_locked_at": "2028-11-15T13:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Clustered: project-led résumé).",
+   "id": "exp-cl-big-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "74bb0b81f0796e552ed14f5e31f968334ef9d7448d9f8a82208499a30bbe9d56",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 40 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Clustered: project-led résumé",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 37,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 50,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "1fa2e61393aefb824a4a6581bccdf4be72147a484a4d6b8d9552ade48d05698f",
+  "design_notes": [
+   "planned_power=0.590",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.59 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2029-03-08T23:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Differential attrition, no effect).",
+   "id": "exp-attr-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "dbcb734ca154eab609945c0cad28ef7c02ae6851760e6acf6fd9f6892d1da3ae",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 50 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Differential attrition, no effect",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 37,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 50,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "4a833ee6f167c98d5aabb7086450f7adacbddc98c5c543654a21d084c6a0dd4b",
+  "design_notes": [
+   "planned_power=0.590",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.59 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2029-05-23T06:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Real effect, heavy missingness).",
+   "id": "exp-attr-02",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "3d97eae30662e488658725106ebd0382fa85418b3134fea3745f99f5163bdfae",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 50 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Real effect, heavy missingness",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 30,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 40,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "27a3f98637c22a66391a598b1f221b1776e1977652c9a5840395bfcf48d57b3a",
+  "design_notes": [
+   "planned_power=0.497",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.50 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2029-08-06T11:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Still waiting for replies).",
+   "id": "exp-interim-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "4c90e91ca6faf6c2c0c164eae71818ee46d9d356b07ce8cf4c938c5c1516caaf",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 40 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Still waiting for replies",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 30,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 40,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "029a326c557e14079d297b24c1d209837a1aeb0b86b6746bd417c7a34b18942a",
+  "design_notes": [
+   "planned_power=0.497",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.50 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2029-09-05T22:20:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Enrolment unfinished).",
+   "id": "exp-interim-02",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "457d6e365b2b249f3e96d324dc40e497ac535f6fd42ef7b480dff6afe11ee768",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 40 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Enrolment unfinished",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 37,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 50,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "2cdbe7af5d69c23b0ee3249f2f6a395b7387dad2222d685d920113dbb7b213ea",
+  "design_notes": [
+   "planned_power=0.590",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.59 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2029-11-04T14:20:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Closed early after a lucky streak).",
+   "id": "exp-early-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "377760349e32cc08d491abfadc511ea4b260a82903f2630b67758960166dff93",
+   "status": "closed",
+   "stopping_rule": "Fixed horizon: stop enrolling at 50 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Closed early after a lucky streak",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 45,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 60,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "brevity": "résumé variant 'brevity'",
+    "control": "baseline résumé ordering",
+    "evals": "résumé variant 'evals'"
+   }
+  },
+  "design_hash": "4d988fb0739de90779e9f0b6aa3bcbb89f29a906907cd9fbff83a7f196d0c791",
+  "design_notes": [
+   "planned_power=0.670",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.67 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2030-01-03T21:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Three-arm: two rewrites vs control).",
+   "id": "exp-three-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "9012d46183fef5aa4b1cadc6cc15411b644780bca390805ad66fdee4968556a5",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 60 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Three-arm: two rewrites vs control",
+   "variants": [
+    "control",
+    "brevity",
+    "evals"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.4,
+   "minimum_units_per_arm": 14,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 20,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "d241a4f1c2b899f781aee741d89f70ddfaad6576f168f12b8c7f5e5e2ee5ea90",
+  "design_notes": [
+   "planned_power=0.752",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.75 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2030-04-13T21:00:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Minimum-size experiment).",
+   "id": "exp-tiny-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "542389b86dedfa4a5594dfcd64032828c63d04cf84ad54f80bd21b4a7ad5c471",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 20 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Minimum-size experiment",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": true,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 45,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 60,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "82908c9fe88079179d84eceefed2c1979992eacd36f3abe76323f9b83b1ad409",
+  "design_notes": [
+   "planned_power=0.670",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.67 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": true,
+   "design_locked_at": "2030-06-10T02:20:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Consent-gated experiment).",
+   "id": "exp-consent-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "3f322118d09ef1cb0f17e626f5118c913158be36d9b546613bf20a4e37dff49d",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 60 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Consent-gated experiment",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.35,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 37,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 50,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "597db34ae76975891ca51b58d6db0acee57c60684fd5a4c01f546f0bb5dd7555",
+  "design_notes": [
+   "planned_power=0.520",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.52 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2030-08-30T18:20:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Strong stratum difference, no effect).",
+   "id": "exp-strat-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "4ca6c49aed40d042a9fd13c55dfc57cc85584b5d74c3c1219c7f04a9a86eed49",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 50 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Strong stratum difference, no effect",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 33,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 45,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "c531c7267c98c8c264738160e2e7eadfda2d3756d3fdbf800a66ea01b036baa3",
+  "design_notes": [
+   "planned_power=0.545",
+   "UNDERPOWERED_BY_DESIGN: planned power is about 0.54 for the stated minimum detectable effect; an inconclusive result is the likely outcome",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2030-11-14T07:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Messy inbox, no effect).",
+   "id": "exp-noisy-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "fe46ee9dfb55b295812eb27afd3596c0bed85099cde67ab9b11b360f7b2d8c19",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 45 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Messy inbox, no effect",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ },
+ {
+  "consent_recorded": false,
+  "design": {
+   "alpha": 0.05,
+   "analysis_method": "stratified_permutation_itt",
+   "assumed_baseline": 0.2,
+   "assumed_cluster_size": 1.0,
+   "assumed_icc": 0.0,
+   "control": "control",
+   "eligibility": {
+    "description": "Fictional senior/staff postings in synthetic role families; live applications only.",
+    "require": {
+     "role_family": [
+      "fde",
+      "ai-architect"
+     ]
+    }
+   },
+   "minimum_detectable_effect": 0.2,
+   "minimum_units_per_arm": 67,
+   "missing_outcome_policy": "missing_counts_as_no_success",
+   "n_permutations": 1999,
+   "planned_units_per_arm": 90,
+   "question": "Does the treatment résumé change the recruiter-screen rate within 30 days?",
+   "schema": "careertwin.b.experiment-design.v1",
+   "stopping": {
+    "type": "fixed_horizon"
+   },
+   "strata_levels": {
+    "seniority": [
+     "senior",
+     "staff"
+    ]
+   },
+   "variant_definitions": {
+    "control": "baseline résumé ordering",
+    "treatment": "résumé variant 'treatment'"
+   }
+  },
+  "design_hash": "ae1d0d04349386a4a3b629fa61e9fa2f27287d8caf6e77bf2681a4ef4e833a8a",
+  "design_notes": [
+   "planned_power=0.839",
+   "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+  ],
+  "locked": true,
+  "spec": {
+   "analysis_plan": "Intention-to-treat; stratified permutation test on unit means; Holm across arms; missing outcomes count as no success; worst-case sensitivity analysis.",
+   "assignment_unit": "application",
+   "consent_required": false,
+   "design_locked_at": "2031-01-25T19:40:00Z",
+   "hypothesis": "Variant changes the recruiter-screen rate (Adequately powered moderate effect).",
+   "id": "exp-mid-01",
+   "outcome_window_days": 30,
+   "primary_metric": "recruiter_screen",
+   "secondary_metrics": [
+    "interview"
+   ],
+   "seed_digest": "2718c1966a4a089b61a70f51a9e6344f3d69d9a69f9ddc45417fb37810ba69c2",
+   "status": "running",
+   "stopping_rule": "Fixed horizon: stop enrolling at 90 units per arm; analyse once every 30-day window has closed. No interim tests.",
+   "strata": [
+    "seniority"
+   ],
+   "title": "Adequately powered moderate effect",
+   "variants": [
+    "control",
+    "treatment"
+   ]
+  }
+ }
+]
