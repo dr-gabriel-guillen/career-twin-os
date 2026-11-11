@@ -1,12 +1,21 @@
-"""Assignment engine: seeded, stratified, permuted-block randomisation.
+"""Assignment engine: seeded randomisation keyed on the identity of the unit.
 
-- The variant of the k-th unit in a stratum is a pure function of
-  (secret seed, experiment id, locked design hash, stratum, k). Block sizes are
-  themselves random (1x or 2x the number of arms) so the next arm cannot be
-  inferred from the journal.
+- The variant of a unit is a pure function of (secret seed, experiment id,
+  locked design hash, unit id). It does NOT depend on enrolment order, on the
+  arms already handed out, or on the caller-supplied stratum label, so nothing
+  the user can observe or choose predicts or steers the next arm.
+  (A permuted-block scheme was implemented first and withdrawn: with visible
+  arms the lagging arm is predictable about 90% of the time, and selective
+  enrolment then produced false claims in 35% of null simulations.)
+  The price is that arms are balanced in expectation, not exactly; the
+  analysis conditions on the realised arm sizes and reports the balance.
 - Every assignment is journaled before the variant is returned (i.e. before any
   exposure), and the journal alone suffices to re-derive every variant
   (verify()).
+- Enrolment is frozen once the preregistered number of units is reached or a
+  final analysis has been recorded. An existing unit (employer cluster or
+  posting) accepts further applications only for one outcome window after its
+  first assignment, and never after the final analysis.
 - One application belongs to at most one experiment; one posting and one
   employer belong to at most one open experiment; a unit keeps its arm for
   ever (no crossover). Units that never get an outcome stay in the journal and
@@ -18,10 +27,11 @@ import hashlib
 import hmac
 import os
 import random
+from datetime import timedelta
 from typing import Any
 
 from ct_applications import approvals as ap
-from ct_applications.core import CareerTwinError, Clock, clean_text
+from ct_applications.core import CareerTwinError, Clock, clean_text, parse_ts
 from ct_applications.events import ApplicationStore
 from ct_applications.journal import IntegrityError, Journal
 
@@ -55,19 +65,9 @@ def _draw(seed: str, *parts: str) -> int:
     return int.from_bytes(hmac.new(seed.encode("utf-8"), msg, hashlib.sha256).digest(), "big")
 
 
-def sequence_variant(seed: str, experiment_id: str, design_hash: str, stratum: str,
-                     index: int, variants: list[str]) -> str:
-    """Variant of the `index`-th unit (0-based) enrolled in `stratum`."""
-    block, start = 0, 0
-    while True:
-        mult = 1 + _draw(seed, "size", experiment_id, design_hash, stratum, str(block)) % 2
-        size = mult * len(variants)
-        if index < start + size:
-            slots = sorted(variants) * mult
-            random.Random(_draw(seed, "perm", experiment_id, design_hash, stratum, str(block))).shuffle(slots)
-            return slots[index - start]
-        start += size
-        block += 1
+def unit_variant(seed: str, experiment_id: str, design_hash: str, unit_id: str, variants: list[str]) -> str:
+    """Variant of a unit: an HMAC-keyed draw on the unit's identity (equal allocation)."""
+    return random.Random(_draw(seed, "unit", experiment_id, design_hash, unit_id)).choice(sorted(variants))
 
 
 def stratum_key(strata: list[str], attributes: dict[str, str]) -> str:
@@ -100,7 +100,8 @@ class AssignmentEngine:
             if (exp, body["unit_id"]) not in self._unit:
                 self._unit[(exp, body["unit_id"])] = body
                 self._stratum_n[(exp, body["stratum"])] = body["stratum_index"] + 1
-            self._job_exp[body["job_id"]] = exp
+            for key in body.get("job_keys", [body["job_id"]]):
+                self._job_exp[key] = exp
             self._employer_exp.setdefault(body["employer_id"], set()).add(exp)
         elif kind == "screened_out":
             self._screened.setdefault(body["experiment_id"], []).append(body)
@@ -133,6 +134,14 @@ class AssignmentEngine:
         if proj["stage"] not in ASSIGNABLE_STAGES:
             raise AssignmentError(f"application is already at stage {proj['stage']!r}; "
                                   "assignment must be journaled before approval and exposure")
+        ever = {e["event_type"] for e in self.store.raw_events(application_id)} - {"saved", "drafted", "note"}
+        if ever:  # voided events still happened: the employer may already have seen something
+            raise AssignmentError("application has already been approved, submitted or answered at some point "
+                                  f"({sorted(ever)}); voiding those events does not make it eligible")
+        if rec.get("final_analysis"):
+            raise AssignmentError("a final analysis has been recorded; the experiment accepts no more applications")
+        planned = design["planned_units_per_arm"] * len(spec["variants"])
+        n_units = sum(1 for (e, _u) in self._unit if e == experiment_id)
         if proj["experiment_id"] not in (None, experiment_id):
             raise DoubleEnrollmentError("application events already reference another experiment")
         if not isinstance(attributes, dict) or not all(
@@ -144,13 +153,15 @@ class AssignmentEngine:
         reasons += [f"stratum factor {f}={attributes.get(f)!r} is not a preregistered level"
                     for f in spec["strata"] if attributes.get(f) not in design["strata_levels"][f]]
         job_id, employer_id = proj["job_id"], proj["employer_id"]
+        job_keys = self.store.meta(application_id)["job_members"]  # the posting and its known duplicates
         if reasons:
             body = {"experiment_id": experiment_id, "application_id": application_id, "reasons": reasons, "at": now}
             self.journal.append("screened_out", body, now)
             self._apply("screened_out", body)
             raise IneligibleError("outside the preregistered eligibility universe: " + "; ".join(reasons))
-        if self._job_exp.get(job_id, experiment_id) != experiment_id:
-            raise DoubleEnrollmentError(f"posting {job_id!r} is already part of {self._job_exp[job_id]!r}")
+        clash = sorted({self._job_exp[k] for k in job_keys if k in self._job_exp} - {experiment_id})
+        if clash:
+            raise DoubleEnrollmentError(f"posting {job_id!r} (or a duplicate of it) is already part of {clash}")
         others = {e for e in self._employer_exp.get(employer_id, set()) - {experiment_id}
                   if self.registry.get(e)["spec"]["status"] != "closed"}
         if others:
@@ -158,27 +169,31 @@ class AssignmentEngine:
                 f"employer {employer_id!r} is in open experiment(s) {sorted(others)}; overlapping experiments refused")
         unit_kind = spec["assignment_unit"]
         unit_id = {"application": application_id, "job": job_id, "employer-cluster": employer_id}[unit_kind]
-        if unit_kind == "application" and self._job_exp.get(job_id) == experiment_id:
+        if unit_kind == "application" and any(self._job_exp.get(k) == experiment_id for k in job_keys):
             raise CrossoverError("this posting already has an application in the experiment; "
                                  "a second arm for the same posting is refused")
         stratum = stratum_key(spec["strata"], attributes)
         first = self._unit.get((experiment_id, unit_id))
+        if first is None and n_units >= planned:
+            raise AssignmentError("the preregistered sample is complete; enrolling more units would "
+                                  "change the design. Close this experiment and register a new one")
+        if first is not None and self.clock.now() > parse_ts(first["assigned_at"]) + timedelta(
+                days=spec["outcome_window_days"]):
+            raise AssignmentError("this unit's enrolment period (one outcome window after its first assignment) "
+                                  "is over; no further applications can be added to it")
         if first is not None:  # sticky: the unit keeps its arm and its original stratum
             variant, index, reused = first["variant"], first["stratum_index"], True
             mismatch = first["stratum"] != stratum
             stratum = first["stratum"]
         else:
-            planned = design["planned_units_per_arm"] * len(spec["variants"])
-            if sum(1 for (e, _u) in self._unit if e == experiment_id) >= planned:
-                raise AssignmentError("the preregistered sample is complete; enrolling more units would "
-                                      "change the design. Close this experiment and register a new one")
             index = self._stratum_n.get((experiment_id, stratum), 0)
-            variant = sequence_variant(self.registry._seed(experiment_id), experiment_id, design_hash,
-                                       stratum, index, spec["variants"])
+            variant = unit_variant(self.registry._seed(experiment_id), experiment_id, design_hash,
+                                   unit_id, spec["variants"])
             reused, mismatch = False, False
         body = {
             "assignment_id": f"asg-{len(self.journal):07d}", "experiment_id": experiment_id,
             "design_hash": design_hash, "application_id": application_id, "job_id": job_id,
+            "job_keys": job_keys,
             "employer_id": employer_id, "unit_kind": unit_kind, "unit_id": unit_id, "stratum": stratum,
             "stratum_index": index, "variant": variant, "assigned_at": now, "reused_unit": reused,
             "stratum_mismatch_with_unit": mismatch, "consent_token_ref": consent_ref,
@@ -238,12 +253,13 @@ class AssignmentEngine:
             if first is None:
                 expected_index = counts.get(a["stratum"], 0)
                 counts[a["stratum"]] = expected_index + 1
-                expected = sequence_variant(seed, experiment_id, design_hash, a["stratum"], expected_index, variants)
+                expected = unit_variant(seed, experiment_id, design_hash, a["unit_id"], variants)
                 if a["reused_unit"] or a["stratum_index"] != expected_index or a["variant"] != expected:
                     raise IntegrityError(f"{a['assignment_id']} does not match the seeded allocation sequence")
                 units[a["unit_id"]] = a
             elif not a["reused_unit"] or a["variant"] != first["variant"] or a["stratum"] != first["stratum"]:
                 raise IntegrityError(f"{a['assignment_id']}: unit {a['unit_id']!r} crossed over between arms")
-            if jobs.setdefault(a["job_id"], a["variant"]) != a["variant"]:
-                raise IntegrityError(f"posting {a['job_id']!r} appears in more than one arm")
+            for key in a.get("job_keys", [a["job_id"]]):
+                if jobs.setdefault(key, a["variant"]) != a["variant"]:
+                    raise IntegrityError(f"posting {key!r} appears in more than one arm")
         return len(apps)

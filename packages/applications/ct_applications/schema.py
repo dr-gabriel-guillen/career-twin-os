@@ -39,9 +39,26 @@ def contracts_dir() -> Path:
     raise FileNotFoundError("frozen contracts/ directory not found above " + str(here))
 
 
+def check_supported(schema: Any, where: str = "$") -> None:
+    """Refuse a schema that uses anything this checker would silently ignore."""
+    if not isinstance(schema, dict):
+        raise ValidationError(f"{where}: sub-schema must be an object")
+    unknown = set(schema) - _KNOWN
+    if unknown:
+        raise ValidationError(f"{where}: schema keyword(s) not supported by lane B checker: {sorted(unknown)}")
+    if not isinstance(schema.get("additionalProperties", True), bool):
+        raise ValidationError(f"{where}: schema-valued additionalProperties is not supported")
+    for key, child in schema.get("properties", {}).items():
+        check_supported(child, f"{where}.{key}")
+    if "items" in schema:
+        check_supported(schema["items"], f"{where}[]")
+
+
 @lru_cache(maxsize=None)
 def load_contract(name: str) -> dict[str, Any]:
-    return json.loads((contracts_dir() / f"{name}.schema.json").read_text(encoding="utf-8"))
+    schema = json.loads((contracts_dir() / f"{name}.schema.json").read_text(encoding="utf-8"))
+    check_supported(schema, name)
+    return schema
 
 
 def errors(instance: Any, schema: dict[str, Any], path: str = "$") -> list[str]:

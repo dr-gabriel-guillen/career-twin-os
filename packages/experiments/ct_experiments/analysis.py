@@ -8,7 +8,10 @@ A "difference" claim is made only when ALL of these hold:
   * every arm has at least the preregistered minimum number of units
   * the Holm-adjusted stratified permutation p-value is below alpha AND the
     confidence interval excludes zero
-  * the conclusion survives worst-case imputation of missing outcomes
+  * the conclusion survives worst-case imputation of missing outcomes, and
+    does not depend on the user's own corrections to recorded events
+  * the analysis time is not in the future, and it is the first terminal
+    analysis (it is journaled as the result of record)
 Otherwise the verdict is INCONCLUSIVE (never "no effect") with the reasons.
 
 Units are analysed as randomised: an employer cluster is one observation.
@@ -17,10 +20,10 @@ and can only ever return OBSERVATIONAL_ONLY.
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, Callable, Iterable
 
-from ct_applications.core import CareerTwinError, fmt_ts, sha256_hex
+from ct_applications.core import CareerTwinError, content_hash, fmt_ts, parse_ts, sha256_hex
 from ct_applications.events import ApplicationStore
 
 from . import stats
@@ -43,14 +46,16 @@ def _seed_int(*parts: str) -> int:
 
 
 def _unit_table(assignments: list[dict[str, Any]], store: ApplicationStore, metric: str, window: int,
-                as_of: datetime) -> dict[str, dict[str, Any]]:
+                as_of: datetime, uncorrected: bool = False) -> dict[str, dict[str, Any]]:
     units: dict[str, dict[str, Any]] = {}
+    events_of = store.uncorrected_events if uncorrected else store.effective_events
     for a in assignments:
-        outcome = application_outcome(store.effective_events(a["application_id"]), metric=metric,
-                                      window_days=window, as_of=as_of)
+        outcome = application_outcome(events_of(a["application_id"]), metric=metric, window_days=window,
+                                      as_of=as_of, assigned_at=parse_ts(a["assigned_at"]))
         unit = units.setdefault(a["unit_id"], {"arm": a["variant"], "stratum": a["stratum"], "apps": []})
         unit["apps"].append({"application_id": a["application_id"], "status": outcome["status"],
-                             "flags": outcome["flags"],
+                             "flags": outcome["flags"], "counted_event_id": outcome["counted_event_id"],
+                             "exposure_deadline": fmt_ts(parse_ts(a["assigned_at"]) + timedelta(days=window)),
                              "withdrawn": any(n["kind"] == "withdrawn" for n in a["annotations"]),
                              "deviation": any(n["kind"] == "deviation" for n in a["annotations"])})
     for unit in units.values():
@@ -114,14 +119,19 @@ def infer(units: list[dict[str, Any]], *, variants: list[str], control: str, min
         comp: dict[str, Any] = {"treatment": trt, "control": control, "units_treatment": n_units[trt],
                                 "units_control": n_units[control], "blocking": [], "notes": []}
         comparisons.append(comp)
-        for arm in (trt, control):
-            if n_units[arm] < minimum_units:
-                comp["blocking"].append(f"TOO_FEW_UNITS: arm {arm!r} has {n_units[arm]} units; "
-                                        f"preregistered minimum is {minimum_units}")
         strata, dropped = _strata(units, trt, control, lambda u: u["y"])
         comp["strata_used"], comp["strata_dropped"] = len(strata), dropped
+        compared = {trt: sum(len(t) for t, _ in strata), control: sum(len(c) for _, c in strata)}
+        comp["units_compared_treatment"], comp["units_compared_control"] = compared[trt], compared[control]
+        for arm in (trt, control):
+            if compared[arm] < minimum_units:
+                comp["blocking"].append(f"TOO_FEW_UNITS: arm {arm!r} has {compared[arm]} comparable units; "
+                                        f"preregistered minimum is {minimum_units}")
         if dropped:
             comp["notes"].append("STRATA_DROPPED: no within-stratum comparison possible in " + ", ".join(dropped))
+            lost = n_units[trt] + n_units[control] - compared[trt] - compared[control]
+            if lost > 0.10 * (n_units[trt] + n_units[control]):
+                comp["blocking"].append(f"TOO_MANY_UNITS_DROPPED: {lost} units sit in strata without both arms")
         if not strata:
             comp["blocking"].append("NO_COMPARABLE_STRATUM")
             raw_p.append(1.0)
@@ -170,7 +180,7 @@ def infer(units: list[dict[str, Any]], *, variants: list[str], control: str, min
             comp["blocking"].append("INTERVAL_INCLUDES_ZERO: the data are compatible with no difference, "
                                     f"and with differences from {ci['low']:+.3f} to {ci['high']:+.3f}")
         worst_p = comp["sensitivity"].get("worst_case_p_value")
-        if worst_p is not None and (worst_p >= alpha or
+        if worst_p is not None and (worst_p * len(treatments) >= alpha or
                                     comp["sensitivity"]["worst_case_estimate"] * comp["estimate"] <= 0):
             comp["blocking"].append("NOT_ROBUST_TO_MISSING_OUTCOMES: the result disappears under worst-case "
                                     "imputation of missing outcomes")
@@ -179,7 +189,7 @@ def infer(units: list[dict[str, Any]], *, variants: list[str], control: str, min
             claims.append(
                 f"Variant {comp['treatment']!r} had a {direction} {metric} rate than control {comp['control']!r} "
                 f"(difference {comp['estimate']:+.3f}, 95% interval {ci['low']:+.3f} to {ci['high']:+.3f}, "
-                f"adjusted p = {p_adj:.4f}, {comp['units_treatment']}+{comp['units_control']} "
+                f"adjusted p = {p_adj:.4f}, {comp['units_compared_treatment']}+{comp['units_compared_control']} "
                 f"{unit_label} units).")
         withheld.extend(f"{comp['treatment']} vs {comp['control']}: {b}" for b in comp["blocking"])
 
@@ -188,6 +198,47 @@ def infer(units: list[dict[str, Any]], *, variants: list[str], control: str, min
 
 def analyze(experiment_id: str, *, registry: ExperimentRegistry, engine: AssignmentEngine,
             store: ApplicationStore, as_of: datetime, override: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Report on an experiment.
+
+    * `as_of` may not lie in the future: an open window can never be scored as closed.
+    * The first terminal analysis (FINAL or STOPPED_EARLY) is journaled as the
+      result of record. From then on every report is computed at that same
+      instant. If the data changed afterwards (late entries, corrections), the
+      new numbers are shown as EXPLORATORY_NO_CLAIM next to the result of record.
+    * Deviating analyses (`override`) are available only after the result of
+      record exists, so they cannot be used to peek.
+    """
+    if as_of > store.clock.now() + timedelta(minutes=5):
+        raise CareerTwinError("as_of lies in the future; outcomes that have not happened cannot be analysed")
+    final = registry.final_analysis(experiment_id)
+    if final is None:
+        if override:
+            raise CareerTwinError("exploratory analyses are available only after the preregistered "
+                                  "final analysis has been recorded")
+        report = _analyze_core(experiment_id, registry=registry, engine=engine, store=store, as_of=as_of)
+        if report["phase"] in ("FINAL", "STOPPED_EARLY"):
+            body = registry.record_final_analysis(experiment_id, report)
+            report = {**report, "result_of_record": {
+                "report_hash": body["report_hash"], "recorded_at": body["recorded_at"], "as_of": report["as_of"],
+                "verdict": report["verdict"], "claim": report["claim"], "unchanged": True}}
+        return report
+    record = {"report_hash": final["report_hash"], "recorded_at": final["recorded_at"],
+              "as_of": final["as_of"], "verdict": final["report"]["verdict"], "claim": final["report"]["claim"]}
+    current = _analyze_core(experiment_id, registry=registry, engine=engine, store=store,
+                            as_of=parse_ts(final["as_of"]), override=override)
+    if override or current["phase"] == "NOT_ANALYZABLE":
+        return {**current, "result_of_record": record}
+    if content_hash(current) == final["report_hash"]:
+        return {**final["report"], "result_of_record": {**record, "unchanged": True}}
+    current.update(verdict="EXPLORATORY_NO_CLAIM", claim=None)
+    current["reasons_withheld"].insert(
+        0, "DATA_CHANGED_AFTER_FINAL_ANALYSIS: events were added or corrected after the final analysis was "
+           "recorded; the recorded result stands and this re-analysis supports no claim")
+    return {**current, "result_of_record": {**record, "unchanged": False}}
+
+
+def _analyze_core(experiment_id: str, *, registry: ExperimentRegistry, engine: AssignmentEngine,
+                  store: ApplicationStore, as_of: datetime, override: dict[str, Any] | None = None) -> dict[str, Any]:
     rec = registry.get(experiment_id)
     spec, design = rec["spec"], rec["design"]
     report: dict[str, Any] = {
@@ -222,7 +273,7 @@ def analyze(experiment_id: str, *, registry: ExperimentRegistry, engine: Assignm
             raise CareerTwinError("invalid override")
         report["deviation_from_preregistration"] = dict(override)
 
-    assignments = engine.assignments(experiment_id)
+    assignments = [a for a in engine.assignments(experiment_id) if parse_ts(a["assigned_at"]) <= as_of]
     units = _unit_table(assignments, store, metric, window, as_of)
     variants, control = spec["variants"], design["control"]
     apps = [x for u in units.values() for x in u["apps"]]
@@ -271,6 +322,11 @@ def analyze(experiment_id: str, *, registry: ExperimentRegistry, engine: Assignm
 
     stopped_early = not enrolled_out
     report["phase"] = "STOPPED_EARLY" if stopped_early else "FINAL"
+    # outcome evidence (terminal reports only: per-application rows would unblind an interim report)
+    report["counted_outcomes"] = sorted(
+        ({"application_id": x["application_id"], "unit_id": uid, "arm": u["arm"], "status": x["status"],
+          "counted_event_id": x["counted_event_id"], "flags": x["flags"]}
+         for uid, u in units.items() for x in u["apps"]), key=lambda r: r["application_id"])
     if stopped_early:
         withheld.append("STOPPED_BEFORE_PLANNED_SAMPLE: the experiment was closed early; with a fixed-horizon "
                         "design a test at a data-dependent stopping point is not valid, so none is reported")
@@ -320,6 +376,18 @@ def analyze(experiment_id: str, *, registry: ExperimentRegistry, engine: Assignm
     report["comparisons"] = result["comparisons"]
     claims = result["claims"]
     withheld.extend(result["withheld"])
+    if corrected and claims:
+        # would the conclusion exist had the user never voided or amended anything?
+        raw_units = _unit_table(assignments, store, metric, window, as_of, uncorrected=True)
+        raw = infer(list(raw_units.values()), variants=variants, control=control,
+                    minimum_units=design["minimum_units_per_arm"], alpha=alpha, n_perm=design["n_permutations"],
+                    seed_key="|".join((rec["design_hash"], metric, str(window))), metric=metric,
+                    unit_label=spec["assignment_unit"])
+        report["sensitivity_uncorrected_history"] = {"claims": len(raw["claims"])}
+        if len(raw["claims"]) != len(claims) or any(u["censored"] for u in raw_units.values()):
+            claims = []
+            withheld.append("NOT_ROBUST_TO_CORRECTIONS: the difference appears only after the user's own "
+                            "corrections to recorded events; no claim is made")
 
     if exploratory:
         report["verdict"] = "EXPLORATORY_NO_CLAIM"

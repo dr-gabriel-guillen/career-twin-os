@@ -34,7 +34,7 @@ def roundtrip() -> dict:
     """One complete resume -> application -> assignment -> outcome trace, through the adapter where possible."""
     lab = Lab(clock=FixedClock(simulate.START))
     api = LaneBApi(lab)
-    sc = simulate.Scenario("roundtrip", "Roundtrip demonstration", "illustrative only", n_per_arm=10, mde=0.5)
+    sc = simulate.Scenario("roundtrip", "Roundtrip demonstration", "illustrative only", n_per_arm=15, mde=0.5)
     exp_id = simulate.register(lab, sc)
     job, claims = synthetic.job("fake-roundtrip-1", org="Fictional Roundtrip Works"), synthetic.claims()
     app_id = "app-roundtrip-1"

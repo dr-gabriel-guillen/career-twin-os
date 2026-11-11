@@ -15,18 +15,21 @@ claims; it never writes, paraphrases or embellishes a qualification.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 from pathlib import Path
 from typing import Any, Iterable
 
 from . import approvals as ap
-from .core import (CareerTwinError, Clock, clean_text, content_hash, escape_html, looks_like_markup,
-                   parse_ts, require_id, sha256_hex)
-from .journal import Journal
+from .core import (CareerTwinError, Clock, canonical_json, clean_text, content_hash, escape_html, looks_like_markup,
+                   parse_ts, require_id, sha256_hex, single_line)
+from .journal import IntegrityError, Journal
 from .schema import validate
 
 VARIANT_SCHEMA = "careertwin.b.resume-variant.v1"
+_CORE_KEYS = ("schema", "subject_id", "job_id", "label", "version", "parent_id", "bullets",
+              "unproven_requirements", "refused_claims", "warnings")
 EXPORTABLE_VISIBILITY = {"shareable", "public-approved"}
 MANUAL_WARNING = ("MANUAL_OVERWRITE: this bullet was edited by hand and is no longer the verbatim "
                   "text of an evidence-backed claim; the user alone vouches for it")
@@ -59,7 +62,7 @@ def claim_refusal(claim: dict[str, Any], subject_id: str, now, include_self_repo
         return "contradicted_by_evidence"
     if claim["status"] == "unverified":
         return "unverified"
-    if claim["status"] == "supported" and not claim["evidence_ids"]:
+    if claim["status"] == "supported" and not [e for e in claim["evidence_ids"] if e.strip()]:
         return "supported_without_evidence"
     if claim["status"] == "self-reported" and not include_self_reported:
         return "self_reported_excluded"
@@ -72,7 +75,7 @@ def claim_refusal(claim: dict[str, Any], subject_id: str, now, include_self_repo
     return None
 
 
-_MD_SPECIAL = re.compile("([" + re.escape(chr(92) + "`*_{}[]()#+-!|>~") + "])")
+_MD_SPECIAL = re.compile("([" + re.escape(chr(92) + "`*_{}[]()#+-!|>~.:/") + "])")
 
 
 def escape_markdown(text: str) -> str:
@@ -105,7 +108,7 @@ class ResumeEngine:
 
     # -- construction ----------------------------------------------------
     def _bullet(self, claim: dict[str, Any]) -> dict[str, Any]:
-        text = clean_text(claim["claim_text"], field="claim_text")
+        text = single_line(clean_text(claim["claim_text"], field="claim_text"))
         return {"claim_id": claim["id"], "text": text, "claim_status": claim["status"],
                 "evidence_ids": sorted(claim["evidence_ids"]), "evidence_hash": evidence_hash(claim),
                 "skills": sorted({_norm(s) for s in claim.get("skills", [])}),
@@ -129,13 +132,13 @@ class ResumeEngine:
         digest = content_hash(core)
         vid = f"rv-{digest[:20]}"
         if vid in self._variants:
-            return dict(self._variants[vid])  # identical content: same immutable variant
+            return self.get(vid)  # identical content: same immutable variant
         variant = {**core, "id": vid, "lineage_id": lineage_id or vid, "content_hash": digest,
                    "created_at": self.clock.now_ts(), "created_by": created_by,
                    "change_note": clean_text(change_note, field="change_note", max_len=500)}
         self.journal.append("variant", variant, variant["created_at"])
-        self._index(variant)
-        return dict(variant)
+        self._index(json.loads(canonical_json(variant)))
+        return self.get(vid)
 
     def build_variant(self, *, subject_id: str, job: dict[str, Any], claims: Iterable[dict[str, Any]],
                       label: str = "default", max_bullets: int = 8, include_self_reported: bool = True,
@@ -225,7 +228,7 @@ class ResumeEngine:
         if actor != "user":
             raise ResumeError("only the user may overwrite résumé text by hand")
         parent = self.get(variant_id)
-        new_text = clean_text(new_text, field="new_text", max_len=600)
+        new_text = single_line(clean_text(new_text, field="new_text", max_len=600))
         if not new_text:
             raise ResumeError("replacement text is empty")
         bullets, hit = [], False
@@ -245,14 +248,17 @@ class ResumeEngine:
         variant = self._variants.get(variant_id)
         if variant is None:
             raise KeyError(f"unknown résumé variant {variant_id!r}")
-        return dict(variant)
+        core = {k: variant[k] for k in _CORE_KEYS}
+        if content_hash(core) != variant["content_hash"] or variant_id != f"rv-{variant['content_hash'][:20]}":
+            raise IntegrityError(f"résumé variant {variant_id!r} no longer matches its content hash")
+        return json.loads(canonical_json(variant))  # deep copy: callers can never alter the stored snapshot
 
     def content_hash_of(self, variant_id: str) -> str:
         return self.get(variant_id)["content_hash"]
 
     def lineage(self, variant_id: str) -> list[dict[str, Any]]:
         lineage_id = self.get(variant_id)["lineage_id"]
-        return sorted((dict(v) for v in self._variants.values() if v["lineage_id"] == lineage_id),
+        return sorted((self.get(v["id"]) for v in list(self._variants.values()) if v["lineage_id"] == lineage_id),
                       key=lambda v: v["version"])
 
     def diff(self, old_id: str, new_id: str) -> dict[str, Any]:
@@ -274,7 +280,10 @@ class ResumeEngine:
     def staleness(self, variant_id: str, current_claims: Iterable[dict[str, Any]]) -> list[dict[str, str]]:
         """Compare the snapshot with the claims as they are now."""
         variant = self.get(variant_id)
-        current = {c["id"]: c for c in current_claims}
+        current = {}
+        for c in current_claims:
+            validate(c, "profile-claim")
+            current[c["id"]] = c
         now = self.clock.now()
         problems = []
         for b in variant["bullets"]:
@@ -285,7 +294,9 @@ class ResumeEngine:
             reason = claim_refusal(claim, variant["subject_id"], now)
             if reason:
                 problems.append({"claim_id": b["claim_id"], "problem": reason, "blocking": "yes"})
-            elif evidence_hash(claim) != b["evidence_hash"]:
+            elif evidence_hash(claim) != b["evidence_hash"] or (
+                    not b["manual_override"]
+                    and sha256_hex(single_line(clean_text(claim["claim_text"]))) != b["claim_text_hash"]):
                 problems.append({"claim_id": b["claim_id"], "problem": "claim_changed_since_snapshot", "blocking": "yes"})
         return problems
 

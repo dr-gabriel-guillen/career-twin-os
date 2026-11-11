@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 MAX_TEXT_LEN = 4000
-_CONTROL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f​-‏‪-‮⁦-⁩]")
+_CONTROL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\u200b-\u200f\u2028-\u202e\u2066-\u2069\ud800-\udfff]")
 _TS = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?(Z|[+-]\d{2}:\d{2})$")
 
 
@@ -44,10 +44,12 @@ def parse_ts(value: str) -> datetime:
     if not isinstance(value, str) or not _TS.match(value):
         raise ValidationError(f"not an RFC 3339 timestamp with offset: {value!r}")
     try:
-        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
-    except ValueError as exc:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+    except (ValueError, OverflowError) as exc:
         raise ValidationError(f"invalid timestamp: {value!r}") from exc
-    return dt.astimezone(timezone.utc)
+    if not (1990 <= dt.year <= 2200):
+        raise ValidationError(f"timestamp outside the supported range: {value!r}")
+    return dt
 
 
 def fmt_ts(dt: datetime) -> str:
@@ -93,6 +95,11 @@ def clean_text(value: Any, *, field: str = "text", max_len: int = MAX_TEXT_LEN) 
     if len(cleaned) > max_len:
         raise ValidationError(f"{field} exceeds {max_len} characters")
     return cleaned
+
+
+def single_line(value: str) -> str:
+    """Collapse every line break / whitespace run to one space (used for résumé bullets)."""
+    return " ".join(value.split())
 
 
 def escape_html(value: str) -> str:

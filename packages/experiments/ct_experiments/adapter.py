@@ -40,8 +40,8 @@ class LaneBApi:
             return {**base, "ok": True, "data": fn(**params)}
         except CareerTwinError as exc:
             return {**base, "ok": False, "error": {"type": type(exc).__name__, "message": str(exc)}}
-        except (KeyError, TypeError) as exc:
-            return {**base, "ok": False, "error": {"type": "BadRequest", "message": str(exc)}}
+        except (KeyError, TypeError, ValueError, OverflowError, AttributeError) as exc:
+            return {**base, "ok": False, "error": {"type": "BadRequest", "message": str(exc)[:300]}}
 
     def methods(self) -> list[str]:
         return sorted(name[3:] for name in dir(self) if name.startswith("_m_"))

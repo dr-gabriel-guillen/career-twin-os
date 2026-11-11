@@ -28,7 +28,7 @@ ATTR = {"seniority": "senior", "role_family": "fde"}
 
 def setup_lab(root=None):
     lab = Lab(root, clock=FixedClock(simulate.START))
-    exp = simulate.register(lab, simulate.Scenario("sec", "Sec", "n/a", n_per_arm=10, mde=0.5))
+    exp = simulate.register(lab, simulate.Scenario("sec", "Sec", "n/a", n_per_arm=15, mde=0.5))
     return lab, LaneBApi(lab), exp
 
 
@@ -148,7 +148,8 @@ class TestGateBypassAttempts(unittest.TestCase):
         callers = {p.name for p in SOURCES if re.search(r"\.grant\(", p.read_text(encoding="utf-8"))}
         self.assertEqual(callers, {"adapter.py", "simulate.py"})
         product = [p for p in SOURCES if "simulated_user_grant" in p.read_text(encoding="utf-8")]
-        self.assertEqual({p.name for p in product}, {"simulate.py"})  # tools reach it only via simulate.*
+        # simulate.py defines the synthetic user; e2e_stage.py plays it for lane E's integration run
+        self.assertEqual({p.name for p in product}, {"simulate.py", "e2e_stage.py"})
 
     def test_corrections_to_enrolled_applications_are_surfaced_in_the_report(self):
         simulate.submit_application(self.lab, app_id="a1", job=synthetic.job("fake-a1"), employer_id="emp-a1",

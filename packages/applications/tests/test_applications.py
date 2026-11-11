@@ -257,7 +257,7 @@ class TestWorkflowAndStore(unittest.TestCase):
         self.env.to_approved()
         self.s.record_user_submission(application_id="app-1")
         first = self.ev("recruiter_screen", actor="import", source="import:msg-42", outcome_status="observed",
-                        occurred_at="2026-02-01T09:00:00Z", event_id="evt-mail-42")
+                        occurred_at="2026-02-01T09:00:00Z", event_id="mail-42")
         with self.assertRaises(ReplayError):  # same event id replayed
             self.ev("interview", event_id=first["id"])
         with self.assertRaises(ReplayError):  # same mail imported twice

@@ -73,7 +73,8 @@ class ApplicationStore:
         if ev["event_type"] == "saved":
             self._meta[ev["application_id"]] = {
                 "job_id": ev["job_id"], "employer_id": ext.get("employer_id"),
-                "historical": bool(ext.get("historical"))}
+                "historical": bool(ext.get("historical")),
+                "job_members": list(ext.get("job_members") or [ev["job_id"]])}
         if ev["actor"] == "import":
             self._import_keys.add((ev["application_id"], ev["event_type"], ev["source"], ev.get("occurred_at")))
         corr = ext.get("correction")
@@ -96,11 +97,17 @@ class ApplicationStore:
     # -- writing ---------------------------------------------------------
     def open_application(self, *, application_id: str, job_id: str, employer_id: str,
                          actor: str = "user", source: str = "user:manual", historical: bool = False,
-                         occurred_at: str | None = None, notes: str = "") -> dict[str, Any]:
+                         occurred_at: str | None = None, notes: str = "",
+                         job_members: list[str] | None = None) -> dict[str, Any]:
         """First event of every application. `historical` marks an imported past
         application: it bypasses the approval gate (the user already acted) and is
-        permanently barred from randomized experiments (observational only)."""
+        permanently barred from randomized experiments (observational only).
+
+        `employer_id` should be lane A's `ext.employer.id`; `job_members` lane A's
+        `ext.dedup.members` at this moment (ids of the same job on other boards).
+        Both are snapshotted, so later changes on A's side cannot move them."""
         require_id(employer_id, "employer_id")
+        members = sorted({require_id(m, "job_members[]") for m in (job_members or [])} | {job_id})
         if historical and actor != "import":
             raise WorkflowError("historical applications are recorded by the 'import' actor")
         if actor == "import" and not historical:
@@ -108,7 +115,8 @@ class ApplicationStore:
         return self._append(application_id=application_id, job_id=job_id, event_type="saved",
                             actor=actor, source=source, outcome_status="observed",
                             occurred_at=occurred_at, notes=notes,
-                            ext={"employer_id": employer_id, "historical": historical})  # type: ignore[return-value]
+                            ext={"employer_id": employer_id, "historical": historical,
+                                 "job_members": members})  # type: ignore[return-value]
 
     def append_event(self, *, application_id: str, job_id: str, event_type: str, actor: str,
                      source: str, outcome_status: str, occurred_at: str | None = None,
@@ -149,6 +157,8 @@ class ApplicationStore:
         now = self.clock.now_ts()
         seq = len(self.journal)
         eid = require_id(event_id, "event_id") if event_id is not None else None
+        if eid is not None and eid.startswith("evt-"):
+            raise ValidationError("event ids starting with 'evt-' are reserved for generated ids")
         event = {
             "id": eid or f"evt-{seq:07d}", "application_id": application_id, "job_id": job_id,
             "resume_variant_id": resume_variant_id, "event_type": event_type, "recorded_at": now,
@@ -245,6 +255,8 @@ class ApplicationStore:
             raise WorkflowError("submitted résumé variant differs from the approved one")
         if event["approval_token_ref"] != approved["approval_token_ref"]:
             raise WorkflowError("submission must reference the approval that authorised it")
+        if event["occurred_at"] and parse_ts(event["occurred_at"]) < parse_ts(approved["recorded_at"]):
+            raise WorkflowError("a submission cannot be dated before the approval that authorised it")
 
     def record_user_submission(self, *, application_id: str, occurred_at: str | None = None,
                                notes: str = "") -> dict[str, Any]:
@@ -277,6 +289,8 @@ class ApplicationStore:
         if target_event_id in self._voided:
             raise CorrectionError("target event is already voided")
         app_id = target["application_id"]
+        if changes is not None and not isinstance(changes, dict):
+            raise CorrectionError("changes must be an object")
         changes = dict(changes or {})
         if action == "void":
             if changes:
@@ -302,6 +316,10 @@ class ApplicationStore:
                 raise CorrectionError("a user submission stays 'self-reported'")
             if merged.get("occurred_at") and parse_ts(merged["occurred_at"]) > self.clock.now() + timedelta(minutes=5):
                 raise CorrectionError("occurred_at cannot be in the future")
+            if merged["event_type"] == "submitted" and not self._meta[app_id]["historical"]:
+                approved = [e for e in self._effective(app_id) if e["event_type"] == "approved"][-1]
+                if merged.get("occurred_at") and parse_ts(merged["occurred_at"]) < parse_ts(approved["recorded_at"]):
+                    raise CorrectionError("a submission cannot be dated before the approval that authorised it")
         else:
             raise CorrectionError("action must be 'void' or 'amend'")
         return self._append(
@@ -321,6 +339,11 @@ class ApplicationStore:
 
     def effective_events(self, application_id: str) -> list[dict[str, Any]]:
         return self._effective(application_id)
+
+    def uncorrected_events(self, application_id: str) -> list[dict[str, Any]]:
+        """History exactly as first recorded: no void or amendment applied, correction notes left out."""
+        return [dict(self._events[e]["event"]) for e in self._order.get(application_id, [])
+                if not self._events[e]["ext"].get("correction")]
 
     def event_ext(self, event_id: str) -> dict[str, Any]:
         return dict(self._events[event_id]["ext"])

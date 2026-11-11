@@ -8,6 +8,7 @@ from typing import Any
 from ct_applications import approvals as ap
 from ct_applications.core import Clock
 from ct_applications.events import ApplicationStore, submission_package_hash
+from ct_applications.journal import IntegrityError, Journal
 from ct_applications.resume import ResumeEngine
 
 from .analysis import analyze
@@ -44,6 +45,22 @@ class Lab:
         for name, journal in self.journals().items():
             a = (anchors or {}).get(name)
             journal.verify(a["head"] if a else None, a["length"] if a else None)
+            if journal.path is not None:  # the file on disk must still be exactly what is in memory
+                on_disk = Journal(journal.path, name=journal.name) if journal.path.exists() else Journal(name=journal.name)
+                if (len(on_disk), on_disk.head()) != (len(journal), journal.head()):
+                    raise IntegrityError(f"{name}: file on disk differs from the journal in memory")
+        # every approval that was acted upon must be recorded as consumed in the ledger
+        used = [e["approval_token_ref"] for e in self.resumes.exports]
+        used += [rec["body"]["approval_token_ref"] for rec in self.registry.journal.records("locked")]
+        for app in self.store.application_ids():
+            if not self.store.meta(app)["historical"]:
+                used += [e["approval_token_ref"] for e in self.store.raw_events(app) if e["event_type"] == "approved"]
+        if len(used) != len(set(used)):
+            raise IntegrityError("an approval token was acted upon more than once")
+        stale = [t for t in used if self.ledger.status(t) != "consumed"]
+        if stale:
+            raise IntegrityError(f"approval ledger does not show {len(stale)} used token(s) as consumed "
+                                 "(ledger truncated or rewritten)")
         for exp in self.registry.ids():
             if "locked_design_hash" in self.registry._require(exp):
                 self.engine.verify(exp)

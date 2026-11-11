@@ -30,22 +30,37 @@ def _when(ev: dict[str, Any]) -> tuple[datetime, bool]:
 
 
 def application_outcome(events: list[dict[str, Any]], *, metric: str, window_days: int,
-                        as_of: datetime) -> dict[str, Any]:
-    """`events` is the effective (post-correction) history of one application."""
+                        as_of: datetime, assigned_at: datetime | None = None) -> dict[str, Any]:
+    """`events` is the effective (post-correction) history of one application.
+
+    With `assigned_at` (experiments), exposure must happen within `window_days`
+    of assignment. Until that deadline an unsubmitted application is pending
+    (censored), afterwards it is missing for good: a later submission is
+    ignored, so a final analysis cannot change after the fact.
+    """
     flags: list[str] = []
     out: dict[str, Any] = {"metric": metric, "status": "missing", "exposed_at": None, "window_end": None,
-                           "event_at": None, "flags": flags}
-    submitted = next((e for e in events if e["event_type"] == "submitted"), None)
+                           "event_at": None, "counted_event_id": None, "flags": flags}
+    deadline = assigned_at + timedelta(days=window_days) if assigned_at is not None else None
+    submitted = next((e for e in events if e["event_type"] == "submitted" and _when(e)[0] <= as_of), None)
+    if submitted is not None and deadline is not None and _when(submitted)[0] > deadline:
+        flags.append("exposed_after_deadline_ignored")
+        return out
+    if submitted is not None and assigned_at is not None and _when(submitted)[0] < assigned_at:
+        flags.append("exposure_dated_before_assignment")  # cannot happen through the gated workflow
+        return out
     if submitted is None:
-        flags.append("withdrawn_before_exposure" if any(e["event_type"] == "withdrawn" for e in events)
-                     else "never_exposed")
+        if any(e["event_type"] == "withdrawn" and _when(e)[0] <= as_of for e in events):
+            flags.append("withdrawn_before_exposure")
+        elif deadline is not None and as_of < deadline:
+            flags.append("awaiting_exposure")
+            out["status"] = "censored"
+        else:
+            flags.append("never_exposed")
         return out
     exposed_at, fallback = _when(submitted)
     if fallback:
         flags.append("exposure_time_from_recorded_at")
-    if exposed_at > as_of:
-        flags.append("exposure_after_analysis_time")
-        return out
     window_end = exposed_at + timedelta(days=window_days)
     out.update(exposed_at=exposed_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
                window_end=window_end.strftime("%Y-%m-%dT%H:%M:%SZ"))
@@ -69,14 +84,17 @@ def application_outcome(events: list[dict[str, Any]], *, metric: str, window_day
             continue
         if fb:
             flags.append("response_time_from_recorded_at")
-        (in_window if at <= window_end else late).append(at)
+        (in_window if at <= window_end else late).append((at, ev.get("id")))
     if in_window:
-        out.update(status="success", event_at=min(in_window).strftime("%Y-%m-%dT%H:%M:%SZ"))
+        at, event_id = min(in_window, key=lambda x: x[0])
+        out.update(status="success", event_at=at.strftime("%Y-%m-%dT%H:%M:%SZ"), counted_event_id=event_id)
         return out
     if late:
         flags.append("late_success_outside_window")
     ended = next((e for e in events if e["event_type"] in ("rejected", "withdrawn")
                   and exposed_at <= _when(e)[0] <= as_of), None)
+    if ended is not None:
+        out["counted_event_id"] = ended.get("id")
     if ended is not None:
         flags.append(f"ended_by_{ended['event_type']}")
         out["status"] = "no_success"

@@ -15,7 +15,7 @@ from ct_applications.journal import IntegrityError  # noqa: E402
 from ct_experiments import simulate, stats  # noqa: E402
 from ct_experiments.analysis import infer, portfolio_summary  # noqa: E402
 from ct_experiments.assignment import (AssignmentError, ConsentError, CrossoverError,  # noqa: E402
-                                       DoubleEnrollmentError, IneligibleError, sequence_variant)
+                                       DoubleEnrollmentError, IneligibleError, unit_variant)
 from ct_experiments.lab import Lab  # noqa: E402
 from ct_experiments.outcomes import application_outcome  # noqa: E402
 from ct_experiments.registry import DesignLockedError, RegistryError, make_design  # noqa: E402
@@ -82,7 +82,7 @@ class TestStats(unittest.TestCase):
 class TestRegistry(unittest.TestCase):
     def setUp(self):
         self.lab = new_lab()
-        self.sc = Scenario("t", "Test experiment", "n/a", n_per_arm=10, mde=0.5)
+        self.sc = Scenario("t", "Test experiment", "n/a", n_per_arm=15, mde=0.5)
 
     def draft(self, lab=None, key="t", **design_kw):
         lab = lab or self.lab
@@ -92,7 +92,7 @@ class TestRegistry(unittest.TestCase):
                 "analysis_plan": "ITT permutation"}
         kw = dict(question="Q?", eligibility_description="fictional", control="control",
                   variant_definitions={"control": "c", "treatment": "t"},
-                  strata_levels={"seniority": ["senior", "staff"]}, planned_units_per_arm=10,
+                  strata_levels={"seniority": ["senior", "staff"]}, planned_units_per_arm=15,
                   assumed_baseline=0.2, minimum_detectable_effect=0.5)
         kw.update(design_kw)
         return lab.registry.create_draft(spec, make_design(**kw), seed="test-seed"), spec
@@ -101,7 +101,7 @@ class TestRegistry(unittest.TestCase):
         _, spec = self.draft()
         base = make_design(question="Q?", eligibility_description="d", control="control",
                            variant_definitions={"control": "c", "treatment": "t"},
-                           strata_levels={"seniority": ["senior"]}, planned_units_per_arm=10,
+                           strata_levels={"seniority": ["senior"]}, planned_units_per_arm=15,
                            assumed_baseline=0.2, minimum_detectable_effect=0.3)
         bad_designs = [
             {**base, "question": "  "}, {**base, "control": "nobody"}, {**base, "variant_definitions": {"control": "c"}},
@@ -205,32 +205,34 @@ class TestAssignment(unittest.TestCase):
             open_app(lab, app, **kw)
         return lab.engine.assign(experiment_id=exp or self.exp, application_id=app, attributes=attrs)
 
-    def test_sequence_is_seeded_balanced_and_unpredictable_in_block_size(self):
-        seq = [sequence_variant("s", "e", "h", "x", i, ["a", "b"]) for i in range(200)]
-        self.assertEqual(seq, [sequence_variant("s", "e", "h", "x", i, ["a", "b"]) for i in range(200)])
-        self.assertNotEqual(seq, [sequence_variant("s2", "e", "h", "x", i, ["a", "b"]) for i in range(200)])
-        self.assertNotEqual(seq, [sequence_variant("s", "e", "h", "y", i, ["a", "b"]) for i in range(200)])
-        for n in range(1, 201):  # never more than one block out of balance
-            self.assertLessEqual(abs(seq[:n].count("a") - seq[:n].count("b")), 2)
-        three = [sequence_variant("s", "e", "h", "x", i, ["a", "b", "c"]) for i in range(300)]
-        self.assertTrue(all(abs(three.count(v) - 100) <= 2 for v in "abc"))
+    def test_allocation_is_seeded_identity_keyed_and_unpredictable(self):
+        ids = [f"u{i}" for i in range(2000)]
+        seq = [unit_variant("s", "e", "h", u, ["a", "b"]) for u in ids]
+        self.assertEqual(seq, [unit_variant("s", "e", "h", u, ["b", "a"]) for u in ids])  # deterministic
+        self.assertNotEqual(seq, [unit_variant("s2", "e", "h", u, ["a", "b"]) for u in ids])
+        self.assertNotEqual(seq, [unit_variant("s", "e", "h2", u, ["a", "b"]) for u in ids])
+        self.assertLess(abs(seq.count("a") - 1000), 90)  # about 4 sd of a fair coin
+        # the arms already handed out say nothing about the next one (the flaw of block designs)
+        lead, hits, trials = 0, 0, 0
+        for v in seq:
+            if lead != 0:
+                trials += 1
+                hits += (v == "a") == (lead < 0)  # guess: the lagging arm comes next
+            lead += 1 if v == "a" else -1
+        self.assertLess(abs(hits / trials - 0.5), 0.05)
+        three = [unit_variant("s", "e", "h", u, ["a", "b", "c"]) for u in ids[:1500]]
+        self.assertTrue(all(abs(three.count(v) - 500) < 80 for v in "abc"))
 
-    def test_same_journal_order_gives_same_assignments_and_verify_passes(self):
+    def test_assignment_does_not_depend_on_enrolment_order_or_stratum_label(self):
         other = new_lab()
         simulate.register(other, Scenario("t", "T", "n/a", n_per_arm=20, mde=0.4))
-        rng = random.Random(3)
-        got, want = [], []
-        for i in range(40):
-            attrs = {**ATTR, "seniority": rng.choice(["senior", "staff"])}
-            got.append(self.assign(f"a{i}", attrs=attrs)["variant"])
-            want.append(self.assign(f"a{i}", lab=other, attrs=attrs)["variant"])
+        names = [f"a{i}" for i in range(40)]
+        got = {n: self.assign(n)["variant"] for n in names}
+        want = {n: self.assign(n, lab=other, attrs={**ATTR, "seniority": "staff"})["variant"]
+                for n in reversed(names)}
         self.assertEqual(got, want)
         self.assertEqual(self.lab.engine.verify(self.exp), 40)
-        by_stratum = {}
-        for a in self.lab.engine.assignments(self.exp):
-            by_stratum.setdefault(a["stratum"], []).append(a["variant"])
-        for arms in by_stratum.values():
-            self.assertLessEqual(abs(arms.count("control") - arms.count("treatment")), 2)
+        self.assertEqual(len(set(got.values())), 2)
         with self.assertRaises(AssignmentError):  # preregistered sample is complete
             self.assign("a-extra")
 
@@ -238,7 +240,7 @@ class TestAssignment(unittest.TestCase):
         first = self.assign("a1")
         self.assertEqual(self.assign("a1"), first)
         self.assertEqual(len(self.lab.engine.assignments(self.exp)), 1)
-        exp2 = simulate.register(self.lab, Scenario("u", "U", "n/a", n_per_arm=10, mde=0.5))
+        exp2 = simulate.register(self.lab, Scenario("u", "U", "n/a", n_per_arm=15, mde=0.5))
         with self.assertRaises(DoubleEnrollmentError):
             self.assign("a1", exp=exp2)
         with self.assertRaises(DoubleEnrollmentError):  # same posting in another experiment
@@ -255,7 +257,7 @@ class TestAssignment(unittest.TestCase):
 
     def test_cluster_units_keep_one_arm_and_stratum(self):
         lab = new_lab()
-        exp = simulate.register(lab, Scenario("c", "C", "n/a", unit="employer-cluster", n_per_arm=10, mde=0.5,
+        exp = simulate.register(lab, Scenario("c", "C", "n/a", unit="employer-cluster", n_per_arm=15, mde=0.5,
                                               icc=0.2, cluster_size=(2, 3)))
         arms = [self.assign(f"a{i}", lab=lab, exp=exp, employer="emp-same",
                             attrs={**ATTR, "seniority": "staff" if i == 2 else "senior"}) for i in range(4)]
@@ -288,7 +290,7 @@ class TestAssignment(unittest.TestCase):
 
     def test_invalid_consent(self):
         lab = new_lab()
-        sc = Scenario("k", "K", "n/a", n_per_arm=10, mde=0.5, consent=True)
+        sc = Scenario("k", "K", "n/a", n_per_arm=15, mde=0.5, consent=True)
         exp = simulate.register(lab, sc)
         self.assign("a1", lab=lab, exp=exp)
         token = lab.registry._records[exp]["consent_token_ref"]
@@ -298,8 +300,8 @@ class TestAssignment(unittest.TestCase):
         # consent given for a different design does not count
         lab2 = new_lab()
         spec_exp = "exp-k2"
-        simulate.register(lab2, Scenario("k1", "K1", "n/a", n_per_arm=10, mde=0.5))
-        s = Scenario("k2", "K2", "n/a", n_per_arm=10, mde=0.5, consent=False)
+        simulate.register(lab2, Scenario("k1", "K1", "n/a", n_per_arm=15, mde=0.5))
+        s = Scenario("k2", "K2", "n/a", n_per_arm=15, mde=0.5, consent=False)
         simulate.register(lab2, s)
         lab2.registry._records[spec_exp]["spec"]["consent_required"] = True  # simulate a consent-required design
         lab2.registry._records[spec_exp]["locked_design_hash"] = lab2.registry.design_hash(spec_exp)
@@ -329,7 +331,7 @@ class TestAssignment(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             a, mem = new_lab(d), new_lab()
             for lab in (a, mem):
-                simulate.register(lab, Scenario("r", "R", "n/a", n_per_arm=10, mde=0.5))
+                simulate.register(lab, Scenario("r", "R", "n/a", n_per_arm=15, mde=0.5))
             first = [self.assign(f"a{i}", lab=a, exp="exp-r")["variant"] for i in range(5)]
             b = new_lab(d)  # process restart
             rest = [self.assign(f"a{i}", lab=b, exp="exp-r")["variant"] for i in range(5, 12)]
@@ -525,12 +527,16 @@ class TestAnalysisPipeline(unittest.TestCase):
         self.assertGreater(rep["clustering"]["icc_estimate"], 0.2)
         self.assertGreater(rep["clustering"]["design_effect"], 1.5)
 
-    def test_three_arm_experiment_claims_only_the_real_arm(self):
+    def test_three_arm_experiment_compares_each_arm_with_control(self):
         rep = self.rep["three-01"]
-        blocked = {c["treatment"]: bool(c["blocking"]) for c in rep["comparisons"]}
-        self.assertEqual(blocked, {"brevity": True, "evals": False})
-        self.assertIn("'evals'", rep["claim"])
-        self.assertNotIn("'brevity'", rep["claim"])
+        self.assertEqual([(c["treatment"], c["control"]) for c in rep["comparisons"]],
+                         [("brevity", "control"), ("evals", "control")])
+        for c in rep["comparisons"]:
+            self.assertGreaterEqual(c["p_value_holm"], c["p_value"])
+            # an arm is named in a claim if and only if nothing blocks it
+            self.assertEqual(f"'{c['treatment']}' had" in (rep["claim"] or ""), not c["blocking"])
+        self.assertEqual(rep["verdict"] == "EVIDENCE_FOR_DIFFERENCE",
+                         any(not c["blocking"] for c in rep["comparisons"]))
 
     def test_differential_attrition_is_flagged(self):
         comp = self.rep["attr-01"]["comparisons"][0]
@@ -584,7 +590,7 @@ class TestObservational(unittest.TestCase):
         within = [abs(c["rv-hist-polished"]["rate"] - c["rv-hist-plain"]["rate"]) for c in obs["by_covariate"].values()]
         self.assertLess(max(within), naive_gap)
         # historical applications can never enter a randomised experiment
-        exp = simulate.register(lab, Scenario("o", "O", "n/a", n_per_arm=10, mde=0.5))
+        exp = simulate.register(lab, Scenario("o", "O", "n/a", n_per_arm=15, mde=0.5))
         with self.assertRaises(IneligibleError):
             lab.engine.assign(experiment_id=exp, application_id="hist-000", attributes=ATTR)
 

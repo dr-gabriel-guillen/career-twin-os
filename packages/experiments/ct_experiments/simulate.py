@@ -19,7 +19,7 @@ from ct_applications.core import FixedClock, fmt_ts
 
 from . import stats
 from .analysis import infer, observational_summary, portfolio_summary
-from .assignment import sequence_variant
+from .assignment import unit_variant
 from .lab import Lab
 from .registry import make_design
 
@@ -96,8 +96,8 @@ def scenarios() -> list[Scenario]:
           effects={"treatment": 0.10}, enrol_fraction=0.5, close_early=True, n_per_arm=50),
         S("three-01", "Three-arm: two rewrites vs control", "arm 'evals' +0.30, arm 'brevity' 0.00",
           arms=("control", "brevity", "evals"), effects={"brevity": 0.0, "evals": 0.30}, n_per_arm=60),
-        S("tiny-01", "Minimum-size experiment", "true effect +0.15 with 10 units per arm",
-          effects={"treatment": 0.15}, n_per_arm=10, mde=0.5),
+        S("tiny-01", "Minimum-size experiment", "true effect +0.15 with 20 units per arm",
+          effects={"treatment": 0.15}, n_per_arm=20, mde=0.4),
         S("consent-01", "Consent-gated experiment", "true effect +0.25", effects={"treatment": 0.25},
           consent=True, n_per_arm=60),
         S("strat-01", "Strong stratum difference, no effect", "no true difference; staff postings respond far "
@@ -139,7 +139,7 @@ def register(lab: Lab, sc: Scenario) -> str:
         variant_definitions={a: ("baseline résumé ordering" if a == control else f"résumé variant '{a}'")
                              for a in sc.arms},
         strata_levels={"seniority": ["senior", "staff"]}, planned_units_per_arm=sc.n_per_arm,
-        minimum_units_per_arm=max(10, sc.n_per_arm // 2), assumed_baseline=sc.baseline,
+        assumed_baseline=sc.baseline,
         minimum_detectable_effect=sc.mde, assumed_icc=sc.icc if sc.unit == "employer-cluster" else 0.0,
         assumed_cluster_size=mean_size if sc.unit == "employer-cluster" else 1.0, n_permutations=1999)
     lab.registry.create_draft(spec, design, seed=f"synthetic-seed-{sc.key}")
@@ -319,13 +319,10 @@ def run_cohort(seed: int = 20261110, root: str | None = None, only: list[str] | 
 def _sim_units(rng: random.Random, *, n_per_arm: int, baseline: float, effect: float, icc: float,
                cluster_size: tuple[int, int], seed: str, missing: float = 0.0) -> list[dict[str, Any]]:
     variants = ["control", "treatment"]
-    counts: dict[str, int] = {}
     units = []
-    for _ in range(2 * n_per_arm):
+    for i in range(2 * n_per_arm):
         stratum = rng.choice(["seniority=senior", "seniority=staff"])
-        idx = counts.get(stratum, 0)
-        counts[stratum] = idx + 1
-        arm = sequence_variant(seed, "calibration", "0" * 64, stratum, idx, variants)
+        arm = unit_variant(seed, "calibration", "0" * 64, f"unit-{i}", variants)
         base = _clamp(baseline - (0.06 if stratum.endswith("staff") else 0.0))
         p = _clamp(_cluster_rate(rng, base, icc) + (effect if arm == "treatment" else 0.0))
         m = rng.randint(*cluster_size)

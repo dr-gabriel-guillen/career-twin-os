@@ -2,7 +2,7 @@
 
 Everything here is deterministic given its inputs (permutation tests take an
 explicit seed). Functions are checked against closed-form / textbook values in
-tests/test_stats.py.
+tests/test_experiments.py (TestStats).
 """
 from __future__ import annotations
 
@@ -155,17 +155,23 @@ def stratified_t_interval(strata: Sequence[Stratum], conf: float = 0.95) -> dict
     if any(len(t) < 2 or len(c) < 2 for t, c in strata):
         return None
     total = sum(len(t) + len(c) for t, c in strata)
-    var, df = 0.0, 0
+    var = 0.0
 
     def s2(xs: Sequence[float]) -> float:
         m = sum(xs) / len(xs)
         return sum((x - m) ** 2 for x in xs) / (len(xs) - 1)
 
+    denom = 0.0
     for t, c in strata:
         w = (len(t) + len(c)) / total
-        var += w * w * (s2(t) / len(t) + s2(c) / len(c))
-        df += len(t) + len(c) - 2
+        for xs in (t, c):
+            term = w * w * s2(xs) / len(xs)
+            var += term
+            denom += term * term / (len(xs) - 1)
     est = stratified_difference(strata)
+    if var <= 0.0:
+        return {"low": est, "high": est, "df": 0.0, "se": 0.0}
+    df = var * var / denom  # Welch-Satterthwaite
     half = t_ppf(1 - (1 - conf) / 2, df) * math.sqrt(var)
     return {"low": est - half, "high": est + half, "df": df, "se": math.sqrt(var)}
 

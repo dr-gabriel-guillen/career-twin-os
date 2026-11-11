@@ -19,7 +19,8 @@ python packages/experiments/tools/build_offline_package.py     # reproducible zi
 | `…/approvals.py` | User-approval ledger: user-only, bound to (action, subject, content hash), expiring, single-use. |
 | `…/resume.py` | Truthful résumé variants: verbatim evidence-backed claims only, immutable versions, diff, approval-gated export. |
 | `packages/experiments/ct_experiments/registry.py` | Preregistration with an immutable design lock. |
-| `…/assignment.py` | Seeded, stratified permuted-block assignment, journaled before exposure; no crossover, no double enrolment. |
+| `…/assignment.py` | Seeded randomisation keyed on the unit's identity (not on order or history), journaled before exposure; no crossover (including lane A duplicate postings), no double enrolment, enrolment frozen after the planned sample or the final analysis. |
+| `tools/e2e_stage.py`, `integration-manifest.json` | The three stages lane E runs in its disposable integration (`resume.variant`, `application.record`, `experiment.run`). |
 | `…/outcomes.py` | success / no_success / censored / missing, with late, ambiguous and duplicate responses handled explicitly. |
 | `…/analysis.py`, `stats.py` | Intention-to-treat randomisation inference, withheld-claim rules, observational labelling, portfolio multiplicity. |
 | `…/simulate.py` | Fictional cohort with known ground truth; calibration of the decision rule. |
@@ -62,6 +63,14 @@ Frozen contracts are **not** modified. B-only data travels beside them.
 * Primary test: stratified permutation test that re-randomises within strata, mirroring the assignment mechanism.
   Interval: Newcombe hybrid score (single stratum, binary units) or a t-interval on unit means (approximate; flagged).
 * Fixed horizon only. Interim reports are blinded by arm and carry no test; an early stop yields no test.
+* `as_of` can never lie in the future. An unsubmitted enrolled application stays pending (censored) until one
+  outcome window after its assignment, then counts as never exposed; a later submission is ignored.
+* The first terminal analysis is journaled as the **result of record**. Later reports are computed at the same
+  instant; if the data changed since (late entries, corrections) the re-analysis is `EXPLORATORY_NO_CLAIM`
+  and the recorded result stands. Deviating analyses (`override`) exist only after that record.
+* A claim must also survive re-analysis on the history as first recorded (before the user's own corrections).
+* Simple randomisation balances arms only in expectation: designs whose arms could plausibly fall below the
+  preregistered minimum (risk > 20%) are refused at registration.
 * Missing outcomes count as "no success" (preregistered), with complete-case and worst-case sensitivity analyses;
   a claim that does not survive worst-case imputation is withheld.
 * Holm adjustment across arms; Holm and Benjamini–Hochberg across the experiment portfolio.
@@ -69,7 +78,10 @@ Frozen contracts are **not** modified. B-only data travels beside them.
 
 ## Known limitations (also in HANDOFF.md)
 * One user, self-reported outcomes: the user can see each application's arm and outcome, so interim blinding
-  protects the report, not the person. Allocation concealment relies on the seed staying local.
+  protects the report, not the person. The seed is stored in clear in the local `experiments.jsonl`; it is never
+  returned by the adapter, but a user who reads their own files can compute every future arm. Assignment keyed on
+  the unit's identity removes the order-based prediction attack; it cannot hide the seed from its owner.
+* The stratum label is supplied by the caller (lane D / the user), not derived from the posting.
 * The approval gate proves intent in software, not human presence.
 * Hash chains detect tampering; they do not prevent a party with file access from rebuilding a whole journal.
   Publishing anchors (`Lab.anchors()`) elsewhere is what makes rewriting detectable.
