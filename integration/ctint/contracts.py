@@ -139,7 +139,9 @@ def schema_errors(name: str, doc: Any, root: Path | None = None) -> list[str]:
 _WORD = r"(?:probabilit(?:y|ies)|likelihood|chances?|odds)"
 _OUTCOME = r"(?:hiring|hired|hire|offers?|interviews?|callbacks?|success|acceptance)"
 _NEGATED = re.compile(
-    rf"(?i)(?<![a-z])(?:not|no|never|non|isn't|aren't|n't)(?:[\s_-]+[a-z']+){{0,4}}?[\s_-]+{_WORD}"
+    # Up to six intervening words, separated by spaces/underscores/hyphens or list punctuation, so that
+    # "NOT an offer, interview or hiring probability" (lane A's disclaimer @ 2d933fb) counts as a negation.
+    rf"(?i)(?<![a-z])(?:not|no|never|non|isn't|aren't|n't)(?:[\s_,;/-]+[a-z']+){{0,6}}?[\s_,;/-]+{_WORD}"
 )
 _CLAIM = re.compile(
     rf"(?i){_OUTCOME}[\s_-]*(?:{_WORD}|prob(?![a-z]))"

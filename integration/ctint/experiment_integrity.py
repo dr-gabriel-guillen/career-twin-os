@@ -23,6 +23,7 @@ from __future__ import annotations
 import hashlib
 import json
 import random
+import re
 from collections import Counter, defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -266,6 +267,9 @@ def check_experiment_bundle(
 ) -> list[Finding]:
     """Every integrity problem found in one experiment's emitted artifacts."""
     out: list[Finding] = []
+    assignments = [assignment_view(a) for a in assignments]
+    if analysis is not None:
+        analysis = analysis_view(analysis, spec)
     for problem in contracts.check("experiment", spec):
         out.append(Finding("EXP-SPEC-INVALID", "high", problem))
     if spec.get("status") == "draft" and assignments:
@@ -431,7 +435,7 @@ def check_experiment_bundle(
         out.append(
             Finding("EXP-DECISION-VOCABULARY", "medium", f"decision {decision!r} is not one of {DECISIONS}")
         )
-    if contracts.probability_claims(analysis) or "winner" in json.dumps(analysis).lower():
+    if contracts.probability_claims(analysis) or affirmative_winner(analysis):
         out.append(
             Finding("EXP-FALSE-CERTAINTY", "high", "analysis text declares a winner or a hiring probability")
         )
@@ -453,15 +457,116 @@ def check_experiment_bundle(
             out.append(
                 Finding("EXP-FALSE-CERTAINTY", "high", f"difference claimed with an arm below n={MIN_ARM_N}")
             )
-    if sorted(str(e) for e in analysis.get("counted_event_ids", [])) != counted and numeric:
+    # Only comparable when the producer publishes which events it counted (asked of B on #3, Q3).
+    # Without the list, late/unknown/imported-outcome exclusion is UNKNOWN, not a failure.
+    reported_counted = analysis.get("counted_event_ids")
+    if isinstance(reported_counted, list) and numeric and sorted(map(str, reported_counted)) != counted:
         out.append(
             Finding(
                 "EXP-COUNTED-EVENTS-DIFFER",
                 "medium",
-                f"analysis counted {len(analysis.get('counted_event_ids', []))} events, lane E's ITT tally counts {len(counted)}",
+                f"analysis counted {len(reported_counted)} events, lane E's ITT tally counts {len(counted)}",
             )
         )
     return out
+
+
+_NEGATORS = re.compile(r"(?i)\b(?:no|not|never|without|withheld|withhold|withholding|cannot|none)\b")
+
+
+def affirmative_winner(value: Any) -> bool:
+    """True when any string in ``value`` *declares* a winner ("B is the winner").
+
+    "No winner is declared" or "winner claim withheld" are the opposite and are not
+    flagged. The first version used a bare substring and would have failed lane B's
+    correct ``reasons_withheld`` texts.
+    """
+    if isinstance(value, dict):
+        return any(affirmative_winner(v) for v in value.values())
+    if isinstance(value, list):
+        return any(affirmative_winner(v) for v in value)
+    if not isinstance(value, str):
+        return False
+    for match in re.finditer(r"(?i)\bwinn(?:er|ing (?:variant|arm))\b", value):
+        window = value[max(0, match.start() - 40) : match.end() + 25]
+        if not _NEGATORS.search(window):
+            return True
+    return False
+
+
+def assignment_view(assignment: dict[str, Any]) -> dict[str, Any]:
+    """Accept lane B's journaled ``ExperimentAssignment`` (``assignment_id``, ``design_hash``, one
+    ``application_id``) as well as E's proposed shape. Renames only."""
+    if not isinstance(assignment, dict):
+        return {}
+    view = dict(assignment)
+    view.setdefault("id", assignment.get("assignment_id"))
+    view.setdefault("spec_digest", assignment.get("design_hash"))
+    if "application_ids" not in view:
+        app = assignment.get("application_id")
+        view["application_ids"] = [app] if app else []
+    return view
+
+
+B_REPORT_SCHEMA = "careertwin.b.analysis-report.v1"
+B_VERDICT_TO_DECISION = {
+    "EVIDENCE_FOR_DIFFERENCE": "DIFFERENCE-DETECTED",
+    "INCONCLUSIVE": "INCONCLUSIVE",
+    "INTERIM_NO_CLAIM": "INCONCLUSIVE",
+    "EXPLORATORY_NO_CLAIM": "INCONCLUSIVE",
+    "NOT_ANALYZABLE": "INCONCLUSIVE",
+    "OBSERVATIONAL_ONLY": "INCONCLUSIVE",
+}
+
+
+def analysis_view(analysis: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any]:
+    """Map a lane-native analysis report onto the fields E checks. Renames only, no recomputation.
+
+    Lane B's ``careertwin.b.analysis-report.v1`` (published on #5): per-arm ``flow.by_arm.<v>.units``
+    and ``.success``, effect + interval in ``comparisons[0]``, ``verdict``, ``design_hash``. B does not
+    publish counted event ids, so ``counted_event_ids`` is left absent (checks report UNKNOWN).
+    Reports already in E's shape pass through unchanged.
+    """
+    if analysis.get("schema") != B_REPORT_SCHEMA:
+        return analysis
+    by_arm = (analysis.get("flow") or {}).get("by_arm") or {}
+    arms = [
+        {
+            "variant": str(v),
+            "n_assigned": by_arm.get(v, {}).get("units"),
+            "n_success": by_arm.get(v, {}).get("success"),
+        }
+        for v in spec.get("variants", [])
+    ]
+    comparisons = analysis.get("comparisons") or []
+    effect: dict[str, Any] = {}
+    if comparisons and isinstance(comparisons[0], dict):
+        first = comparisons[0]
+        interval = first.get("interval_95") or {}
+        effect = {
+            "contrast": f"{first.get('treatment')} - {first.get('control')}", "estimate": first.get("estimate"),
+            "ci_low": interval.get("low"), "ci_high": interval.get("high"), "ci_level": 0.95,
+            "method": interval.get("method"),
+        }  # fmt: skip
+    plan = str(spec.get("analysis_plan", "")).lower()
+    view = {
+        "experiment_id": analysis.get("experiment_id"),
+        "spec_digest": analysis.get("design_hash"),
+        # B @ 84757ed writes "ITT on job units; ..." — the abbreviation counts (first mapping missed it).
+        "estimand": "ITT" if re.search(r"intention[- ]to[- ]treat|\bitt\b", plan) else "UNSTATED",
+        "arms": arms,
+        "effect": effect,
+        "decision": B_VERDICT_TO_DECISION.get(str(analysis.get("verdict")), str(analysis.get("verdict"))),
+        "warnings": analysis.get("warnings", []),
+        "lane_text": [
+            analysis.get("claim"),
+            analysis.get("reasons_withheld"),
+            analysis.get("interpretation_limits"),
+        ],
+    }
+    if analysis.get("phase") not in ("FINAL",) and view["decision"] == "DIFFERENCE-DETECTED":
+        view["decision"] = "DIFFERENCE-DETECTED-NOT-FINAL"
+    return view
 
 
 # --------------------------------------------------------------------------- synthetic world

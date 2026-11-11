@@ -143,6 +143,7 @@ class LaneReport:
     tests: list[dict[str, Any]] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     stages: dict[str, Any] = field(default_factory=dict)
+    has_code: bool = False
 
 
 def _manifest_validator() -> Draft202012Validator:
@@ -226,7 +227,14 @@ def inspect_lane(repo: Path, worktree: Path, lane: Lane, ref: str, base_sha: str
         or report.secret_findings
         or report.paid_findings
     )
-    report.status = "FAIL" if hard_fail else ("PASS" if report.delivered else "BLOCKED")
+    report.has_code = any(not f.lower().endswith((".md", ".txt")) for f in files)
+    if hard_fail:
+        report.status = "FAIL"
+    elif report.delivered:
+        report.status = "PASS"
+    else:
+        # Code present but no manifest: not integrable by pinned SHA yet (distinct from "nothing pushed").
+        report.status = "UNDECLARED" if report.has_code else "BLOCKED"
     return report
 
 

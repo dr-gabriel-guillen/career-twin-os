@@ -152,9 +152,17 @@ def v_jobs(a: Path, count: int) -> list[str]:
     problems += _unique(jobs, "id", "jobs.json")
     if len({(j.get("source"), j.get("source_id")) for j in jobs}) != len(jobs):
         problems.append("jobs.json: duplicate (source, source_id) pairs")
-    real = sorted({str(j.get("source")) for j in jobs} - {"synthetic"})
-    if real:
-        problems.append(f"jobs.json: non-synthetic sources in an offline batch: {real}")
+    # Lane A deliberately emits ATS-shaped synthetic records (source "greenhouse" etc. with a fictional
+    # employer and a "Synthetic fixture" license_note, RFC #12). What must never appear offline is a
+    # posting that is NOT marked fictional, whatever its source enum says.
+    unmarked = [
+        str(j.get("id")) for j in jobs
+        if not any(m in f"{j.get('organization', '')} {j.get('license_note', '')}".casefold() for m in ("fictional", "synthetic"))
+    ]  # fmt: skip
+    if unmarked:
+        problems.append(
+            f"jobs.json: {len(unmarked)} postings are not marked fictional/synthetic, e.g. {unmarked[0]!r}"
+        )
     return problems
 
 
@@ -220,6 +228,16 @@ def v_resume(a: Path, count: int) -> list[str]:
         problems.append(
             f"resume_variant.json: built for {variant.get('job_id')!r}, pinned role is {pin['job_id']!r}"
         )
+    if variant.get("schema") == "careertwin.b.resume-variant.v1":
+        # Lane B's native shape (published on #5; E promised on #3 to follow B's names): one claim per bullet.
+        variant = dict(
+            variant,
+            claim_ids=[b.get("claim_id") for b in variant.get("bullets", []) if isinstance(b, dict)],
+            bullets=[
+                {"text": b.get("text"), "claim_ids": [b.get("claim_id")] if b.get("claim_id") else []}
+                for b in variant.get("bullets", []) if isinstance(b, dict)
+            ],
+        )  # fmt: skip
     cited = variant.get("claim_ids")
     if not isinstance(cited, list) or not cited:
         return [*problems, "resume_variant.json: claim_ids must be a non-empty array"]
@@ -304,8 +322,11 @@ def v_experiment(a: Path, count: int) -> list[str]:
         problems.append(
             f"experiment.json: status {spec.get('status')!r}; a run needs a locked, started design"
         )
-    if len(assignments) < 40:
-        problems.append(f"assignments.json: only {len(assignments)} units; too few to show balance")
+    if len(assignments) < 2:
+        problems.append(f"assignments.json: {len(assignments)} assigned units; nothing was randomised")
+    # Sample size is the producer's preregistered design decision; E's sample-ratio check simply
+    # does not apply below 40 units (see experiment_integrity.check_experiment_bundle). Lane-native
+    # shapes (B's assignment journal and analysis report) are mapped inside check_experiment_bundle.
     job_ids = {j["id"] for j in read_json(a / "jobs.json")}
     stray = [e.get("job_id") for e in events if e.get("job_id") not in job_ids]
     if stray:
@@ -329,9 +350,29 @@ def v_atlas(a: Path, count: int) -> list[str]:
     findings, _ = atlas_quality.verify_atlas(points, vectors, diagnostics)
     problems = [f"atlas.project: {f}" for f in findings if f.severity != "low"]
     covered = {p.get("source_vector_ref") for p in points}
-    missing = [v["ref"] for v in vectors.get("vectors", []) if v["ref"] not in covered]
+    # An unobserved vector (no recognisable skills) is unknown, not the origin: lane A's RFC #12 point 5
+    # asks consumers to mask it, and lane C lists it in `unplaced`. Only observed vectors must be placed,
+    # and every unplaced one must be reported rather than silently dropped.
+    unplaced = {
+        str(u.get("source_vector_ref") or u.get("entity_id")) for u in diagnostics.get("unplaced", []) or []
+    }
+    missing = [
+        v["ref"] for v in vectors.get("vectors", [])
+        if v["ref"] not in covered and v.get("observed", True) and v["ref"] not in unplaced
+    ]  # fmt: skip
     if missing:
-        problems.append(f"atlas_points.json: {len(missing)} input vectors were not projected")
+        problems.append(
+            f"atlas_points.json: {len(missing)} observed input vectors were neither projected nor reported unplaced"
+        )
+    silent = [
+        v["ref"] for v in vectors.get("vectors", [])
+        if v["ref"] not in covered and not v.get("observed", True)
+        and v["ref"] not in unplaced and str(v.get("entity_id")) not in unplaced
+    ]  # fmt: skip
+    if silent:
+        problems.append(
+            f"atlas_diagnostics.json: {len(silent)} unobserved vectors dropped without an `unplaced` entry"
+        )
     if contracts.probability_claims(diagnostics):
         problems.append("atlas_diagnostics.json: hiring-probability language")
     return problems
@@ -459,9 +500,18 @@ def _probe(
     except (ValueError, OSError) as exc:
         return [f"PROBE-FAILED: unreadable output when re-run with {what}: {exc}"]
     if same:
-        problems.append(
-            f"CANNED-OUTPUT: output is byte-identical after {what}; the stage does not compute from its inputs"
-        )
+        state_dirs = sorted(p.name for p in scratch.iterdir() if p.is_dir())
+        if state_dirs:
+            # Observed on lane B @ 84757ed: with its persisted lab directory present the experiment stage
+            # returns the journaled experiment for changed inputs; in a fresh directory it recomputes.
+            problems.append(
+                f"STALE-STATE: output is byte-identical after {what} while lane state directories "
+                f"{state_dirs} were present; the stage reused persisted state instead of reporting input drift"
+            )
+        else:
+            problems.append(
+                f"CANNED-OUTPUT: output is byte-identical after {what}; the stage does not compute from its inputs"
+            )
     return problems
 
 

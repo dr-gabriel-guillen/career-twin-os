@@ -152,6 +152,13 @@ def test_python_json_nan_is_caught_for_atlas_coords() -> None:
         ("hypothetical_gap_not_probability", False),
         ("This score is not a probability of being hired.", False),
         ("Scores are never hiring probabilities.", False),
+        # regression: lane A's disclaimer @ 2d933fb was flagged by the first version of the lint
+        (
+            "Score is a relative ordering heuristic; it is NOT an offer, interview or hiring probability.",
+            False,
+        ),
+        ("relative_heuristic_not_offer_probability", False),
+        ("Not bad: the offer probability is 0.8", True),
         ("We do not estimate the likelihood of an offer.", False),
         ("skill coverage 0.6", False),
         ("probability_of_precipitation", False),
