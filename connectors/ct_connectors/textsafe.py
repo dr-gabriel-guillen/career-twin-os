@@ -26,6 +26,7 @@ FLAG_FORMULA = "csv-formula-prefix"
 
 _BIDI = set("‪‫‬‭‮⁦⁧⁨⁩‎‏؜")
 _ZERO_WIDTH = set("​‌‍⁠﻿­᠎")
+_ASCII_CONTROL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f]")
 _SKIP_TAGS = {"script", "style", "template", "noscript", "iframe", "object", "embed", "head",
               "svg", "math", "form", "textarea", "select", "title", "applet"}
 _ACTIVE_TAGS = {"script", "iframe", "object", "embed", "form", "applet", "meta", "link", "base"}
@@ -66,7 +67,11 @@ def clean_text(value: object, *, limit: int = MAX_TEXT_CHARS) -> tuple[str, list
         value = value[: limit * 4]
         flags.add(FLAG_TRUNCATED)
     out: list[str] = []
-    for ch in value:
+    # Fast path: printable ASCII (plus \n, \t) needs no per-character inspection.
+    scan = "" if value.isascii() and not _ASCII_CONTROL.search(value) else value
+    if not scan:
+        out.append(value)
+    for ch in scan:
         if ch in _BIDI:
             flags.add(FLAG_BIDI)
             continue

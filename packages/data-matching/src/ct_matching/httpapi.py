@@ -49,23 +49,34 @@ def make_server(service: Service, port: int = 0) -> ThreadingHTTPServer:
             host = (self.headers.get("Host") or "").rsplit(":", 1)[0].strip("[]").lower()
             return host in ("127.0.0.1", "localhost", "::1")
 
+        def _drain(self) -> None:
+            """Read the declared request body up front so an early error response never races the client's upload."""
+            self._raw: bytes | None = None
+            declared = self.headers.get("Content-Length")
+            if declared is None:
+                return
+            try:
+                length = int(declared)
+            except ValueError:
+                raise RequestError("length-required", "Content-Length must be an integer", 411) from None
+            if length < 0 or length > MAX_BODY_BYTES:
+                raise RequestError("payload-too-large", f"body exceeds {MAX_BODY_BYTES} bytes", 413)
+            self._raw = self.rfile.read(length)
+
         def _body(self) -> Any:
             ctype = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
             if ctype != "application/json":
                 raise RequestError("unsupported-media-type", "Content-Type must be application/json", 415)
+            if self._raw is None:
+                raise RequestError("length-required", "Content-Length header required", 411)
             try:
-                length = int(self.headers.get("Content-Length") or "")
-            except ValueError:
-                raise RequestError("length-required", "Content-Length header required", 411) from None
-            if length < 0 or length > MAX_BODY_BYTES:
-                raise RequestError("payload-too-large", f"body exceeds {MAX_BODY_BYTES} bytes", 413)
-            try:
-                return json.loads(self.rfile.read(length).decode("utf-8"))
+                return json.loads(self._raw.decode("utf-8"))
             except (UnicodeDecodeError, json.JSONDecodeError, RecursionError) as exc:
                 raise RequestError("malformed-json", f"body is not valid UTF-8 JSON: {type(exc).__name__}") from exc
 
         def _dispatch(self, method: str) -> None:
             try:
+                self._drain()
                 if not self._host_ok():
                     raise RequestError("forbidden-host", "Host header must be a loopback name", 403)
                 parts = urlsplit(self.path)
@@ -111,8 +122,12 @@ def make_server(service: Service, port: int = 0) -> ThreadingHTTPServer:
             self._dispatch("POST")
 
         def do_PUT(self) -> None:  # noqa: N802
-            self._fail(405, "method-not-allowed", "PUT not allowed")
+            self._dispatch("PUT")
 
-        do_DELETE = do_PATCH = do_PUT  # noqa: N815
+        def do_DELETE(self) -> None:  # noqa: N802
+            self._dispatch("DELETE")
+
+        def do_PATCH(self) -> None:  # noqa: N802
+            self._dispatch("PATCH")
 
     return ThreadingHTTPServer((LOOPBACK, port), Handler)

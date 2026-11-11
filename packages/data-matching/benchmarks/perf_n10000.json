@@ -1,0 +1,23 @@
+{
+ "benchmark": "throughput",
+ "eligible": 4160,
+ "environment": {
+  "implementation": "CPython",
+  "machine": "AMD64",
+  "python": "3.14.6",
+  "system": "Windows"
+ },
+ "import_jobs_per_second": 368,
+ "jobs_in_store": 10010,
+ "n_base": 10000,
+ "note": "single-threaded pure Python on the machine that ran the command; not a service-level guarantee",
+ "rejected": 10,
+ "seconds": {
+  "bm25_12_queries": 0.213,
+  "bm25_index": 1.64,
+  "generate": 0.833,
+  "import_normalize_dedup": 27.235,
+  "rank_with_sensitivity": 0.91,
+  "view_with_dedup": 1.504
+ }
+}

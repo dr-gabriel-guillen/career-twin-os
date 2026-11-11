@@ -10,7 +10,7 @@ from typing import Any
 from ct_connectors import ConnectorError
 
 from . import corpus, evalbench
-from .service import RequestError, Service, vault_from_profile
+from .service import RequestError, Service, _as_of, vault_from_profile
 from .store import JobStore
 from .vault import VaultError
 
@@ -39,6 +39,8 @@ def _service(args: argparse.Namespace, need_profile: bool = False) -> Service:
     store = JobStore.load(args.store) if getattr(args, "store", None) and Path(args.store).exists() else JobStore()
     vault = prefs = None
     profile_path = getattr(args, "profile", None)
+    if getattr(args, "as_of", None) is not None:
+        args.as_of = _as_of(args.as_of)  # fail on a bad timestamp before anything else is attempted
     if profile_path == "synthetic":
         vault, prefs = vault_from_profile(corpus.SYNTHETIC_PROFILE, args.as_of)
     elif profile_path:
@@ -134,6 +136,7 @@ def run(argv: list[str] | None = None) -> int:
         elif args.command == "provenance":
             _emit(_service(args).provenance(args.job_id))
         elif args.command == "vault-export":
+            args.as_of = _as_of(args.as_of)
             vault, _ = vault_from_profile(corpus.SYNTHETIC_PROFILE if args.profile == "synthetic" else _read_json(args.profile), args.as_of)
             _emit(vault.export(args.mode, args.as_of))
         elif args.command == "skill-vectors":
