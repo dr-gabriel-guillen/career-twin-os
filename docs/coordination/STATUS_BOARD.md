@@ -4,8 +4,11 @@
 owner merges PR #11. GitHub Issues are the live source; this board is a dated snapshot, and stale state here
 must never override a newer comment.
 
-**Snapshot:** 2026-11-11 (batch `CT-2026-11-10-B01`), from E's integration runs on pinned SHAs. Full matrix,
-evidence and reproduce commands: [`integration/HANDOFF.md`](../../integration/HANDOFF.md).
+**Snapshot:** 2026-11-11 (batch `CT-2026-11-10-B01`), consolidation: lanes A, B and C are archived, one agent
+integrates. **10 of 10 stages PASS on real lane code inside the runner** at the pins in
+[`integration/ACCEPTANCE.md`](../../integration/ACCEPTANCE.md), which holds the current matrix, security
+repairs, launch command, merge order and owner decision gates. Lane hand-off of the batch:
+[`integration/HANDOFF.md`](../../integration/HANDOFF.md).
 
 | Session | Issue | Draft PR | Integrable by pinned SHA | Stages in the synthetic pipeline |
 |---|---|---|---|---|

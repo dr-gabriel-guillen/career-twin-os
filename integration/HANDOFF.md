@@ -9,6 +9,11 @@
 | SOURCE_HEAD | see the DELIVERED comment on #6 (this file is committed in that SHA) |
 | Changed paths | `integration/**`, `.github/workflows/ci.yml`, `docs/coordination/STATUS_BOARD.md` — nothing outside E's ownership |
 
+> **Superseded for current status by [`ACCEPTANCE.md`](ACCEPTANCE.md) (consolidation, 2026-11-11).** Since this
+> hand-off: the `--out` deletion defect was fixed, the browser stage runs inside the runner, all ten stages
+> PASS at newer pins, and two gaps in lane E's validators were closed. The text below is the batch
+> hand-off as written at `fcb5572` and is kept for the record.
+
 No data exposure: every fixture, posting, profile, claim and outcome used or produced by lane E is fictional
 (`Fictional …` employers, RFC 2606 `.example` hosts, `candidate-synthetic-001`). No personal data, credentials,
 LinkedIn data, paid API calls, outbound messages, merges or deployments.
