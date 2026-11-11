@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "ExperimentSpec",
+  "required": [
+    "id",
+    "title",
+    "hypothesis",
+    "status",
+    "variants",
+    "assignment_unit",
+    "strata",
+    "primary_metric",
+    "design_locked_at",
+    "stopping_rule",
+    "consent_required"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "hypothesis": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "preregistered",
+        "running",
+        "paused",
+        "closed"
+      ]
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "assignment_unit": {
+      "type": "string",
+      "enum": [
+        "job",
+        "employer-cluster",
+        "application"
+      ]
+    },
+    "strata": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "primary_metric": {
+      "type": "string"
+    },
+    "design_locked_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "stopping_rule": {
+      "type": "string"
+    },
+    "consent_required": {
+      "type": "boolean"
+    },
+    "outcome_window_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "secondary_metrics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "analysis_plan": {
+      "type": "string"
+    },
+    "seed_digest": {
+      "type": "string"
+    }
+  }
+}
