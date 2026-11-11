@@ -12,6 +12,7 @@ from typing import Any
 
 from ct_connectors import Capture, NativeAdapter
 from ct_connectors.base import parse_ts
+from ct_connectors.textsafe import FLAG_INJECTION, detect_injection
 
 from . import corpus, schema, taxonomy
 from .matching import rank
@@ -19,7 +20,7 @@ from .normalize import normalize, utc
 from .retrieval import skill_vector
 from .service import RequestError, Service, vault_from_profile
 from .store import JobStore
-from .vault import PROOF_WEIGHT
+from .vault import PROOF_WEIGHT, EvidenceVault, VaultError
 
 E2E_VERSION = "a-e2e/0.1"
 REBUILT_FLAG = "rebuilt-from-bare-posting"
@@ -100,6 +101,32 @@ def record_from_posting(posting: dict[str, Any]) -> tuple[dict[str, Any] | None,
     return env, None
 
 
+def _checked_ext(rec: dict[str, Any], posting: dict[str, Any]) -> dict[str, Any] | None:
+    """Use a sidecar record only where it cannot override the frozen object; otherwise return None (rebuild)."""
+    env = json.loads(json.dumps(rec))
+    ext = env["ext"]
+    try:
+        if set(ext["skills_required"]) | set(ext["skills_preferred"]) != set(posting["skills"]):
+            return None  # sidecar skills disagree with the frozen posting: do not let it inflate a match
+        ext.pop("dedup", None)
+        ext.pop("status_as_of", None)
+        # The frozen status is authoritative: the sidecar may only make a posting *less* available.
+        if posting["status"] == "expired" and not ext.get("revoked"):
+            ext["revoked"], ext["revoked_at"] = "producer-status-expired", posting["fetched_at"]
+        if posting["status"] == "unknown":
+            ext["quality_flags"] = sorted(set(ext.get("quality_flags", [])) | {PRODUCER_UNKNOWN_FLAG})
+        # Security flags are re-derived from the text, never taken on trust (they can only be added).
+        text = "\n".join([posting["title"], posting["organization"], *posting.get("requirements", []),
+                          str(ext.get("description_text", ""))])
+        if detect_injection(text):
+            ext["security_flags"] = sorted(set(ext.get("security_flags", [])) | {FLAG_INJECTION})
+        if not isinstance(ext.get("security_flags"), list) or not isinstance(ext.get("quality_flags", []), list):
+            return None
+    except (KeyError, TypeError):
+        return None
+    return env
+
+
 def load_jobs(path: Path) -> tuple[JobStore, list[dict[str, Any]], dict[str, int]]:
     """Build a throw-away store from jobs.json (+ jobs_ext.json when it agrees exactly)."""
     postings = _read(path)
@@ -120,10 +147,8 @@ def load_jobs(path: Path) -> tuple[JobStore, list[dict[str, Any]], dict[str, int
             refused.append({"job_id": posting["id"], "reasons": ["rejected-on-import: duplicate_source_id"]})
             continue
         rec = trusted.get(posting["id"])
-        if rec is not None and rec["posting"] == posting:
-            env = json.loads(json.dumps(rec))
-            env["ext"].pop("dedup", None)
-            env["ext"].pop("status_as_of", None)
+        env = _checked_ext(rec, posting) if rec is not None and rec["posting"] == posting else None
+        if env is not None:
             stats["from_ext"] += 1
         else:
             env, why = record_from_posting(posting)
@@ -148,7 +173,7 @@ def _default_as_of(store: JobStore) -> str:
 class ClaimsProof:
     """Skill proof computed from frozen ProfileClaim objects alone (status as stated by the producer)."""
 
-    def __init__(self, claims: list[dict[str, Any]]) -> None:
+    def __init__(self, claims: list[dict[str, Any]], verified: bool = False) -> None:
         subjects = {c.get("subject_id") for c in claims if isinstance(c, dict)}
         if len(subjects) != 1:
             raise RequestError("bad-artifact", "claims.json must hold claims for exactly one subject")
@@ -158,6 +183,8 @@ class ClaimsProof:
                 raise RequestError("bad-artifact", f"claim {claim.get('id')!r}: " + "; ".join(problems[:2]))
         self.subject_id = subjects.pop()
         self.claims = claims
+        # Without a verifiable vault, a caller-stated "supported" is not evidence: count it as self-reported.
+        self.verified = verified
 
     def skill_proof(self, as_of: str) -> dict[str, dict[str, Any]]:
         moment = utc(as_of)
@@ -166,6 +193,8 @@ class ClaimsProof:
             status = claim["status"]
             if status == "supported" and not claim["evidence_ids"]:
                 status = "unverified"  # defensive: a supported claim must point at evidence
+            elif status == "supported" and not self.verified:
+                status = "self-reported"
             expired = claim.get("valid_to") is not None and parse_ts(claim["valid_to"]) is not None and parse_ts(claim["valid_to"]) <= moment
             for raw in claim.get("skills") or []:
                 skill = taxonomy.canonical_skill(raw)
@@ -184,13 +213,25 @@ class ClaimsProof:
         return out
 
 
+def _claims_verified(claims: list[dict[str, Any]], vault_path: Path) -> bool:
+    """True only if a ledger-verified vault re-exports exactly these claims (status derived, not asserted)."""
+    if not vault_path.exists():
+        return False
+    try:
+        doc = _read(vault_path)
+        vault = EvidenceVault.from_dict(doc["vault"])
+        return vault.export("internal-matching", doc["export"]["as_of"])["claims"] == claims
+    except (RequestError, VaultError, KeyError, TypeError, ValueError):
+        return False
+
+
 def stage_rank(jobs_path: Path, claims_path: Path, out: Path, as_of: str | None = None,
                preferences: dict[str, Any] | None = None, top_n: int = 500) -> dict[str, Any]:
     store, import_refusals, stats = load_jobs(jobs_path)
     claims = _read(claims_path)
     if not isinstance(claims, list):
         raise RequestError("bad-artifact", "claims.json must be an array of ProfileClaim objects")
-    proof = ClaimsProof(claims)
+    proof = ClaimsProof(claims, verified=_claims_verified(claims, _sibling(claims_path, "_vault")))
     moment = as_of or _default_as_of(store)
     prefs = corpus.SYNTHETIC_PROFILE["preferences"] if preferences is None else preferences
     result = rank(store.view(moment), proof, prefs, moment, top_n=top_n)  # type: ignore[arg-type]
@@ -200,7 +241,9 @@ def stage_rank(jobs_path: Path, claims_path: Path, out: Path, as_of: str | None 
     if import_refusals:
         result["corpus"]["refusal_reasons"]["rejected-on-import"] = len(import_refusals)
     result["e2e"] = {"version": E2E_VERSION, "as_of_source": "argument" if as_of else "max(fetched_at) in jobs.json",
-                     "records": stats, "claims_subject": proof.subject_id}
+                     "records": stats, "claims_subject": proof.subject_id,
+                     "claims_status_source": "derived-by-verified-vault" if proof.verified
+                     else "producer-asserted; 'supported' counted as self-reported"}
     _write(out, result["shortlist"])
     _write(_sibling(out, "_full"), result)
     return {"stage": "match.rank", "ranked": len(result["shortlist"]), "refused": result["corpus"]["refused"], "as_of": moment}

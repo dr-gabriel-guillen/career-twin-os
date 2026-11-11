@@ -48,8 +48,8 @@
  },
  "store": {
   "jobs": 190,
-  "ledger_entries": 262,
-  "ledger_head": "45288cd7637086411e853339509c4c1e26437d4a88718fb5fc37b05b4105a6ff",
+  "ledger_entries": 308,
+  "ledger_head": "4e469b7354cf9c4f300c84b1a867fda3043040edcdda11db44eb132cb52627af",
   "ledger_verified": true,
   "quarantined": 10,
   "versions": 195

@@ -34,10 +34,18 @@ _VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link"
               "source", "track", "wbr"}
 _BLOCK_TAGS = {"p", "div", "br", "li", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6", "tr", "table",
                "section", "article", "header", "footer", "blockquote", "pre", "hr", "dd", "dt"}
+_ZERO = r"(?:0+(?:\.0*)?|\.0+)"
 _HIDDEN_STYLE = re.compile(
-    r"display\s*:\s*none|visibility\s*:\s*(hidden|collapse)|font-size\s*:\s*0(?![.\d])(px|pt|em|rem|%)?"
-    r"|opacity\s*:\s*0(\.0+)?(?![.\d])|(left|top|text-indent)\s*:\s*-\d{3,}|(max-)?(height|width)\s*:\s*0(?![.\d])"
-    r"|clip\s*:\s*rect\(\s*0|color\s*:\s*transparent", re.I)
+    r"display\s*:\s*none|visibility\s*:\s*(hidden|collapse)"
+    r"|font-size\s*:\s*(" + _ZERO + r"(px|pt|em|rem|%)?|[01](\.\d+)?(px|pt))(?![.\d])"
+    r"|opacity\s*:\s*" + _ZERO + r"(?![.\d])"
+    r"|(left|top|right|text-indent|margin-left|margin-top)\s*:\s*-(\d{3,}(\.\d+)?(px)?|\d{2,}(\.\d+)?(em|rem|vw|vh|%))"
+    r"|(max-)?(height|width)\s*:\s*" + _ZERO + r"(px|em|rem|%)?(?![.\d])"
+    r"|clip\s*:\s*rect\(\s*0|clip-path\s*:\s*inset\(\s*(50|100)%"
+    r"|(?<![-\w])color\s*:\s*(transparent|white|#fff(fff)?\b|rgba?\([^)]*,\s*" + _ZERO + r"\s*\))"
+    r"|transform\s*:\s*scale\(\s*" + _ZERO + r"\s*[,)]", re.I)
+_STYLE_BLOCK = re.compile(r"<style\b[^>]*>(.*?)(</style\s*>|$)", re.I | re.S)
+_CSS_RULE = re.compile(r"([^{}]+)\{([^{}]*)\}")
 
 _INJECTION = re.compile(
     r"ignore\s+(all\s+|any\s+|the\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|rules|context)"
@@ -123,8 +131,9 @@ def neutralize_cell(value: str) -> str:
 
 
 class _Extractor(HTMLParser):
-    def __init__(self) -> None:
+    def __init__(self, hidden_classes: frozenset[str] = frozenset(), hidden_ids: frozenset[str] = frozenset()) -> None:
         super().__init__(convert_charrefs=True)
+        self.hidden_classes, self.hidden_ids = hidden_classes, hidden_ids
         self.parts: list[str] = []
         self.hidden_parts: list[str] = []
         self.stack: list[tuple[str, bool]] = []  # (tag, suppresses_text)
@@ -141,7 +150,9 @@ class _Extractor(HTMLParser):
             self.flags.add(FLAG_ACTIVE)
         hidden = (tag in _SKIP_TAGS or "hidden" in amap or amap.get("aria-hidden", "").strip().lower() == "true"
                   or bool(_HIDDEN_STYLE.search(amap.get("style", "")))
-                  or (tag == "input" and amap.get("type", "").lower() == "hidden"))
+                  or (tag == "input" and amap.get("type", "").lower() == "hidden")
+                  or bool(set(amap.get("class", "").split()) & self.hidden_classes)
+                  or amap.get("id", "") in self.hidden_ids)
         if hidden and tag not in _SKIP_TAGS:
             self.flags.add(FLAG_HIDDEN)
         if tag in _BLOCK_TAGS and not self._suppressed():
@@ -195,7 +206,14 @@ def sanitize_html(markup: object, *, entity_escaped: bool = False) -> tuple[str,
         flags.add(FLAG_TRUNCATED)
     if entity_escaped:
         markup = html.unescape(markup)
-    parser = _Extractor()
+    hidden_classes: set[str] = set()
+    hidden_ids: set[str] = set()
+    for block in _STYLE_BLOCK.finditer(markup):
+        for selectors, body in _CSS_RULE.findall(block.group(1)):
+            if _HIDDEN_STYLE.search(body):
+                hidden_classes |= set(re.findall(r"\.([A-Za-z0-9_-]+)", selectors))
+                hidden_ids |= set(re.findall(r"#([A-Za-z0-9_-]+)", selectors))
+    parser = _Extractor(frozenset(hidden_classes), frozenset(hidden_ids))
     try:
         parser.feed(markup)
         parser.close()

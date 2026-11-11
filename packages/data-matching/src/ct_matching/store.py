@@ -21,6 +21,7 @@ from .normalize import normalize, status_at, title_key, utc
 
 STORE_FORMAT = "a-store/0.1"
 DEDUP_THRESHOLD = 0.6
+MAX_HEADS = 64
 SOURCE_PRIORITY = {"greenhouse": 0, "lever": 1, "ashby": 2, "user-import": 3, "other-permitted": 4, "synthetic": 5}
 GENESIS = "0" * 64
 
@@ -79,6 +80,8 @@ class JobStore:
         self.quarantine: list[dict[str, Any]] = []
         self.ledger = Ledger()
         self._dedup: dict[str, dict[str, Any]] = {}
+        # (wire_format, folded board) -> [(captured_at, seen source ids)] of full snapshots; rebuilt from the ledger.
+        self._snapshots: dict[tuple[str, str], list[tuple[str, frozenset[str]]]] = {}
         self._dedup_dirty = True
 
     # ------------------------------------------------------------------ ingest
@@ -86,13 +89,20 @@ class JobStore:
         """Import one capture envelope. Never raises for bad data: failures are classified in the report."""
         try:
             result = parse_envelope(doc)
+            return self.import_result(result)
         except ConnectorError as exc:
             issue = {"error_class": exc.error_class, "severity": "reject", "source": "?", "source_ref": "payload",
                      "detail": exc.detail}
             self.quarantine.append(issue)
             return {"ok": False, "capture": None, "rejected": [issue], "warnings": [],
                     "counts": _counts(rejected=1), "job_ids": []}
-        return self.import_result(result)
+        except (ValueError, OverflowError, TypeError, RecursionError) as exc:
+            # Normalization runs before any write (two-phase import), so nothing was stored.
+            issue = {"error_class": "internal_rejection", "severity": "reject", "source": "?", "source_ref": "payload",
+                     "detail": f"{type(exc).__name__} while normalizing; payload not imported"}
+            self.quarantine.append(issue)
+            return {"ok": False, "capture": None, "rejected": [issue], "warnings": [],
+                    "counts": _counts(rejected=1), "job_ids": []}
 
     def import_result(self, result: ParseResult) -> dict[str, Any]:
         cap = result.capture
@@ -100,19 +110,27 @@ class JobStore:
         rejected = [i.to_dict() for i in result.rejected]
         warnings = [i.to_dict() for i in result.issues if i.severity == "warn"]
         job_ids: list[str] = []
-        for record in result.records:
+        ready = []
+        for record in result.records:  # phase 1: normalize and validate everything; no state is touched
             env = normalize(record)
             problems = schema.errors(env["posting"], schema.load("job-posting"))
             if problems:
                 rejected.append({"error_class": "schema_violation", "severity": "reject", "source": cap.source,
                                  "source_ref": record.source_id, "detail": "; ".join(problems[:3])})
                 continue
+            ready.append(env)
+        for env in ready:  # phase 2: write
             outcome = self._upsert(env)
+            counts["revoked"] += self._late_revoke(env["posting"]["id"])
             counts[outcome] += 1
             job_ids.append(env["posting"]["id"])
         if cap.full_snapshot:
             if result.seen_source_ids or result.records:
-                counts["revoked"] = self._revoke_missing(cap.source, cap.board, set(result.seen_source_ids), cap.captured_at)
+                seen = sorted(set(result.seen_source_ids))
+                self._snapshots.setdefault((cap.source, fold(cap.board)), []).append((cap.captured_at, frozenset(seen)))
+                self.ledger.append(cap.captured_at, "snapshot-recorded", f"{cap.source}/{fold(cap.board)}",
+                                   {"source": cap.source, "board": fold(cap.board), "seen": seen})
+                counts["revoked"] += self._revoke_missing(cap.source, cap.board, set(seen), cap.captured_at)
             else:
                 self.ledger.append(cap.captured_at, "empty-snapshot-ignored", f"{cap.source}/{cap.board}",
                                    {"note": "an empty feed is not treated as proof that every posting closed"})
@@ -143,8 +161,9 @@ class JobStore:
             latest["posting"]["fetched_at"] = at
             latest["posting"]["source_evidence"] = posting["source_evidence"]
             latest["ext"]["timestamps"]["captured_at"] = at
-            if latest["ext"].get("revoked"):
+            if latest["ext"].get("revoked") and utc(at) > utc(latest["ext"]["revoked_at"]):
                 latest["ext"]["revoked"] = None
+                latest["ext"].pop("revoked_at", None)
                 self.ledger.append(at, "relisted", jid, {})
             latest["posting"]["status"], latest["ext"]["status_reason"] = status_at(latest["ext"], at, utc(at))
             self.ledger.append(at, "refreshed", jid, {"content_hash": ext["content_hash"]})
@@ -154,17 +173,40 @@ class JobStore:
         if ext["description_text"] != latest["ext"]["description_text"]:
             changed.append("description_text")
         ext["version"], ext["supersedes"] = latest["ext"]["version"] + 1, latest["ext"]["content_hash"]
+        if latest["ext"].get("revoked") and utc(at) <= utc(latest["ext"]["revoked_at"]):
+            # Captured before the snapshot that showed the job gone: the newer evidence still says it is closed.
+            ext["revoked"], ext["revoked_at"] = latest["ext"]["revoked"], latest["ext"]["revoked_at"]
+            posting["status"], ext["status_reason"] = "expired", ext["revoked"]
+        elif latest["ext"].get("revoked"):
+            self.ledger.append(at, "relisted", jid, {})
         chain.append(env)
         self.ledger.append(at, "version-added", jid, {"version": ext["version"], "content_hash": ext["content_hash"],
                                                       "changed": changed, "payload_sha256": ext["payload_sha256"]})
         return "updated"
+
+    def _late_revoke(self, jid: str) -> int:
+        """A capture can arrive after a newer full snapshot that already showed the posting gone (order independence)."""
+        latest = self.versions[jid][-1]
+        p, e = latest["posting"], latest["ext"]
+        if e.get("revoked"):
+            return 0
+        fetched = utc(p["fetched_at"])
+        later = [at for at, seen in self._snapshots.get((e["wire_format"], fold(e["board"])), ())
+                 if utc(at) > fetched and p["source_id"] not in seen]
+        if not later:
+            return 0
+        at = max(later, key=utc)
+        e["revoked"], e["revoked_at"] = "absent-from-source-snapshot", at
+        p["status"], e["status_reason"] = "expired", e["revoked"]
+        self.ledger.append(at, "revoked", jid, {"reason": e["revoked"], "last_seen": p["fetched_at"], "late": True})
+        return 1
 
     def _revoke_missing(self, source: str, board: str, seen: set[str], at: str) -> int:
         revoked = 0
         for jid in sorted(self.versions):
             latest = self.versions[jid][-1]
             p, e = latest["posting"], latest["ext"]
-            if e["wire_format"] != source or e["board"] != board or p["source_id"] in seen or e.get("revoked"):
+            if e["wire_format"] != source or fold(e["board"]) != fold(board) or p["source_id"] in seen or e.get("revoked"):
                 continue
             if utc(at) <= utc(p["fetched_at"]):
                 continue  # an older snapshot cannot revoke a newer observation
@@ -187,23 +229,34 @@ class JobStore:
                 uids_by_employer.setdefault(emp, set()).add(e["employer"]["org_uid"])
             groups.setdefault((emp, title_key(p["title"]), fold(p["location"] or ""), p["remote_policy"]), []).append(jid)
         info: dict[str, dict[str, Any]] = {}
+        tokens = {jid: (_tokens(env["ext"]["description_text"]) or frozenset(env["posting"]["skills"]))
+                  for jid, env in latest.items()}
+        self.dedup_capped_groups = 0
         for key in sorted(groups):
             members = sorted(groups[key], key=lambda j: (SOURCE_PRIORITY.get(latest[j]["ext"]["wire_format"], 9), j))
             clusters: list[list[str]] = []
+            capped = False
             for jid in members:
-                tok = _tokens(latest[jid]["ext"]["description_text"]) or frozenset(latest[jid]["posting"]["skills"])
+                tok = tokens[jid]
                 uid = latest[jid]["ext"]["employer"].get("org_uid")
-                for cluster in clusters:
+                # Bounded work per posting: compare with at most MAX_HEADS cluster heads (newest first). A huge
+                # group can then miss a merge (counted in dedup_capped_groups); it can never wrongly merge.
+                capped = capped or len(clusters) > MAX_HEADS
+                for cluster in reversed(clusters[-MAX_HEADS:]):
                     head = latest[cluster[0]]
                     head_uid = head["ext"]["employer"].get("org_uid")
                     if uid and head_uid and uid != head_uid:
                         continue  # same display name, different registered employer: never merge
-                    head_tok = _tokens(head["ext"]["description_text"]) or frozenset(head["posting"]["skills"])
+                    head_tok = tokens[cluster[0]]
+                    small, large = sorted((len(tok), len(head_tok)))
+                    if large and small / large < DEDUP_THRESHOLD:
+                        continue  # Jaccard cannot reach the threshold
                     if _jaccard(tok, head_tok) >= DEDUP_THRESHOLD:
                         cluster.append(jid)
                         break
                 else:
                     clusters.append([jid])
+            self.dedup_capped_groups += int(capped)
             for cluster in clusters:
                 canonical = cluster[0]
                 for jid in cluster:
@@ -287,10 +340,49 @@ class JobStore:
         store.versions = doc["versions"]
         store.quarantine = doc["quarantine"]
         store.ledger = Ledger(doc["ledger"])
+        for entry in store.ledger.entries:
+            if entry.get("kind") == "snapshot-recorded" and isinstance(entry.get("detail"), dict):
+                det = entry["detail"]
+                store._snapshots.setdefault((det["source"], det["board"]), []).append((entry["at"], frozenset(det["seen"])))
         ok, bad = store.ledger.verify()
         if not ok:
             raise ConnectorError(ErrorClass.MALFORMED_PAYLOAD, f"provenance ledger fails verification at entry {bad}")
+        problem = store.state_problem()
+        if problem:
+            raise ConnectorError(ErrorClass.MALFORMED_PAYLOAD, f"store state does not match its ledger: {problem}")
         return store
+
+    def state_problem(self) -> str | None:
+        """Replay check: every stored version and every revocation must be backed by ledger events.
+
+        Detects edited postings (content no longer matches its recorded hash), versions without events,
+        cleared or forged revocations, and ledgers cut short before those events. A ledger cut after its
+        last state-changing event is only detectable against an externally published ``ledger.head``.
+        """
+        from .normalize import content_hash
+        recorded: dict[str, list[str]] = {}
+        revoke_state: dict[str, bool] = {}
+        for entry in self.ledger.entries:
+            kind, subject = entry["kind"], entry["subject"]
+            if kind in ("created", "version-added"):
+                recorded.setdefault(subject, []).append(entry["detail"]["content_hash"])
+            elif kind == "revoked":
+                revoke_state[subject] = True
+            elif kind == "relisted":
+                revoke_state[subject] = False
+        for jid, chain in self.versions.items():
+            hashes = [env["ext"]["content_hash"] for env in chain]
+            for env in chain:
+                if content_hash(env["posting"], env["ext"]) != env["ext"]["content_hash"]:
+                    return f"{jid}: version {env['ext'].get('version')} content differs from its hash"
+            if recorded.get(jid) != hashes:
+                return f"{jid}: versions are not the ones recorded in the ledger"
+            if bool(chain[-1]["ext"].get("revoked")) != revoke_state.get(jid, False):
+                return f"{jid}: revocation state differs from the ledger"
+        extra = set(recorded) - set(self.versions)
+        if extra:
+            return f"ledger records {len(extra)} job(s) missing from the store"
+        return None
 
 
 def _counts(**overrides: int) -> dict[str, int]:

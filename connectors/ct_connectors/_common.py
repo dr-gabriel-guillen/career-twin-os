@@ -25,11 +25,10 @@ def norm_period(value: Any) -> str:
     key = value.strip().lower().replace("_", " ")
     if key in _PERIODS:
         return _PERIODS[key]
-    for word, period in (("annual", "year"), ("year", "year"), ("hour", "hour"), ("month", "month"),
-                         ("week", "week"), ("daily", "day")):
-        if word in key:
-            return period
-    return "unknown"
+    found = {period for word, period in (("annual", "year"), ("year", "year"), ("hour", "hour"), ("month", "month"),
+                                         ("week", "week"), ("daily", "day")) if word in key}
+    # "Hourly base rate (first year)" names two periods: ambiguous, so unknown (never annual by accident).
+    return found.pop() if len(found) == 1 else "unknown"
 
 
 def number(value: Any) -> float | None:
@@ -54,6 +53,21 @@ def comp_item(lo: Any, hi: Any, currency: Any, period: Any, basis: Any = "unknow
             "basis": basis if basis in ("base", "total") else "unknown", "origin": "structured-field"}
 
 
+def field_text(value: Any, limit: int = 200) -> tuple[str, list[str]]:
+    """One-line text for a structured field: markup reduced to visible text, injection flagged."""
+    if not isinstance(value, str):
+        return "", []
+    flags: set[str] = set()
+    if "<" in value and ">" in value:
+        value, html_flags = sanitize_html(value)
+        flags |= set(html_flags)
+    text, line_flags = one_line(value, limit=limit)
+    flags |= set(line_flags)
+    if detect_injection(text):
+        flags.add(FLAG_INJECTION)
+    return text, sorted(flags)
+
+
 def text_field(value: Any) -> str | None:
     if not isinstance(value, str):
         return None
@@ -74,7 +88,7 @@ def build_record(capture: Capture, raw: Any, issues: list[Issue], *, source_id: 
         issues.append(reject(ErrorClass.MALFORMED_RECORD, src, sid, "posting id too long or non-printable"))
         return None
     flags: set[str] = set()
-    title_text, tflags = one_line(title, limit=300)
+    title_text, tflags = field_text(title, limit=300)
     flags |= set(tflags)
     if not title_text:
         issues.append(reject(ErrorClass.MISSING_REQUIRED_FIELD, src, sid, "title missing or empty"))
@@ -89,7 +103,7 @@ def build_record(capture: Capture, raw: Any, issues: list[Issue], *, source_id: 
         issues.append(warn(ErrorClass.UNSAFE_URL, src, sid, f"apply_url dropped: {url_problem(apply_url)}"))
         apply_url = None
     org_source = organization if isinstance(organization, str) and organization.strip() else capture.organization
-    org_text, oflags = one_line(org_source, limit=200)
+    org_text, oflags = field_text(org_source, limit=200)
     flags |= set(oflags) - {FLAG_FORMULA}
     if not org_text:
         issues.append(reject(ErrorClass.MISSING_REQUIRED_FIELD, src, sid, "organization unknown (not in payload or capture)"))
@@ -113,11 +127,24 @@ def build_record(capture: Capture, raw: Any, issues: list[Issue], *, source_id: 
     if len(comp) < len(comp_in):
         issues.append(warn(ErrorClass.COMPENSATION_UNPARSEABLE, src, sid, "a structured pay entry had no usable numeric bounds; dropped"))
     skills_in = fields.pop("declared_skills", None) or []
-    skills = [s for s in (text_field(x) for x in skills_in[:200]) if s][:100]
+    skills = []
+    for raw_skill in skills_in[:200]:
+        text, sflags = field_text(raw_skill)
+        flags |= set(sflags) - {FLAG_FORMULA}
+        if text and FLAG_INJECTION not in sflags:
+            skills.append(text)
+    skills = skills[:100]
     listed = fields.pop("listed", None)
+    plain = {}
+    for key, value in fields.items():
+        if key in _TS_FIELDS:
+            plain[key] = value
+            continue
+        text, fflags = field_text(value)
+        flags |= set(fflags) - {FLAG_FORMULA}
+        plain[key] = text or None
     if flags:
         issues.append(warn(ErrorClass.CONTENT_SANITIZED, src, sid, ",".join(sorted(flags))))
-    plain = {k: (v if k in _TS_FIELDS else text_field(v)) for k, v in fields.items()}
     return SourceRecord(
         source=src, board=capture.board, source_id=sid, title=title_text, organization=org_text, url=url,
         captured_at=capture.captured_at, org_uid=capture.org_uid, apply_url=apply_url,

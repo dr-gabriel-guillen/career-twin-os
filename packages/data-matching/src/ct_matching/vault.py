@@ -282,11 +282,64 @@ class EvidenceVault:
         ok, bad = vault.ledger.verify()
         if not ok:
             raise VaultError("ledger-tampered", f"vault ledger fails verification at entry {bad}")
+        problem = vault.state_problem()
+        if problem:
+            raise VaultError("ledger-mismatch", problem)
         for cid, claim in vault.claims.items():
             schema.check(claim, "profile-claim")
             if claim["status"] != vault._derive(cid):
                 raise VaultError("status-not-derivable", f"{cid}: stored status {claim['status']!r} is not what the evidence supports")
         return vault
+
+    def state_problem(self) -> str | None:
+        """Replay check: evidence, claim membership, visibility/approval and conflicts must match the ledger."""
+        added: dict[str, dict[str, Any]] = {}
+        revoked: set[str] = set()
+        claim_evidence: dict[str, set[str]] = {}
+        claim_type: dict[str, str] = {}
+        visibility: dict[str, tuple[str, Any]] = {}
+        conflicts: dict[str, list[bool]] = {}
+        for entry in self.ledger.entries:
+            kind, sub, det = entry["kind"], entry["subject"], entry["detail"]
+            if kind == "evidence-added":
+                added[sub] = det
+            elif kind == "evidence-revoked":
+                revoked.add(sub)
+            elif kind == "claim-added":
+                claim_type[sub] = det["claim_type"]
+                claim_evidence.setdefault(sub, set()).update(det["evidence_ids"])
+            elif kind == "claim-merged":
+                claim_evidence.setdefault(sub, set()).update(det["evidence_ids"])
+            elif kind == "evidence-attached":
+                claim_evidence.setdefault(sub, set()).add(det["evidence_id"])
+            elif kind == "visibility-set":
+                visibility[sub] = (det["visibility"], det["approval_ref"])
+            elif kind == "conflict-registered":
+                conflicts.setdefault(sub, []).append(False)
+            elif kind == "conflicts-resolved":
+                conflicts[sub] = [True for _ in conflicts.get(sub, [])]
+        if set(added) != set(self.evidence):
+            return "evidence items differ from the ledger"
+        for eid, item in self.evidence.items():
+            det = added[eid]
+            if (item["kind"], item["pointer"], item["sha256"]) != (det["kind"], det["pointer"], det["sha256"]):
+                return f"{eid}: evidence kind/pointer/hash differs from the ledger"
+            if item["revoked"] != (eid in revoked):
+                return f"{eid}: revocation differs from the ledger"
+        if set(claim_type) != set(self.claims):
+            return "claims differ from the ledger"
+        for cid, claim in self.claims.items():
+            expected_id = "cl_" + sha256_hex(canonical_json([self.subject_id, claim["claim_type"], fold(claim["claim_text"])]))[:16]
+            if cid != expected_id or claim["id"] != cid or claim["claim_type"] != claim_type[cid]:
+                return f"{cid}: claim identity/type differs from the ledger"
+            if set(claim["evidence_ids"]) != claim_evidence.get(cid, set()):
+                return f"{cid}: evidence links differ from the ledger"
+            vis, ref = visibility.get(cid, ("private", None))
+            if (claim["visibility"], self.meta[cid]["approval_ref"]) != (vis, ref):
+                return f"{cid}: visibility/approval differs from the ledger"
+            if [c["resolved"] for c in self.meta[cid]["conflicts"]] != conflicts.get(cid, []):
+                return f"{cid}: conflicts differ from the ledger"
+        return None
 
     def _claim(self, claim_id: str) -> dict[str, Any]:
         if claim_id not in self.claims:

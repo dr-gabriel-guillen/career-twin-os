@@ -188,6 +188,8 @@ def parse_ts(value: Any) -> datetime | None:
         return None
     if dt.tzinfo is None:
         return None  # naive timestamps are ambiguous -> unknown
+    if not 1970 <= dt.year <= 2100:
+        return None  # outside any plausible posting window; also keeps date arithmetic overflow-free
     try:
         return dt.astimezone(timezone.utc).replace(microsecond=0)
     except (OverflowError, ValueError):

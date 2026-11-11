@@ -7,17 +7,17 @@
   "python": "3.14.6",
   "system": "Windows"
  },
- "import_jobs_per_second": 653,
+ "import_jobs_per_second": 468,
  "jobs_in_store": 1010,
  "n_base": 1000,
  "note": "single-threaded pure Python on the machine that ran the command; not a service-level guarantee",
  "rejected": 10,
  "seconds": {
-  "bm25_12_queries": 0.007,
-  "bm25_index": 0.115,
-  "generate": 0.073,
-  "import_normalize_dedup": 1.548,
-  "rank_with_sensitivity": 0.049,
-  "view_with_dedup": 0.088
+  "bm25_12_queries": 0.009,
+  "bm25_index": 0.219,
+  "generate": 0.087,
+  "import_normalize_dedup": 2.157,
+  "rank_with_sensitivity": 0.067,
+  "view_with_dedup": 0.11
  }
 }

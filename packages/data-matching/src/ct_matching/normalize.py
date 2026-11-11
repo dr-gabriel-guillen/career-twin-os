@@ -222,10 +222,18 @@ def _per(word: str | None) -> str:
     return "hour" if "h" in w and ("hour" in w or "hr" in w) else ("month" if "month" in w else "year")
 
 
+_NOT_PAY = re.compile(r"\b(bonus(es)?|signing|sign-on|budget|stipend|allowance|relocation|reimburse\w*|equity|stock|rsus?|"
+                      r"commission|revenue|funding|raised|series [a-f]|valuation|grant|award|prize|credit|voucher|"
+                      r"customers?|users?|arr|mrr|spend)\b")
+
+
 def comp_from_text(text: str) -> list[dict[str, Any]]:
     """Explicit pay ranges written in the description. Bare '$' has no currency (ambiguous)."""
     items: list[dict[str, Any]] = []
     for m in _COMP_TEXT.finditer(text[:20000]):
+        context = fold(text[max(0, m.start() - 60): m.end() + 40])
+        if _NOT_PAY.search(context):
+            continue  # bonus, budget, funding, stipend ... are not salary statements
         groups = m.groups()
         cur1, n1, k1, cur2, n2, k2, code, per = groups
         lo = _amount(n1, k1)
