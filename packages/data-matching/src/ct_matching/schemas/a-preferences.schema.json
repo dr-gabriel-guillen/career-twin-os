@@ -1,0 +1,203 @@
+{
+  "$id": "https://careertwin.local/lane-a/a-preferences.v0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allow_flagged_content": {
+      "type": "boolean"
+    },
+    "compensation_floor": {
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "maximum": 1000000000.0,
+          "minimum": 0,
+          "type": "number"
+        },
+        "currency": {
+          "pattern": "^[A-Z]{3}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "currency",
+        "amount"
+      ],
+      "type": "object"
+    },
+    "employment_types": {
+      "items": {
+        "enum": [
+          "full-time",
+          "part-time",
+          "contract",
+          "internship",
+          "temporary"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "exclude_phantom_risk": {
+      "type": "boolean"
+    },
+    "excluded_employers": {
+      "items": {
+        "maxLength": 200,
+        "type": "string"
+      },
+      "maxItems": 200,
+      "type": "array"
+    },
+    "include_unknown_status": {
+      "type": "boolean"
+    },
+    "jurisdictions": {
+      "items": {
+        "pattern": "^[A-Z]{2}$",
+        "type": "string"
+      },
+      "maxItems": 50,
+      "type": "array"
+    },
+    "remote": {
+      "items": {
+        "enum": [
+          "remote",
+          "hybrid",
+          "onsite"
+        ],
+        "type": "string"
+      },
+      "maxItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "require_known_compensation": {
+      "type": "boolean"
+    },
+    "seniority_max": {
+      "enum": [
+        "intern",
+        "junior",
+        "mid",
+        "senior",
+        "staff",
+        "principal",
+        "director",
+        "vp",
+        "executive"
+      ],
+      "type": "string"
+    },
+    "seniority_min": {
+      "enum": [
+        "intern",
+        "junior",
+        "mid",
+        "senior",
+        "staff",
+        "principal",
+        "director",
+        "vp",
+        "executive"
+      ],
+      "type": "string"
+    },
+    "seniority_target": {
+      "enum": [
+        "intern",
+        "junior",
+        "mid",
+        "senior",
+        "staff",
+        "principal",
+        "director",
+        "vp",
+        "executive"
+      ],
+      "type": "string"
+    },
+    "strategy_weight": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "number"
+    },
+    "target_families": {
+      "items": {
+        "enum": [
+          "ai-architect",
+          "backend",
+          "data-engineer",
+          "data-scientist",
+          "devops-sre",
+          "engineering-manager",
+          "fde",
+          "field-cto",
+          "frontend",
+          "ml-engineer",
+          "product-manager",
+          "security-engineer",
+          "solutions-architect",
+          "tam"
+        ],
+        "type": "string"
+      },
+      "maxItems": 20,
+      "type": "array"
+    },
+    "target_roles": {
+      "items": {
+        "maxLength": 120,
+        "type": "string"
+      },
+      "maxItems": 20,
+      "type": "array"
+    },
+    "weights": {
+      "additionalProperties": false,
+      "properties": {
+        "customer_proximity": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "enterprise_delivery": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "proof_strength": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "seniority_alignment": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "skill_coverage": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "transition_utility": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "workstyle": {
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [],
+      "type": "object"
+    }
+  },
+  "required": [],
+  "title": "LaneAPreferences",
+  "type": "object"
+}

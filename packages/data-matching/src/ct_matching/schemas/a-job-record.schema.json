@@ -1,0 +1,436 @@
+{
+  "$id": "https://careertwin.local/lane-a/a-job-record.v0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "ext": {
+      "additionalProperties": false,
+      "properties": {
+        "apply_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "board": {
+          "type": "string"
+        },
+        "compensation": {
+          "additionalProperties": false,
+          "properties": {
+            "origin": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "period": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "state": {
+              "enum": [
+                "stated",
+                "absent",
+                "conflict:inverted-range",
+                "conflict:multiple-ranges",
+                "conflict:structured-vs-text",
+                "multiple-ranges",
+                "unparseable:zero",
+                "ambiguous-currency",
+                "period-unknown",
+                "non-annual"
+              ],
+              "type": "string"
+            },
+            "stated": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "enum": [
+                      "base",
+                      "total",
+                      "unknown"
+                    ],
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "max": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "min": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "origin": {
+                    "enum": [
+                      "structured-field",
+                      "text-parsed"
+                    ],
+                    "type": "string"
+                  },
+                  "period": {
+                    "enum": [
+                      "year",
+                      "hour",
+                      "month",
+                      "week",
+                      "day",
+                      "unknown"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max",
+                  "currency",
+                  "period",
+                  "basis",
+                  "origin"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "state",
+            "period",
+            "origin",
+            "stated"
+          ],
+          "type": "object"
+        },
+        "content_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "cues": {
+          "additionalProperties": false,
+          "properties": {
+            "customer": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "enterprise": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "customer",
+            "enterprise"
+          ],
+          "type": "object"
+        },
+        "dedup": {
+          "additionalProperties": false,
+          "properties": {
+            "canonical_id": {
+              "type": "string"
+            },
+            "cluster_id": {
+              "type": "string"
+            },
+            "duplicate_of": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "is_canonical": {
+              "type": "boolean"
+            },
+            "members": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "repost_within_board": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "cluster_id",
+            "canonical_id",
+            "is_canonical",
+            "members",
+            "duplicate_of",
+            "repost_within_board"
+          ],
+          "type": "object"
+        },
+        "department": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description_text": {
+          "type": "string"
+        },
+        "employer": {
+          "additionalProperties": false,
+          "properties": {
+            "alias_ambiguous": {
+              "type": "boolean"
+            },
+            "key": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "org_uid": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "key",
+            "org_uid",
+            "alias_ambiguous"
+          ],
+          "type": "object"
+        },
+        "ext_version": {
+          "const": "a-ext/0.1",
+          "type": "string"
+        },
+        "listed": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "location": {
+          "additionalProperties": false,
+          "properties": {
+            "jurisdiction_basis": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "jurisdictions": {
+              "items": {
+                "pattern": "^[A-Z]{2}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "multi": {
+              "type": "boolean"
+            },
+            "notes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "parts": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "city": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "country": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "region": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "city",
+                  "region",
+                  "country"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "raw": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "raw",
+            "parts",
+            "jurisdictions",
+            "jurisdiction_basis",
+            "multi"
+          ],
+          "type": "object"
+        },
+        "payload_sha256": {
+          "type": "string"
+        },
+        "quality_flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "revoked": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revoked_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "security_flags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "skills_preferred": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "skills_required": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "skills_unmapped": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "status_as_of": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "status_reason": {
+          "type": "string"
+        },
+        "supersedes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "synthetic": {
+          "type": "boolean"
+        },
+        "taxonomy_version": {
+          "type": "string"
+        },
+        "timestamps": {
+          "additionalProperties": false,
+          "properties": {
+            "captured_at": {
+              "format": "date-time",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "expires_at": {
+              "format": "date-time",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "posted_at": {
+              "format": "date-time",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "updated_at": {
+              "format": "date-time",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "captured_at",
+            "posted_at",
+            "updated_at",
+            "expires_at"
+          ],
+          "type": "object"
+        },
+        "version": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ext_version",
+        "synthetic",
+        "board",
+        "employer",
+        "timestamps",
+        "status_reason",
+        "location",
+        "compensation",
+        "skills_required",
+        "skills_preferred",
+        "cues",
+        "security_flags",
+        "quality_flags",
+        "content_hash",
+        "version",
+        "dedup",
+        "taxonomy_version"
+      ],
+      "type": "object"
+    },
+    "posting": {
+      "description": "MUST validate against contracts/job-posting.schema.json (frozen v0.1)",
+      "type": "object"
+    }
+  },
+  "required": [
+    "posting",
+    "ext"
+  ],
+  "title": "LaneAJobRecord",
+  "type": "object"
+}
