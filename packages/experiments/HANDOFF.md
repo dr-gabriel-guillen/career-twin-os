@@ -6,15 +6,15 @@
 | BATCH_ID | `CT-2026-11-10-B01` |
 | Branch | `agent/ct-b-experiments` · draft PR [#8](https://github.com/dr-gabriel-guillen/career-twin-os/pull/8) · Issue [#3](https://github.com/dr-gabriel-guillen/career-twin-os/issues/3) |
 | BASE_SHA | `bc957fd7ed98ad1bf97eb5abc19d64b146de8dcf` (`main`) |
-| Code SHA | `00e8ffbc79bfeb10d56bf5503f700887dd435aef` (after repair cycle 2) |
-| Fixtures SHA | `bdc4e94bfa2ed834a713f938e4f671d7b6101240` (generated from the code SHA) |
+| Code SHA | `6db28b05b1043a5ac2a688353a13485a7ee163d2` (repair cycle 2 `00e8ffb` + cross-lane review fixes) |
+| Fixtures SHA | `bdc4e94bfa2ed834a713f938e4f671d7b6101240` (generated from `00e8ffb`; the later changes touch only the e2e runner, strata-name validation and tests, none of which feed the fixtures) |
 | SOURCE_HEAD | the commit that adds this file; quoted in the DELIVERED comment on #3 |
 | Changed paths | `packages/applications/**`, `packages/experiments/**` only (no shared file, no contract touched) |
 
 ## Reproduce
 
 ```
-python packages/experiments/run_tests.py                     # 127 tests, warnings are errors, stdlib only
+python packages/experiments/run_tests.py                     # 131 tests, warnings are errors, stdlib only
 python packages/experiments/tools/build_fixtures.py          # regenerate fixtures/v1 (~5 min); compare MANIFEST.json
 python packages/experiments/tools/build_offline_package.py   # dist/careertwin-lane-b-0.1.0.zip
 python packages/experiments/tools/e2e_stage.py resume --artifacts DIR   # lane E stages, see integration-manifest.json
@@ -27,8 +27,8 @@ installed, one test cross-checks lane B's contract checker against it.
 
 | Item | Result |
 | --- | --- |
-| Test suite | **127 run, 0 failed, 0 errors, 0 skipped** (`run_tests.py`) |
-| Offline package | 50 files, sha256 `a6ffd0b11e1bfba8028886dc2d3ad1717b8b985d028f337954db37184bfd3f67`; identical across two builds; 127/127 pass from the unpacked archive |
+| Test suite | **131 run, 0 failed, 0 errors, 0 skipped** (`run_tests.py`) |
+| Offline package | 53 files, sha256 `97a4aa4f37cfd41ebfb22a03a527db6aa34bbabad249870e5f0e9046c5f6ab95`; identical across two builds; 131/131 pass from the unpacked archive |
 | Synthetic cohort | 24 experiments, 3,022 fictional applications (2,782 randomised, 240 historical/observational), 113 duplicate imports collapsed |
 | Cohort verdicts | 7 EVIDENCE_FOR_DIFFERENCE (all on true effects ≥ +0.20), 15 INCONCLUSIVE (including all 4 A/A negative controls, 2 clustered nulls, 3 underpowered real effects, the early stop), 2 INTERIM_NO_CLAIM; **0 false alarms** |
 | Held-out cohort (seed 911) | 7 / 15 / 2; **0 false alarms** |
@@ -81,6 +81,14 @@ All were fixed in `ea01acb`. The reviewer's scripts were re-run against the fix,
 
 All fixed in `00e8ffb`. The reviewer's scripts were re-run against the fix, and 11 regression tests were added (`tests/test_review2_regressions.py`).
 
+**Cross-lane review** (on #3, B at `84757ed`):
+- **A:** in E's pipeline layout, B ignored A's `jobs_ext.json` sidecar and lost employer ids and duplicate links.
+- **E B-F1:** a rerun on changed inputs silently returned the journaled experiment.
+- **E B-F2:** the fixture hash test failed on CRLF checkouts.
+- **E B-F3:** stratum keys were not injective.
+
+All fixed in `6db28b0`, with tests in `tests/test_crosslane_feedback.py`. On A's real pipeline output (A `fff2cd2`), all 160 records now use `ext.employer.id`, 16 duplicates keep their members, and B sees 25 employers, as A does.
+
 Real defects caught by B's own tests during development: Markdown `javascript:` links left intact; a comparison
 without a usable stratum silently dropped from the withheld reasons; the disk re-read in `verify_all` comparing journal
 names (a false positive on every workspace); three bugs in the first version of the e2e runner.
@@ -91,7 +99,9 @@ names (a false positive on every workspace); three bugs in the first version of 
   can be produced; A's own `resume-draft` export is empty too. Requested action: make some claims `shareable`. B will
   not relax its rule.
 - **D (#5):** interface published (`LaneBApi` b.v1, shapes, rules). No ACK from D seen yet.
-- **E (#3, #6):** E acknowledged B's shapes. B delivered the manifest and runner and answered E's three questions. One known policy
+- **E (#3, #6):** E acknowledged B's shapes and reported `resume.variant` and `application.record` PASS on A's real data
+  (B at `84757ed`). `experiment.run` passed every integrity check, but failed the input-drift probe (now fixed).
+  B delivered the manifest and runner and answered E's three questions. One known policy
   difference: B's preregistered minimum can be under E's n = 30 threshold, and B asked E to keep flagging that.
 - **Frozen contracts:** unchanged. B-owned shapes: `careertwin.b.application-event-ext.v1`,
   `careertwin.b.experiment-design.v1`, `careertwin.b.resume-variant.v1`, `careertwin.b.analysis-report.v1`,
