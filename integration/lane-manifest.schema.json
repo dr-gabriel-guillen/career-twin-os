@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careertwin.local/integration/lane-manifest.v0.1.schema.json",
+  "title": "LaneIntegrationManifest",
+  "description": "PROPOSED by CAREER-TWIN-E (not a frozen contract). One file named integration-manifest.json inside a lane's owned path tells the integration runner how to test the lane and how to run its pipeline stages by exchanging JSON artifacts. Commands are argv arrays (no shell). Placeholders: {python} {artifacts} {seed} {count} {repo}.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifest_version", "session_id", "tests", "stages"],
+  "properties": {
+    "manifest_version": { "const": "0.1" },
+    "session_id": {
+      "type": "string",
+      "enum": ["CAREER-TWIN-A", "CAREER-TWIN-B", "CAREER-TWIN-C", "CAREER-TWIN-D"]
+    },
+    "description": { "type": "string" },
+    "setup": {
+      "description": "Dependency installation. Usually needs the network, so it only runs with --allow-setup and the run is then reported as non-hermetic.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/argv" }
+    },
+    "tests": {
+      "description": "Offline test commands. A test that needs the network cannot be declared here.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "cmd"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "cmd": { "$ref": "#/$defs/argv" },
+          "network": { "const": false },
+          "timeout_s": { "type": "integer", "minimum": 1, "maximum": 1800 }
+        }
+      }
+    },
+    "stages": {
+      "description": "Pipeline stages this lane provides. 'mock' MUST be true when the stage returns canned or fixture data instead of computing from its inputs.",
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "jobs.import",
+          "profile.claims",
+          "match.rank",
+          "features.vectors",
+          "resume.variant",
+          "application.record",
+          "experiment.run",
+          "atlas.project",
+          "simulator.scenario",
+          "ui.e2e"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cmd", "mock"],
+        "properties": {
+          "cmd": { "$ref": "#/$defs/argv" },
+          "mock": { "type": "boolean" },
+          "note": { "type": "string" },
+          "timeout_s": { "type": "integer", "minimum": 1, "maximum": 1800 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "argv": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

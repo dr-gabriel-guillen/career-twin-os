@@ -1,0 +1,319 @@
+{
+  "contract": "profile-claim",
+  "bases": {
+    "minimal": {
+      "id": "claim-syn-0001",
+      "subject_id": "candidate-synthetic-001",
+      "claim_type": "skill",
+      "claim_text": "Builds Python services (synthetic claim)",
+      "status": "supported",
+      "evidence_ids": [
+        "evidence-syn-0001"
+      ],
+      "visibility": "private",
+      "updated_at": "2026-01-05T09:00:00Z"
+    },
+    "full": {
+      "id": "claim-syn-0001",
+      "subject_id": "candidate-synthetic-001",
+      "claim_type": "skill",
+      "claim_text": "Builds Python services (synthetic claim)",
+      "status": "supported",
+      "evidence_ids": [
+        "evidence-syn-0001"
+      ],
+      "visibility": "private",
+      "updated_at": "2026-01-05T09:00:00Z",
+      "skills": [
+        "python",
+        "api-design"
+      ],
+      "valid_to": "2027-01-05T09:00:00Z"
+    }
+  },
+  "valid": [
+    {
+      "name": "minimal",
+      "base": "minimal",
+      "patch": []
+    },
+    {
+      "name": "full",
+      "base": "full",
+      "patch": []
+    },
+    {
+      "name": "self-reported-without-evidence",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "self-reported"
+        },
+        {
+          "op": "replace",
+          "path": "/evidence_ids",
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "contradicted",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "contradicted"
+        }
+      ]
+    },
+    {
+      "name": "valid-to-null",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/valid_to",
+          "value": null
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "missing-evidence-ids",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/evidence_ids"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-status",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/status"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-visibility",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/visibility"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-subject",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/subject_id"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "status-verified-not-in-enum",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "verified"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "claim-type-salary",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/claim_type",
+          "value": "salary"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "visibility-public",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/visibility",
+          "value": "public"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "evidence-ids-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/evidence_ids",
+          "value": "evidence-syn-0001"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "evidence-id-number",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/evidence_ids",
+          "value": [
+            1
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "updated-at-date-only",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/updated_at",
+          "value": "2026-01-05"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "valid-to-prose",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/valid_to",
+          "value": "never"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "empty-id",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/id",
+          "value": ""
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "extra-real-name-field",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/full_legal_name",
+          "value": "Synthetic Candidate"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "skills-not-array",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/skills",
+          "value": {
+            "python": true
+          }
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "supported-without-evidence",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/evidence_ids",
+          "value": []
+        }
+      ],
+      "layer": "semantic",
+      "rule": "CLAIM-EVID-001"
+    },
+    {
+      "name": "non-utc-updated-at",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/updated_at",
+          "value": "2026-01-05T09:00:00+01:00"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "UTC-001"
+    },
+    {
+      "name": "non-utc-valid-to",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/valid_to",
+          "value": "2027-01-05T09:00:00-08:00"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "UTC-001"
+    },
+    {
+      "name": "blank-claim-text",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/claim_text",
+          "value": " "
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "claim-states-hire-likelihood",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/claim_text",
+          "value": "Has a high likelihood of being hired"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    }
+  ]
+}
