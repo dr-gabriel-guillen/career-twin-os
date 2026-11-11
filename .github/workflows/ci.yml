@@ -60,9 +60,8 @@ jobs:
           HEAD_REF: ${{ github.head_ref }}
           BASE_REF: ${{ github.base_ref }}
         run: PYTHONPATH=integration python -m ctint.lanes check --base "origin/${BASE_REF}" --head HEAD --branch "${HEAD_REF}"
-      - name: Workflows reference no secrets and never use pull_request_target
-        run: |
-          ! grep -RnE 'secrets\.[A-Za-z_]+|pull_request_target' .github/workflows
+      - name: Workflow hygiene (no secrets, no write tokens, no untrusted interpolation)
+        run: PYTHONPATH=integration python -m ctint.sec_ci --root .
 
   integration:
     name: Lane E — format, lint, types, isolated tests
