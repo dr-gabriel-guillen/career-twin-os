@@ -259,7 +259,10 @@ class TestCommittedFixtures(unittest.TestCase):
     def test_manifest_hashes_match(self):
         from ct_applications.core import sha256_hex
         for name, meta in self.manifest["files"].items():
-            self.assertEqual(sha256_hex((FIXTURES / name).read_bytes()), meta["sha256"], name)
+            # LF-normalised: a Windows checkout with core.autocrlf=true must not fail (fixtures/.gitattributes
+            # also marks them -text, so a fresh checkout keeps the committed bytes)
+            data = (FIXTURES / name).read_bytes().replace(b"\r\n", b"\n")
+            self.assertEqual(sha256_hex(data), meta["sha256"], name)
         self.assertEqual(sorted(p.name for p in FIXTURES.glob("*.json")), sorted([*self.manifest["files"], "MANIFEST.json"]))
 
     def test_scale_and_required_verdicts(self):

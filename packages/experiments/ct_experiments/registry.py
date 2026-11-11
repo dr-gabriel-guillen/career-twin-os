@@ -82,6 +82,10 @@ def _check_design(spec: dict[str, Any], design: dict[str, Any]) -> list[str]:
     if set(design["strata_levels"]) != set(spec["strata"]) or not all(
             isinstance(v, list) and v and len(set(v)) == len(v) for v in design["strata_levels"].values()):
         raise ValidationError("strata_levels must list the allowed levels of every stratification factor")
+    for factor, levels in design["strata_levels"].items():  # stratum keys are "f=level|g=level": keep them injective
+        for name in [factor, *levels]:
+            if not isinstance(name, str) or not name or any(ch in name for ch in "|="):
+                raise ValidationError(f"strata names and levels must be non-empty and contain no '|' or '=': {name!r}")
     if spec["primary_metric"] not in METRICS:
         raise ValidationError(f"primary_metric must be one of {sorted(METRICS)}")
     if spec["primary_metric"] in spec.get("secondary_metrics", []) or set(spec.get("secondary_metrics", [])) - METRICS:

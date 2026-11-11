@@ -4,7 +4,8 @@
     python packages/experiments/tools/e2e_stage.py application --artifacts DIR
     python packages/experiments/tools/e2e_stage.py experiment  --artifacts DIR --seed N
 
-Reads from DIR: jobs.json (JobPosting[] or lane A envelopes {"posting", "ext"}), claims.json
+Reads from DIR: jobs.json (JobPosting[] or lane A envelopes {"posting", "ext"}; when jobs.json holds bare
+postings, lane A's envelopes are taken from jobs_ext.json for byte-identical postings only), claims.json
 (ProfileClaim[] or {"claim", ...} envelopes), pin.json ({"job_id": ...}).
 Writes to DIR: resume_variant.json | events.json | experiment.json, assignments.json,
 experiment_events.json, analysis.json. State shared by the stages lives in DIR/lane-b/; a stage
@@ -32,7 +33,7 @@ for pkg in ("applications", "experiments"):
     sys.path.insert(0, str(HERE.parents[1] / pkg))
 
 from ct_applications import approvals as ap  # noqa: E402
-from ct_applications.core import CareerTwinError, FixedClock, content_hash, fmt_ts  # noqa: E402
+from ct_applications.core import CareerTwinError, FixedClock, canonical_json, content_hash, fmt_ts  # noqa: E402
 from ct_applications.schema import validate  # noqa: E402
 from ct_experiments.lab import Lab  # noqa: E402
 from ct_experiments.registry import make_design  # noqa: E402
@@ -45,6 +46,10 @@ SUBJECT_FALLBACK = "candidate-synthetic-001"
 
 class BadInput(Exception):
     pass
+
+
+class InputDrift(BadInput):
+    """The inputs differ from those a journaled experiment was registered on."""
 
 
 def _load(dir_: Path, name: str):
@@ -84,6 +89,16 @@ def load_jobs(dir_: Path) -> list[dict]:
         raw = raw.get("jobs") or raw.get("records") or []
     if not isinstance(raw, list):
         raise BadInput("jobs.json must be a list of postings or lane A records")
+    sidecar: dict[str, dict] = {}
+    if (dir_ / "jobs_ext.json").exists():  # lane A's envelopes beside bare postings (E's pipeline layout)
+        side = _load(dir_, "jobs_ext.json")
+        if not isinstance(side, list):
+            raise BadInput("jobs_ext.json must be a list of {posting, ext} records")
+        for k, env in enumerate(side):
+            if not (isinstance(env, dict) and isinstance(env.get("posting"), dict)
+                    and isinstance(env["posting"].get("id"), str)):
+                raise BadInput(f"jobs_ext.json[{k}] must be an object with a posting")
+            sidecar[env["posting"]["id"]] = env
     out, seen = [], set()
     for i, rec in enumerate(raw):
         if not isinstance(rec, dict):
@@ -96,6 +111,11 @@ def load_jobs(dir_: Path) -> list[dict]:
             raise BadInput(f"jobs.json lists posting {posting['id']!r} twice")
         seen.add(posting["id"])
         ext = _obj(rec.get("ext"), f"jobs.json[{i}].ext") if "posting" in rec else {}
+        if not ext and posting["id"] in sidecar:
+            env = sidecar[posting["id"]]
+            # trust the sidecar only if it describes exactly this posting (a tampered sidecar cannot inject keys)
+            if canonical_json(env["posting"]) == canonical_json(posting):
+                ext = _obj(env.get("ext"), f"jobs_ext.json[{posting['id']}].ext")
         emp = _obj(ext.get("employer"), f"jobs.json[{i}].ext.employer").get("id")
         members = _obj(ext.get("dedup"), f"jobs.json[{i}].ext.dedup").get("members") or []
         if not isinstance(members, list):
@@ -209,6 +229,15 @@ class Stage:
         if other:
             raise BadInput(f"this artifacts directory already holds experiment {other[0]!r}; "
                            "use a fresh directory for another seed")
+        inputs_digest = content_hash(sorted(
+            [j["posting"]["id"], content_hash(j["posting"]), j["employer_id"], sorted(j["members"])] for j in active))
+        digest_file = self.state / "experiment_inputs.json"
+        if exp_id in reg.ids():
+            recorded = json.loads(digest_file.read_text(encoding="utf-8")) if digest_file.exists() else {}
+            if recorded.get("inputs_digest") != inputs_digest:
+                raise InputDrift(f"experiment {exp_id!r} was registered on different job inputs (digest "
+                                 f"{str(recorded.get('inputs_digest'))[:12]}, now {inputs_digest[:12]}); a "
+                                 "preregistered experiment is never re-run on new inputs. Use a fresh directory")
         levels = sorted({j["posting"]["seniority"] for j in active})
         employers = {j["employer_id"] for j in active}
         # cluster by employer when there are enough employers to analyse clusters; otherwise randomise postings
@@ -239,6 +268,8 @@ class Stage:
                 minimum_detectable_effect=0.3, assumed_icc=0.1 if unit == "employer-cluster" else 0.0,
                 assumed_cluster_size=mean_cluster if unit == "employer-cluster" else 1.0, n_permutations=1999)
             reg.create_draft(spec, design, seed=f"lane-b-e2e-secret-{seed}")
+            digest_file.write_text(json.dumps({"experiment_id": exp_id, "inputs_digest": inputs_digest}),
+                                   encoding="utf-8")
             digest = reg.design_hash(exp_id)
             reg.preregister(exp_id, token_id=simulated_user_grant(self.lab.ledger, ap.PREREGISTER_EXPERIMENT,
                                                                   exp_id, digest))
@@ -318,7 +349,7 @@ def main(argv: list[str] | None = None) -> int:
         scratch.rename(state)
     except BadInput as exc:
         shutil.rmtree(scratch, ignore_errors=True)
-        print(json.dumps({"ok": False, "stage": args.stage, "error": "BadInput", "message": str(exc)}))
+        print(json.dumps({"ok": False, "stage": args.stage, "error": type(exc).__name__, "message": str(exc)}))
         return 2
     except OSError as exc:
         shutil.rmtree(scratch, ignore_errors=True)
