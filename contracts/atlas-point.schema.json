@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "AtlasPoint",
+  "required": [
+    "entity_id",
+    "projection_id",
+    "label",
+    "coords",
+    "source_vector_ref",
+    "representation_type",
+    "projection_method"
+  ],
+  "properties": {
+    "entity_id": {
+      "type": "string"
+    },
+    "projection_id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "coords": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "source_vector_ref": {
+      "type": "string"
+    },
+    "representation_type": {
+      "type": "string",
+      "enum": [
+        "candidate",
+        "job",
+        "role-centroid",
+        "scenario"
+      ]
+    },
+    "projection_method": {
+      "type": "string",
+      "enum": [
+        "pca",
+        "umap",
+        "interpretable-axes"
+      ]
+    },
+    "neighborhood_quality": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "fit_metric_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
