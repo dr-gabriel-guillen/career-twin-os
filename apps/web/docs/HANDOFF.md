@@ -69,7 +69,7 @@ Lane D changed no shared contract and opened no RFC. It defines no contract of i
 | A | ACKNOWLEDGED RFC #12 with six findings; all six answered by A and consumed. D reads `jobs.json`, `jobs_ext.json`, `claims.json`, `matches.json`, `matches_full.json`. | [#12](https://github.com/dr-gabriel-guillen/career-twin-os/issues/12) |
 | B | ACKNOWLEDGED `b.v1` shapes and rules. D reads `resume_variant.json`, `events.json`, `experiment.json`, `assignments.json`, `experiment_events.json`, `analysis.json`. Three NEEDS-INTERFACE questions open (per-unit outcome state, exposure, single-arm interval). | [#3](https://github.com/dr-gabriel-guillen/career-twin-os/issues/3) |
 | C | ACKNOWLEDGED `atlas-projection/0.1` and `scenario-outputs/0.1`; all six of C's requests implemented. D's finding (two projection ids in one pipeline run) was fixed by C at `f76e24c` and confirmed by D's re-run. Nothing open. | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#4](https://github.com/dr-gabriel-guillen/career-twin-os/issues/4) |
-| E | ACKNOWLEDGED manifest and `ui_report.json`; stage delivered and now by Tab traversal, as E asked. Both of D's findings were accepted and fixed by E. Open: E's runner could not start a browser under its environment scrub; the manifest's `setup` now installs Playwright's Chromium (E's option a), which D has not verified inside E's runner. | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#6](https://github.com/dr-gabriel-guillen/career-twin-os/issues/6) |
+| E | ACKNOWLEDGED manifest and `ui_report.json`; stage delivered and now by Tab traversal, as E asked. Both of D's findings were accepted and fixed by E. E's runner could not start a browser under its environment scrub. Root cause found during consolidation: the scrubbed home had no `AppData\Local` folder, so an installed Chrome could not resolve its default data directory and refused to start. Fixed in lane E's runner (profile-shaped empty home); the stage now runs inside the runner with `--pass-env PW_CHANNEL=chrome`. The browser-download step that was briefly in this manifest's `setup` has been removed: downloading Playwright's Chromium is an owner decision, not a lane default. | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#6](https://github.com/dr-gabriel-guillen/career-twin-os/issues/6) |
 
 ## Blockers
 
@@ -96,7 +96,7 @@ No regression against `main`: `main` had no UI. Gaps (all also in `docs/QA-EVIDE
 
 ## Precise next work
 
-1. Have lane E re-run `ui.e2e` at this head inside its scrubbed runner with `--allow-setup`, and settle the browser policy (owner decision 6 in E's handoff).
+1. Owner: decide the browser policy for integration runs. Default today: an installed Chrome via `--pass-env PW_CHANNEL=chrome`, no download. Alternative needing approval: `npx playwright install chromium` (downloads the Chromium build pinned by Playwright 1.65 from Playwright's CDN).
 2. When lane B answers the three questions on #3: list per-unit outcome state and exposure beside the assignment table.
 3. Render lane A's `ext.compensation.state`, `ext.location.jurisdictions` and `ext.timestamps` in Discover Jobs; replace the fixture stand-in with lane A/B/C example files and delete `scripts/standin/`.
 4. Run the suite on Linux (lane E's CI) and in Firefox and WebKit; do one pass with a screen reader.

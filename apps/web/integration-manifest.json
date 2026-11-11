@@ -7,14 +7,6 @@
       "ci",
       "--prefix",
       "apps/web"
-    ],
-    [
-      "npx",
-      "--prefix",
-      "apps/web",
-      "playwright",
-      "install",
-      "chromium"
     ]
   ],
   "tests": [
