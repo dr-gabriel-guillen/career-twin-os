@@ -414,6 +414,8 @@ export default function ExperimentsPage() {
                           <th scope="col">Variant</th>
                           <th scope="col" className="ct-num">Assigned</th>
                           <th scope="col" className="ct-num">Positive</th>
+                          <th scope="col" className="ct-num">Censored</th>
+                          <th scope="col" className="ct-num">Missing</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -422,6 +424,8 @@ export default function ExperimentsPage() {
                             <th scope="row">{a.variant}</th>
                             <td className="ct-num">{a.n_assigned}</td>
                             <td className="ct-num">{a.n_success ?? "Not reported"}</td>
+                            <td className="ct-num">{a.n_censored ?? "Not reported"}</td>
+                            <td className="ct-num">{a.n_missing ?? "Not reported"}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -429,6 +433,7 @@ export default function ExperimentsPage() {
                   </TableRegion>
                   <Facts
                     items={[
+                      { label: "Phase", value: upstream.phase ?? "Not stated" },
                       {
                         label: "Difference",
                         value: upstream.effect

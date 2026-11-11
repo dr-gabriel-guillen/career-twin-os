@@ -9,8 +9,8 @@
 import type { JobPosting } from "@/contracts/types";
 import { isJobPosting } from "./frozen";
 import { ABSENT, type BundleExtras, type PayloadName, type PayloadSource } from "./index";
-import type { BundleProvenance, MatchRefusal, UpstreamAnalysis } from "./proposed";
-import { analysisFromUpstream, assignmentsFromUpstream, atlasFromArtifacts, matchesFromUpstream, resumeVariantsFromUpstream } from "./upstream";
+import type { BundleProvenance, JobFacet, MatchRefusal, UpstreamAnalysis } from "./proposed";
+import { analysisFromUpstream, assignmentsFromUpstream, atlasFromArtifacts, facetsFromJobsExt, matchesFromUpstream, resumeVariantsFromUpstream } from "./upstream";
 import { Checker } from "./validate";
 
 export interface ArtifactReader {
@@ -22,7 +22,7 @@ export const ARTIFACT_FILES = [
   "jobs.json", "claims.json", "matches.json", "pin.json", "resume_variant.json", "events.json", "experiment.json", "assignments.json",
   "experiment_events.json", "analysis.json", "atlas_points.json", "atlas_diagnostics.json", "scenarios.json",
   // Optional lane-shaped extras, used when a pipeline provides them.
-  "atlas.pca.json", "atlas.axes.json", "evidence.json", "preferences.json", "outcomes.json",
+  "jobs_ext.json", "matches_full.json", "atlas.pca.json", "atlas.axes.json", "evidence.json", "preferences.json", "outcomes.json",
 ] as const;
 type ArtifactFile = (typeof ARTIFACT_FILES)[number];
 
@@ -110,7 +110,7 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
         case "matches": {
           const raw = await need("matches.json");
           if (raw === undefined) return ABSENT;
-          const t = matchesFromUpstream(raw, { subject: await subject(), computedAt: await clock() });
+          const t = matchesFromUpstream(raw, { subject: await subject(), computedAt: await clock(), full: await read("matches_full.json") });
           dialects["matches.json"] = t.dialect;
           if (t.mock) mock.add("matches.json");
           refusals.push(...t.refusals);
@@ -122,6 +122,7 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
           const t = resumeVariantsFromUpstream(raw, { clock: await clock(), subject: await subject() });
           dialects["resume_variant.json"] = t.dialect;
           if (t.mock) mock.add("resume_variant.json");
+          notes.push(...t.notes);
           return t.payload;
         }
         case "application-events": {
@@ -206,7 +207,8 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
         }
       }
       const provenance: BundleProvenance = { data_source: "artifacts", dialects: { ...dialects }, mock_sources: [...mock].sort(), missing: [...missing].sort() };
-      return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes] };
+      const jobFacets: Record<string, JobFacet> = facetsFromJobsExt(await read("jobs_ext.json"));
+      return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes], jobFacets };
     },
   };
 }

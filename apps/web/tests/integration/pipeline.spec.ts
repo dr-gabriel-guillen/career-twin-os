@@ -184,10 +184,19 @@ test("feed → match → résumé → application → experiment → atlas → s
   const results = page.getByTestId("exp-results");
   await expect(results).toBeVisible();
   if (has("analysis.json")) {
-    const analysis = art<{ decision?: string; verdict?: string; arms?: { variant: string; n_assigned: number }[] }>("analysis.json");
+    const analysis = art<{ decision?: string; verdict?: string; arms?: unknown; flow?: { by_arm?: Record<string, { units?: number }> } }>("analysis.json");
     const verdict = String(analysis.verdict ?? analysis.decision ?? "").toUpperCase();
     await expect(page.getByTestId("upstream-verdict")).toBeVisible();
-    for (const arm of analysis.arms ?? []) await expect(page.getByTestId("upstream-arms")).toContainText(String(arm.n_assigned));
+    // Arms are a list in lane E's stub and an object keyed by variant in lane B's report.
+    const armRows: { variant: string; assigned: number | undefined }[] = Array.isArray(analysis.arms)
+      ? (analysis.arms as { variant: string; n_assigned: number }[]).map((a) => ({ variant: a.variant, assigned: a.n_assigned }))
+      : Object.entries((analysis.arms ?? {}) as Record<string, { units?: number }>).map(([variant, a]) => ({ variant, assigned: analysis.flow?.by_arm?.[variant]?.units ?? a.units }));
+    expect(armRows.length, "analysis.json lists at least two variants").toBeGreaterThanOrEqual(2);
+    for (const arm of armRows) {
+      const row = page.getByTestId("upstream-arms").locator("tbody tr", { hasText: arm.variant });
+      await expect(row).toHaveCount(1);
+      if (arm.assigned !== undefined) await expect(row.locator("td").first()).toHaveText(String(arm.assigned));
+    }
     if (verdict !== "EVIDENCE_FOR_DIFFERENCE") await expect(page.getByTestId("upstream-verdict")).toContainText("No variant is declared better.");
   }
   await expect(results).not.toContainText(/winner/i);

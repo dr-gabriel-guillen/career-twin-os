@@ -255,7 +255,9 @@ export interface UpstreamAnalysis {
   experiment_id: string;
   verdict: AnalysisVerdict;
   estimand: string | null;
-  arms: { variant: string; n_assigned: number; n_success: number | null }[];
+  arms: { variant: string; n_assigned: number; n_success: number | null; n_censored: number | null; n_missing: number | null }[];
+  /** e.g. "FINAL" or "INTERIM", when the producer states it. */
+  phase: string | null;
   effect: { contrast: string; estimate: number; ci_low: number; ci_high: number; ci_level: number; method: string } | null;
   reasons_withheld: string[];
   warnings: string[];
@@ -266,6 +268,19 @@ export interface UpstreamAnalysis {
 export interface MatchRefusal {
   job_id: string;
   reasons: string[];
+}
+
+/** Per-posting facts from lane A's `ext` envelope (jobs_ext.json). Display only. */
+export interface JobFacet {
+  /** Duplicate cluster id and its size, as computed by lane A. */
+  duplicate_cluster: string | null;
+  duplicate_members: string[];
+  duplicate_of: string | null;
+  security_flags: string[];
+  /** Null when the envelope does not say: unknown provenance, never assumed real or synthetic. */
+  synthetic: boolean | null;
+  status_reason: string | null;
+  employer_id: string | null;
 }
 
 /** What the bundle was built from, for honest labelling and for lane E's ui_report. */

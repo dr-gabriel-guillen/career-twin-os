@@ -44,11 +44,17 @@ export default function JobsPage() {
   const duplicates = useMemo(() => {
     const groups = new Map<string, JobPosting[]>();
     for (const j of bundle.jobs) {
-      const k = duplicateKey(j);
+      const f = bundle.jobFacets[j.id];
+      const k = Object.keys(bundle.jobFacets).length > 0 ? f?.duplicate_cluster ?? `single:${j.id}` : duplicateKey(j);
       groups.set(k, [...(groups.get(k) ?? []), j]);
     }
     return groups;
-  }, [bundle.jobs]);
+  }, [bundle.jobs, bundle.jobFacets]);
+
+  // When lane A's envelope is available, duplicates come from its dedup clusters, not from a title heuristic.
+  const facets = bundle.jobFacets;
+  const hasFacets = Object.keys(facets).length > 0;
+  const groupKey = (j: JobPosting) => (hasFacets ? facets[j.id]?.duplicate_cluster ?? `single:${j.id}` : duplicateKey(j));
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -68,11 +74,11 @@ export default function JobsPage() {
       // Keep the most recently captured posting of each likely-duplicate group.
       const keep = new Map<string, JobPosting>();
       for (const j of list) {
-        const k = duplicateKey(j);
+        const k = groupKey(j);
         const cur = keep.get(k);
         if (!cur || j.fetched_at > cur.fetched_at) keep.set(k, j);
       }
-      list = list.filter((j) => keep.get(duplicateKey(j)) === j);
+      list = list.filter((j) => keep.get(groupKey(j)) === j);
     }
     const score = (j: JobPosting, kind: SortKey): number => {
       const m = matchByJob.get(j.id);
@@ -86,7 +92,7 @@ export default function JobsPage() {
       if (sort === "captured") return b.fetched_at.localeCompare(a.fetched_at) || a.id.localeCompare(b.id);
       return score(b, sort) - score(a, sort) || a.id.localeCompare(b.id);
     });
-  }, [bundle.jobs, query, family, remote, status, fresh, shortOnly, collapse, sort, clock, workspace.shortlist, workspace.strategicBlend, matchByJob]);
+  }, [bundle.jobs, bundle.jobFacets, query, family, remote, status, fresh, shortOnly, collapse, sort, clock, workspace.shortlist, workspace.strategicBlend, matchByJob]);
 
   const toggleShortlist = (j: JobPosting) => {
     const was = workspace.shortlist.includes(j.id);
@@ -237,18 +243,24 @@ export default function JobsPage() {
           {visible.map((j) => {
             const f = freshness(j.fetched_at, clock);
             const comp = formatCompensation(j.compensation);
-            const group = duplicates.get(duplicateKey(j)) ?? [];
+            const group = duplicates.get(groupKey(j)) ?? [];
+            const facet = facets[j.id];
             const m = matchByJob.get(j.id);
             return (
               <Card as="li" key={j.id} headingLevel={3} title={j.title} data-testid={`job-${j.id}`}>
                 <div className="ct-row">
-                  <SyntheticBadge />
+                  {j.source === "synthetic" || facet?.synthetic === true ? <SyntheticBadge /> : <Badge tone="warning">Provenance not verified</Badge>}
                   <Badge>{familyLabel(j.role_family)}</Badge>
+                  {(facet?.security_flags ?? []).map((flag) => (
+                    <Badge key={flag} tone="danger" title="Flagged by the data lane during ingestion">
+                      {humanise(flag)}
+                    </Badge>
+                  ))}
                   <Badge tone={STATUS_TEXT[j.status].tone}>{STATUS_TEXT[j.status].label}</Badge>
                   <Badge tone={FRESH_TONE[f.level]}>{f.label}</Badge>
                   {group.length > 1 ? (
                     <Badge tone="warning" title={group.map((g) => g.id).join(", ")}>
-                      Possible duplicate ({group.length} postings)
+                      {hasFacets ? "Duplicate cluster" : "Possible duplicate"} ({group.length} postings)
                     </Badge>
                   ) : null}
                 </div>

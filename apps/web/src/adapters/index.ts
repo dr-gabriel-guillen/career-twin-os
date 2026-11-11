@@ -28,6 +28,7 @@ import type {
   BundleProvenance,
   CandidatePreferences,
   EvidenceItem,
+  JobFacet,
   ExperimentAssignment,
   ExperimentOutcome,
   MatchExplanation,
@@ -73,6 +74,7 @@ export interface BundleExtras {
   matchRefusals: MatchRefusal[];
   provenance: BundleProvenance;
   notes: string[];
+  jobFacets?: Record<string, JobFacet>;
 }
 
 /** Where payloads come from: bundled fixtures, or the artifacts of an integration run. */
@@ -160,6 +162,8 @@ export interface DataBundle {
   matchRefusals: MatchRefusal[];
   provenance: BundleProvenance;
   sourceNotes: string[];
+  /** Lane A's per-posting facets, when the source provides its envelope. Empty otherwise. */
+  jobFacets: Record<string, JobFacet>;
   reports: AdapterReport[];
 }
 
@@ -336,6 +340,7 @@ export async function loadBundle(source: PayloadSource): Promise<DataBundle> {
     analyses: extras.analyses.filter((a) => expIds.has(a.experiment_id)),
     matchRefusals: extras.matchRefusals,
     provenance: extras.provenance,
+    jobFacets: extras.jobFacets ?? {},
     sourceNotes: [
       ...extras.notes,
       ...extras.analyses.filter((a) => !expIds.has(a.experiment_id)).map((a) => `analysis for unknown experiment '${a.experiment_id.slice(0, 80)}' was dropped`),

@@ -16,8 +16,9 @@
     "fixtures:check": "node scripts/generate-fixtures.ts --check",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "verify": "npm run fixtures:check && npm run typecheck && npm run test && npm run build && npm run test:e2e",
-    "e2e:integration": "node scripts/e2e-integration.mjs"
+    "verify": "npm run fixtures:check && npm run typecheck && npm run test && npm run build && npm run test:e2e && npm run test:integration",
+    "e2e:integration": "node scripts/e2e-integration.mjs",
+    "test:integration": "node scripts/e2e-integration.mjs --artifacts tests/upstream-samples/pipeline --report test-results/ui_report.pipeline.json"
   },
   "dependencies": {
     "react": "19.3.1",

@@ -171,7 +171,8 @@ describe("résumé variants, assignments, analysis", () => {
   it("analysis: stub decision and lane B verdicts are read; anything else yields no result at all", () => {
     const stub = analysisFromUpstream(sample("e-stub", "analysis.json"));
     expect(stub.payload).toMatchObject({ experiment_id: "exp-syn-s7-0002", verdict: "INCONCLUSIVE", estimand: "ITT" });
-    expect(stub.payload!.arms).toEqual([{ variant: "A", n_assigned: 13, n_success: 4 }, { variant: "B", n_assigned: 11, n_success: 3 }]);
+    // The stub reports no censoring or missingness counts; they stay unknown (null), not zero.
+    expect(stub.payload!.arms).toEqual([{ variant: "A", n_assigned: 13, n_success: 4, n_censored: null, n_missing: null }, { variant: "B", n_assigned: 11, n_success: 3, n_censored: null, n_missing: null }]);
     expect(stub.payload!.effect!.ci_low).toBeLessThan(0);
     expect(stub.payload!.effect!.ci_high).toBeGreaterThan(0);
     const b = analysisFromUpstream({ experiment_id: "e", verdict: "INTERIM_NO_CLAIM", claim: null, reasons_withheld: ["planned sample not reached"], warnings: ["w"], interpretation_limits: ["l"] });
@@ -323,5 +324,139 @@ describe("pipeline artifacts (lane E layout) through the artifact source", () =>
     expect(p.diagnostics).toMatchObject({ cumulative_explained_variance: null, trustworthiness: null, continuity: null });
     // Points say projection_id "proj-stub-pca-s7" but diagnostics say "p": the strict validator catches the mismatch.
     expect(issues(isAtlasProjection, p).join(" ")).toContain("different projection");
+  });
+});
+
+describe("REAL integrated pipeline run: lane A -> lane B -> lane C (pinned under pipeline/)", () => {
+  const raw = (file: string) => sample("pipeline", file) as any;
+
+  it("loads cleanly: every dialect recognised, nothing mock, nothing missing, nothing rejected", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    expect(b.jobs).toHaveLength(raw("jobs.json").length);
+    expect(totalRejected(b)).toBe(0);
+    expect(b.provenance.mock_sources).toEqual([]);
+    expect(b.provenance.missing).toEqual([]);
+    expect(b.provenance.dialects).toMatchObject({
+      "jobs.json": "frozen JobPosting[]",
+      "matches.json": "a-match/0.1 shortlist",
+      "resume_variant.json": "careertwin.b.resume-variant.v1",
+      "assignments.json": "lane-b-assignment",
+      "analysis.json": "careertwin.b.analysis-report.v1",
+      "atlas_points.json": "atlas-points+diagnostics",
+    });
+    expect(b.matches).toHaveLength(raw("matches.json").length);
+    expect(b.matchRefusals).toHaveLength(raw("matches_full.json").refusals.length);
+    expect(b.assignments).toHaveLength(raw("assignments.json").length);
+    expect(b.experiments.map((e) => e.id)).toEqual([raw("experiment.json").id]);
+    expect(b.projections[0]!.points).toHaveLength(raw("atlas_points.json").length);
+    expect(b.scenarios.every((s) => s.outputs?.schema_version === "scenario-outputs/0.1")).toBe(true);
+    // Every source posting is synthetic by its own frozen field AND by the data lane's envelope.
+    expect(new Set(b.jobs.map((j) => j.source))).toEqual(new Set(["synthetic"]));
+    expect(Object.values(b.jobFacets).every((f) => f.synthetic === true)).toBe(true);
+  });
+
+  it("lane A: unknown components stay unknown, known weights sum to 1, only the lane A score_type is accepted", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const src = raw("matches.json") as any[];
+    let unknown = 0;
+    for (const m of b.matches) {
+      const original = src.find((x) => x.job_id === m.job_id);
+      expect(m.overall?.score).toBe(original.score);
+      expect(m.score_type).toBe("relative_heuristic_not_offer_probability");
+      for (const group of [m.near_term_fit, m.strategic_value]) {
+        for (const c of group.components) {
+          const oc = original.components[c.key];
+          if (oc.state !== "known") {
+            unknown++;
+            expect(c).toMatchObject({ value: null, status: "unknown", weight: 0 });
+          } else expect(c.value).toBe(oc.value);
+        }
+        const known = group.components.filter((c) => c.status === "known");
+        if (known.length > 0) expect(known.reduce((s, c) => s + c.weight, 0)).toBeCloseTo(1, 2);
+      }
+    }
+    expect(unknown).toBe(src.flatMap((x) => Object.values(x.components) as any[]).filter((c) => c.state !== "known").length);
+    expect(unknown).toBeGreaterThan(0);
+    // A lane-A payload carrying the retired reference constant is refused.
+    const tampered = clone(src);
+    tampered[0].score_type = "relative_heuristic_not_hiring_probability";
+    const parsed = parseList(matchesFromUpstream(tampered, { subject: "s", computedAt: "2026-11-10T00:00:00Z" }).payload, isMatchExplanation);
+    expect(parsed.rejected).toHaveLength(1);
+    expect(parsed.rejected[0]!.issues[0]!.path).toContain("score_type");
+  });
+
+  it("lane A facets: duplicate clusters and ingestion flags are read from the envelope, not guessed", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const ext = raw("jobs_ext.json") as any[];
+    expect(Object.keys(b.jobFacets)).toHaveLength(ext.length);
+    const clusters = new Set(ext.filter((r) => r.ext.dedup.members.length > 1).map((r) => r.ext.dedup.cluster_id));
+    const seen = new Set(Object.values(b.jobFacets).filter((f) => f.duplicate_members.length > 1).map((f) => f.duplicate_cluster));
+    expect(seen).toEqual(clusters);
+    expect(Object.values(b.jobFacets).filter((f) => f.security_flags.length > 0)).toHaveLength(ext.filter((r) => r.ext.security_flags.length > 0).length);
+    // Without the envelope there are no facets, and provenance is unknown rather than assumed.
+    const bare = await loadBundle(createArtifactSource(reader("pipeline", {}, ["jobs_ext.json"])));
+    expect(bare.jobFacets).toEqual({});
+  });
+
+  it("lane B: résumé variant is traceable and export-clean; refused claims are surfaced; nothing is pre-approved", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const src = raw("resume_variant.json");
+    const v = b.resumeVariants[0]!;
+    expect(v.id).toBe(src.id);
+    expect(v.approval).toBeNull();
+    expect(v.target_job_id).toBe(raw("pin.json").job_id);
+    expect(v.sections[0]!.bullets.map((x) => [x.text, x.claim_ids])).toEqual(src.bullets.map((x: any) => [x.text, [x.claim_id]]));
+    const review = reviewVariant(v, b.claims, b.clock);
+    expect(review.blocking).toBe(0);
+    expect(review.exportAllowed).toBe(false); // clean, but the user has not approved it
+    expect(b.sourceNotes.join(" ")).toContain(`refused ${src.refused_claims.length} claim(s)`);
+    expect(b.sourceNotes.join(" ")).toContain("UNPROVEN_REQUIREMENTS");
+  });
+
+  it("lane B: analysis report is carried over verbatim (verdict, counts, interval, limits) and assignments validate", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const src = raw("analysis.json");
+    const a = b.analyses[0]!;
+    expect(a.verdict).toBe(src.verdict);
+    expect(a.phase).toBe(src.phase);
+    expect(a.producer).toBe("careertwin.b.analysis-report.v1");
+    for (const arm of a.arms) {
+      const f = src.flow.by_arm[arm.variant];
+      expect([arm.n_assigned, arm.n_success, arm.n_censored, arm.n_missing]).toEqual([f.units, f.success, f.censored, f.missing]);
+    }
+    expect(a.effect).toMatchObject({ estimate: src.comparisons[0].estimate, ci_low: src.comparisons[0].interval_95.low, ci_high: src.comparisons[0].interval_95.high, method: src.comparisons[0].interval_95.method });
+    expect(a.reasons_withheld).toEqual(src.reasons_withheld);
+    expect(a.interpretation_limits).toEqual(src.interpretation_limits);
+    const asg = raw("assignments.json") as any[];
+    expect(b.assignments.map((x) => [x.id, x.variant, x.unit_id])).toEqual(asg.map((x) => [x.assignment_id, x.variant, x.unit_id]));
+    expect(new Set(b.assignments.map((x) => x.unit_id)).size).toBe(asg.length); // no unit assigned twice
+  });
+
+  it("lane B: the pipeline application reached submitted by the user, with an approval record", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const pin = raw("pin.json").job_id;
+    const app = groupApplications(b.applicationEvents).find((x) => x.job_id === pin && x.submittedAt !== null)!;
+    expect(app.approvalTokenRef).toBeTruthy();
+    expect(app.events.filter((e) => e.event_type === "submitted").every((e) => e.actor === "user")).toBe(true);
+    expect(app.events.filter((e) => e.event_type === "approved").every((e) => e.actor === "user")).toBe(true);
+  });
+
+  it("lane C: diagnostics are carried over, points join to postings, and scenario coverage is the analytics lane value", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const d = raw("atlas_diagnostics.json");
+    const p = b.projections[0]!;
+    expect(p.diagnostics.trustworthiness).toEqual({ k: d.k, value: d.trustworthiness });
+    expect(p.diagnostics.continuity).toEqual({ k: d.k, value: d.continuity });
+    expect(p.diagnostics.cumulative_explained_variance).toBeCloseTo(d.explained_variance_cumulative, 9);
+    expect(p.diagnostics.knn_recall).toEqual({ k: d.k, value: d.knn_recall_mean });
+    expect(p.warnings).toContain(d.information_loss.statement);
+    const jobIds = new Set(b.jobs.map((j) => j.id));
+    const jobPoints = p.points.filter((x) => x.representation_type === "job");
+    expect(jobPoints.length).toBeGreaterThan(0);
+    expect(jobPoints.every((x) => jobIds.has(x.entity_id))).toBe(true);
+    expect(p.entities.filter((e) => e.job_id !== null).every((e) => e.role_family !== null)).toBe(true);
+    const [row] = compareScenarios(b.scenarios, {}, DEFAULT_SIMULATOR);
+    expect(row!.coverageBasis).toBe("upstream");
+    expect(row!.coverageAfter).toBe(raw("scenarios.json")[0].outputs.coverage_after);
   });
 });

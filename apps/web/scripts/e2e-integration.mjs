@@ -1,7 +1,7 @@
 /**
  * Lane E `ui.e2e` stage (see apps/web/integration-manifest.json and Issue #5).
  *
- *   npm run e2e:integration -- --artifacts <dir>
+ *   npm run e2e:integration -- --artifacts <dir> [--report <file>]
  *
  * Renders the artifacts that lanes A/B/C produced in an integration run, drives
  * the UI with the keyboard only, and writes <dir>/ui_report.json.
@@ -27,13 +27,15 @@ if (!artifactsArg) {
   process.exit(2);
 }
 const artifacts = resolve(process.cwd(), artifactsArg);
-const reportPath = join(artifacts, "ui_report.json");
+// Default report location is the artifacts folder (lane E layout). --report overrides it, so a
+// pinned sample folder is never written to.
+const reportPath = flag("--report") ? resolve(process.cwd(), flag("--report")) : join(artifacts, "ui_report.json");
 const factsPath = join(WEB, "test-results", "integration-facts.json");
 const resultsPath = join(WEB, "test-results", "integration-results.json");
 const served = join(WEB, "dist", "artifacts");
 
 function writeReport(report) {
-  mkdirSync(artifacts, { recursive: true });
+  mkdirSync(dirname(reportPath), { recursive: true });
   writeFileSync(reportPath, JSON.stringify(report, null, 2) + "\n", "utf8");
   console.log(`ui_report.json -> ${reportPath}`);
 }

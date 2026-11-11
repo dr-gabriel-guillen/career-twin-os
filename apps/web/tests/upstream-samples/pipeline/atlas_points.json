@@ -1,0 +1,1567 @@
+[
+ {
+  "coords": [
+   -1.232995,
+   -0.938161
+  ],
+  "entity_id": "jp_01a3867a6331d6abd521",
+  "fit_metric_ref": null,
+  "label": "Director, UI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_01a3867a6331d6abd521",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.656069,
+   0.988729
+  ],
+  "entity_id": "jp_021323feeaf331e6f84b",
+  "fit_metric_ref": null,
+  "label": "Field CTO",
+  "neighborhood_quality": 0.3,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_021323feeaf331e6f84b",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.25504,
+   -0.549936
+  ],
+  "entity_id": "jp_07f1b3d92806d964c525",
+  "fit_metric_ref": null,
+  "label": "\uff33\uff45\uff4e\uff49\uff4f\uff52 Engineer",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_07f1b3d92806d964c525",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.158796,
+   0.923932
+  ],
+  "entity_id": "jp_12d0c10a885898ddd73c",
+  "fit_metric_ref": null,
+  "label": "Senior GenAI Architect",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_12d0c10a885898ddd73c",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.129527,
+   0.16536
+  ],
+  "entity_id": "jp_1b885cf5f1e735f588dd",
+  "fit_metric_ref": null,
+  "label": "Staff Technical Product Manager",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_1b885cf5f1e735f588dd",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.976259,
+   0.664461
+  ],
+  "entity_id": "jp_26b534c63da8bf27e6a6",
+  "fit_metric_ref": null,
+  "label": "Staff AI Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_26b534c63da8bf27e6a6",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.255564,
+   -0.71036
+  ],
+  "entity_id": "jp_2fc937eb1186b1cae451",
+  "fit_metric_ref": null,
+  "label": "Staff Software Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_2fc937eb1186b1cae451",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.21603,
+   0.23196
+  ],
+  "entity_id": "jp_309f989f04eda0dda2b2",
+  "fit_metric_ref": null,
+  "label": "Senior Technical Product Manager",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_309f989f04eda0dda2b2",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.193177,
+   0.027313
+  ],
+  "entity_id": "jp_33e82e5280cfde47cd8c",
+  "fit_metric_ref": null,
+  "label": "Senior Engineering Manager",
+  "neighborhood_quality": 0.1,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_33e82e5280cfde47cd8c",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -1.376445,
+   -1.094175
+  ],
+  "entity_id": "jp_391608999dde8dafc918",
+  "fit_metric_ref": null,
+  "label": "Senior UI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_391608999dde8dafc918",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.148469,
+   1.281014
+  ],
+  "entity_id": "jp_3cda28242bf1d2c6470a",
+  "fit_metric_ref": null,
+  "label": "Senior Applied AI Architect",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_3cda28242bf1d2c6470a",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.084375,
+   0.115285
+  ],
+  "entity_id": "jp_3e6d8112b1cfbb0018ce",
+  "fit_metric_ref": null,
+  "label": "Senior Security Engineer",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_3e6d8112b1cfbb0018ce",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -1.460758,
+   -1.184355
+  ],
+  "entity_id": "jp_3f9626d70fea40dde8e7",
+  "fit_metric_ref": null,
+  "label": "Senior Frontend Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_3f9626d70fea40dde8e7",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.225293,
+   0.343494
+  ],
+  "entity_id": "jp_45efe0e7c384ab078422",
+  "fit_metric_ref": null,
+  "label": "Director, Product Manager",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_45efe0e7c384ab078422",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.137143,
+   -0.419363
+  ],
+  "entity_id": "jp_47709947dc0c073946b5",
+  "fit_metric_ref": null,
+  "label": "Staff Data Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_47709947dc0c073946b5",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.304046,
+   1.320794
+  ],
+  "entity_id": "jp_47ba7eb37f34fea44e98",
+  "fit_metric_ref": null,
+  "label": "Staff Implementation Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_47ba7eb37f34fea44e98",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.115332,
+   0.11382
+  ],
+  "entity_id": "jp_48a9c0ec48d8950335ad",
+  "fit_metric_ref": null,
+  "label": "Junior Machine Learning Engineer",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_48a9c0ec48d8950335ad",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.292132,
+   -1.003995
+  ],
+  "entity_id": "jp_49ea3fc4d7c7b4b53507",
+  "fit_metric_ref": null,
+  "label": "Senior UI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_49ea3fc4d7c7b4b53507",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.517937,
+   0.929973
+  ],
+  "entity_id": "jp_4a99c25afd13ca1282fa",
+  "fit_metric_ref": null,
+  "label": "Senior Sales Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_4a99c25afd13ca1282fa",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.401154,
+   -1.11999
+  ],
+  "entity_id": "jp_4c483780a82e6e9abff3",
+  "fit_metric_ref": null,
+  "label": "Frontend Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_4c483780a82e6e9abff3",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.127001,
+   0.118279
+  ],
+  "entity_id": "jp_4e4e844703a31bb93234",
+  "fit_metric_ref": null,
+  "label": "Junior Security Engineer",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_4e4e844703a31bb93234",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.459778,
+   0.848564
+  ],
+  "entity_id": "jp_4f2c77e4862e08c24499",
+  "fit_metric_ref": null,
+  "label": "Junior Solutions Architect",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_4f2c77e4862e08c24499",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.191044,
+   -0.462298
+  ],
+  "entity_id": "jp_514f585292aeaf36a398",
+  "fit_metric_ref": null,
+  "label": "Senior Backend Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_514f585292aeaf36a398",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.074322,
+   -0.514931
+  ],
+  "entity_id": "jp_5150a4525c98a3d208e0",
+  "fit_metric_ref": null,
+  "label": "Junior DevOps Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_5150a4525c98a3d208e0",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.797951,
+   0.408693
+  ],
+  "entity_id": "jp_51b5051c298c8577e9ca",
+  "fit_metric_ref": null,
+  "label": "Senior Technical Account Manager",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_51b5051c298c8577e9ca",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.156962,
+   0.142852
+  ],
+  "entity_id": "jp_550640e39c3ba517423f",
+  "fit_metric_ref": null,
+  "label": "Senior Product Manager",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_550640e39c3ba517423f",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.082261,
+   -0.695527
+  ],
+  "entity_id": "jp_5672fefbf01ad86dc8e9",
+  "fit_metric_ref": null,
+  "label": "Staff Platform Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_5672fefbf01ad86dc8e9",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.861162,
+   -0.53193
+  ],
+  "entity_id": "jp_5a52c451ecac36af6734",
+  "fit_metric_ref": null,
+  "label": "Junior Infrastructure Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_5a52c451ecac36af6734",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.98964,
+   0.435512
+  ],
+  "entity_id": "jp_5b6cda89bed49bc97f2b",
+  "fit_metric_ref": null,
+  "label": "Director, ML Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_5b6cda89bed49bc97f2b",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.097819,
+   -0.310763
+  ],
+  "entity_id": "jp_617121e1c1b178787813",
+  "fit_metric_ref": null,
+  "label": "Senior Data Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_617121e1c1b178787813",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.171822,
+   -1.029104
+  ],
+  "entity_id": "jp_61c51faaae1db3e09dfc",
+  "fit_metric_ref": null,
+  "label": "Senior Frontend Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_61c51faaae1db3e09dfc",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.657668,
+   1.245541
+  ],
+  "entity_id": "jp_6c9069f2345dbd99ec05",
+  "fit_metric_ref": null,
+  "label": "Ing\u00e9nieur Senior Backend",
+  "neighborhood_quality": 0.3,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_6c9069f2345dbd99ec05",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.132468,
+   -0.818914
+  ],
+  "entity_id": "jp_736e13cc8cd6b0cb2506",
+  "fit_metric_ref": null,
+  "label": "Junior Platform Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_736e13cc8cd6b0cb2506",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.843853,
+   0.521472
+  ],
+  "entity_id": "jp_773a8ac7c7444f8c14ae",
+  "fit_metric_ref": null,
+  "label": "Senior Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_773a8ac7c7444f8c14ae",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -1.342872,
+   -1.271617
+  ],
+  "entity_id": "jp_786250d89df084166bf3",
+  "fit_metric_ref": null,
+  "label": "Junior Frontend Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_786250d89df084166bf3",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.013898,
+   -0.541494
+  ],
+  "entity_id": "jp_7b66062f70026158cde9",
+  "fit_metric_ref": null,
+  "label": "Staff Backend Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_7b66062f70026158cde9",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.074322,
+   -0.514931
+  ],
+  "entity_id": "jp_8008ba97ffe927309367",
+  "fit_metric_ref": null,
+  "label": "Junior DevOps Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_8008ba97ffe927309367",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.378913,
+   -0.613701
+  ],
+  "entity_id": "jp_80ba8ffcb44e6d5cf255",
+  "fit_metric_ref": null,
+  "label": "Senior Backend Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_80ba8ffcb44e6d5cf255",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.571736,
+   -0.212149
+  ],
+  "entity_id": "jp_81d5036d92d51ca9c6c0",
+  "fit_metric_ref": null,
+  "label": "Staff DevOps Engineer",
+  "neighborhood_quality": 0.3,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_81d5036d92d51ca9c6c0",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.910692,
+   0.511128
+  ],
+  "entity_id": "jp_8414802465fec53f114c",
+  "fit_metric_ref": null,
+  "label": "Junior Machine Learning Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_8414802465fec53f114c",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.099355,
+   0.071978
+  ],
+  "entity_id": "jp_88a49124462d6df00f5d",
+  "fit_metric_ref": null,
+  "label": "Staff Security Architect",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_88a49124462d6df00f5d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.034366,
+   0.425222
+  ],
+  "entity_id": "jp_8a47e07636d17d90877e",
+  "fit_metric_ref": null,
+  "label": "Director, AI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_8a47e07636d17d90877e",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.342872,
+   -1.271617
+  ],
+  "entity_id": "jp_8c3df01862b237feefac",
+  "fit_metric_ref": null,
+  "label": "Junior Frontend Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_8c3df01862b237feefac",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.31414,
+   -0.570852
+  ],
+  "entity_id": "jp_8f8dcb710a3ba7504b2a",
+  "fit_metric_ref": null,
+  "label": "Staff Software Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_8f8dcb710a3ba7504b2a",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.867402,
+   -0.081571
+  ],
+  "entity_id": "jp_938874c91c06c065902d",
+  "fit_metric_ref": null,
+  "label": "Senior Data Scientist",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_938874c91c06c065902d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.363621,
+   1.117945
+  ],
+  "entity_id": "jp_a17eb339f583d830f754",
+  "fit_metric_ref": null,
+  "label": "Junior Forward Deployed Software Engineer",
+  "neighborhood_quality": 0.3,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_a17eb339f583d830f754",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.129527,
+   0.16536
+  ],
+  "entity_id": "jp_a18abfc3c6eeb870ee20",
+  "fit_metric_ref": null,
+  "label": "Staff Technical Product Manager",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_a18abfc3c6eeb870ee20",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.898119,
+   -0.217594
+  ],
+  "entity_id": "jp_a22f316073d87c7d7c7b",
+  "fit_metric_ref": null,
+  "label": "Staff Data Engineer",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_a22f316073d87c7d7c7b",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.704626,
+   -0.617233
+  ],
+  "entity_id": "jp_a2d5326b6e3231992d63",
+  "fit_metric_ref": null,
+  "label": "Principal DevOps Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_a2d5326b6e3231992d63",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.635524,
+   0.889513
+  ],
+  "entity_id": "jp_a2deef5e11600d9ed963",
+  "fit_metric_ref": null,
+  "label": "Director, Solutions Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_a2deef5e11600d9ed963",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.020972,
+   -0.704141
+  ],
+  "entity_id": "jp_a6f319ad6970d1be7056",
+  "fit_metric_ref": null,
+  "label": "Director, Platform Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_a6f319ad6970d1be7056",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.28158,
+   0.833335
+  ],
+  "entity_id": "jp_ab78ed99062919c5e1b3",
+  "fit_metric_ref": null,
+  "label": "Staff Engineer \ud83d\ude80",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_ab78ed99062919c5e1b3",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.89907,
+   0.641138
+  ],
+  "entity_id": "jp_acb2527d8b8f38ac49f8",
+  "fit_metric_ref": null,
+  "label": "Senior Forward Deployed Software Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_acb2527d8b8f38ac49f8",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.866337,
+   -0.092596
+  ],
+  "entity_id": "jp_aeb196fb673f0e5879bc",
+  "fit_metric_ref": null,
+  "label": "Principal Applied Scientist",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_aeb196fb673f0e5879bc",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.097007,
+   -0.421224
+  ],
+  "entity_id": "jp_aed069c7b4158b5a395d",
+  "fit_metric_ref": null,
+  "label": "Staff Analytics Engineer",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_aed069c7b4158b5a395d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.836748,
+   0.541346
+  ],
+  "entity_id": "jp_af2c3fff42e8d1af5126",
+  "fit_metric_ref": null,
+  "label": "Senior ML Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_af2c3fff42e8d1af5126",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.693373,
+   1.090032
+  ],
+  "entity_id": "jp_b499f6969d2167b9a463",
+  "fit_metric_ref": null,
+  "label": "Field CTO",
+  "neighborhood_quality": 0.3,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_b499f6969d2167b9a463",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.088875,
+   -0.429658
+  ],
+  "entity_id": "jp_b611287640c74905ffee",
+  "fit_metric_ref": null,
+  "label": "Senior Analytics Engineer (Updated Scope)",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_b611287640c74905ffee",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.546688,
+   -0.915396
+  ],
+  "entity_id": "jp_b7157c2f19efa12f0cbb",
+  "fit_metric_ref": null,
+  "label": "Senior UI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_b7157c2f19efa12f0cbb",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.002713,
+   -0.170065
+  ],
+  "entity_id": "jp_b78989bf475f77b9cd22",
+  "fit_metric_ref": null,
+  "label": "Junior Data Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_b78989bf475f77b9cd22",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.280377,
+   -1.14657
+  ],
+  "entity_id": "jp_b81768c4fe6d61298e24",
+  "fit_metric_ref": null,
+  "label": "Staff UI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_b81768c4fe6d61298e24",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.682396,
+   0.595242
+  ],
+  "entity_id": "jp_bc7a81d23da36bb569ff",
+  "fit_metric_ref": null,
+  "label": "Director, Technical Account Manager",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_bc7a81d23da36bb569ff",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.94207,
+   0.726443
+  ],
+  "entity_id": "jp_bd8395a1c894ddd11c8d",
+  "fit_metric_ref": null,
+  "label": "Principal Forward Deployed Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_bd8395a1c894ddd11c8d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.552971,
+   0.860834
+  ],
+  "entity_id": "jp_bdf7b3a6de2b1cd29e9f",
+  "fit_metric_ref": null,
+  "label": "Staff AI Solutions Architect",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_bdf7b3a6de2b1cd29e9f",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.564627,
+   0.514262
+  ],
+  "entity_id": "jp_bee4adfc6597dcbfc469",
+  "fit_metric_ref": null,
+  "label": "Staff ML Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_bee4adfc6597dcbfc469",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -1.095193,
+   0.673188
+  ],
+  "entity_id": "jp_c35cfd4a9fe6d926777b",
+  "fit_metric_ref": null,
+  "label": "Implementation Engineer",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_c35cfd4a9fe6d926777b",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.662361,
+   1.131037
+  ],
+  "entity_id": "jp_c3e735db0265d0594ed9",
+  "fit_metric_ref": null,
+  "label": "Senior AI Solutions Architect",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_c3e735db0265d0594ed9",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.986017,
+   -0.318169
+  ],
+  "entity_id": "jp_c92d47927ee85c7920bb",
+  "fit_metric_ref": null,
+  "label": "Analytics Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_c92d47927ee85c7920bb",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.636818,
+   0.573091
+  ],
+  "entity_id": "jp_c959d26fdf754610a08d",
+  "fit_metric_ref": null,
+  "label": "AI Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_c959d26fdf754610a08d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.844387,
+   1.222562
+  ],
+  "entity_id": "jp_c9ae32653da1c5515df6",
+  "fit_metric_ref": null,
+  "label": "Senior Implementation Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_c9ae32653da1c5515df6",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -1.280377,
+   -1.14657
+  ],
+  "entity_id": "jp_cfe260eab87c22ecce7d",
+  "fit_metric_ref": null,
+  "label": "Staff UI Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_cfe260eab87c22ecce7d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.993788,
+   -0.254239
+  ],
+  "entity_id": "jp_d050f443c7e59dd4f9e5",
+  "fit_metric_ref": null,
+  "label": "Principal Analytics Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_d050f443c7e59dd4f9e5",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.122063,
+   -0.292999
+  ],
+  "entity_id": "jp_d1d2068567245ce94c7f",
+  "fit_metric_ref": null,
+  "label": "Senior Data Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_d1d2068567245ce94c7f",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.94207,
+   0.726443
+  ],
+  "entity_id": "jp_d7e43939694ac7e7e89d",
+  "fit_metric_ref": null,
+  "label": "Principal Forward Deployed Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_d7e43939694ac7e7e89d",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.233758,
+   -0.593108
+  ],
+  "entity_id": "jp_ddc4a4378be458a9be47",
+  "fit_metric_ref": null,
+  "label": "Principal DevOps Engineer",
+  "neighborhood_quality": 0.6,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_ddc4a4378be458a9be47",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.098656,
+   0.070744
+  ],
+  "entity_id": "jp_e2e088a82bbb9e3fa74b",
+  "fit_metric_ref": null,
+  "label": "Security Architect",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e2e088a82bbb9e3fa74b",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.071961,
+   -0.19262
+  ],
+  "entity_id": "jp_e2fd59a95386adf7a520",
+  "fit_metric_ref": null,
+  "label": "Senior Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e2fd59a95386adf7a520",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   1.115332,
+   0.11382
+  ],
+  "entity_id": "jp_e3a1b8bbd4085a78fa9a",
+  "fit_metric_ref": null,
+  "label": "Junior Machine Learning Engineer",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e3a1b8bbd4085a78fa9a",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.031102,
+   -0.662971
+  ],
+  "entity_id": "jp_e3d40b21ae54d5afc3a5",
+  "fit_metric_ref": null,
+  "label": "Senior Platform Engineer",
+  "neighborhood_quality": 0.8,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e3d40b21ae54d5afc3a5",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   1.14132,
+   -0.499962
+  ],
+  "entity_id": "jp_e8813ce6c50141457427",
+  "fit_metric_ref": null,
+  "label": "DevOps Engineer",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e8813ce6c50141457427",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.257717,
+   -0.682403
+  ],
+  "entity_id": "jp_e99669bc1a7409b6f4b7",
+  "fit_metric_ref": null,
+  "label": "Senior Backend Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e99669bc1a7409b6f4b7",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.701017,
+   -0.191731
+  ],
+  "entity_id": "jp_e9fc314efd45116eab2b",
+  "fit_metric_ref": null,
+  "label": "ReenignE dnekcaB",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_e9fc314efd45116eab2b",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.240769,
+   -0.620681
+  ],
+  "entity_id": "jp_ea0957aa9593533499d9",
+  "fit_metric_ref": null,
+  "label": "Senior Platform Engineer",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_ea0957aa9593533499d9",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.197391,
+   1.427488
+  ],
+  "entity_id": "jp_ec717304a93b82492a63",
+  "fit_metric_ref": null,
+  "label": "Senior Applied AI Architect",
+  "neighborhood_quality": 0.7,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_ec717304a93b82492a63",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.853877,
+   0.415464
+  ],
+  "entity_id": "jp_ee7ebf9ed8f07b560c1c",
+  "fit_metric_ref": null,
+  "label": "Principal Implementation Engineer",
+  "neighborhood_quality": 0.5,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_ee7ebf9ed8f07b560c1c",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.657984,
+   0.637763
+  ],
+  "entity_id": "jp_f389ca2596c4215552dc",
+  "fit_metric_ref": null,
+  "label": "Senior ML Engineer",
+  "neighborhood_quality": 1.0,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_f389ca2596c4215552dc",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   -0.850638,
+   1.436233
+  ],
+  "entity_id": "jp_fb68f04c03c33f8f208a",
+  "fit_metric_ref": null,
+  "label": "Field CTO",
+  "neighborhood_quality": 0.4,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_fb68f04c03c33f8f208a",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score"
+  ]
+ },
+ {
+  "coords": [
+   0.191044,
+   -0.462298
+  ],
+  "entity_id": "jp_fd159408d5d0dfa1bfe9",
+  "fit_metric_ref": null,
+  "label": "Senior Backend Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_fd159408d5d0dfa1bfe9",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   0.191044,
+   -0.462298
+  ],
+  "entity_id": "jp_fd5e0534aa1dd5d762b0",
+  "fit_metric_ref": null,
+  "label": "Senior Backend Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_fd5e0534aa1dd5d762b0",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ },
+ {
+  "coords": [
+   -0.257717,
+   -0.682403
+  ],
+  "entity_id": "jp_fdf940b0269902634669",
+  "fit_metric_ref": null,
+  "label": "Senior Backend Engineer",
+  "neighborhood_quality": 0.9,
+  "projection_id": "pca-f0e937ba1f287585-2d",
+  "projection_method": "pca",
+  "representation_type": "job",
+  "source_vector_ref": "a-skillvec/tax-3d9727353bec/jp_fdf940b0269902634669",
+  "warnings": [
+   "map-position-is-not-a-fit-or-hiring-score",
+   "poorly-represented: most of this point's variation is outside the map"
+  ]
+ }
+]

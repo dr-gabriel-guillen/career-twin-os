@@ -1,0 +1,24 @@
+{
+ "analysis_plan": "ITT on job units; stratified permutation test; Holm; missing = no success; worst-case and uncorrected-history sensitivity analyses.",
+ "assignment_unit": "job",
+ "consent_required": true,
+ "design_locked_at": "2026-03-02T09:15:00Z",
+ "hypothesis": "There is no difference: both arms send the same evidence-backed résumé.",
+ "id": "exp-e2e-7",
+ "outcome_window_days": 30,
+ "primary_metric": "recruiter_screen",
+ "secondary_metrics": [
+  "interview"
+ ],
+ "seed_digest": "a882afba894204a03fe5bef859a92c282c54f296c65917aa5451caa07724fd8e",
+ "status": "running",
+ "stopping_rule": "Fixed horizon: 78 job units in total or the end of the job list, whichever comes first; analyse once every window has closed.",
+ "strata": [
+  "seniority"
+ ],
+ "title": "Integration A/A: two labels, identical résumé selection",
+ "variants": [
+  "control",
+  "relabelled"
+ ]
+}
