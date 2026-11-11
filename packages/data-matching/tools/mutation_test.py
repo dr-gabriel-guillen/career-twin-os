@@ -68,6 +68,17 @@ MUTANTS: list[tuple[Path, str, str, str]] = [
     (CON / "_common.py", "if rec.source_id in ids:", "if False:", "duplicate ids inside one payload accepted"),
     (CON / "_common.py", "if isinstance(value, bool) or not isinstance(value, (int, float)):\n        return None", "if isinstance(value, bool):\n        return None", "numeric strings coerced to pay"),
     (CON / "base.py", "if dt.tzinfo is None:\n        return None", "if dt.tzinfo is None:\n        dt = dt.replace(tzinfo=timezone.utc)", "naive timestamps assumed UTC"),
+    # guards added in the second adversarial review cycle
+    (SRC / "store.py", 'counts["revoked"] += self._late_revoke(env["posting"]["id"])', "pass", "late snapshot revocation disabled"),
+    (SRC / "store.py", 'if latest["ext"].get("revoked") and utc(at) > utc(latest["ext"]["revoked_at"]):', 'if latest["ext"].get("revoked"):', "older capture re-lists revoked job"),
+    (SRC / "store.py", "problem = store.state_problem()", "problem = None", "store state not bound to ledger"),
+    (SRC / "vault.py", "problem = vault.state_problem()", "problem = None", "vault state not bound to ledger"),
+    (SRC / "normalize.py", "if _NOT_PAY.search(context):", "if False:", "bonus text read as salary"),
+    (CON / "_common.py", 'return found.pop() if len(found) == 1 else "unknown"', 'return sorted(found)[-1] if found else "unknown"', "ambiguous pay period resolved to annual"),
+    (SRC / "e2e.py", 'if posting["status"] == "expired" and not ext.get("revoked"):', "if False:", "sidecar un-expires a posting"),
+    (SRC / "e2e.py", 'elif status == "supported" and not self.verified:', "elif False:", "caller-asserted supported trusted"),
+    (CON / "textsafe.py", 'or bool(set(amap.get("class", "").split()) & self.hidden_classes)', "or False", "class-hidden text kept"),
+    (CON / "_common.py", "if text and FLAG_INJECTION not in sflags:", "if text:", "injection text accepted as a skill"),
 ]
 
 
