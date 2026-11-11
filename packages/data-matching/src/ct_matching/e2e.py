@@ -214,7 +214,9 @@ def stage_vectors(jobs_path: Path, out: Path) -> dict[str, Any]:
     for jid in sorted(store.versions):
         ext = store.versions[jid][-1]["ext"]
         vec = skill_vector(ext["skills_required"], ext["skills_preferred"])
-        vectors.append({"ref": f"a-skillvec/{version}/{jid}", "entity_id": jid, "values": vec["values"], "observed": vec["observed"]})
+        posting = store.versions[jid][-1]["posting"]
+        vectors.append({"ref": f"a-skillvec/{version}/{jid}", "entity_id": jid, "values": vec["values"], "observed": vec["observed"],
+                        "fetched_at": posting["fetched_at"], "seniority": posting["seniority"], "synthetic": ext["synthetic"]})
     doc = {"version": E2E_VERSION, "vocabulary": list(taxonomy.SKILL_IDS), "vocabulary_version": version,
            "encoding": "1=required,0.5=preferred,0=not-listed; observed=false means zeros are unknown",
            "vectors": vectors, "refused": refused, "records": stats,

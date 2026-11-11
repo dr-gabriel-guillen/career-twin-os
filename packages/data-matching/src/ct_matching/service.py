@@ -182,21 +182,30 @@ class Service:
         items = [{"entity_id": e["posting"]["id"], "representation_type": "job",
                   "source_vector_ref": f"a-skillvec/{taxonomy.taxonomy_version()}/{e['posting']['id']}",
                   "label": e["posting"]["title"], "role_family": e["posting"].get("role_family", "unknown"),
-                  "status": e["posting"]["status"],
+                  "status": e["posting"]["status"], "fetched_at": e["posting"]["fetched_at"],
+                  "seniority": e["posting"]["seniority"], "synthetic": e["ext"]["synthetic"],
                   **skill_vector(e["ext"]["skills_required"], e["ext"]["skills_preferred"])}
                  for e in self.store.view(moment, canonical_only=True)]
         candidate = None
         if self.vault is not None:
             proof = self.vault.skill_proof(moment)
             values = [0.0] * len(taxonomy.SKILL_IDS)
+            states = ["none"] * len(taxonomy.SKILL_IDS)
             for skill, slot in proof.items():
+                idx = taxonomy.SKILL_INDEX[skill]
                 if slot["status"] is not None:
-                    values[taxonomy.SKILL_INDEX[skill]] = slot["weight"]
-            candidate = {"entity_id": self.vault.subject_id, "representation_type": "candidate", "values": values,
+                    values[idx], states[idx] = slot["weight"], slot["status"]
+                elif slot["contradicted_claim_ids"]:
+                    states[idx] = "contradicted"
+                elif slot["expired_claim_ids"]:
+                    states[idx] = "expired"
+            candidate = {"entity_id": self.vault.subject_id, "representation_type": "candidate", "values": values, "states": states,
                          "observed": any(values), "encoding": "evidence weight: supported=1, self-reported=0.5, unverified=0.25, none=0",
                          "source_vector_ref": f"a-skillvec/{taxonomy.taxonomy_version()}/{self.vault.subject_id}"}
         return {"api_version": API_VERSION, "as_of": moment, "vocabulary": list(taxonomy.SKILL_IDS),
+                "synthetic": bool(items) and all(i["synthetic"] for i in items),
                 "vocabulary_version": taxonomy.taxonomy_version(), "jobs": items, "candidate": candidate,
+                "role_family_note": "'unknown' means unclassified; it is never a real family id",
                 "warnings": ["Vectors are a bag-of-skills representation for visualization.",
                              "Distances between vectors or their 2D projections are NOT fit scores or hiring likelihoods.",
                              "observed=false means the posting listed no recognizable skills: zeros are unknown, not absent."]}

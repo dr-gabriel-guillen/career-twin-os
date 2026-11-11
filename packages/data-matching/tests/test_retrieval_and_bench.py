@@ -146,3 +146,14 @@ def test_perf_benchmark_smoke_and_scaling_shape():
     small = evalbench.perf_benchmark(200)
     assert small["jobs_in_store"] >= 200 and small["rejected"] == 10 and small["eligible"] > 0
     assert small["seconds"]["import_normalize_dedup"] < 30
+
+
+def test_skill_vector_payload_answers_lane_c_requests(service):
+    """C on #12: provenance on the payload, fetched_at/seniority per row, candidate per-skill states."""
+    out = service.skill_vectors(AS_OF)
+    assert out["synthetic"] is True and "unclassified" in out["role_family_note"]
+    assert all(j["fetched_at"].endswith("Z") and j["seniority"] and j["synthetic"] for j in out["jobs"])
+    states = dict(zip(out["vocabulary"], out["candidate"]["states"]))
+    assert states["deep-learning"] == "contradicted" and states["compliance"] == "expired"
+    assert states["python"] == "supported" and states["typescript"] == "self-reported" and states["rust"] == "none"
+    assert all((v == 0) == (s in ("none", "contradicted", "expired")) for v, s in zip(out["candidate"]["values"], out["candidate"]["states"]))
