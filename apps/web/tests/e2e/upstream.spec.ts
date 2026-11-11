@@ -108,3 +108,37 @@ test("pipeline analysis is shown as given; integration mode never writes the sto
   await expect(page.getByTestId("adapter-matches")).toContainText("a-match/0.1");
   await expect(page.getByTestId("adapter-evidence")).toContainText("Not provided by this source");
 });
+
+test("lane E injection corpus: 24 poisoned postings render as inert text (active HTML, prompt injection, bidi and zero-width)", async ({ page }) => {
+  // Produced by lane E's `ctint.sec_inject.poison_jobs(jobs, seed=7)` at a2e50e3 from the pinned stub jobs.
+  const poisoned = readFileSync(join(WEB, "tests", "upstream-samples", "e-stub", "jobs.poisoned.json"), "utf8");
+  const postings = JSON.parse(poisoned) as { id: string; requirements: string[] }[];
+  let dialogs = 0;
+  page.on("dialog", (d) => {
+    dialogs++;
+    void d.dismiss();
+  });
+  // Serve only the poisoned feed. Every other artifact is absent: like the real static server,
+  // the route answers unknown paths with the app shell, which the reader treats as "not provided".
+  await page.route("**/artifacts/*.json", (route) =>
+    route.request().url().endsWith("/artifacts/jobs.json") ? route.fulfill({ contentType: "application/json", body: poisoned }) : route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>app shell</title>" }),
+  );
+  await open(page, "/jobs", "Discover Jobs");
+  await expect(page.getByTestId("job-count")).toHaveText(`Showing ${postings.length} of ${postings.length} postings`);
+  const cards = page.getByTestId("jobs-cards");
+  for (const summary of await cards.getByText(/^Requirements text/).all()) await summary.click();
+  // Every hostile string is on the page verbatim, as text.
+  const text = await cards.innerText();
+  const hostile = postings.flatMap((p) => p.requirements).filter((r) => /<|CT-CANARY-/.test(r));
+  expect(hostile.length).toBeGreaterThanOrEqual(24);
+  for (const h of hostile) expect(text, h.slice(0, 80)).toContain(h.replace(/\s+/g, " ").trim().slice(0, 60));
+  // ...and none of it became an element, a handler or a link.
+  expect(await cards.locator("script, img, iframe, object, embed, svg, video, audio, form, style, link, meta, base, [onerror], [onload], [onclick], a[href^='javascript'], a[href^='data']").count()).toBe(0);
+  expect(await page.locator("a[href^='http']").count()).toBe(0);
+  expect(dialogs).toBe(0);
+  const leaked = await page.evaluate(() => Object.keys(window).filter((k) => /canary|xss|pwn/i.test(k)));
+  expect(leaked).toEqual([]);
+  await page.getByTestId("job-view-table").click();
+  await expect(page.getByTestId("jobs-table").locator("tbody tr")).toHaveCount(postings.length);
+  await expect(page).toHaveURL(/source=artifacts#\/jobs$/);
+});
