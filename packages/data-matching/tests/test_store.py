@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from conftest import make_env, posting
+from a_testkit import make_env, posting
 from ct_connectors import ConnectorError
 from ct_matching.normalize import job_id
 from ct_matching.store import JobStore, Ledger

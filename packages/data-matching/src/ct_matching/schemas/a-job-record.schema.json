@@ -190,6 +190,10 @@
             "alias_ambiguous": {
               "type": "boolean"
             },
+            "id": {
+              "pattern": "^emp_[0-9a-f]{16}$",
+              "type": "string"
+            },
             "key": {
               "type": "string"
             },
@@ -204,6 +208,7 @@
             }
           },
           "required": [
+            "id",
             "name",
             "key",
             "org_uid",

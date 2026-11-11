@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from conftest import AS_OF, make_env, posting
+from a_testkit import AS_OF, make_env, posting
 from ct_matching import schema
 from ct_matching.matching import (DEFAULT_WEIGHTS, NEAR_SIGNALS, STRATEGIC_SIGNALS, MatchRequestError, compose, rank)
 from ct_matching.service import RequestError, Service, vault_from_profile
@@ -322,7 +322,7 @@ def test_compose_handles_all_unknown_and_partial():
 
 
 def test_legacy_main_fixture_profile_is_consumable(service):
-    from conftest import ROOT
+    from a_testkit import ROOT
     legacy = json.loads((ROOT / "fixtures" / "synthetic_profile.json").read_text(encoding="utf-8"))
     result = service.rank({"as_of": AS_OF, "profile": legacy, "top_n": 5})
     schema.check(result, "a-match-result")

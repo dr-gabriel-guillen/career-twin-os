@@ -1,6 +1,6 @@
 import pytest
 
-from conftest import make_env, posting
+from a_testkit import make_env, posting
 from ct_connectors import parse_envelope
 from ct_matching.normalize import (comp_from_text, employer_key, employment_of, job_id, location_of, normalize,
                                    remote_of, resolve_compensation, seniority_of, split_sections, title_key)

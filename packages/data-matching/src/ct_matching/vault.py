@@ -74,6 +74,7 @@ class EvidenceVault:
             self.ledger.append(_stamp(at), "evidence-revoked", evidence_id, {"reason": clean_text(reason, limit=200)[0]})
             for cid, claim in self.claims.items():
                 if evidence_id in claim["evidence_ids"]:
+                    claim["updated_at"] = max(claim["updated_at"], _stamp(at))
                     self._rederive(cid, _stamp(at))
 
     def add_claim(self, claim_type: str, claim_text: str, at: str, *, skills: list[str] | None = None,
@@ -112,6 +113,7 @@ class EvidenceVault:
         self._evidence(evidence_id)
         if evidence_id not in claim["evidence_ids"]:
             claim["evidence_ids"] = sorted(claim["evidence_ids"] + [evidence_id])
+            claim["updated_at"] = max(claim["updated_at"], _stamp(at))
             self.ledger.append(_stamp(at), "evidence-attached", claim_id, {"evidence_id": evidence_id})
         return self._rederive(claim_id, _stamp(at))
 
@@ -230,6 +232,8 @@ class EvidenceVault:
                 withheld["status"] += 1
             else:
                 item = dict(claim)
+                # Consumers only ever see live evidence, so "supported" always implies a non-empty list.
+                item["evidence_ids"] = [e for e in claim["evidence_ids"] if not self.evidence[e]["revoked"]]
                 schema.check(item, "profile-claim")
                 claims.append(item)
         return {"subject_id": self.subject_id, "mode": mode, "as_of": _stamp(as_of), "claims": claims,

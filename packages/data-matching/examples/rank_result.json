@@ -1,0 +1,891 @@
+{
+ "api_version": "a-match/0.1",
+ "as_of": "2026-11-10T00:00:00Z",
+ "corpus": {
+  "considered": 190,
+  "eligible": 71,
+  "refusal_reasons": {
+   "availability": 13,
+   "compensation-floor": 5,
+   "content-integrity": 6,
+   "duplicate-of": 8,
+   "employment-type": 29,
+   "jurisdiction": 56,
+   "phantom-risk": 4,
+   "remote-policy": 22,
+   "seniority-band": 20
+  },
+  "refused": 119
+ },
+ "disclaimers": [
+  "Score is a relative ordering heuristic over synthetic/offline data; it is NOT an offer, interview or hiring probability.",
+  "Unknown inputs are excluded from the point score and shown as a wider score interval; they are never treated as zero.",
+  "Compensation is only reported when the source stated an annual figure with an explicit currency; it is never inferred or converted.",
+  "customer_proximity, enterprise_delivery and transition_utility rest on lane A's authored taxonomy priors, not measured outcomes.",
+  "Availability reflects the last capture; lane A cannot confirm a posting is still open."
+ ],
+ "note": "example: refusals reduced to one per reason class; result_hash is of the full result",
+ "policy": {
+  "proof_weight": {
+   "contradicted": 0.0,
+   "self-reported": 0.5,
+   "supported": 1.0,
+   "unverified": 0.25
+  },
+  "strategy_weight": 0.5,
+  "target_families": [
+   "ai-architect",
+   "fde",
+   "field-cto"
+  ],
+  "unmapped_target_roles": [],
+  "weights": {
+   "customer_proximity": 0.25,
+   "enterprise_delivery": 0.25,
+   "proof_strength": 0.2,
+   "seniority_alignment": 0.2,
+   "skill_coverage": 0.45,
+   "transition_utility": 0.5,
+   "workstyle": 0.15
+  }
+ },
+ "refusals": [
+  {
+   "job_id": "jp_147ea7771c663e3e47a5",
+   "reasons": [
+    "availability: expired: delisted-by-source"
+   ]
+  },
+  {
+   "job_id": "jp_16ae601fb61fc8fa7a7e",
+   "reasons": [
+    "compensation-floor: stated maximum 146000 USD is below floor"
+   ]
+  },
+  {
+   "job_id": "jp_36f3a1e53c071f3132ac",
+   "reasons": [
+    "content-integrity: prompt-injection-suspected: posting text tries to instruct automated readers",
+    "jurisdiction: DE"
+   ]
+  },
+  {
+   "job_id": "jp_514f585292aeaf36a398",
+   "reasons": [
+    "duplicate-of:jp_fd159408d5d0dfa1bfe9"
+   ]
+  },
+  {
+   "job_id": "jp_02c6424e834ee28982fc",
+   "reasons": [
+    "employment-type: contract"
+   ]
+  },
+  {
+   "job_id": "jp_04b76a1a28bbbc07fe56",
+   "reasons": [
+    "jurisdiction: GB",
+    "seniority-band: junior"
+   ]
+  },
+  {
+   "job_id": "jp_2ede28ef6dc3926478fc",
+   "reasons": [
+    "phantom-risk: evergreen/talent-pool requisition: no specific opening stated",
+    "jurisdiction: CA"
+   ]
+  },
+  {
+   "job_id": "jp_17374dc57a2327c5b446",
+   "reasons": [
+    "remote-policy: onsite"
+   ]
+  },
+  {
+   "job_id": "jp_073dc107c284f40c8edb",
+   "reasons": [
+    "seniority-band: junior"
+   ]
+  }
+ ],
+ "result_hash": "477133f22ae3f0408cc3e0684ee082935c7306107175dbd0e638e331f712b26e",
+ "score_type": "relative_heuristic_not_offer_probability",
+ "shortlist": [
+  {
+   "availability": {
+    "as_of": "2026-11-10T00:00:00Z",
+    "fetched_at": "2026-11-08T00:00:00Z",
+    "reason": "listed-at-capture",
+    "status": "active"
+   },
+   "cautions": [],
+   "compensation": {
+    "note": "unknown; not inferred",
+    "state": "absent",
+    "stated": null
+   },
+   "components": {
+    "customer_proximity": {
+     "basis": "taxonomy-prior 0.95 for fde; 4 text cue(s)",
+     "configured_weight": 0.25,
+     "contribution": 12.06,
+     "effective_weight": 0.125,
+     "group": "strategic_utility",
+     "value": 0.965
+    },
+    "enterprise_delivery": {
+     "basis": "taxonomy-prior 0.9 for fde; 4 text cue(s)",
+     "configured_weight": 0.25,
+     "contribution": 11.62,
+     "effective_weight": 0.125,
+     "group": "strategic_utility",
+     "value": 0.93
+    },
+    "proof_strength": {
+     "basis": "mean evidence weight of matched skills (supported=1, self-reported=0.5, unverified=0.25)",
+     "configured_weight": 0.2,
+     "contribution": 7.14,
+     "effective_weight": 0.1,
+     "group": "near_term_fit",
+     "value": 0.7143
+    },
+    "seniority_alignment": {
+     "basis": "staff vs preferred level",
+     "configured_weight": 0.2,
+     "contribution": 10.0,
+     "effective_weight": 0.1,
+     "group": "near_term_fit",
+     "value": 1.0
+    },
+    "skill_coverage": {
+     "basis": "7 of 9 listed skills claimed (preferred count half)",
+     "configured_weight": 0.45,
+     "contribution": 17.68,
+     "effective_weight": 0.225,
+     "group": "near_term_fit",
+     "value": 0.7857
+    },
+    "transition_utility": {
+     "basis": "taxonomy-prior: fde->fde closeness 1; exercises 80% of target core skills",
+     "configured_weight": 0.5,
+     "contribution": 23.5,
+     "effective_weight": 0.25,
+     "group": "strategic_utility",
+     "value": 0.94
+    },
+    "workstyle": {
+     "basis": "remote is preference #1",
+     "configured_weight": 0.15,
+     "contribution": 7.5,
+     "effective_weight": 0.075,
+     "group": "near_term_fit",
+     "value": 1.0
+    }
+   },
+   "composites": {
+    "near_term_fit": 84.6,
+    "rank_by_near_term_fit": 2,
+    "rank_by_strategic_utility": 7,
+    "strategic_utility": 94.4,
+    "strategy_weight": 0.5
+   },
+   "constraints": [
+    {
+     "constraint": "content-integrity",
+     "detail": "no manipulation flags",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "availability",
+     "detail": "listed-at-capture",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "remote-policy",
+     "detail": "remote",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "jurisdiction",
+     "detail": "job jurisdiction not stated or ambiguous",
+     "outcome": "unknown"
+    },
+    {
+     "constraint": "employment-type",
+     "detail": "full-time",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "seniority-band",
+     "detail": "staff",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "compensation-floor",
+     "detail": "compensation unknown (absent); not inferred",
+     "outcome": "unknown"
+    }
+   ],
+   "counterfactuals": [
+    {
+     "change": "acquire and evidence skill 'systems-integration'",
+     "kind": "skill-acquired",
+     "rank": 1,
+     "score": 93.1,
+     "score_delta": 3.6,
+     "status": "hypothetical; assumes other candidates' and postings' data unchanged"
+    },
+    {
+     "change": "attach verifying evidence to: llm-applications, typescript, ai-evaluation, security",
+     "kind": "evidence-added",
+     "rank": 1,
+     "score": 92.4,
+     "score_delta": 2.9,
+     "status": "hypothetical; assumes other candidates' and postings' data unchanged"
+    }
+   ],
+   "job_id": "jp_cfe64ae596e7153148a1",
+   "matched_skills": [
+    {
+     "claim_ids": [
+      "cl_bb2fc22231a09465"
+     ],
+     "proof_status": "supported",
+     "requirement": "required",
+     "skill": "api-design"
+    },
+    {
+     "claim_ids": [
+      "cl_368483d8b7096322"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "required",
+     "skill": "llm-applications"
+    },
+    {
+     "claim_ids": [
+      "cl_bb2fc22231a09465"
+     ],
+     "proof_status": "supported",
+     "requirement": "required",
+     "skill": "python"
+    },
+    {
+     "claim_ids": [
+      "cl_715f77ee103057b3"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "required",
+     "skill": "typescript"
+    },
+    {
+     "claim_ids": [
+      "cl_368483d8b7096322"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "preferred",
+     "skill": "ai-evaluation"
+    },
+    {
+     "claim_ids": [
+      "cl_1af399e8a0898bf0"
+     ],
+     "proof_status": "supported",
+     "requirement": "preferred",
+     "skill": "aws"
+    },
+    {
+     "claim_ids": [
+      "cl_4aede06a358adacb"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "preferred",
+     "skill": "security"
+    }
+   ],
+   "missing_preferred_skills": [
+    "executive-communication"
+   ],
+   "missing_skills": [
+    "systems-integration"
+   ],
+   "organization": "Fictional Granite Works",
+   "provenance": {
+    "content_hash": "39a50a3892305e4f506043af665518c401d74fb430c641e154ea4397a47b5815",
+    "duplicates_collapsed": [],
+    "source": "greenhouse",
+    "source_id": "188065012083",
+    "synthetic": true,
+    "url": "https://jobs.fictional-granite-works.example/positions/syn-00110",
+    "version": 1
+   },
+   "rank": 1,
+   "role_family": "fde",
+   "score": 89.5,
+   "score_interval": {
+    "high": 89.5,
+    "low": 89.5,
+    "meaning": "range of the score if unknown signals were worst-case / best-case"
+   },
+   "score_type": "relative_heuristic_not_offer_probability",
+   "sensitivity": {
+    "method": "each weight ±20%, strategy weight ±0.1, one at a time",
+    "rank_best": 1,
+    "rank_worst": 1
+   },
+   "title": "Staff Forward Deployed Engineer",
+   "unknown_inputs": [
+    "constraint:jurisdiction",
+    "constraint:compensation-floor",
+    "compensation",
+    "recruiter_preferences",
+    "applicant_pool",
+    "whether_posting_is_still_open"
+   ],
+   "unsupported_evidence": [
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "llm-applications"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "typescript"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "ai-evaluation"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "security"
+    }
+   ]
+  },
+  {
+   "availability": {
+    "as_of": "2026-11-10T00:00:00Z",
+    "fetched_at": "2026-11-08T00:00:00Z",
+    "reason": "listed-at-capture",
+    "status": "active"
+   },
+   "cautions": [],
+   "compensation": {
+    "note": "source-stated, unverified",
+    "state": "stated",
+    "stated": {
+     "basis": "base",
+     "currency": "USD",
+     "max": 272000.0,
+     "min": 219000.0,
+     "verified": false
+    }
+   },
+   "components": {
+    "customer_proximity": {
+     "basis": "taxonomy-prior 0.95 for fde; 5 text cue(s)",
+     "configured_weight": 0.25,
+     "contribution": 12.06,
+     "effective_weight": 0.125,
+     "group": "strategic_utility",
+     "value": 0.965
+    },
+    "enterprise_delivery": {
+     "basis": "taxonomy-prior 0.9 for fde; 9 text cue(s)",
+     "configured_weight": 0.25,
+     "contribution": 11.62,
+     "effective_weight": 0.125,
+     "group": "strategic_utility",
+     "value": 0.93
+    },
+    "proof_strength": {
+     "basis": "mean evidence weight of matched skills (supported=1, self-reported=0.5, unverified=0.25)",
+     "configured_weight": 0.2,
+     "contribution": 6.07,
+     "effective_weight": 0.1,
+     "group": "near_term_fit",
+     "value": 0.6071
+    },
+    "seniority_alignment": {
+     "basis": "staff vs preferred level",
+     "configured_weight": 0.2,
+     "contribution": 10.0,
+     "effective_weight": 0.1,
+     "group": "near_term_fit",
+     "value": 1.0
+    },
+    "skill_coverage": {
+     "basis": "7 of 10 listed skills claimed (preferred count half)",
+     "configured_weight": 0.45,
+     "contribution": 16.88,
+     "effective_weight": 0.225,
+     "group": "near_term_fit",
+     "value": 0.75
+    },
+    "transition_utility": {
+     "basis": "taxonomy-prior: fde->fde closeness 1; exercises 80% of target core skills",
+     "configured_weight": 0.5,
+     "contribution": 23.5,
+     "effective_weight": 0.25,
+     "group": "strategic_utility",
+     "value": 0.94
+    },
+    "workstyle": {
+     "basis": "hybrid is preference #2",
+     "configured_weight": 0.15,
+     "contribution": 5.25,
+     "effective_weight": 0.075,
+     "group": "near_term_fit",
+     "value": 0.7
+    }
+   },
+   "composites": {
+    "near_term_fit": 76.4,
+    "rank_by_near_term_fit": 10,
+    "rank_by_strategic_utility": 4,
+    "strategic_utility": 94.4,
+    "strategy_weight": 0.5
+   },
+   "constraints": [
+    {
+     "constraint": "content-integrity",
+     "detail": "no manipulation flags",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "availability",
+     "detail": "listed-at-capture",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "remote-policy",
+     "detail": "hybrid",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "jurisdiction",
+     "detail": "job jurisdiction not stated or ambiguous",
+     "outcome": "unknown"
+    },
+    {
+     "constraint": "employment-type",
+     "detail": "full-time",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "seniority-band",
+     "detail": "staff",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "compensation-floor",
+     "detail": "at or above floor",
+     "outcome": "pass"
+    }
+   ],
+   "counterfactuals": [
+    {
+     "change": "acquire and evidence skill 'systems-integration'",
+     "kind": "skill-acquired",
+     "rank": 2,
+     "score": 88.7,
+     "score_delta": 3.3,
+     "status": "hypothetical; assumes other candidates' and postings' data unchanged"
+    },
+    {
+     "change": "attach verifying evidence to: ai-evaluation, customer-delivery, llm-applications, security, typescript",
+     "kind": "evidence-added",
+     "rank": 2,
+     "score": 89.3,
+     "score_delta": 3.9,
+     "status": "hypothetical; assumes other candidates' and postings' data unchanged"
+    }
+   ],
+   "job_id": "jp_00c0fcadc87d784f433d",
+   "matched_skills": [
+    {
+     "claim_ids": [
+      "cl_368483d8b7096322"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "required",
+     "skill": "ai-evaluation"
+    },
+    {
+     "claim_ids": [
+      "cl_be61fda73a90ae82"
+     ],
+     "proof_status": "unverified",
+     "requirement": "required",
+     "skill": "customer-delivery"
+    },
+    {
+     "claim_ids": [
+      "cl_368483d8b7096322"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "required",
+     "skill": "llm-applications"
+    },
+    {
+     "claim_ids": [
+      "cl_bb2fc22231a09465"
+     ],
+     "proof_status": "supported",
+     "requirement": "required",
+     "skill": "python"
+    },
+    {
+     "claim_ids": [
+      "cl_27cad5a846106846"
+     ],
+     "proof_status": "supported",
+     "requirement": "required",
+     "skill": "sql"
+    },
+    {
+     "claim_ids": [
+      "cl_4aede06a358adacb"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "preferred",
+     "skill": "security"
+    },
+    {
+     "claim_ids": [
+      "cl_715f77ee103057b3"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "preferred",
+     "skill": "typescript"
+    }
+   ],
+   "missing_preferred_skills": [
+    "enterprise-sales",
+    "executive-communication"
+   ],
+   "missing_skills": [
+    "systems-integration"
+   ],
+   "organization": "Fictional Onyx Systems",
+   "provenance": {
+    "content_hash": "a8f4567f8bc8926bc1a67fc6cb33867f4faa9c33b337aeb662b7f27e4dd55c03",
+    "duplicates_collapsed": [],
+    "source": "ashby",
+    "source_id": "ab-85b6641056d2680bc093fa7a",
+    "synthetic": true,
+    "url": "https://jobs.fictional-onyx-systems.example/positions/syn-00102",
+    "version": 1
+   },
+   "rank": 2,
+   "role_family": "fde",
+   "score": 85.4,
+   "score_interval": {
+    "high": 85.4,
+    "low": 85.4,
+    "meaning": "range of the score if unknown signals were worst-case / best-case"
+   },
+   "score_type": "relative_heuristic_not_offer_probability",
+   "sensitivity": {
+    "method": "each weight ±20%, strategy weight ±0.1, one at a time",
+    "rank_best": 2,
+    "rank_worst": 4
+   },
+   "title": "Staff Forward Deployed Software Engineer",
+   "unknown_inputs": [
+    "constraint:jurisdiction",
+    "recruiter_preferences",
+    "applicant_pool",
+    "whether_posting_is_still_open"
+   ],
+   "unsupported_evidence": [
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "ai-evaluation"
+    },
+    {
+     "reason": "claim is unverified; no verifying evidence attached",
+     "skill": "customer-delivery"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "llm-applications"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "security"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "typescript"
+    }
+   ]
+  },
+  {
+   "availability": {
+    "as_of": "2026-11-10T00:00:00Z",
+    "fetched_at": "2026-11-08T00:00:00Z",
+    "reason": "listed-at-capture",
+    "status": "active"
+   },
+   "cautions": [],
+   "compensation": {
+    "note": "unknown; not inferred",
+    "state": "absent",
+    "stated": null
+   },
+   "components": {
+    "customer_proximity": {
+     "basis": "taxonomy-prior 0.95 for fde; 5 text cue(s)",
+     "configured_weight": 0.25,
+     "contribution": 12.06,
+     "effective_weight": 0.125,
+     "group": "strategic_utility",
+     "value": 0.965
+    },
+    "enterprise_delivery": {
+     "basis": "taxonomy-prior 0.9 for fde; 4 text cue(s)",
+     "configured_weight": 0.25,
+     "contribution": 11.62,
+     "effective_weight": 0.125,
+     "group": "strategic_utility",
+     "value": 0.93
+    },
+    "proof_strength": {
+     "basis": "mean evidence weight of matched skills (supported=1, self-reported=0.5, unverified=0.25)",
+     "configured_weight": 0.2,
+     "contribution": 6.79,
+     "effective_weight": 0.1,
+     "group": "near_term_fit",
+     "value": 0.6786
+    },
+    "seniority_alignment": {
+     "basis": "senior vs preferred level",
+     "configured_weight": 0.2,
+     "contribution": 6.67,
+     "effective_weight": 0.1,
+     "group": "near_term_fit",
+     "value": 0.6667
+    },
+    "skill_coverage": {
+     "basis": "7 of 10 listed skills claimed (preferred count half)",
+     "configured_weight": 0.45,
+     "contribution": 16.88,
+     "effective_weight": 0.225,
+     "group": "near_term_fit",
+     "value": 0.75
+    },
+    "transition_utility": {
+     "basis": "taxonomy-prior: fde->fde closeness 1; exercises 80% of target core skills",
+     "configured_weight": 0.5,
+     "contribution": 23.5,
+     "effective_weight": 0.25,
+     "group": "strategic_utility",
+     "value": 0.94
+    },
+    "workstyle": {
+     "basis": "remote is preference #1",
+     "configured_weight": 0.15,
+     "contribution": 7.5,
+     "effective_weight": 0.075,
+     "group": "near_term_fit",
+     "value": 1.0
+    }
+   },
+   "composites": {
+    "near_term_fit": 75.7,
+    "rank_by_near_term_fit": 11,
+    "rank_by_strategic_utility": 5,
+    "strategic_utility": 94.4,
+    "strategy_weight": 0.5
+   },
+   "constraints": [
+    {
+     "constraint": "content-integrity",
+     "detail": "no manipulation flags",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "availability",
+     "detail": "listed-at-capture",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "remote-policy",
+     "detail": "remote",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "jurisdiction",
+     "detail": "US",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "employment-type",
+     "detail": "full-time",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "seniority-band",
+     "detail": "senior",
+     "outcome": "pass"
+    },
+    {
+     "constraint": "compensation-floor",
+     "detail": "compensation unknown (absent); not inferred",
+     "outcome": "unknown"
+    }
+   ],
+   "counterfactuals": [
+    {
+     "change": "acquire and evidence skill 'systems-integration'",
+     "kind": "skill-acquired",
+     "rank": 2,
+     "score": 88.2,
+     "score_delta": 3.2,
+     "status": "hypothetical; assumes other candidates' and postings' data unchanged"
+    },
+    {
+     "change": "attach verifying evidence to: customer-delivery, llm-applications, typescript, ai-evaluation",
+     "kind": "evidence-added",
+     "rank": 2,
+     "score": 88.2,
+     "score_delta": 3.2,
+     "status": "hypothetical; assumes other candidates' and postings' data unchanged"
+    }
+   ],
+   "job_id": "jp_677d4cbcc835a198414e",
+   "matched_skills": [
+    {
+     "claim_ids": [
+      "cl_1af399e8a0898bf0"
+     ],
+     "proof_status": "supported",
+     "requirement": "required",
+     "skill": "aws"
+    },
+    {
+     "claim_ids": [
+      "cl_be61fda73a90ae82"
+     ],
+     "proof_status": "unverified",
+     "requirement": "required",
+     "skill": "customer-delivery"
+    },
+    {
+     "claim_ids": [
+      "cl_368483d8b7096322"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "required",
+     "skill": "llm-applications"
+    },
+    {
+     "claim_ids": [
+      "cl_bb2fc22231a09465"
+     ],
+     "proof_status": "supported",
+     "requirement": "required",
+     "skill": "python"
+    },
+    {
+     "claim_ids": [
+      "cl_715f77ee103057b3"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "required",
+     "skill": "typescript"
+    },
+    {
+     "claim_ids": [
+      "cl_368483d8b7096322"
+     ],
+     "proof_status": "self-reported",
+     "requirement": "preferred",
+     "skill": "ai-evaluation"
+    },
+    {
+     "claim_ids": [
+      "cl_27cad5a846106846"
+     ],
+     "proof_status": "supported",
+     "requirement": "preferred",
+     "skill": "sql"
+    }
+   ],
+   "missing_preferred_skills": [
+    "enterprise-sales",
+    "technical-discovery"
+   ],
+   "missing_skills": [
+    "systems-integration"
+   ],
+   "organization": "Fictional Harbor Cloud",
+   "provenance": {
+    "content_hash": "2e17006e6910eb75dde9d92784991716ca66d431290e5040dac842d4ff3635de",
+    "duplicates_collapsed": [],
+    "source": "ashby",
+    "source_id": "ab-e16d35f8b7218c30fc953eeb",
+    "synthetic": true,
+    "url": "https://jobs.fictional-harbor-cloud.example/positions/syn-00078",
+    "version": 1
+   },
+   "rank": 3,
+   "role_family": "fde",
+   "score": 85.0,
+   "score_interval": {
+    "high": 85.0,
+    "low": 85.0,
+    "meaning": "range of the score if unknown signals were worst-case / best-case"
+   },
+   "score_type": "relative_heuristic_not_offer_probability",
+   "sensitivity": {
+    "method": "each weight ±20%, strategy weight ±0.1, one at a time",
+    "rank_best": 2,
+    "rank_worst": 4
+   },
+   "title": "Senior Implementation Engineer",
+   "unknown_inputs": [
+    "constraint:compensation-floor",
+    "compensation",
+    "recruiter_preferences",
+    "applicant_pool",
+    "whether_posting_is_still_open"
+   ],
+   "unsupported_evidence": [
+    {
+     "reason": "claim is unverified; no verifying evidence attached",
+     "skill": "customer-delivery"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "llm-applications"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "typescript"
+    },
+    {
+     "reason": "claim is self-reported; no verifying evidence attached",
+     "skill": "ai-evaluation"
+    }
+   ]
+  }
+ ],
+ "strategy_comparison": {
+  "k": 3,
+  "near_term_top": [
+   "jp_37968cd5192df2a3497a",
+   "jp_cfe64ae596e7153148a1",
+   "jp_fa20c76327daa8ca8f9f"
+  ],
+  "note": "near_term_fit rewards what the candidate can evidence today; strategic_utility rewards movement toward target roles",
+  "overlap": 0,
+  "strategic_top": [
+   "jp_1852973aaf4bc384e3fb",
+   "jp_bb0503063b6eed6c50f6",
+   "jp_2f4bd8dc1f671d46d825"
+  ]
+ },
+ "subject_id": "candidate-synthetic-001",
+ "taxonomy_version": "tax-3d9727353bec"
+}

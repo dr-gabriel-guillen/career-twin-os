@@ -2,7 +2,7 @@ import copy
 
 import pytest
 
-from conftest import AS_OF
+from a_testkit import AS_OF
 from ct_matching import schema
 from ct_matching.store import Ledger
 from ct_matching.vault import EvidenceVault, VaultError

@@ -54,7 +54,7 @@ EXT = obj(["ext_version", "synthetic", "board", "employer", "timestamps", "statu
            "version", "dedup", "taxonomy_version"], {
     "ext_version": {"type": "string", "const": "a-ext/0.1"},
     "synthetic": BOOL, "board": STR,
-    "employer": obj(["name", "key", "org_uid", "alias_ambiguous"], {"name": STR, "key": STR, "org_uid": NSTR, "alias_ambiguous": BOOL}),
+    "employer": obj(["id", "name", "key", "org_uid", "alias_ambiguous"], {"id": {"type": "string", "pattern": "^emp_[0-9a-f]{16}$"}, "name": STR, "key": STR, "org_uid": NSTR, "alias_ambiguous": BOOL}),
     "timestamps": obj(["captured_at", "posted_at", "updated_at", "expires_at"],
                       {k: {"type": ["string", "null"], "format": "date-time"} for k in ("captured_at", "posted_at", "updated_at", "expires_at")}),
     "status_reason": STR, "status_as_of": {"type": "string", "format": "date-time"},

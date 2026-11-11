@@ -1,7 +1,7 @@
 """Workstream 9: every adversarial case planted in the seeded corpus must be handled as documented."""
 import json
 
-from conftest import AS_OF
+from a_testkit import AS_OF
 from ct_matching import corpus
 
 

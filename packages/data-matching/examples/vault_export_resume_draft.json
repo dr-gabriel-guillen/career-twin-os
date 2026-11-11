@@ -1,0 +1,13 @@
+{
+ "as_of": "2026-11-10T00:00:00Z",
+ "claims": [],
+ "mode": "resume-draft",
+ "notice": "status is derived from evidence pointers; 'self-reported' claims are not verified facts",
+ "subject_id": "candidate-synthetic-001",
+ "withheld": {
+  "contradicted": 1,
+  "expired": 1,
+  "status": 0,
+  "visibility": 9
+ }
+}

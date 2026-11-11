@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from conftest import AS_OF, ROOT
+from a_testkit import AS_OF, ROOT
 from ct_matching import schema
 
 CONTRACTS = ROOT / "contracts"

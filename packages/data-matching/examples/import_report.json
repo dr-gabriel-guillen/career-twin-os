@@ -1,0 +1,80 @@
+{
+ "api_version": "a-api/0.1",
+ "captures": 47,
+ "counts": {
+  "created": 190,
+  "ignored_stale": 1,
+  "rejected": 10,
+  "revoked": 6,
+  "unchanged": 60,
+  "updated": 5,
+  "warnings": 17
+ },
+ "rejected": [
+  {
+   "detail": "title missing or empty",
+   "error_class": "missing_required_field",
+   "severity": "reject",
+   "source": "greenhouse",
+   "source_ref": "1"
+  },
+  {
+   "detail": "posting url rejected: scheme-not-http",
+   "error_class": "unsafe_url",
+   "severity": "reject",
+   "source": "greenhouse",
+   "source_ref": "2"
+  },
+  {
+   "detail": "posting url rejected: non-public-ip",
+   "error_class": "unsafe_url",
+   "severity": "reject",
+   "source": "greenhouse",
+   "source_ref": "3"
+  },
+  {
+   "detail": "entry is str, not object",
+   "error_class": "malformed_record",
+   "severity": "reject",
+   "source": "greenhouse",
+   "source_ref": "index 11"
+  }
+ ],
+ "rejected_by_class": {
+  "duplicate_source_id": 1,
+  "malformed_record": 2,
+  "missing_required_field": 3,
+  "unsafe_url": 4
+ },
+ "store": {
+  "jobs": 190,
+  "ledger_entries": 262,
+  "ledger_head": "8e7961c43fa615f41218b49b95d09c38e99180a7c5038b9a437e02cca2bd3e16",
+  "ledger_verified": true,
+  "quarantined": 10,
+  "versions": 195
+ },
+ "warnings": [
+  {
+   "detail": "control-chars-removed",
+   "error_class": "content_sanitized",
+   "severity": "warn",
+   "source": "ashby",
+   "source_ref": "ab-c608eaa6f04149fd475e66c7"
+  },
+  {
+   "detail": "hidden-content-removed,prompt-injection-suspected",
+   "error_class": "content_sanitized",
+   "severity": "warn",
+   "source": "greenhouse",
+   "source_ref": "454666502647"
+  },
+  {
+   "detail": "hidden-content-removed",
+   "error_class": "content_sanitized",
+   "severity": "warn",
+   "source": "greenhouse",
+   "source_ref": "685143352472"
+  }
+ ]
+}

@@ -75,6 +75,15 @@ def employer_key(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", key).strip()
 
 
+def employer_id(name: str) -> str:
+    """Stable opaque employer id derived only from the normalized name (never from store state).
+
+    Two legal entities with the same normalized name share an id (``alias_ambiguous`` is then set):
+    for cluster randomisation that errs on the safe side - it can merge clusters, never split one.
+    """
+    return "emp_" + sha256_hex("emp/v1:" + employer_key(name))[:16]
+
+
 def title_key(title: str) -> str:
     key = fold(title)
     key = re.sub(r"\((remote|hybrid|onsite|on-site|contract|m/f/d|f/m/d|all genders)[^)]*\)", " ", key)
@@ -385,8 +394,8 @@ def normalize(record: SourceRecord) -> dict[str, Any]:
         "ext_version": EXT_VERSION,
         "synthetic": record.synthetic,
         "board": record.board,
-        "employer": {"name": record.organization, "key": employer_key(record.organization), "org_uid": record.org_uid,
-                     "alias_ambiguous": False},
+        "employer": {"id": employer_id(record.organization), "name": record.organization,
+                     "key": employer_key(record.organization), "org_uid": record.org_uid, "alias_ambiguous": False},
         "timestamps": {"captured_at": record.captured_at, "posted_at": record.posted_at,
                        "updated_at": record.updated_at, "expires_at": record.expires_at},
         "listed": record.listed,
