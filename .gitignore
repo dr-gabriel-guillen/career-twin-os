@@ -1,0 +1,20 @@
+# Strict synthetic-only bootstrap; no local data or credentials
+.env
+.env.*
+!.env.example
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+dist/
+build/
+coverage/
+*.sqlite
+*.db
+personal/
+private/
+exports/
+linkedin-export*/
+resume-private*/
+.data/
+.DS_Store
