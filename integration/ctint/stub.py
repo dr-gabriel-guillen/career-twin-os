@@ -55,7 +55,12 @@ def features_vectors(a: Path, seed: int, count: int) -> None:
 def resume_variant(a: Path, seed: int, count: int) -> None:
     pin = read_json(a / "pin.json")
     job = next(j for j in read_json(a / "jobs.json") if j["id"] == pin["job_id"])
-    usable = [c for c in read_json(a / "claims.json") if c["status"] in USABLE_CLAIM_STATUSES]
+    # D found (on #5) that the first stub cited a `private` claim; résumé text may leave the device only
+    # from shareable claims (B's and D's export gates, A's resume-draft export mode).
+    usable = [
+        c for c in read_json(a / "claims.json")
+        if c["status"] in USABLE_CLAIM_STATUSES and c.get("visibility") != "private"
+    ]  # fmt: skip
     relevant = [c for c in usable if set(c.get("skills", [])) & set(job["skills"])] or usable[:3]
     write_json(
         a / "resume_variant.json",

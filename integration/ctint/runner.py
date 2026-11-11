@@ -76,6 +76,24 @@ def offline_env(home: Path) -> dict[str, str]:
     return env
 
 
+_PROXY_KEYS = ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy")
+
+
+def setup_environment(env: dict[str, str]) -> dict[str, str]:
+    """Environment for a lane's ``setup`` commands (package installs): network allowed, still no secrets.
+
+    The first version kept ``offline_env``'s dead proxy unless the host itself had proxy variables, so
+    lane D's ``npm ci`` could never reach the registry ("Exit handler never called", run cycle2c).
+    """
+    setup = {k: v for k, v in env.items() if k not in _PROXY_KEYS}
+    for name in ("PIP_NO_INDEX", "npm_config_offline"):
+        setup.pop(name, None)
+    for key in _PROXY_KEYS:  # keep a real corporate proxy if the operator has one
+        if os.environ.get(key):
+            setup[key] = os.environ[key]
+    return setup
+
+
 def _expand(argv: list[str], values: dict[str, str]) -> list[str]:
     out = []
     for arg in argv:
@@ -375,16 +393,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
                 continue
             if args.allow_setup and lane.manifest:
                 hermetic = False
-                setup_env = {
-                    **env,
-                    **{
-                        k: v
-                        for k, v in os.environ.items()
-                        if k.upper() in ("HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY")
-                    },
-                }
-                for name in ("PIP_NO_INDEX", "npm_config_offline", "ALL_PROXY", "all_proxy"):
-                    setup_env.pop(name, None)
+                setup_env = setup_environment(env)
                 manifest = json.loads((worktree / lane.manifest).read_text(encoding="utf-8"))
                 for command in manifest.get("setup", []):
                     ok, detail, log = run_command(

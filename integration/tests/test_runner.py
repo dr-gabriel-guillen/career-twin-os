@@ -244,6 +244,21 @@ def test_offline_env_scrubs_credentials(monkeypatch: pytest.MonkeyPatch, tmp_pat
     assert env["PIP_NO_INDEX"] == "1"
 
 
+def test_setup_environment_reaches_the_network_but_keeps_secrets_out(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Regression: lane D's `npm ci` failed in run cycle2c because the dead proxy leaked into setup."""
+    for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy"):
+        monkeypatch.delenv(key, raising=False)
+    monkeypatch.setenv("NPM_TOKEN", "should-not-leak")
+    setup = runner.setup_environment(runner.offline_env(tmp_path / "home"))
+    assert runner.DEAD_PROXY not in setup.values()
+    assert "PIP_NO_INDEX" not in setup and "npm_config_offline" not in setup
+    assert "should-not-leak" not in setup.values()
+    monkeypatch.setenv("HTTPS_PROXY", "http://proxy.fictional-corp.example:3128")
+    assert runner.setup_environment(runner.offline_env(tmp_path / "home"))["HTTPS_PROXY"].endswith(":3128")
+
+
 @pytest.fixture(autouse=True)
 def _need_git() -> None:
     if shutil.which("git") is None:

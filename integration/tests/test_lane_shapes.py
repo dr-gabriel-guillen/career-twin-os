@@ -133,6 +133,22 @@ def test_duplicate_replies_do_not_create_a_false_counted_mismatch() -> None:
     assert "EXP-COUNTED-EVENTS-DIFFER" not in found
 
 
+def test_withheld_result_without_interval_is_not_a_finding_but_an_asserted_one_is() -> None:
+    """Lane B @ 755ccae stops early and reports no test, with a reason; E's first rule failed that."""
+    spec, assignments, events, report = _b_world()
+    stopped = dict(
+        report, phase="STOPPED_EARLY", verdict="INCONCLUSIVE", comparisons=[],
+        reasons_withheld=["STOPPED_BEFORE_PLANNED_SAMPLE: a test at a data-dependent stopping point is not valid"],
+    )  # fmt: skip
+    assert "EXP-NO-UNCERTAINTY" not in ei.codes(
+        ei.check_experiment_bundle(spec, assignments, events, stopped)
+    )
+    silent = dict(stopped, reasons_withheld=[])
+    assert "EXP-NO-UNCERTAINTY" in ei.codes(ei.check_experiment_bundle(spec, assignments, events, silent))
+    asserted = dict(stopped, verdict="EVIDENCE_FOR_DIFFERENCE", phase="FINAL")
+    assert "EXP-NO-UNCERTAINTY" in ei.codes(ei.check_experiment_bundle(spec, assignments, events, asserted))
+
+
 def test_without_counted_event_ids_the_comparison_is_unknown_not_a_failure() -> None:
     """B publishes no counted-event list; E must not invent a mismatch (asked on #3, Q3)."""
     spec, assignments, events, report = _b_world()
@@ -204,7 +220,12 @@ def test_v_jobs_accepts_fictional_ats_shaped_postings_and_rejects_unmarked(tmp_p
 
 def test_v_resume_accepts_b_native_variant(tmp_path: Path) -> None:
     claims = synth.gen_claims(seed=1)
-    usable = [c for c in claims if c["status"] in e2e.USABLE_CLAIM_STATUSES][:3]
+    usable = [
+        c for c in claims if c["status"] in e2e.USABLE_CLAIM_STATUSES and c["visibility"] != "private"
+    ][:3]  # fmt: skip
+    private = next(
+        c for c in claims if c["visibility"] == "private" and c["status"] in e2e.USABLE_CLAIM_STATUSES
+    )
     _write(tmp_path, "claims.json", claims)
     _write(tmp_path, "pin.json", {"job_id": "job-x"})
     native = {
@@ -217,6 +238,10 @@ def test_v_resume_accepts_b_native_variant(tmp_path: Path) -> None:
     forged["bullets"][0]["claim_id"] = "claim-that-does-not-exist"
     _write(tmp_path, "resume_variant.json", forged)
     assert any("fabricated evidence" in p for p in e2e.v_resume(tmp_path, 0))
+    leaky = copy.deepcopy(native)
+    leaky["bullets"][0]["claim_id"] = private["id"]  # regression: D's finding on E's stub (#5)
+    _write(tmp_path, "resume_variant.json", leaky)
+    assert any("private claim" in p for p in e2e.v_resume(tmp_path, 0))
 
 
 def test_v_atlas_allows_reported_unplaced_vectors_only(tmp_path: Path) -> None:

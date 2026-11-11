@@ -454,8 +454,12 @@ def check_experiment_bundle(
             )
     effect = analysis.get("effect") or {}
     numeric = all(isinstance(effect.get(k), (int, float)) for k in ("estimate", "ci_low", "ci_high"))
-    if not numeric:
-        out.append(Finding("EXP-NO-UNCERTAINTY", "high", "analysis reports no interval"))
+    # An interval is required whenever a result is asserted. Withholding the result with a stated reason
+    # (lane B @ 755ccae: STOPPED_EARLY, "a test at a data-dependent stopping point is not valid") is the
+    # honest alternative and is not a finding — E's first rule failed it.
+    withheld = analysis.get("decision") == "INCONCLUSIVE" and bool(analysis.get("reasons_withheld"))
+    if not numeric and not withheld:
+        out.append(Finding("EXP-NO-UNCERTAINTY", "high", "analysis reports no interval and gives no reason"))
     decision = analysis.get("decision")
     if decision not in DECISIONS:
         out.append(
@@ -595,6 +599,7 @@ def analysis_view(analysis: dict[str, Any], spec: dict[str, Any]) -> dict[str, A
         "effect": effect,
         "decision": B_VERDICT_TO_DECISION.get(str(analysis.get("verdict")), str(analysis.get("verdict"))),
         "warnings": analysis.get("warnings", []),
+        "reasons_withheld": analysis.get("reasons_withheld", []),
         "lane_text": [
             analysis.get("claim"),
             analysis.get("reasons_withheld"),

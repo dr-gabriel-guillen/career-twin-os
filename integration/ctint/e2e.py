@@ -70,6 +70,28 @@ STAGE_BY_ID = {stage.id: stage for stage in STAGES}
 PIN_AFTER = "match.rank"
 
 
+#: every file named in some stage's ``writes``: contract-level artifacts no later stage may modify
+DECLARED_ARTIFACTS = frozenset(name for stage in STAGES for name in stage.writes) | {"pin.json"}
+
+
+def classify_modified(
+    modified: list[str], producer: dict[str, str], stage: Stage
+) -> tuple[list[str], list[str]]:
+    """Split files a stage changed into (tampered, own sidecars).
+
+    A stage may update a non-declared sidecar that its OWN lane created earlier in the run (lane C's
+    scenario stage refreshes ``atlas.pca.json`` written by its atlas stage, C @ f76e24c). Changing a
+    declared artifact, a file another lane created, or a file of unknown origin is tampering.
+    """
+    tampered, own = [], []
+    for name in modified:
+        if name not in DECLARED_ARTIFACTS and producer.get(name) == stage.lane:
+            own.append(name)
+        else:
+            tampered.append(name)
+    return tampered, own
+
+
 @dataclass
 class RunOutcome:
     ok: bool
@@ -249,6 +271,8 @@ def v_resume(a: Path, count: int) -> list[str]:
             problems.append(
                 f"resume_variant.json: cites claim {claim_id!r} with status {claim.get('status')!r}"
             )
+        elif claim.get("visibility") == "private":
+            problems.append(f"resume_variant.json: cites private claim {claim_id!r} (not exportable)")
     bullets = variant.get("bullets")
     if not _is_list_of_dicts(bullets) or not bullets:
         return [*problems, "resume_variant.json: bullets must be a non-empty array"]
@@ -470,48 +494,89 @@ PROBES: dict[str, tuple[str, Callable[[Path], None]]] = {
 }
 
 
-def _probe(
-    stage: Stage, provider: Provider, artifacts: Path, scratch: Path, seed: int, count: int
-) -> list[str]:
-    """Does the stage compute from its inputs? Returns problems (CANNED-OUTPUT ...)."""
-    problems: list[str] = []
+def _rerun(
+    stage: Stage,
+    provider: Provider,
+    artifacts: Path,
+    scratch: Path,
+    seed: int,
+    count: int,
+    *,
+    keep_state: bool,
+) -> tuple[str, RunOutcome | None]:
+    """Copy the artifacts into ``scratch``, apply the stage's input mutation and run it again."""
     if scratch.exists():
         shutil.rmtree(scratch)
-    shutil.copytree(artifacts, scratch)
+    shutil.copytree(artifacts, scratch, ignore=None if keep_state else _ignore_state_dirs(artifacts))
     for name in stage.writes:
         (scratch / name).unlink(missing_ok=True)
     if stage.id == "jobs.import":
-        what = f"seed {seed + 1} and count {count + 7}"
-        outcome = provider.run(stage, scratch, seed + 1, count + 7)
-    elif stage.id in PROBES:
+        return f"seed {seed + 1} and count {count + 7}", provider.run(stage, scratch, seed + 1, count + 7)
+    if stage.id in PROBES:
         what, mutate = PROBES[stage.id]
         mutate(scratch)
-        outcome = provider.run(stage, scratch, seed, count)
-    else:
+        return what, provider.run(stage, scratch, seed, count)
+    return "", None
+
+
+def _ignore_state_dirs(root: Path) -> Callable[[str, list[str]], list[str]]:
+    def ignore(directory: str, names: list[str]) -> list[str]:
+        if Path(directory).resolve() != root.resolve():
+            return []
+        return [n for n in names if (root / n).is_dir()]
+
+    return ignore
+
+
+def _same_outputs(stage: Stage, a: Path, b: Path) -> bool:
+    return all(_canonical(a / name) == _canonical(b / name) for name in stage.writes)
+
+
+def _probe(
+    stage: Stage, provider: Provider, artifacts: Path, scratch: Path, seed: int, count: int
+) -> list[str]:
+    """Does the stage compute from its inputs?
+
+    Two re-runs on mutated inputs:
+
+    1. **fresh** (lane state directories removed): the stage must succeed and its output must change,
+       otherwise ``CANNED-OUTPUT``;
+    2. **with persisted lane state** (only if the artifacts hold state directories): the stage must either
+       refuse the drifted input (non-zero exit, e.g. lane B's ``InputDrift``) or recompute. Succeeding with
+       byte-identical output is ``STALE-STATE`` (lane B @ 84757ed, fixed in 755ccae).
+    """
+    problems: list[str] = []
+    what, fresh = _rerun(stage, provider, artifacts, scratch, seed, count, keep_state=False)
+    if fresh is None:
         return problems
-    if not outcome.ok or not all((scratch / name).is_file() for name in stage.writes):
-        return [f"PROBE-FAILED: stage did not complete when re-run with {what}: {outcome.detail}"]
+    if not fresh.ok or not all((scratch / name).is_file() for name in stage.writes):
+        return [
+            f"PROBE-FAILED: stage did not complete when re-run in a fresh directory with {what}: {fresh.detail}"
+        ]
     try:
-        same = all(_canonical(scratch / name) == _canonical(artifacts / name) for name in stage.writes)
+        if _same_outputs(stage, scratch, artifacts):
+            problems.append(
+                f"CANNED-OUTPUT: output is byte-identical after {what}; the stage does not compute from its inputs"
+            )
         if stage.id == "jobs.import" and len(read_json(scratch / "jobs.json")) < count + 7:
             problems.append(
                 f"CANNED-OUTPUT: asked for {count + 7} postings, got {len(read_json(scratch / 'jobs.json'))}"
             )
     except (ValueError, OSError) as exc:
         return [f"PROBE-FAILED: unreadable output when re-run with {what}: {exc}"]
-    if same:
-        state_dirs = sorted(p.name for p in scratch.iterdir() if p.is_dir())
-        if state_dirs:
-            # Observed on lane B @ 84757ed: with its persisted lab directory present the experiment stage
-            # returns the journaled experiment for changed inputs; in a fresh directory it recomputes.
-            problems.append(
-                f"STALE-STATE: output is byte-identical after {what} while lane state directories "
-                f"{state_dirs} were present; the stage reused persisted state instead of reporting input drift"
-            )
-        else:
-            problems.append(
-                f"CANNED-OUTPUT: output is byte-identical after {what}; the stage does not compute from its inputs"
-            )
+    state_dirs = sorted(p.name for p in artifacts.iterdir() if p.is_dir())
+    if not state_dirs or problems:
+        return problems
+    _, stateful = _rerun(stage, provider, artifacts, scratch, seed, count, keep_state=True)
+    if stateful is not None and stateful.ok and all((scratch / n).is_file() for n in stage.writes):
+        try:
+            if _same_outputs(stage, scratch, artifacts):
+                problems.append(
+                    f"STALE-STATE: with lane state {state_dirs} present the stage succeeded on drifted input "
+                    f"({what}) and returned byte-identical output instead of refusing or recomputing"
+                )
+        except (ValueError, OSError) as exc:
+            problems.append(f"PROBE-FAILED: unreadable output on the stateful re-run: {exc}")
     return problems
 
 
@@ -529,6 +594,7 @@ def run_pipeline(
     """Run every stage in order and return one result per stage. Never raises for stage failures."""
     artifacts.mkdir(parents=True, exist_ok=True)
     results: list[StageResult] = []
+    producer: dict[str, str] = {}  # artifact file name -> lane that created it ("E" for pin.json)
     for stage in STAGES:
         provider = providers.get(stage.id)
         result = StageResult(stage.id, stage.lane, "BLOCKED")
@@ -557,14 +623,22 @@ def run_pipeline(
         if not outcome.ok:
             result.problems.append(f"stage command failed: {outcome.detail}")
             continue
-        tampered = sorted(
+        modified = sorted(
             n
             for n, digest in before.items()
             if not (artifacts / n).is_file() or _digest(artifacts / n) != digest
         )
+        tampered, own_sidecars = classify_modified(modified, producer, stage)
+        if own_sidecars:
+            result.notes.append(
+                f"updated its own lane's sidecar file(s) {own_sidecars} (allowed; not a contract artifact)"
+            )
         if tampered:
             result.problems.append(f"TAMPERED-UPSTREAM: stage modified artifacts it does not own: {tampered}")
             continue
+        for path in artifacts.iterdir():
+            if path.is_file() and path.name not in before:
+                producer.setdefault(path.name, stage.lane)
         absent = [name for name in stage.writes if not (artifacts / name).is_file()]
         if absent:
             result.problems.append(f"stage did not write: {', '.join(absent)}")
@@ -584,6 +658,7 @@ def run_pipeline(
         result.status = "STUB" if provider.is_stub else "MOCK" if provider.mock else "PASS"
         if stage.id == PIN_AFTER:
             pin = pin_top_role(artifacts)
+            producer["pin.json"] = "E"
             result.notes.append(f"lane E pinned {pin['job_id']} (rank {pin['rank']})")
     probe_dir = artifacts.parent / f"{artifacts.name}.probe"
     if probe_dir.exists():

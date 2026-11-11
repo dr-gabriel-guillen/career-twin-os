@@ -143,7 +143,8 @@ def gen_claims(seed: int = 0, subject: str = SUBJECT, n: int = 14) -> list[dict[
             "evidence_ids": [f"evidence-syn-s{seed}-{i:04d}"]
             if status in ("supported", "contradicted")
             else [],
-            "visibility": rng.choice(("private", "shareable")),
+            # the first three claims are always shareable so a résumé can be built without private data
+            "visibility": "shareable" if i < 3 else rng.choice(("private", "shareable")),
             "updated_at": ts(i * 7),
             "skills": [skill],
         }
