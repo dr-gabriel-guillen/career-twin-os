@@ -6,7 +6,7 @@
 | BATCH_ID | CT-2026-11-10-B01 |
 | Branch | `agent/ct-d-product-ux` |
 | BASE_SHA | `bc957fd7ed98ad1bf97eb5abc19d64b146de8dcf` (`main`) |
-| SOURCE_HEAD | see the DELIVERED comment on Issue #5 (a file cannot contain its own commit SHA); code state described here: `b5948c4a079282e35eb08aaa81311cd028b7dd09` |
+| SOURCE_HEAD | see the DELIVERED comment on Issue #5 (a file cannot contain its own commit SHA); code state described here: `f373cbadefdae6b7c6bba9f7b5f25d581463ec5b` |
 | Issue / PR | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5) / draft [#10](https://github.com/dr-gabriel-guillen/career-twin-os/pull/10) |
 | Changed paths | `apps/web/**`, `packages/ui/**` only. No frozen contract, shared fixture or other lane's file was touched. |
 
@@ -47,16 +47,16 @@ Requires Node 22.18 or newer. Pipeline mode in a browser: serve the build with t
 | --- | --- |
 | `fixtures:check` | OK, 14 files equal the generator output |
 | `tsc --noEmit` | no errors |
-| Unit (Vitest) | 8 files, 158 tests passed, 0 failed, 0 skipped |
+| Unit (Vitest) | 8 files, 159 tests passed, 0 failed, 0 skipped |
 | Browser (Playwright + axe, production build) | 48 passed, 0 failed, 1 skipped (the opt-in screenshot generator) |
-| Integration stage (`ui.e2e`) on a real A→B→C pipeline run | pass; `keyboard_only: true` (0 pointer events observed), `data_source: "artifacts"`, `mock_sources: []` |
-| Clean export of the pushed tree (`git archive`) + `npm ci` + `verify` | passed at `b5948c4a079282e35eb08aaa81311cd028b7dd09` |
+| Integration stage (`ui.e2e`) on a real A→B→C pipeline run | pass; `focus_method: "tab-traversal"` (374 Tab presses), `keyboard_only: true` (0 pointer events observed), `data_source: "artifacts"`, `mock_sources: []`; the atlas shows the candidate, the scenario point and the path on one projection |
+| Clean export of the pushed tree (`git archive`) + `npm ci` + `verify` | passed at `f373cbadefdae6b7c6bba9f7b5f25d581463ec5b` |
 | Runtime validators vs Ajv on the frozen schemas | 8,741 mutations, 0 disagreements |
 | Parity with `tools/reference_engine.py` | 60 golden assignment cases, 8 hash cases, 4 scoring cases |
 | axe (WCAG 2.0/2.1 A + AA, best-practice) | 0 violations on all ten screens, light and dark, plus dialogs, tabs and tables |
 | Independent adversarial review (same model family, separate instance) | 20 findings (0 critical, 6 high, 8 medium, 6 low); 19 fixed, 1 partly fixed and documented; 35 regression tests |
 
-Pinned inputs for the integration evidence: lane A `399415569da4f089a8dee2635fb1b13ce246b035`, lane B `84757ed116668cd9d246966f1324b4ca28c916b9`, lane C `85c0536fb87bdf24e37a60265fb897f6eedac164`, lane E stub `a2e50e339bec831c9bb3f814d38b52bfb535771e`.
+Pinned inputs for the integration evidence: lane A `0b331ea6ab365f355e3635b9b4467191a0cf9fae`, lane B `755ccae1b4208ac96cbc39d9c4071fa4188c2224`, lane C `f76e24c869bad2819810ac06e8b31f067aacf338`, lane E stub `a2e50e339bec831c9bb3f814d38b52bfb535771e`.
 
 Full detail, including every defect found and what was done about it: `docs/QA-EVIDENCE.md`.
 
@@ -68,8 +68,8 @@ Lane D changed no shared contract and opened no RFC. It defines no contract of i
 | --- | --- | --- |
 | A | ACKNOWLEDGED RFC #12 with six findings; all six answered by A and consumed. D reads `jobs.json`, `jobs_ext.json`, `claims.json`, `matches.json`, `matches_full.json`. | [#12](https://github.com/dr-gabriel-guillen/career-twin-os/issues/12) |
 | B | ACKNOWLEDGED `b.v1` shapes and rules. D reads `resume_variant.json`, `events.json`, `experiment.json`, `assignments.json`, `experiment_events.json`, `analysis.json`. Three NEEDS-INTERFACE questions open (per-unit outcome state, exposure, single-arm interval). | [#3](https://github.com/dr-gabriel-guillen/career-twin-os/issues/3) |
-| C | ACKNOWLEDGED `atlas-projection/0.1` and `scenario-outputs/0.1`; all six of C's requests implemented. One finding open for C (two projection ids in one pipeline run). | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#4](https://github.com/dr-gabriel-guillen/career-twin-os/issues/4) |
-| E | ACKNOWLEDGED manifest and `ui_report.json`; stage delivered. Two findings open for E (stub cites a private claim; projection-id check). | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#6](https://github.com/dr-gabriel-guillen/career-twin-os/issues/6) |
+| C | ACKNOWLEDGED `atlas-projection/0.1` and `scenario-outputs/0.1`; all six of C's requests implemented. D's finding (two projection ids in one pipeline run) was fixed by C at `f76e24c` and confirmed by D's re-run. Nothing open. | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#4](https://github.com/dr-gabriel-guillen/career-twin-os/issues/4) |
+| E | ACKNOWLEDGED manifest and `ui_report.json`; stage delivered and now by Tab traversal, as E asked. Both of D's findings were accepted and fixed by E. Open: E's runner could not start a browser under its environment scrub; the manifest's `setup` now installs Playwright's Chromium (E's option a), which D has not verified inside E's runner. | [#5](https://github.com/dr-gabriel-guillen/career-twin-os/issues/5), [#6](https://github.com/dr-gabriel-guillen/career-twin-os/issues/6) |
 
 ## Blockers
 
@@ -80,7 +80,7 @@ None for this batch.
 No regression against `main`: `main` had no UI. Gaps (all also in `docs/QA-EVIDENCE.md`):
 
 1. Fixture mode shows a lane-D stand-in for matching, atlas and scenarios. It is labelled on screen. Pipeline mode shows real lane output.
-2. Pipeline mode: no candidate, scenario or path on the atlas until lane C aligns its two stages; evidence references do not resolve; experiment exposure is unknown; some of lane A's `ext` facets are not rendered.
+2. Pipeline mode: evidence references do not resolve; experiment exposure is unknown; some of lane A's `ext` facets are not rendered.
 3. Tested on Windows + Chrome only. No assistive-technology testing. Not tested in Firefox or Safari.
 4. Bidi and zero-width characters in upstream text are displayed, not stripped.
 5. The independent review in this batch was done by another instance of the same model family. It found 20 defects, which says the first version was not as tight as its own tests suggested; a review by a person or a different system has not happened.
@@ -96,7 +96,7 @@ No regression against `main`: `main` had no UI. Gaps (all also in `docs/QA-EVIDE
 
 ## Precise next work
 
-1. When lane C answers the projection-id finding: re-pin `tests/upstream-samples/pipeline/`, expect candidate, scenario and path on the pipeline atlas, and add that to `tests/integration/pipeline.spec.ts`.
+1. Have lane E re-run `ui.e2e` at this head inside its scrubbed runner with `--allow-setup`, and settle the browser policy (owner decision 6 in E's handoff).
 2. When lane B answers the three questions on #3: list per-unit outcome state and exposure beside the assignment table.
 3. Render lane A's `ext.compensation.state`, `ext.location.jurisdictions` and `ext.timestamps` in Discover Jobs; replace the fixture stand-in with lane A/B/C example files and delete `scripts/standin/`.
 4. Run the suite on Linux (lane E's CI) and in Firefox and WebKit; do one pass with a screen reader.
