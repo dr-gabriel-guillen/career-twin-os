@@ -1,0 +1,28 @@
+{
+  "id": "candidate-synthetic-001",
+  "name": "Synthetic Candidate",
+  "experience_note": "Fictional. No real user attributes.",
+  "skills": [
+    "python",
+    "typescript",
+    "aws",
+    "api-design",
+    "security",
+    "ai-evaluation",
+    "distributed-systems"
+  ],
+  "weights": {
+    "compensation": 0.25,
+    "trajectory": 0.35,
+    "skills": 0.25,
+    "workstyle": 0.15
+  },
+  "preferences": {
+    "remote": "remote",
+    "target_roles": [
+      "Forward Deployed Engineer",
+      "Applied AI Architect",
+      "Field CTO"
+    ]
+  }
+}
