@@ -343,13 +343,14 @@ describe("REAL integrated pipeline run: lane A -> lane B -> lane C (pinned under
       "resume_variant.json": "careertwin.b.resume-variant.v1",
       "assignments.json": "lane-b-assignment",
       "analysis.json": "careertwin.b.analysis-report.v1",
-      "atlas_points.json": "atlas-points+diagnostics",
+      // Lane C writes its projection view into the run; it is preferred over the points + diagnostics pair.
+      "atlas.pca.json": "atlas-projection/0.1",
     });
     expect(b.matches).toHaveLength(raw("matches.json").length);
     expect(b.matchRefusals).toHaveLength(raw("matches_full.json").refusals.length);
     expect(b.assignments).toHaveLength(raw("assignments.json").length);
     expect(b.experiments.map((e) => e.id)).toEqual([raw("experiment.json").id]);
-    expect(b.projections[0]!.points).toHaveLength(raw("atlas_points.json").length);
+    expect(b.projections[0]!.points).toHaveLength(raw("atlas.pca.json").points.length);
     expect(b.scenarios.every((s) => s.outputs?.schema_version === "scenario-outputs/0.1")).toBe(true);
     // Every source posting is synthetic by its own frozen field AND by the data lane's envelope.
     expect(new Set(b.jobs.map((j) => j.source))).toEqual(new Set(["synthetic"]));
@@ -425,7 +426,11 @@ describe("REAL integrated pipeline run: lane A -> lane B -> lane C (pinned under
       const f = src.flow.by_arm[arm.variant];
       expect([arm.n_assigned, arm.n_success, arm.n_censored, arm.n_missing]).toEqual([f.units, f.success, f.censored, f.missing]);
     }
-    expect(a.effect).toMatchObject({ estimate: src.comparisons[0].estimate, ci_low: src.comparisons[0].interval_95.low, ci_high: src.comparisons[0].interval_95.high, method: src.comparisons[0].interval_95.method });
+    // This run was stopped early, and lane B reports no comparison for it. Nothing is computed in its place.
+    if (src.comparisons.length === 0) expect(a.effect).toBeNull();
+    else expect(a.effect).toMatchObject({ estimate: src.comparisons[0].estimate, ci_low: src.comparisons[0].interval_95.low, ci_high: src.comparisons[0].interval_95.high, method: src.comparisons[0].interval_95.method });
+    expect(src.phase).toBe("STOPPED_EARLY");
+    expect(src.comparisons).toEqual([]);
     expect(a.reasons_withheld).toEqual(src.reasons_withheld);
     expect(a.interpretation_limits).toEqual(src.interpretation_limits);
     const asg = raw("assignments.json") as any[];
@@ -442,8 +447,28 @@ describe("REAL integrated pipeline run: lane A -> lane B -> lane C (pinned under
     expect(app.events.filter((e) => e.event_type === "approved").every((e) => e.actor === "user")).toBe(true);
   });
 
-  it("lane C: diagnostics are carried over, points join to postings, and scenario coverage is the analytics lane value", async () => {
+  it("lane C: the projection view of the run carries the candidate, the scenario point and the path, on ONE projection", async () => {
     const b = await loadBundle(createArtifactSource(reader("pipeline")));
+    const view = raw("atlas.pca.json");
+    const p = b.projections[0]!;
+    expect(p.projection_id).toBe(view.projection_id);
+    // The finding reported to lane C: these three ids used to differ within one run.
+    expect(raw("atlas_diagnostics.json").projection_id).toBe(view.projection_id);
+    expect(raw("scenarios.json")[0].outputs.model_ref.projection_id).toBe(view.projection_id);
+    const types = (t: string) => p.points.filter((x) => x.representation_type === t).length;
+    expect([types("job"), types("candidate"), types("scenario")]).toEqual([raw("atlas_points.json").length, 1, 1]);
+    expect(types("role-centroid")).toBeGreaterThan(0);
+    expect(p.paths).toHaveLength(1);
+    const ids = new Set(p.points.map((x) => x.entity_id));
+    expect(ids.has(p.paths[0]!.from_entity_id) && ids.has(p.paths[0]!.to_entity_id)).toBe(true);
+    expect(p.paths[0]!.to_entity_id).toBe(raw("scenarios.json")[0].outputs.atlas_entity_id);
+    expect(p.synthetic_only).toBe(true);
+    expect(p.diagnostics).toEqual(view.diagnostics);
+  });
+
+  it("lane C: without the view, diagnostics are carried over from the points + diagnostics pair and points join to postings", async () => {
+    const b = await loadBundle(createArtifactSource(reader("pipeline", {}, ["atlas.pca.json"])));
+    expect(b.provenance.dialects["atlas_points.json"]).toBe("atlas-points+diagnostics");
     const d = raw("atlas_diagnostics.json");
     const p = b.projections[0]!;
     expect(p.diagnostics.trustworthiness).toEqual({ k: d.k, value: d.trustworthiness });

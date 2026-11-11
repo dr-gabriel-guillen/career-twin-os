@@ -4,9 +4,15 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 /**
  * Lane E `ui.e2e`: the UI renders the artifacts of an integration run and is
- * driven with the KEYBOARD ONLY. Nothing here is specific to one data set:
- * ids, titles and numbers are read from the artifacts and compared with what
- * the screens show.
+ * driven with the KEYBOARD ONLY, by TAB TRAVERSAL.
+ *
+ * The runner never calls focus() on a control and never uses the pointer. Every
+ * control is reached by pressing Tab from wherever focus currently is, so a
+ * control that is not in the tab order cannot be operated by this test. The
+ * page counts pointer events itself; the count must be zero.
+ *
+ * Nothing here is specific to one data set: ids, titles and numbers are read
+ * from the artifacts and compared with what the screens show.
  */
 const ARTIFACTS = process.env.CT_ARTIFACTS ?? "";
 const FACTS = process.env.CT_FACTS ?? "";
@@ -21,27 +27,39 @@ const has = (file: string) => {
   }
 };
 
-// ---- keyboard helpers: focus is set by the runner, every action is a key press ----
-async function press(page: Page, target: Locator, key = "Enter") {
-  await target.focus();
+let tabPresses = 0;
+const MAX_TABS = 3000;
+
+/** Press Tab until `target` has focus. Fails if the control is not reachable in the tab order. */
+async function tabTo(page: Page, target: Locator, what: string) {
+  await expect(target, `${what} exists`).toHaveCount(1);
+  for (let i = 0; i <= MAX_TABS; i++) {
+    if (await target.evaluate((el) => el === document.activeElement)) return;
+    await page.keyboard.press("Tab");
+    tabPresses++;
+  }
+  throw new Error(`${what} was not reached after ${MAX_TABS} Tab presses: it is not in the tab order`);
+}
+async function press(page: Page, target: Locator, what: string, key = "Enter") {
+  await tabTo(page, target, what);
   await page.keyboard.press(key);
 }
-async function typeInto(page: Page, target: Locator, text: string) {
-  await target.focus();
+async function typeInto(page: Page, target: Locator, what: string, text: string) {
+  await tabTo(page, target, what);
   await page.keyboard.press("Control+A");
   await page.keyboard.press("Delete");
   await page.keyboard.type(text);
 }
 /** Move a closed <select> to `value` with arrow keys. */
-async function choose(page: Page, select: Locator, value: string) {
-  await select.focus();
+async function choose(page: Page, select: Locator, what: string, value: string) {
+  await tabTo(page, select, what);
   const { from, to } = await select.evaluate((el: HTMLSelectElement, v) => ({ from: el.selectedIndex, to: [...el.options].findIndex((o) => o.value === v) }), value);
-  expect(to, `option ${value} exists`).toBeGreaterThanOrEqual(0);
+  expect(to, `${what}: option ${value} exists`).toBeGreaterThanOrEqual(0);
   for (let i = 0; i < Math.abs(to - from); i++) await page.keyboard.press(to > from ? "ArrowDown" : "ArrowUp");
   await expect(select).toHaveValue(value);
 }
 async function goto(page: Page, title: string) {
-  await press(page, page.locator('nav[aria-label="Primary"]').getByRole("link", { name: title, exact: true }));
+  await press(page, page.locator('nav[aria-label="Primary"]').getByRole("link", { name: title, exact: true }), `navigation link "${title}"`);
   await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
 }
 
@@ -59,7 +77,7 @@ test("feed → match → résumé → application → experiment → atlas → s
     if (m.type() === "error") errors.push(m.text());
   });
   page.on("pageerror", (e) => errors.push(e.message));
-  // Count every pointer-type event the page receives. Keyboard activation produces none.
+  // Count every pointer-type event and every scripted focus() call the page sees.
   await page.addInitScript(() => {
     const w = window as unknown as { __pointerEvents: number };
     w.__pointerEvents = 0;
@@ -84,6 +102,10 @@ test("feed → match → résumé → application → experiment → atlas → s
     const tail = text.split(":").slice(1).join(":").trim();
     return tail === "none" || tail === "" ? [] : tail.split(",").map((s) => s.trim());
   };
+  // The very first Tab on a freshly loaded page lands on the skip link.
+  await page.keyboard.press("Tab");
+  tabPresses++;
+  await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
 
   // ---- 1. Feed: every contract-valid posting is listed; find and shortlist the pinned one
   const countText = await page.getByTestId("job-count").innerText();
@@ -92,16 +114,16 @@ test("feed → match → résumé → application → experiment → atlas → s
   const rejected = (await rejectedBanner.count()) > 0 ? Number(/^(\d+)/.exec(await rejectedBanner.innerText())?.[1] ?? 0) : 0;
   expect(shown, "postings shown").toBeGreaterThan(0);
   expect(shown + rejected, "every record in jobs.json is either shown or reported as rejected").toBe(jobList.length);
-  await typeInto(page, page.getByTestId("job-search"), pinned!.title);
+  await typeInto(page, page.getByTestId("job-search"), "job search field", pinned!.title);
   const card = page.getByTestId(`job-${pin}`);
   await expect(card).toContainText(pinned!.title);
   await expect(card).toContainText(pinned!.organization);
-  await press(page, page.getByTestId(`shortlist-${pin}`));
+  await press(page, page.getByTestId(`shortlist-${pin}`), "shortlist button of the pinned posting");
   await expect(page.getByTestId(`shortlist-${pin}`)).toHaveAttribute("aria-pressed", "true");
   steps.push(`feed: ${shown} postings shown, ${rejected} rejected by the adapter, pinned posting shortlisted`);
 
   // ---- 2. Match: the pipeline's explanation for the pinned posting, with its own score
-  await press(page, card.getByRole("link", { name: "Explain match" }));
+  await press(page, card.getByRole("link", { name: "Explain match" }), "Explain match link");
   await expect(page.getByRole("heading", { level: 1, name: "Matching" })).toBeVisible();
   const detail = page.getByTestId("match-detail");
   await expect(detail).toContainText(pinned!.title);
@@ -116,17 +138,16 @@ test("feed → match → résumé → application → experiment → atlas → s
   // ---- 3. Résumé: the pipeline's variant is traceable; approve the exact text
   await goto(page, "Resume Studio");
   const variant = art<{ id: string; bullets: { text: string }[] }>("resume_variant.json");
-  await press(page, page.getByTestId(`variant-${variant.id}`));
+  await press(page, page.getByTestId(`variant-${variant.id}`), "the pipeline's résumé variant");
   const editor = page.getByTestId("variant-editor");
   for (const b of variant.bullets) await expect(editor).toContainText(b.text);
-  await page.getByRole("tab", { name: "Edit" }).focus();
+  await tabTo(page, page.getByRole("tab", { name: "Edit" }), "Edit tab");
   await page.keyboard.press("End");
   await expect(page.getByTestId("review-panel")).toBeVisible();
   await expect(page.getByTestId("export-txt")).toBeDisabled(); // nothing is exportable before the user's approval
   if (await page.getByTestId("approve-open").isDisabled()) {
     // The UI refuses to approve or export lines that fail the truthfulness guard. Do what a user
     // would do: read why, remove the blocked lines, and approve what is left.
-    await page.getByRole("tab", { name: /Review & export/ }).focus();
     await page.keyboard.press("Home");
     const blocked = editor.locator("li.app-bullet--block");
     const n = await blocked.count();
@@ -135,17 +156,17 @@ test("feed → match → résumé → application → experiment → atlas → s
       const reasons = (await blocked.nth(i).locator("li", { hasText: "Blocks export" }).allInnerTexts()).map((t) => t.replace(/\s+/g, " ").replace("Blocks export ", "").trim());
       upstreamFindings.push(`resume_variant.json: line ${i + 1} of ${variant.bullets.length} is blocked from export (${reasons.join("; ")})`);
     }
-    for (let i = 0; i < n; i++) await press(page, blocked.first().getByRole("button", { name: "Remove" }));
+    for (let i = 0; i < n; i++) await press(page, blocked.first().getByRole("button", { name: "Remove" }), "Remove button of a blocked line");
     await expect(blocked).toHaveCount(0);
-    await page.getByRole("tab", { name: "Edit" }).focus();
+    await tabTo(page, page.getByRole("tab", { name: "Edit" }), "Edit tab");
     await page.keyboard.press("End");
     await expect(page.getByTestId("review-panel")).toBeVisible();
   }
   await expect(page.getByTestId("approve-open"), "after removing blocked lines the remaining text can be approved").toBeEnabled();
-  await press(page, page.getByTestId("approve-open"));
+  await press(page, page.getByTestId("approve-open"), "Approve button");
   await expect(page.getByTestId("approve-confirm")).toBeDisabled();
-  await press(page, page.getByTestId("approve-check"), "Space");
-  await press(page, page.getByTestId("approve-confirm"));
+  await press(page, page.getByTestId("approve-check"), "approval checkbox in the dialog", "Space");
+  await press(page, page.getByTestId("approve-confirm"), "Approve and lock button in the dialog");
   await expect(page.getByTestId("export-ready")).toBeVisible();
   await expect(page.getByTestId("locked-banner")).toBeVisible();
   steps.push(`résumé: pipeline variant rendered line by line; ${upstreamFindings.length} blocked line(s) removed; the rest approved through the dialog, then locked`);
@@ -155,14 +176,14 @@ test("feed → match → résumé → application → experiment → atlas → s
   const events = art<{ application_id: string; job_id: string; event_type: string; approval_token_ref?: string | null }[]>("events.json");
   const submitted = events.find((e) => e.job_id === pin && e.event_type === "submitted");
   expect(submitted, "events.json has a user-recorded submission for the pinned posting").toBeDefined();
-  await press(page, page.getByTestId(`app-${submitted!.application_id}`).first());
+  await press(page, page.getByTestId(`app-${submitted!.application_id}`).first(), "board card of the pinned application");
   const timeline = page.getByTestId("app-detail").getByTestId("timeline");
   await expect(timeline).toContainText("Marked as submitted (manual)");
   await expect(timeline.locator("li")).toHaveCount(events.filter((e) => e.application_id === submitted!.application_id).length);
   if (submitted!.approval_token_ref) await expect(page.getByTestId("app-detail")).toContainText(submitted!.approval_token_ref);
-  await choose(page, page.getByTestId("next-event"), "note");
-  await typeInto(page, page.getByTestId("event-notes"), "Integration run: note recorded from the keyboard.");
-  await press(page, page.getByTestId("record-event"));
+  await choose(page, page.getByTestId("next-event"), "'What happened?' select", "note");
+  await typeInto(page, page.getByTestId("event-notes"), "note field", "Integration run: note recorded from the keyboard.");
+  await press(page, page.getByTestId("record-event"), "Record event button");
   await expect(timeline).toContainText("Integration run: note recorded from the keyboard.");
   // The only next steps offered after a submission are responses, withdrawal or a note: no "submit" action exists.
   const offered = await page.getByTestId("next-event").locator("option").allInnerTexts();
@@ -173,10 +194,10 @@ test("feed → match → résumé → application → experiment → atlas → s
   await goto(page, "Experiments");
   const experimentRaw = art<Record<string, unknown>>("experiment.json");
   const experiment = (experimentRaw.spec ?? experimentRaw) as { id: string; title: string };
-  await press(page, page.getByTestId(`exp-${experiment.id}`));
+  await press(page, page.getByTestId(`exp-${experiment.id}`), "the pipeline's experiment");
   await expect(page.getByTestId("exp-detail")).toContainText(experiment.title);
   await expect(page.getByTestId("exp-title")).toBeDisabled(); // locked design is read-only
-  await page.getByRole("tab", { name: "Design" }).focus();
+  await tabTo(page, page.getByRole("tab", { name: "Design" }), "Design tab");
   await page.keyboard.press("ArrowRight");
   const assignments = art<unknown[]>("assignments.json");
   await expect(page.getByTestId("assign-table").locator("tbody tr")).toHaveCount(assignments.length);
@@ -185,7 +206,7 @@ test("feed → match → résumé → application → experiment → atlas → s
   await expect(results).toBeVisible();
   if (has("analysis.json")) {
     const analysis = art<{ decision?: string; verdict?: string; arms?: unknown; flow?: { by_arm?: Record<string, { units?: number }> } }>("analysis.json");
-    const verdict = String(analysis.verdict ?? analysis.decision ?? "").toUpperCase();
+    const verdict = String(analysis.verdict ?? analysis.decision ?? "");
     await expect(page.getByTestId("upstream-verdict")).toBeVisible();
     // Arms are a list in lane E's stub and an object keyed by variant in lane B's report.
     const armRows: { variant: string; assigned: number | undefined }[] = Array.isArray(analysis.arms)
@@ -205,19 +226,32 @@ test("feed → match → résumé → application → experiment → atlas → s
   // ---- 6. Atlas: distortion stated with the pipeline's numbers; select a point from the keyboard
   await goto(page, "Career Atlas");
   await expect(page.getByTestId("distortion-banner")).toBeVisible();
-  if (has("atlas_diagnostics.json") && !has("atlas.pca.json")) {
+  let atlasNote = "postings only (the run has no projection view)";
+  if (has("atlas.pca.json")) {
+    // The run carries lane C's projection view: candidate, scenario point and movement path share one projection.
+    const view = art<{ projection_id: string; points: { entity_id: string; representation_type: string }[]; paths: { scenario_id: string }[]; diagnostics: { trustworthiness: { k: number; value: number } | null } }>("atlas.pca.json");
+    await expect(page.getByTestId("atlas-count")).toContainText(`of ${view.points.length} points`);
+    if (view.diagnostics.trustworthiness) await expect(page.getByTestId("trustworthiness")).toContainText(`Trustworthiness ${view.diagnostics.trustworthiness.value.toFixed(2)} (k=${view.diagnostics.trustworthiness.k})`);
+    const candidate = view.points.find((p) => p.representation_type === "candidate");
+    if (candidate) await expect(page.getByTestId(`pt-${candidate.entity_id}`)).toBeVisible();
+    for (const path of view.paths) await expect(page.getByTestId(`path-${path.scenario_id}`)).toBeVisible();
+    if (has("scenarios.json")) {
+      const model = art<{ outputs?: { model_ref?: { projection_id?: string } } }[]>("scenarios.json")[0]?.outputs?.model_ref?.projection_id;
+      if (model !== undefined) expect(model, "the scenario was computed on the projection that is drawn").toBe(view.projection_id);
+    }
+    atlasNote = `${view.points.length} points incl. candidate and scenario, ${view.paths.length} movement path(s), one projection`;
+  } else if (has("atlas_diagnostics.json")) {
     const diag = art<{ trustworthiness?: number | { value: number } }>("atlas_diagnostics.json");
     const t = typeof diag.trustworthiness === "number" ? diag.trustworthiness : diag.trustworthiness?.value;
     if (typeof t === "number") await expect(page.getByTestId("trustworthiness")).toContainText(`Trustworthiness ${t.toFixed(2)}`);
   }
   const entry = page.locator('[data-testid="atlas-plot"] g[role="button"][tabindex="0"]');
-  await expect(entry).toHaveCount(1);
-  await entry.focus();
+  await tabTo(page, entry, "the atlas plot (single tab stop)");
   await page.keyboard.press("ArrowRight");
   await page.keyboard.press("Enter");
   await expect(page.locator('[data-testid="atlas-plot"] g[aria-pressed="true"]')).toHaveCount(1);
   await expect(page.getByTestId("atlas-detail")).toContainText("This map position is not a score.");
-  steps.push("atlas: distortion banner shows the pipeline's diagnostics; a point was selected with arrow keys and Enter");
+  steps.push(`atlas: distortion banner shows the pipeline's diagnostics; ${atlasNote}; a point was selected with arrow keys and Enter`);
 
   // ---- 7. Simulation: every scenario listed as hypothetical; edit effort from the keyboard
   await goto(page, "Career Simulator");
@@ -227,8 +261,8 @@ test("feed → match → résumé → application → experiment → atlas → s
   const first = scenarios[0]!;
   const total = first.planned_actions.reduce((s, a) => s + a.effort_hours, 0);
   await expect(page.getByTestId(`hours-${first.id}`)).toHaveText(`${total} h`);
-  await press(page, page.getByTestId(`scenario-pick-${first.id}`));
-  await typeInto(page, page.getByTestId("action-hours-0"), String(first.planned_actions[0]!.effort_hours + 25));
+  await press(page, page.getByTestId(`scenario-pick-${first.id}`), "scenario row button");
+  await typeInto(page, page.getByTestId("action-hours-0"), "effort hours field", String(first.planned_actions[0]!.effort_hours + 25));
   await expect(page.getByTestId(`hours-${first.id}`)).toHaveText(`${total + 25} h`);
   await expect(page.getByTestId(`cost-${first.id}`)).toHaveText("Not entered");
   steps.push("simulation: scenarios listed as hypothetical; effort edited from the keyboard; no cost invented");
@@ -244,7 +278,7 @@ test("feed → match → résumé → application → experiment → atlas → s
   }
   if (FACTS) {
     mkdirSync(dirname(FACTS), { recursive: true });
-    writeFileSync(FACTS, JSON.stringify({ data_source: dataSource, mock_sources: list(mockText), missing: list(missingText), pointer_events: pointerEvents, external_requests: external.length, dialects, steps, upstream_findings: upstreamFindings }, null, 2));
+    writeFileSync(FACTS, JSON.stringify({ data_source: dataSource, mock_sources: list(mockText), missing: list(missingText), pointer_events: pointerEvents, external_requests: external.length, focus_method: "tab-traversal", tab_presses: tabPresses, dialects, steps, upstream_findings: upstreamFindings }, null, 2));
   }
   expect(external, "requests to other origins").toEqual([]);
   expect(errors, "console or page errors").toEqual([]);

@@ -97,6 +97,7 @@ if (tests.length === 0) tests.push({ name: "ui.e2e", status: "fail", detail: "no
 
 const report = {
   tool: "playwright",
+  focus_method: facts?.focus_method ?? "unknown",
   // True only if the browser observed zero pointer, mouse or touch events during the journey.
   keyboard_only: facts !== null && facts.pointer_events === 0,
   // Read from the running app, not assumed: "artifacts" when it rendered the pipeline output.
@@ -105,7 +106,11 @@ const report = {
   tests,
   detail: {
     session_id: "CAREER-TWIN-D",
-    input_method: "keyboard events only; the runner sets focus programmatically, then sends key presses",
+    // "tab-traversal": every control was reached by pressing Tab from wherever focus was; the
+    // runner never calls focus() on a control. Requested by lane E on Issue #5.
+    focus_method: facts?.focus_method ?? "unknown",
+    tab_presses: facts?.tab_presses ?? null,
+    input_method: "keyboard events only: Tab to reach each control, then Enter, Space, arrow keys or typing",
     pointer_events_observed: facts?.pointer_events ?? null,
     external_requests_observed: facts?.external_requests ?? null,
     missing_artifacts: facts?.missing ?? [],

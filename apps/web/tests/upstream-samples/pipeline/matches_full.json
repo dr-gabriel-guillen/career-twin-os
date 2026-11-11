@@ -26,6 +26,7 @@
  ],
  "e2e": {
   "as_of_source": "max(fetched_at) in jobs.json",
+  "claims_status_source": "derived-by-verified-vault",
   "claims_subject": "candidate-synthetic-001",
   "records": {
    "from_ext": 90,
@@ -184,7 +185,7 @@
   {
    "job_id": "jp_5a52c451ecac36af6734",
    "reasons": [
-    "availability: expired: past-source-expiry",
+    "availability: expired: producer-status-expired",
     "jurisdiction: IE",
     "seniority-band: junior"
    ]
@@ -250,7 +251,7 @@
   {
    "job_id": "jp_81d5036d92d51ca9c6c0",
    "reasons": [
-    "availability: expired: delisted-by-source"
+    "availability: expired: producer-status-expired"
    ]
   },
   {
@@ -263,7 +264,7 @@
   {
    "job_id": "jp_88a49124462d6df00f5d",
    "reasons": [
-    "availability: expired: past-source-expiry",
+    "availability: expired: producer-status-expired",
     "remote-policy: onsite",
     "employment-type: contract"
    ]
@@ -328,7 +329,7 @@
   {
    "job_id": "jp_aeb196fb673f0e5879bc",
    "reasons": [
-    "availability: expired: past-source-expiry",
+    "availability: expired: producer-status-expired",
     "jurisdiction: CA",
     "employment-type: contract"
    ]
@@ -479,7 +480,7 @@
    ]
   }
  ],
- "result_hash": "d7542cde2be1b749e53b0a5915b588994e208ba5ae26cc29a88fc627fdf12f51",
+ "result_hash": "5a950ae42f8961d4a8521c21e6d5a2ff93cd538de2afbdfce702250b51ea228b",
  "score_type": "relative_heuristic_not_offer_probability",
  "shortlist": [
   {

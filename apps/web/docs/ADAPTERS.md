@@ -13,7 +13,7 @@ The UI never touches upstream data directly. Everything goes through `src/adapte
 | Fixtures | default | Lane D's deterministic stand-in (`scripts/generate-fixtures.ts`). Labelled "Synthetic fixture mode". |
 | Pipeline artifacts | open the app with `?source=artifacts` before the `#` | JSON files served next to the app under `./artifacts/`, in the layout lane E proposed on Issue #5. Labelled "Pipeline artifacts mode", with the list of sources that call themselves stub or mock and the list of files the pipeline did not provide. The stored workspace is neither read nor written. |
 
-`npm run e2e:integration -- --artifacts <dir>` builds the app, copies `<dir>/*.json` beside it, runs the keyboard-only journey in `tests/integration/pipeline.spec.ts`, and writes `<dir>/ui_report.json`. `integration-manifest.json` declares this as lane E's `ui.e2e` stage.
+`npm run e2e:integration -- --artifacts <dir>` builds the app, copies `<dir>/*.json` beside it, runs the keyboard-only, Tab-traversal journey in `tests/integration/pipeline.spec.ts`, and writes `<dir>/ui_report.json` (or the file given with `--report`). `integration-manifest.json` declares this as lane E's `ui.e2e` stage.
 
 ## Frozen contracts (validated exactly)
 
@@ -41,7 +41,7 @@ The UI never touches upstream data directly. Everything goes through `src/adapte
 | `assignments.json` | lane E stub / lane B (`assignment_id`, `design_hash`, `unit_kind`, `unit_id`) | B | stub output; real pipeline run | Exposure is unknown in both shapes and is shown as unknown. |
 | `analysis.json` | lane E stub (`decision`, `arms[]`, `effect`) / `careertwin.b.analysis-report.v1` (`verdict`, `arms{}`, `flow.by_arm`, `comparisons[]`) | B | stub output; real pipeline run | Rendered as given in place of local statistics: verdict, phase, per-variant assigned / positive / censored / missing, first comparison with its interval, reasons withheld, warnings, limits. An unknown verdict yields no result at all. |
 | `atlas_points.json` + `atlas_diagnostics.json` | frozen `AtlasPoint[]` + lane E's diagnostics field names, with lane C's extras (`explained_variance_cumulative`, `knn_recall_mean`, `flags`, `warnings`, `information_loss.statement`, `unplaced`) | C | lane E stub output; real pipeline run | Role family is joined from `jobs.json` by id. |
-| `atlas.pca.json`, `atlas.axes.json` | `atlas-projection/0.1` | C | lane C `analytics/reports/for-lane-d/` | Accepted as-is, including `knn_recall`, `flags`, `unplaced[]`, `synthetic_only`. Preferred over the point/diagnostics pair when present. |
+| `atlas.pca.json`, `atlas.axes.json` | `atlas-projection/0.1` | C | lane C `analytics/reports/for-lane-d/`; real pipeline run (lane C writes `atlas.pca.json` into the run since `f76e24c`) | Accepted as-is, including `knn_recall`, `flags`, `unplaced[]`, `synthetic_only`. Preferred over the point/diagnostics pair when present. |
 | `scenarios.json` | frozen `TransitionScenario[]` with `scenario-outputs/0.1` | C | lane C `for-lane-d/scenarios.json` | Coverage follows lane C's evidence rule (below). Outputs in any other shape are kept but no number is derived from them. |
 | `events.json`, `experiment_events.json` | frozen `ApplicationEvent[]` | B | lane E stub output | Merged, de-duplicated by id. |
 | `experiment.json` | frozen `ExperimentSpec`, or `{spec, design}` | B | lane E stub output | |

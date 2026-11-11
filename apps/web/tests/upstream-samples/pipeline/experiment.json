@@ -11,7 +11,7 @@
   "interview"
  ],
  "seed_digest": "a882afba894204a03fe5bef859a92c282c54f296c65917aa5451caa07724fd8e",
- "status": "running",
+ "status": "closed",
  "stopping_rule": "Fixed horizon: 78 job units in total or the end of the job list, whichever comes first; analyse once every window has closed.",
  "strata": [
   "seniority"

@@ -42,7 +42,7 @@ Every browser test fails automatically on any console error, uncaught exception,
 
 ### Integration stage (`tests/integration`, `npm run test:integration`)
 
-Lane E's `ui.e2e`: the app renders the artifacts of a pipeline run (`?source=artifacts`) and is driven with the keyboard only. The report field `keyboard_only` is measured (zero pointer, mouse or touch events observed in the page).
+Lane E's `ui.e2e`: the app renders the artifacts of a pipeline run (`?source=artifacts`) and is driven with the keyboard only, by Tab traversal: every control is reached by pressing Tab from wherever focus is, and the test never calls focus() on a control. The report field `keyboard_only` is measured (zero pointer, mouse or touch events observed in the page).
 
 ## Results
 
@@ -52,7 +52,8 @@ Lane E's `ui.e2e`: the app renders the artifacts of a pipeline run (`?source=art
 | Upstream adapters, `e88c060` | 116 passed | 46 passed | pass on lane E's stub (4 mock sources reported) |
 | Real pipeline, `7686e8c` | 123 passed | 46 passed | pass on A `3994155` → B `84757ed` → C `85c0536`, no mock sources |
 | Injection corpus, `9c24d10` | 123 passed | 47 passed, 1 skipped (screenshots) | pass |
-| After the independent review and repairs (final) | 158 passed | 48 passed, 1 skipped (screenshots) | pass on the pinned real pipeline run |
+| After the independent review and repairs, `b5948c4` | 158 passed | 48 passed, 1 skipped (screenshots) | pass on the pinned real pipeline run |
+| Tab traversal, re-pinned pipeline (final) | 159 passed | 48 passed, 1 skipped (screenshots) | pass by Tab traversal on A `0b331ea` → B `755ccae` → C `f76e24c`; candidate, scenario and path on the atlas |
 
 No test is skipped except the opt-in screenshot generator. No test is marked expected-to-fail.
 
@@ -67,7 +68,9 @@ No test is skipped except the opt-in screenshot generator. No test is marked exp
 | 5 | unit test on real lane C data | I assumed one applied action per planned action; lane C expands one planned action into several features. | The join is by `skill`. |
 | 6 | integration run on lane E's stub | The stub résumé variant cites a claim marked private; the export gate blocks it. | Not a lane D defect. Reported to lane E; the stage records it under `upstream_findings`. |
 | 7 | integration run on the real pipeline | Lane B's analysis report has `arms` as an object and counts under `flow.by_arm`; my first translator expected a list. | Translator and test updated to the real shape. |
-| 8 | inspection of the real pipeline run | Lane C's two stages use different projection ids, so the scenario cannot be drawn on that run's atlas. | Not a lane D defect. Reported to lanes C and E. The atlas shows postings only in that mode. |
+| 8 | inspection of the real pipeline run | Lane C's two stages used different projection ids, so the scenario could not be drawn on that run's atlas. | Not a lane D defect. Reported to lanes C and E. Lane C fixed it at `f76e24c`; lane E now checks it. A fresh run confirms one projection id, and the pipeline atlas shows the candidate, the scenario point and the path (asserted in the integration stage). |
+| 10 | lane E's review of the stage | The stage set focus programmatically, so it did not prove that every control is reachable in the tab order. | The stage now reaches every control by pressing Tab from wherever focus is (374 presses on the pinned run) and never calls focus() on a control. The report states `focus_method: "tab-traversal"`. |
+| 11 | lane E's runner | The browser could not start inside lane E's credential-scrubbed environment. | The manifest's `setup` now also installs Playwright's Chromium, as lane E proposed. Not verified inside lane E's runner by lane D. |
 | 9 | own tests | Four of my test assertions were wrong (an impossible input, a focus assertion that ignored the browser's own UI, a file I expected to be reported missing, a console error caused by my own simulated 404). | Tests corrected, none deleted. |
 
 ## Independent adversarial review (second cycle)
@@ -103,7 +106,7 @@ What the reviewer checked and found correct: `assignVariant` against the Python 
 
 - **Platforms:** one OS, one browser engine. No assistive-technology testing. axe finds only machine-checkable problems.
 - **Stand-in data:** in fixture mode the match, atlas and scenario numbers come from a dev-time stand-in, not from lanes A and C. They are labelled as such on screen and in Settings.
-- **Pipeline mode gaps:** no candidate point, scenario point or movement path on the atlas (lane C stages disagree on the projection); evidence references do not resolve (no evidence registry in the artifact layout); exposure of experiment units is unknown; lane A's compensation state, location parts and timestamps are not rendered.
+- **Pipeline mode gaps:** evidence references do not resolve (no evidence registry in the artifact layout); exposure of experiment units is unknown; lane A's compensation state, location parts and timestamps are not rendered.
 - **Bidi and zero-width characters** in upstream text are displayed as they arrive (each string in its own block). They are not stripped; lane A strips them at ingestion.
 - **First load** needs a local static server; `file://` does not work for module scripts.
 - **Fixture clock:** in fixture mode every age (posting freshness, days without a reply, claim expiry) is measured against the fixed snapshot date, so an application you record after that date never shows as "no reply recorded". Pipeline mode uses the latest time in the run.
