@@ -583,23 +583,23 @@
    "by_arm": {
     "control": {
      "applications": 1,
-     "censored": 0,
-     "deviations": 0,
-     "missing": 0,
+     "censored": null,
+     "deviations": null,
+     "missing": null,
      "no_success": null,
      "success": null,
      "units": 1,
-     "withdrawn": 0
+     "withdrawn": null
     },
     "treatment": {
      "applications": 0,
-     "censored": 0,
-     "deviations": 0,
-     "missing": 0,
+     "censored": null,
+     "deviations": null,
+     "missing": null,
      "no_success": null,
      "success": null,
      "units": 0,
-     "withdrawn": 0
+     "withdrawn": null
     }
    },
    "corrected_events": 0,

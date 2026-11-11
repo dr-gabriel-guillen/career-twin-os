@@ -1,7 +1,13 @@
 {
+ "abandonment_caution": "Experiments closed early or never finished are part of the family of questions asked. A habit of abandoning unpromising experiments makes the remaining 'differences' less trustworthy than their p-values suggest.",
  "caution": "Each experiment controls its own error rate. Across many experiments some 'differences' are expected by chance; prefer claims that survive the portfolio adjustment.",
  "expected_false_alarms_if_all_null": 1.05,
  "experiments": 24,
+ "experiments_without_final_test": [
+  "exp-interim-01",
+  "exp-interim-02",
+  "exp-early-01"
+ ],
  "final_tests": 21,
  "rows": [
   {
@@ -24,8 +30,8 @@
    "claim_survives_portfolio_holm": false,
    "experiment_id": "exp-aa-03",
    "p_holm_across_experiments": 1.0,
-   "p_primary": 0.7525,
-   "q_benjamini_hochberg": 0.80745,
+   "p_primary": 0.636,
+   "q_benjamini_hochberg": 0.7606666666666667,
    "verdict": "INCONCLUSIVE"
   },
   {
@@ -65,7 +71,7 @@
    "experiment_id": "exp-small-01",
    "p_holm_across_experiments": 1.0,
    "p_primary": 0.7225,
-   "q_benjamini_hochberg": 0.80745,
+   "q_benjamini_hochberg": 0.7985526315789474,
    "verdict": "INCONCLUSIVE"
   },
   {
@@ -88,7 +94,7 @@
    "claim_survives_portfolio_holm": false,
    "experiment_id": "exp-cl-null-01",
    "p_holm_across_experiments": 1.0,
-   "p_primary": 0.096,
+   "p_primary": 0.0885,
    "q_benjamini_hochberg": 0.21000000000000002,
    "verdict": "INCONCLUSIVE"
   },
@@ -96,16 +102,16 @@
    "claim_survives_portfolio_holm": false,
    "experiment_id": "exp-cl-null-02",
    "p_holm_across_experiments": 1.0,
-   "p_primary": 0.366,
-   "q_benjamini_hochberg": 0.480375,
+   "p_primary": 0.3845,
+   "q_benjamini_hochberg": 0.50465625,
    "verdict": "INCONCLUSIVE"
   },
   {
    "claim_survives_portfolio_holm": true,
    "experiment_id": "exp-cl-big-01",
-   "p_holm_across_experiments": 0.034,
-   "p_primary": 0.002,
-   "q_benjamini_hochberg": 0.008400000000000001,
+   "p_holm_across_experiments": 0.018000000000000002,
+   "p_primary": 0.001,
+   "q_benjamini_hochberg": 0.004200000000000001,
    "verdict": "EVIDENCE_FOR_DIFFERENCE"
   },
   {
@@ -113,7 +119,7 @@
    "experiment_id": "exp-attr-01",
    "p_holm_across_experiments": 1.0,
    "p_primary": 0.652,
-   "q_benjamini_hochberg": 0.8054117647058824,
+   "q_benjamini_hochberg": 0.7606666666666667,
    "verdict": "INCONCLUSIVE"
   },
   {
@@ -129,7 +135,7 @@
    "experiment_id": "exp-three-01",
    "p_holm_across_experiments": 0.018000000000000002,
    "p_primary": 0.001,
-   "q_benjamini_hochberg": 0.00525,
+   "q_benjamini_hochberg": 0.004200000000000001,
    "verdict": "EVIDENCE_FOR_DIFFERENCE"
   },
   {

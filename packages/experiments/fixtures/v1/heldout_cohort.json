@@ -1,7 +1,7 @@
 {
  "note": "Held-out cohort: same scenarios, a seed never used while developing the analysis.",
  "scorecard": {
-  "false_alarms": 1,
+  "false_alarms": 0,
   "rows": [
    {
     "claimed_arms": [],
@@ -90,16 +90,12 @@
     "verdict": "INCONCLUSIVE"
    },
    {
-    "claimed_arms": [
-     "treatment"
-    ],
-    "false_alarm_arms": [
-     "treatment"
-    ],
+    "claimed_arms": [],
+    "false_alarm_arms": [],
     "ground_truth": "no true difference; strong within-employer correlation that would fool an application-level test",
     "phase": "FINAL",
     "scenario": "cl-null-01",
-    "verdict": "EVIDENCE_FOR_DIFFERENCE"
+    "verdict": "INCONCLUSIVE"
    },
    {
     "claimed_arms": [],
@@ -217,8 +213,8 @@
  },
  "seed": 911,
  "verdict_counts": {
-  "EVIDENCE_FOR_DIFFERENCE": 8,
-  "INCONCLUSIVE": 14,
+  "EVIDENCE_FOR_DIFFERENCE": 7,
+  "INCONCLUSIVE": 15,
   "INTERIM_NO_CLAIM": 2
  }
 }

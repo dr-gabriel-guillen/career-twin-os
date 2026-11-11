@@ -1,5 +1,5 @@
 {
- "duplicate_imports_ignored": 117,
+ "duplicate_imports_ignored": 113,
  "historical_observational_applications": 240,
  "live_randomised_applications": 2782,
  "note": "First 30 live + 10 historical projections of the synthetic cohort; counts cover all of it.",
@@ -1177,11 +1177,11 @@
  ],
  "stage_counts": {
   "draft": 19,
-  "interview": 211,
-  "offer": 97,
-  "recruiter_screen": 414,
-  "rejected": 783,
-  "submitted": 1473,
+  "interview": 218,
+  "offer": 90,
+  "recruiter_screen": 411,
+  "rejected": 798,
+  "submitted": 1461,
   "withdrawn": 25
  },
  "total_applications": 3022
