@@ -50,7 +50,8 @@ def unwrap_job_records(items: Sequence[Any]) -> list[Any]:
     return out
 
 
-def vocabulary_from_names(names: Sequence[Any], version: str) -> tuple[Vocabulary, list[str]]:
+def vocabulary_from_names(names: Sequence[Any], version: str,
+                          strict: bool = True) -> tuple[Vocabulary, list[str]]:
     """Build a feature space from an upstream vocabulary list.
 
     Names lane C already knows (directly or through an alias) inherit that feature's group,
@@ -68,7 +69,7 @@ def vocabulary_from_names(names: Sequence[Any], version: str) -> tuple[Vocabular
     external: list[str] = []
     for raw in names:
         token = normalize_token(raw)
-        if token is None or token != raw:
+        if token is None or (strict and token != raw):
             raise InvalidInputError(f"vocabulary entry {raw!r} is not a normalised feature id")
         if token in seen:
             raise InvalidInputError(f"vocabulary entry {token!r} is duplicated")
@@ -81,6 +82,9 @@ def vocabulary_from_names(names: Sequence[Any], version: str) -> tuple[Vocabular
             external.append(token)
             feats.append(FeatureDef(token, "external", ACQ_STUDY, EXTERNAL_EFFORT_HOURS))
     notes = []
+    renamed = [f"{r}->{normalize_token(r)}" for r in names if isinstance(r, str) and normalize_token(r) != r]
+    if renamed:
+        notes.append("upstream feature ids normalised: " + ", ".join(renamed))
     if external:
         notes.append(f"{len(external)} upstream feature(s) are unknown to lane C and use the default effort "
                      f"placeholder and 'study-or-project' acquisition: {', '.join(external)}")
