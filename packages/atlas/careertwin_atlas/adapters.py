@@ -23,13 +23,15 @@ import numpy as np
 
 from .engine import AtlasEngine
 from .errors import InvalidInputError
-from .features import (STATE_NOT_STATED, STATE_STATED, STATE_UNKNOWN, FeatureVector, normalize_family,
+from .features import (STATE_CONTRADICTED, STATE_NOT_STATED, STATE_STATED, STATE_UNKNOWN, FeatureVector,
+                       normalize_family,
                        parse_utc, sanitize_label)
 from .vocabulary import normalize_token
 from .vocabulary import ACQ_STUDY, FeatureDef, Vocabulary, default_vocabulary
 
 A_API_VERSION = "a-api/0.1"
 EXTERNAL_EFFORT_HOURS = (60.0, 200.0)
+A_CANDIDATE_STATES = frozenset({"supported", "self-reported", "unverified", "contradicted", "expired", "none"})
 MAX_VECTOR_ROWS = 100_000
 
 
@@ -112,7 +114,26 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
     if not isinstance(observed, bool):
         raise InvalidInputError(f"{where}: observed must be true or false")
     warnings: list[str] = []
-    if observed:
+    upstream_states = row.get("states") if kind == "candidate" else None
+    if upstream_states is not None:
+        # Lane A (a-api/0.1, added at A 3994155): one entry per vocabulary id. Authoritative for the
+        # candidate: "none" = no evidence on file, "contradicted" stays contradicted, "expired" carries
+        # weight 0 upstream and is treated here as no current evidence (noted).
+        if (isinstance(upstream_states, (str, bytes)) or not isinstance(upstream_states, Sequence)
+                or len(upstream_states) != d or any(x not in A_CANDIDATE_STATES for x in upstream_states)):
+            raise InvalidInputError(f"{where}: states must list {d} entries from {sorted(A_CANDIDATE_STATES)}")
+        zero_states = {"none", "contradicted", "expired"}
+        if any((v == 0) != (st in zero_states) for v, st in zip(arr, upstream_states)):
+            raise InvalidInputError(f"{where}: values and states disagree (values[i] == 0 must hold iff "
+                                    "states[i] is none, contradicted or expired)")
+        states = np.array([STATE_CONTRADICTED if st == "contradicted" else
+                           STATE_NOT_STATED if st in ("none", "expired") else STATE_STATED
+                           for st in upstream_states], dtype=np.int8)
+        n_expired = sum(st == "expired" for st in upstream_states)
+        if n_expired:
+            warnings.append(f"upstream-expired: {n_expired} feature(s) have only expired evidence; treated as "
+                            "no current evidence")
+    elif observed:
         states = np.where(arr > 0, STATE_STATED, STATE_NOT_STATED).astype(np.int8)
     else:
         if arr.any():
@@ -126,8 +147,10 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
             for name, st in zip(vocab.feature_names, states) if st == STATE_STATED}
     family = normalize_family(row.get("role_family")) if kind == "job" else None
     record = (postings or {}).get(entity_id.strip())
-    fetched = record.get("fetched_at") if record and parse_utc(record.get("fetched_at")) else None
-    synthetic = payload_synthetic or bool(record and record.get("_synthetic"))
+    fetched = row.get("fetched_at") if parse_utc(row.get("fetched_at")) else None
+    if fetched is None and record and parse_utc(record.get("fetched_at")):
+        fetched = record.get("fetched_at")
+    synthetic = payload_synthetic or row.get("synthetic") is True or bool(record and record.get("_synthetic"))
     meta = {
         "role_family": family, "fetched_at": fetched,
         "status": row.get("status") if row.get("status") in ("active", "expired", "unknown") else "unknown",
@@ -138,6 +161,8 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
     }
     if ref:
         meta["source_vector_ref"] = ref
+    if kind == "job" and isinstance(row.get("seniority"), str):
+        meta["seniority_raw"] = sanitize_label(row.get("seniority"), "")[:40]
     label = sanitize_label(row.get("label"), entity_id) if kind == "job" else "Candidate (evidence on file)"
     return FeatureVector(entity_id=entity_id.strip(), kind=kind, label=label, values=arr, states=states,
                          vocab_digest=vocab.digest(), feature_names=vocab.feature_names, provenance=prov,
@@ -206,15 +231,15 @@ def engine_from_skill_vectors(payload: Any, standardize: bool = False, n_compone
     if payload.get("candidate") is not None:
         candidate = _row_to_vector(payload["candidate"], vocab, "candidate", "candidate")
     joined = sum(1 for v in vectors if v.meta.get("fetched_at"))
+    has_states = isinstance(payload.get("candidate"), Mapping) and payload["candidate"].get("states") is not None
     notes.extend([
-        "lane-A skill vectors carry no 'contradicted' state: a contradicted claim is indistinguishable "
-        "from missing evidence on this route (build the candidate from ProfileClaim objects with "
-        "claims_to_vector(claims, engine.vocab, ...) to keep it)",
-        "lane-A skill vectors carry no seniority, requirement lines or compensation: seniority steps, "
-        "minimum qualifications and salary sensitivity are not assessable on this route",
-        f"capture time joined from records for {joined} of {len(vectors)} posting(s); freshness and drift "
-        "checks need it" if records is not None else
-        "no records supplied: capture time is unknown, so freshness and drift checks are not assessable",
+        "candidate states supplied by lane A: contradicted claims are kept as contradicted" if has_states else
+        "this payload carries no candidate 'states': a contradicted claim is indistinguishable from missing "
+        "evidence (build the candidate from ProfileClaim objects with claims_to_vector to keep it)",
+        "lane-A skill vectors carry no requirement lines or compensation, and the upstream feature space has no "
+        "seniority feature: minimum qualifications, salary sensitivity and seniority steps are not assessable "
+        "on this route (raw seniority is kept as metadata only)",
+        f"capture time known for {joined} of {len(vectors)} posting(s); freshness and drift checks need it",
         "job values use lane A's encoding (1 = required, 0.5 = preferred, 0 = not listed); candidate values "
         "use lane A's evidence weights (supported 1, self-reported 0.5, unverified 0.25)",
     ])

@@ -71,7 +71,7 @@ def test_skill_vectors_fit_in_lane_a_feature_space_and_keep_its_references(contr
     assert refs["jp_fake0000"] == "a-skillvec/tax-test/jp_fake0000"          # upstream provenance preserved
     assert refs["candidate-synthetic-001"] == "a-skillvec/tax-test/candidate-synthetic-001"
     assert bundle["candidate"]["role_table"][0]["role"] in ("data-engineer", "fde")
-    assert any("no 'contradicted' state" in n for n in res["notes"])
+    assert any("no candidate 'states'" in n for n in res["notes"])
     assert any("spark" in n and "systems-integration" in n for n in res["notes"])   # unknown upstream features listed
 
 
@@ -133,7 +133,7 @@ def test_provenance_is_reported_not_assumed_and_records_restore_capture_time(job
     assert bundle["synthetic_only"] is False                                 # the payload does not say so
     assert bundle["input_sources"] == {"lane-a-skill-vectors": 90}
     assert any("cannot verify provenance" in w for w in bundle["warnings"])
-    assert any("no records supplied" in n for n in res["notes"])
+    assert any("capture time known for 0 of 90" in n for n in res["notes"])
     assert all(v.meta["fetched_at"] is None for v in res["engine"].matrix.vectors)
     records = [{"posting": {"id": j["entity_id"], "fetched_at": "2026-10-0%dT00:00:00Z" % (1 + i % 9),
                             "source": "greenhouse"}, "ext": {"synthetic": True}}
@@ -141,7 +141,7 @@ def test_provenance_is_reported_not_assumed_and_records_restore_capture_time(job
     joined = engine_from_skill_vectors(payload, n_boot=5, records=records + ["garbage", {"posting": {}}])
     stamps = [v.meta["fetched_at"] for v in joined["engine"].matrix.vectors]
     assert sum(s is not None for s in stamps) == 60
-    assert any("capture time joined from records for 60 of 90" in n for n in joined["notes"])
+    assert any("capture time known for 60 of 90" in n for n in joined["notes"])
     b2 = build_atlas_bundle(joined["engine"], None, include_clusters=False)
     assert b2["input_sources"] == {"lane-a-skill-vectors": 30, "synthetic": 60} and b2["synthetic_only"] is False
     marked = engine_from_skill_vectors({**payload, "synthetic": True}, n_boot=5)
@@ -229,3 +229,35 @@ def test_lane_a_skill_ids_map_through_lane_c_aliases(vocab):
     assert {"llm-integration", "pre-sales-demos", "regulatory-compliance"} <= set(v.stated_features())
     assert v.unmapped_terms == ("systems-integration",)                        # preserved, reported, not guessed
     assert any(w.startswith("lossy-alias-used") for w in v.warnings)
+
+
+def test_lane_a_candidate_states_keep_contradictions_and_rows_carry_capture_time():
+    """Lane A added candidate `states` and per-row fetched_at/seniority/synthetic at A 3994155 (reply on #12)."""
+    payload = _payload()
+    states = ["none"] * len(A_VOCAB)
+    for name, st in (("python", "supported"), ("api-design", "supported"), ("sql", "self-reported"),
+                     ("kubernetes", "unverified")):
+        states[A_VOCAB.index(name)] = st
+    states[A_VOCAB.index("terraform")] = "contradicted"
+    states[A_VOCAB.index("spark")] = "expired"
+    payload["candidate"]["states"] = states
+    payload["synthetic"] = True
+    for i, j in enumerate(payload["jobs"]):
+        j.update(fetched_at="2026-10-%02dT00:00:00Z" % (1 + i % 28), seniority="Senior", synthetic=True)
+    res = engine_from_skill_vectors(payload, n_boot=5)
+    cand = res["candidate"]
+    from careertwin_atlas.features import STATE_CONTRADICTED
+    assert cand.state_of("terraform") == STATE_CONTRADICTED and cand.state_of("spark") == STATE_NOT_STATED
+    assert any(w.startswith("upstream-expired: 1") for w in cand.warnings)
+    assert "terraform" in analyze_gap(res["engine"], cand, "data-engineer")["contradicted"]
+    assert all(v.meta["fetched_at"] for v in res["engine"].matrix.vectors)
+    assert res["engine"].matrix.vectors[0].meta["seniority_raw"] == "Senior"
+    assert any("contradicted claims are kept" in n for n in res["notes"])
+    assert build_atlas_bundle(res["engine"], cand, include_clusters=False)["synthetic_only"] is True
+    bad = copy.deepcopy(payload)
+    bad["candidate"]["states"][A_VOCAB.index("python")] = "none"            # value 1.0 but state none
+    with pytest.raises(InvalidInputError, match="values and states disagree"):
+        engine_from_skill_vectors(bad, n_boot=2)
+    bad["candidate"]["states"] = ["maybe"] * len(A_VOCAB)
+    with pytest.raises(InvalidInputError, match="states must list"):
+        engine_from_skill_vectors(bad, n_boot=2)
