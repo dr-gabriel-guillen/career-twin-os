@@ -3,7 +3,7 @@ import { HashRouter, NavLink, Route, Routes, useLocation } from "react-router-do
 import { AnnouncerProvider, Badge, Banner, Button, ErrorState, LoadingState } from "@careertwin/ui";
 import { totalRejected } from "@/adapters";
 import { Page } from "@/components/common";
-import { AppProvider, useShell } from "@/state/AppContext";
+import { AppProvider, artifactMode, useShell } from "@/state/AppContext";
 
 import OverviewPage from "@/pages/OverviewPage";
 import JobsPage from "@/pages/JobsPage";
@@ -69,9 +69,11 @@ function Shell() {
   const [navOpen, setNavOpen] = useState(false);
   useEffect(() => setNavOpen(false), [location.pathname]);
   const rejected = shell.ready ? totalRejected(shell.ready.bundle) : 0;
+  const artifacts = artifactMode();
+  const provenance = shell.ready?.bundle.provenance ?? null;
 
   return (
-    <div className="app">
+    <div className="app" data-source={provenance?.data_source ?? (artifacts ? "artifacts" : "fixtures")}>
       <a className="app-skip" href="#main" onClick={(e) => { e.preventDefault(); document.getElementById("main")?.focus(); }}>
         Skip to main content
       </a>
@@ -103,10 +105,29 @@ function Shell() {
         </nav>
         <main id="main" className="app-main" tabIndex={-1}>
           <div className="ct-stack">
-            <Banner tone="synthetic" title="Synthetic fixture mode." data-testid="synthetic-banner">
-              Every employer, posting, candidate, event and outcome here is fictional. Nothing is sent anywhere, no application is
-              ever submitted for you, and no live job source is connected.
-            </Banner>
+            {artifacts ? (
+              <Banner tone="synthetic" title="Pipeline artifacts mode (synthetic data only)." data-testid="artifact-banner">
+                These screens show what the data, experiment and analytics lanes produced in an integration run, not lane D's own
+                fixtures. This build accepts synthetic data only; it cannot verify provenance itself. Nothing is sent anywhere and
+                no application is ever submitted for you. Changes are not saved in this mode.
+                {provenance ? (
+                  <ul className="ct-small" data-testid="artifact-provenance">
+                    <li data-testid="mock-sources">
+                      Sources that label themselves stub or mock: {provenance.mock_sources.length === 0 ? "none" : provenance.mock_sources.join(", ")}
+                    </li>
+                    <li data-testid="missing-artifacts">Files the pipeline did not provide: {provenance.missing.length === 0 ? "none" : provenance.missing.join(", ")}</li>
+                    {(shell.ready?.bundle.sourceNotes ?? []).map((n) => (
+                      <li key={n}>{n}</li>
+                    ))}
+                  </ul>
+                ) : null}
+              </Banner>
+            ) : (
+              <Banner tone="synthetic" title="Synthetic fixture mode." data-testid="synthetic-banner">
+                Every employer, posting, candidate, event and outcome here is fictional. Nothing is sent anywhere, no application is
+                ever submitted for you, and no live job source is connected.
+              </Banner>
+            )}
             {shell.settings.simulate !== "none" ? (
               <Banner tone="warning" title={`QA simulation is on: “${shell.settings.simulate}”.`} data-testid="qa-banner">
                 Changes are not saved while a simulation is active. Turn it off in Settings.

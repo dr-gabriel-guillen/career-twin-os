@@ -18,10 +18,10 @@ import {
   OUTCOME_SCHEMA,
   OUTCOME_STATES,
   PREFERENCES_SCHEMA,
-  PROJECTION_SCHEMA,
+  PROJECTION_SCHEMAS,
   RESUME_SCHEMA,
-  SCENARIO_OUTPUTS_SCHEMA,
-  SCORE_TYPE,
+  SCENARIO_OUTPUTS_SCHEMAS,
+  SCORE_TYPES,
   type AtlasProjection,
   type CandidatePreferences,
   type EvidenceItem,
@@ -78,7 +78,37 @@ export function isMatchExplanation(v: unknown, c: Checker): v is MatchExplanatio
     ok = ce.at("version").string(v.engine.version) && ok;
   } else ok = false;
   // A payload that calls its score a probability is refused outright.
-  ok = constant(c.at("score_type"), v.score_type, SCORE_TYPE) && ok;
+  ok = c.at("score_type").oneOf(v.score_type, SCORE_TYPES) && ok;
+  if (v.overall !== undefined && v.overall !== null) {
+    const co = c.at("overall");
+    if (co.isObject(v.overall)) {
+      ok = co.at("score").number(v.overall.score, { min: 0, max: 100 }) && ok;
+      ok = co.at("note").string(v.overall.note) && ok;
+      const iv = v.overall.interval;
+      if (iv !== null) {
+        const ci = co.at("interval");
+        if (ci.isObject(iv)) {
+          ok = ci.at("low").number(iv.low, { min: 0, max: 100 }) && ok;
+          ok = ci.at("high").number(iv.high, { min: 0, max: 100 }) && ok;
+          if (typeof iv.low === "number" && typeof iv.high === "number" && iv.low > iv.high) ok = ci.fail("low exceeds high");
+        } else ok = false;
+      }
+    } else ok = false;
+  }
+  if (v.counterfactuals !== undefined) {
+    const cc = c.at("counterfactuals");
+    if (cc.array(v.counterfactuals)) {
+      v.counterfactuals.forEach((raw, i) => {
+        const ci = cc.at(i);
+        if (!ci.isObject(raw)) return void (ok = false);
+        ok = ci.at("change").string(raw.change) && ok;
+        ok = ci.at("score_delta").number(raw.score_delta) && ok;
+        ok = ci.at("status").string(raw.status) && ok;
+        // A counterfactual that does not call itself hypothetical is refused.
+        if (typeof raw.status === "string" && !/hypothetical/i.test(raw.status)) ok = ci.at("status").fail("counterfactual must be labelled hypothetical");
+      });
+    } else ok = false;
+  }
   ok = scoreGroup(c.at("near_term_fit"), v.near_term_fit) && ok;
   ok = scoreGroup(c.at("strategic_value"), v.strategic_value) && ok;
   const ch = c.at("hard_constraints");
@@ -206,7 +236,7 @@ function metric(c: Checker, v: unknown): boolean {
 
 export function isAtlasProjection(v: unknown, c: Checker): v is AtlasProjection {
   if (!c.isObject(v)) return false;
-  let ok = constant(c.at("schema_version"), v.schema_version, PROJECTION_SCHEMA);
+  let ok = c.at("schema_version").oneOf(v.schema_version, PROJECTION_SCHEMAS);
   ok = c.at("projection_id").string(v.projection_id, { minLength: 1 }) && ok;
   ok = c.at("method").oneOf(v.method, PROJECTION_METHODS) && ok;
   ok = c.at("generated_at").dateTime(v.generated_at) && ok;
@@ -233,7 +263,21 @@ export function isAtlasProjection(v: unknown, c: Checker): v is AtlasProjection 
     ok = nullable(d.cumulative_explained_variance, () => unit(cd.at("cumulative_explained_variance"), d.cumulative_explained_variance)) && ok;
     ok = metric(cd.at("trustworthiness"), d.trustworthiness) && ok;
     ok = metric(cd.at("continuity"), d.continuity) && ok;
+    if (d.knn_recall !== undefined) ok = metric(cd.at("knn_recall"), d.knn_recall) && ok;
+    if (d.flags !== undefined) ok = cd.at("flags").stringArray(d.flags) && ok;
   } else ok = false;
+  if (v.synthetic_only !== undefined) ok = c.at("synthetic_only").boolean(v.synthetic_only) && ok;
+  if (v.unplaced !== undefined) {
+    const cu = c.at("unplaced");
+    if (cu.array(v.unplaced)) {
+      v.unplaced.forEach((raw, i) => {
+        const cx = cu.at(i);
+        if (!cx.isObject(raw)) return void (ok = false);
+        ok = nullable(raw.entity_id ?? null, () => cx.at("entity_id").string(raw.entity_id)) && ok;
+        ok = cx.at("reason").string(raw.reason) && ok;
+      });
+    } else ok = false;
+  }
   ok = c.at("warnings").stringArray(v.warnings) && ok;
   const cp = c.at("points");
   const ids = new Set<string>();
@@ -278,11 +322,30 @@ export function isAtlasProjection(v: unknown, c: Checker): v is AtlasProjection 
 
 export function isScenarioOutputs(v: unknown, c: Checker): v is ScenarioOutputs {
   if (!c.isObject(v)) return false;
-  let ok = constant(c.at("schema_version"), v.schema_version, SCENARIO_OUTPUTS_SCHEMA);
+  let ok = c.at("schema_version").oneOf(v.schema_version, SCENARIO_OUTPUTS_SCHEMAS);
   ok = c.at("target_role_family").string(v.target_role_family) && ok;
   ok = c.at("target_skills").stringArray(v.target_skills) && ok;
-  ok = unit(c.at("coverage_before"), v.coverage_before) && ok;
-  ok = unit(c.at("coverage_after"), v.coverage_after) && ok;
+  ok = nullable(v.coverage_before, () => unit(c.at("coverage_before"), v.coverage_before)) && ok;
+  ok = nullable(v.coverage_after, () => unit(c.at("coverage_after"), v.coverage_after)) && ok;
+  if (v.coverage_definition !== undefined) ok = c.at("coverage_definition").string(v.coverage_definition) && ok;
+  if (v.leadership_exposure_definition !== undefined) ok = c.at("leadership_exposure_definition").string(v.leadership_exposure_definition) && ok;
+  if (v.applied_actions !== undefined) {
+    const ca = c.at("applied_actions");
+    if (ca.array(v.applied_actions)) {
+      v.applied_actions.forEach((raw, i) => {
+        const ci = ca.at(i);
+        if (!ci.isObject(raw)) return void (ok = false);
+        ok = ci.at("skill").string(raw.skill) && ok;
+        ok = ci.at("feature").string(raw.feature) && ok;
+        ok = ci.at("effort_hours").number(raw.effort_hours, { min: 0 }) && ok;
+        ok = ci.at("reaches_evidenced_level").boolean(raw.reaches_evidenced_level) && ok;
+      });
+    } else ok = false;
+  }
+  // A key that names a probability, chance or likelihood makes the outputs unusable (hub finding E-F005).
+  for (const key of Object.keys(v)) {
+    if (/probab|likelihood|chance|odds/i.test(key) && !/^not_/i.test(key)) ok = c.at(key).fail("scenario outputs must not carry a probability-like field");
+  }
   ok = c.at("leadership_exposure").oneOf(v.leadership_exposure, EXPOSURE_LEVELS) && ok;
   ok = c.at("uncertainty").oneOf(v.uncertainty, ["low", "medium", "high"] as const) && ok;
   ok = c.at("uncertainty_note").string(v.uncertainty_note) && ok;

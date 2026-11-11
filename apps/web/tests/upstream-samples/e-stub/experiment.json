@@ -1,0 +1,21 @@
+{
+ "id": "exp-syn-s7-0002",
+ "title": "Synthetic experiment 2",
+ "hypothesis": "Résumé variant B changes recruiter-screen rate versus A (synthetic #2).",
+ "status": "running",
+ "variants": [
+  "A",
+  "B"
+ ],
+ "assignment_unit": "application",
+ "strata": [
+  "role_family",
+  "seniority"
+ ],
+ "primary_metric": "recruiter_screen_within_window",
+ "design_locked_at": "2026-01-05T11:00:00Z",
+ "stopping_rule": "Fixed sample: stop at 80 assigned units.",
+ "consent_required": true,
+ "outcome_window_days": 30,
+ "analysis_plan": "Intention-to-treat difference in proportions with a 95% interval."
+}

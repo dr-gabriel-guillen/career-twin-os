@@ -101,11 +101,14 @@ export default function SettingsPage() {
               <tbody>
                 {ready.bundle.reports.map((r) => {
                   const problems = r.rejected.length + r.fatal.length + r.integrity.length;
+                  const dialect = Object.entries(ready.bundle.provenance.dialects).find(([file]) => file.replace(/_/g, "-").startsWith(r.adapter.id.replace("atlas-pca", "atlas")))?.[1];
                   return (
                     <tr key={r.adapter.id} data-testid={`adapter-${r.adapter.id}`}>
                       <th scope="row">
                         {r.adapter.id} <span className="ct-muted ct-small">v{r.adapter.version}</span>
                         <div className="ct-small ct-muted">{r.adapter.note}</div>
+                        {r.absent ? <Badge tone="neutral">Not provided by this source</Badge> : null}
+                        {dialect ? <div className="ct-small">Upstream dialect recognised: <code>{dialect}</code></div> : null}
                         {problems > 0 ? (
                           <details>
                             <summary>

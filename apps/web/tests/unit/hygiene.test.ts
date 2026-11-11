@@ -36,7 +36,15 @@ describe("shipped source hygiene", () => {
   it("has no network, telemetry or cross-window APIs", () => {
     const banned = [/\bfetch\s*\(/, /XMLHttpRequest/, /WebSocket/, /EventSource/, /sendBeacon/, /navigator\.serviceWorker/, /\bimportScripts\b/, /postMessage/, /document\.cookie/, /window\.open\s*\(/];
     const hits = sources.flatMap((s) => banned.filter((b) => b.test(s.text)).map((b) => `${s.path}: ${b}`));
-    expect(hits).toEqual([]);
+    // The ONE permitted network call: the artifact reader, which loads same-origin files next to the app.
+    const artifact = join("src", "adapters", "artifactSource.ts");
+    expect(hits.filter((h) => !h.startsWith(`${artifact}: /\\bfetch`))).toEqual([]);
+    const reader = sources.find((s) => s.path === artifact)!.text;
+    expect(reader.match(/\bfetch\s*\(/g)).toHaveLength(1);
+    expect(reader).toContain('fetch(`${base}${encodeURIComponent(file)}`, { cache: "no-store", credentials: "omit" })');
+    expect(reader).toContain('createFetchReader(base = "./artifacts/")');
+    // No caller overrides that base with another origin.
+    for (const s of sources) for (const m of s.text.matchAll(/createFetchReader\(([^)]*)\)/g)) expect(m[1] === "" || m[1] === 'base = "./artifacts/"', `${s.path}: ${m[0]}`).toBe(true);
   });
 
   it("references no external origin except the reserved test domains used in copy", () => {

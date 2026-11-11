@@ -1,0 +1,40 @@
+{
+ "projection_id": "proj-stub-pca-s7",
+ "method": "pca",
+ "preprocessing": "center",
+ "k": 10,
+ "fit_refs": [
+  "vec:job-syn-s7-000000",
+  "vec:job-syn-s7-000001",
+  "vec:job-syn-s7-000002",
+  "vec:job-syn-s7-000003",
+  "vec:job-syn-s7-000004",
+  "vec:job-syn-s7-000005",
+  "vec:job-syn-s7-000006",
+  "vec:job-syn-s7-000007",
+  "vec:job-syn-s7-000008",
+  "vec:job-syn-s7-000009",
+  "vec:job-syn-s7-000010",
+  "vec:job-syn-s7-000011",
+  "vec:job-syn-s7-000012",
+  "vec:job-syn-s7-000013",
+  "vec:job-syn-s7-000014",
+  "vec:job-syn-s7-000015",
+  "vec:job-syn-s7-000016",
+  "vec:job-syn-s7-000017",
+  "vec:job-syn-s7-000018",
+  "vec:job-syn-s7-000019",
+  "vec:job-syn-s7-000020",
+  "vec:job-syn-s7-000021",
+  "vec:job-syn-s7-000022",
+  "vec:job-syn-s7-000023"
+ ],
+ "explained_variance_ratio": [
+  0.23986501588738773,
+  0.20871535805669938
+ ],
+ "trustworthiness": 0.9068627450980392,
+ "continuity": 0.9098039215686274,
+ "information_lost": 0.5514196260559129,
+ "note": "Geometry is a visualisation aid, not the match metric."
+}

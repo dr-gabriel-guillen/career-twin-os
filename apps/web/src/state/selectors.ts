@@ -31,8 +31,9 @@ export function useIndexes(): Indexes {
     const labels = bundle.manifest?.role_family_labels ?? {};
     const familyLabel = (family: string | null | undefined) => (family ? labels[family] ?? humanise(family) : "Unlabelled role family");
     const families = [...new Set(bundle.jobs.map((j) => j.role_family).filter((f): f is string => Boolean(f)))].sort();
-    const snapshot = bundle.matches[0]?.profile_digest ?? null;
-    const matchesStale = snapshot !== null && workspace.claims.length > 0 && snapshot !== profileDigest(workspace.claims);
+    // Scores were computed upstream from the claims the source delivered. If the vault no longer
+    // equals that snapshot, scores are flagged stale; they are never recomputed in the browser.
+    const matchesStale = bundle.matches.length > 0 && profileDigest(bundle.claims) !== profileDigest(workspace.claims);
     return { jobById, matchByJob, claimById, applications, appByJob, familyLabel, families, matchesStale };
   }, [bundle, workspace.claims, workspace.applicationEvents]);
 }
@@ -61,7 +62,8 @@ export function userEvent(
 export function blendedScore(match: MatchExplanation, strategicBlend: number): number | null {
   const near = match.near_term_fit.score;
   const strat = match.strategic_value.score;
-  if (near === null && strat === null) return null;
+  // An engine that publishes one score only is ordered by that score; the blend has nothing to act on.
+  if (near === null && strat === null) return match.overall?.score ?? null;
   if (near === null) return strat;
   if (strat === null) return near;
   const b = strategicBlend / 100;

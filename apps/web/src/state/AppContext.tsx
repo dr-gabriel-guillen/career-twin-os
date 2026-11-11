@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useAnnounce } from "@careertwin/ui";
 import { errorText, loadBundle, type DataBundle } from "@/adapters";
+import { createArtifactSource, createFetchReader } from "@/adapters/artifactSource";
 import { createFixtureSource } from "@/adapters/fixtureSource";
 import {
   DEFAULT_SETTINGS,
@@ -41,6 +42,18 @@ interface Shell {
 
 const ShellContext = createContext<Shell | null>(null);
 
+/**
+ * "?source=artifacts" (before the #) renders the artifacts of an integration run,
+ * served next to the app under ./artifacts/. Used by lane E's ui.e2e stage.
+ */
+export function artifactMode(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get("source") === "artifacts";
+  } catch {
+    return false;
+  }
+}
+
 function safeGet(key: string): string | null {
   try {
     return window.localStorage.getItem(key);
@@ -60,8 +73,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [storageNotice, setStorageNotice] = useState<string | null>(null);
   const [online, setOnline] = useState(() => navigator.onLine);
   const [attempt, setAttempt] = useState(0);
-  const persistRef = useRef(settings.simulate === "none");
-  persistRef.current = settings.simulate === "none";
+  const artifacts = artifactMode();
+  // Neither QA simulations nor integration runs read or write the user's stored workspace.
+  const persistRef = useRef(settings.simulate === "none" && !artifacts);
+  persistRef.current = settings.simulate === "none" && !artifacts;
 
   // Theme / motion preferences are reflected on <html> so CSS can react.
   useEffect(() => {
@@ -87,7 +102,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     setStatus("loading");
     setError(null);
-    loadBundle(createFixtureSource(settings.simulate))
+    loadBundle(artifacts ? createArtifactSource(createFetchReader()) : createFixtureSource(settings.simulate))
       .then((loaded) => {
         if (cancelled) return;
         const jobsReport = loaded.reports.find((r) => r.adapter.id === "jobs");
@@ -97,7 +112,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           return;
         }
         // QA simulations never read or write the stored workspace.
-        const qa = settings.simulate !== "none";
+        const qa = settings.simulate !== "none" || artifacts;
         const stored = qa ? { workspace: null, error: null } : loadWorkspace(window.localStorage);
         const seed = settings.simulate === "empty" ? "empty" : "fixture";
         const ws = stored.workspace ?? seedWorkspace(loaded, seed);
@@ -117,7 +132,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [settings.simulate, attempt]);
+  }, [settings.simulate, attempt, artifacts]);
 
   const dispatch = useCallback(
     (action: Action): string | null => {

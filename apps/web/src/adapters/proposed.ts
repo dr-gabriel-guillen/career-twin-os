@@ -53,7 +53,7 @@ export interface MatchExplanation {
   candidate_ref: string;
   computed_at: string;
   engine: { name: string; version: string };
-  score_type: typeof SCORE_TYPE;
+  score_type: (typeof SCORE_TYPES)[number];
   near_term_fit: ScoreGroup;
   strategic_value: ScoreGroup;
   hard_constraints: HardConstraint[];
@@ -62,7 +62,14 @@ export interface MatchExplanation {
   warnings: string[];
   /** Digest of the claim snapshot the engine used; lets the UI flag stale scores. */
   profile_digest: string;
+  /** Single overall score, when the engine publishes one (lane A, reference engine). */
+  overall?: { score: number; interval: { low: number; high: number } | null; note: string } | null;
+  /** Engine-authored hypotheticals. Always labelled hypothetical; never a forecast. */
+  counterfactuals?: { change: string; score_delta: number; status: string }[];
 }
+
+/** Score-type constants that explicitly deny being a probability. Anything else is refused. */
+export const SCORE_TYPES = [SCORE_TYPE, "relative_heuristic_not_offer_probability"] as const;
 
 // ---------- Lane A: EvidenceItem ----------
 export const EVIDENCE_SCHEMA = "evidence-item/0.1-proposed" as const;
@@ -145,6 +152,12 @@ export interface ExperimentOutcome {
 
 // ---------- Lane C: AtlasProjection (points + diagnostics) ----------
 export const PROJECTION_SCHEMA = "atlas-projection/0.1-proposed" as const;
+/** Lane C adopted this shape as "atlas-projection/0.1" (a superset). Both are accepted. */
+export const PROJECTION_SCHEMAS = [PROJECTION_SCHEMA, "atlas-projection/0.1"] as const;
+export interface UnplacedEntity {
+  entity_id: string | null;
+  reason: string;
+}
 export interface AtlasAxis {
   label: string;
   explained_variance_ratio: number | null;
@@ -172,7 +185,7 @@ export interface AtlasPath {
   label: string;
 }
 export interface AtlasProjection {
-  schema_version: typeof PROJECTION_SCHEMA;
+  schema_version: (typeof PROJECTION_SCHEMAS)[number];
   projection_id: string;
   method: ProjectionMethod;
   generated_at: string;
@@ -182,7 +195,14 @@ export interface AtlasProjection {
     cumulative_explained_variance: number | null;
     trustworthiness: NeighbourhoodMetric | null;
     continuity: NeighbourhoodMetric | null;
+    /** Lane C extras. */
+    knn_recall?: NeighbourhoodMetric | null;
+    flags?: string[];
   };
+  /** Entities that could not be drawn (e.g. no observed skills). Unknown is not the map centre. */
+  unplaced?: UnplacedEntity[];
+  /** Computed upstream: true only if every fitted posting declares source "synthetic". */
+  synthetic_only?: boolean;
   warnings: string[];
   points: AtlasPoint[];
   entities: AtlasEntity[];
@@ -191,13 +211,25 @@ export interface AtlasProjection {
 
 // ---------- Lane C: TransitionScenario.outputs (free-form object in v0.1) ----------
 export const SCENARIO_OUTPUTS_SCHEMA = "scenario-outputs/0.1-proposed" as const;
+export const SCENARIO_OUTPUTS_SCHEMAS = [SCENARIO_OUTPUTS_SCHEMA, "scenario-outputs/0.1"] as const;
+/** Lane C: per-action result of its evidence model. D uses this, not skill names, for coverage. */
+export interface AppliedAction {
+  skill: string;
+  feature: string;
+  effort_hours: number;
+  reaches_evidenced_level: boolean;
+}
 export const EXPOSURE_LEVELS = ["low", "medium", "high", "unknown"] as const;
 export interface ScenarioOutputs {
-  schema_version: typeof SCENARIO_OUTPUTS_SCHEMA;
+  schema_version: (typeof SCENARIO_OUTPUTS_SCHEMAS)[number];
   target_role_family: string;
   target_skills: string[];
-  coverage_before: number;
-  coverage_after: number;
+  /** Null when the role has no target skills. */
+  coverage_before: number | null;
+  coverage_after: number | null;
+  coverage_definition?: string;
+  leadership_exposure_definition?: string;
+  applied_actions?: AppliedAction[];
   leadership_exposure: (typeof EXPOSURE_LEVELS)[number];
   uncertainty: "low" | "medium" | "high";
   uncertainty_note: string;
@@ -214,4 +246,35 @@ export interface CandidatePreferences {
   remote: "remote" | "hybrid" | "onsite";
   seniority: string;
   target_roles: string[];
+}
+
+// ---------- Upstream experiment analysis (lane B / pipeline). Rendered as given; never recomputed. ----------
+export const ANALYSIS_VERDICTS = ["EVIDENCE_FOR_DIFFERENCE", "INCONCLUSIVE", "INTERIM_NO_CLAIM", "EXPLORATORY_NO_CLAIM", "NOT_ANALYZABLE", "OBSERVATIONAL_ONLY"] as const;
+export type AnalysisVerdict = (typeof ANALYSIS_VERDICTS)[number];
+export interface UpstreamAnalysis {
+  experiment_id: string;
+  verdict: AnalysisVerdict;
+  estimand: string | null;
+  arms: { variant: string; n_assigned: number; n_success: number | null }[];
+  effect: { contrast: string; estimate: number; ci_low: number; ci_high: number; ci_level: number; method: string } | null;
+  reasons_withheld: string[];
+  warnings: string[];
+  interpretation_limits: string[];
+  producer: string;
+}
+
+export interface MatchRefusal {
+  job_id: string;
+  reasons: string[];
+}
+
+/** What the bundle was built from, for honest labelling and for lane E's ui_report. */
+export interface BundleProvenance {
+  data_source: "fixtures" | "artifacts";
+  /** Per payload: which upstream dialect was recognised. */
+  dialects: Record<string, string>;
+  /** Payloads whose producer declares itself a stub or mock. */
+  mock_sources: string[];
+  /** Payloads the pipeline did not provide at all. */
+  missing: string[];
 }

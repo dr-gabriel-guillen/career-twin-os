@@ -98,7 +98,9 @@ export default function SimulatorPage() {
                     <td className="ct-num" data-testid={`months-${c.view.scenario.id}`}>{c.totalHours === 0 ? "—" : `${c.months.toFixed(1)} months`}</td>
                     <td>{c.totalHours === 0 ? "No actions included" : c.fitsHorizon ? `Yes (horizon ${c.view.scenario.time_horizon_months} months)` : `No — horizon is ${c.view.scenario.time_horizon_months} months`}</td>
                     <td className="ct-num" data-testid={`cost-${c.view.scenario.id}`}>{c.cost === null ? "Not entered" : `${c.cost.toLocaleString("en-US")}${c.costPartial ? " (partial)" : ""}`}</td>
-                    <td>{c.coverageBefore === null ? "Unknown" : `${percent(c.coverageBefore)} → ${percent(c.coverageAfter)}`}</td>
+                    <td data-testid={`coverage-${c.view.scenario.id}`}>
+                      {c.coverageBefore === null ? "Unknown" : c.coverageAfter === null ? `${percent(c.coverageBefore)} → needs recalculation upstream` : `${percent(c.coverageBefore)} → ${percent(c.coverageAfter)}`}
+                    </td>
                     <td>{c.view.outputs ? humanise(c.view.outputs.leadership_exposure) : "Unknown"}</td>
                     <td>{c.view.outputs ? <Badge tone={UNCERTAINTY_TONE[c.view.outputs.uncertainty] ?? "warning"}>{humanise(c.view.outputs.uncertainty)}</Badge> : "Unknown"}</td>
                     <td className="ct-num" data-testid={`rank-${c.view.scenario.id}`}>{rank < 0 || totalWeight === 0 ? "—" : `#${rank + 1} (${Math.round((c.priority as number) * 100)})`}</td>
@@ -116,7 +118,18 @@ export default function SimulatorPage() {
       {selected ? (
         <Card title={`Plan: ${selected.view.scenario.target_role}`} actions={<Button size="sm" onClick={() => { dispatch({ type: "scenario/reset", scenarioId: selected.view.scenario.id }); announce("Scenario reset to the upstream assumptions."); }} disabled={!(selected.view.scenario.id in workspace.scenarioEdits)} data-testid="scenario-reset">Reset to upstream assumptions</Button>} data-testid="scenario-detail">
           {selected.edited ? <Banner tone="info" title="You changed this plan." data-testid="scenario-edited">Totals and coverage below use your numbers. The upstream scenario is unchanged.</Banner> : null}
-          {selected.inconsistent ? <Banner tone="warning" title="Coverage shown is the upstream value.">The UI could not reproduce the upstream coverage from the listed actions, so it shows the upstream numbers without recalculating.</Banner> : null}
+          {selected.coverageBasis === "needs-upstream-recompute" ? (
+            <Banner tone="warning" title="Coverage for this edited plan is not shown." data-testid="coverage-recompute">
+              {selected.inconsistent
+                ? "The UI could not reproduce the analytics lane’s coverage from its own per-action results, so it does not guess a new value."
+                : "You changed effort hours. Whether an action reaches the evidence threshold depends on those hours, and only the analytics lane can recompute that. Hours, time and cost below do use your numbers."}
+            </Banner>
+          ) : null}
+          {selected.coverageBasis === "skill-names" ? (
+            <Banner tone="neutral" title="Coverage here is a stand-in count." data-testid="coverage-standin">
+              This payload has no per-action evidence results, so an included action counts its skill as covered. The analytics lane applies stricter evidence thresholds.
+            </Banner>
+          ) : null}
           <TableRegion label="Planned actions">
             <table className="ct-table" data-testid="actions-table">
               <thead>
@@ -157,7 +170,16 @@ export default function SimulatorPage() {
             <Facts
               items={[
                 { label: "Target skills", value: selected.view.outputs ? selected.view.outputs.target_skills.map(humanise).join(", ") : "Unknown" },
-                { label: "Coverage", value: selected.coverageBefore === null ? "Unknown" : `${percent(selected.coverageBefore)} today → ${percent(selected.coverageAfter)} if every included action were completed and evidenced` },
+                {
+                  label: "Coverage",
+                  value:
+                    selected.coverageBefore === null
+                      ? "Unknown"
+                      : selected.coverageAfter === null
+                        ? `${percent(selected.coverageBefore)} today; the value after this edited plan needs recalculation upstream`
+                        : `${percent(selected.coverageBefore)} today → ${percent(selected.coverageAfter)} if every included action were completed and evidenced`,
+                },
+                { label: "How coverage is defined", value: selected.view.outputs?.coverage_definition ?? "Share of target skills counted as covered (definition not supplied by the payload)." },
                 { label: "Why uncertain", value: selected.view.outputs?.uncertainty_note ?? "Not stated" },
                 { label: "Status", value: selected.view.scenario.status },
               ]}

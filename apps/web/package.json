@@ -16,7 +16,8 @@
     "fixtures:check": "node scripts/generate-fixtures.ts --check",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "verify": "npm run fixtures:check && npm run typecheck && npm run test && npm run build && npm run test:e2e"
+    "verify": "npm run fixtures:check && npm run typecheck && npm run test && npm run build && npm run test:e2e",
+    "e2e:integration": "node scripts/e2e-integration.mjs"
   },
   "dependencies": {
     "react": "19.3.1",

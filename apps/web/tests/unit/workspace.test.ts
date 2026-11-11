@@ -184,7 +184,8 @@ describe("simulator arithmetic", () => {
     const rows = compareScenarios(bundle.scenarios, {}, DEFAULT_SIMULATOR);
     for (const r of rows) {
       expect(r.inconsistent).toBe(false);
-      expect(r.coverageAfter).toBeCloseTo(r.view.outputs!.coverage_after, 3);
+      expect(r.coverageAfter).toBeCloseTo(r.view.outputs!.coverage_after as number, 3);
+      expect(r.coverageBasis).toBe("upstream");
       expect(r.cost).toBeNull();
       expect(r.edited).toBe(false);
       expect(r.totalHours).toBe(r.view.scenario.planned_actions.reduce((s, a) => s + a.effort_hours, 0));

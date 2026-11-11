@@ -1,0 +1,62 @@
+[
+ {
+  "id": "evt-stub-s7-000",
+  "application_id": "app-stub-s7",
+  "job_id": "job-syn-s7-000020",
+  "resume_variant_id": null,
+  "event_type": "saved",
+  "recorded_at": "2026-02-09T02:20:00Z",
+  "occurred_at": null,
+  "actor": "user",
+  "source": "synthetic-stub",
+  "outcome_status": "observed",
+  "experiment_id": null,
+  "approval_token_ref": null,
+  "notes": "Synthetic: no application was sent anywhere."
+ },
+ {
+  "id": "evt-stub-s7-001",
+  "application_id": "app-stub-s7",
+  "job_id": "job-syn-s7-000020",
+  "resume_variant_id": "rv-stub-s7-job-syn-s7-000020",
+  "event_type": "drafted",
+  "recorded_at": "2026-02-09T02:30:00Z",
+  "occurred_at": null,
+  "actor": "user",
+  "source": "synthetic-stub",
+  "outcome_status": "observed",
+  "experiment_id": null,
+  "approval_token_ref": null,
+  "notes": "Synthetic: no application was sent anywhere."
+ },
+ {
+  "id": "evt-stub-s7-002",
+  "application_id": "app-stub-s7",
+  "job_id": "job-syn-s7-000020",
+  "resume_variant_id": "rv-stub-s7-job-syn-s7-000020",
+  "event_type": "approved",
+  "recorded_at": "2026-02-09T02:40:00Z",
+  "occurred_at": null,
+  "actor": "user",
+  "source": "synthetic-stub",
+  "outcome_status": "observed",
+  "experiment_id": null,
+  "approval_token_ref": "approval-stub-s7",
+  "notes": "Synthetic: no application was sent anywhere."
+ },
+ {
+  "id": "evt-stub-s7-003",
+  "application_id": "app-stub-s7",
+  "job_id": "job-syn-s7-000020",
+  "resume_variant_id": "rv-stub-s7-job-syn-s7-000020",
+  "event_type": "submitted",
+  "recorded_at": "2026-02-09T02:50:00Z",
+  "occurred_at": null,
+  "actor": "user",
+  "source": "synthetic-stub",
+  "outcome_status": "observed",
+  "experiment_id": null,
+  "approval_token_ref": "approval-stub-s7",
+  "notes": "Synthetic: no application was sent anywhere."
+ }
+]

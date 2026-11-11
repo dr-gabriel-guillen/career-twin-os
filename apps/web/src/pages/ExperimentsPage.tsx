@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Badge, Banner, Button, Card, Checkbox, EmptyState, Facts, SelectField, TabPanel, TableRegion, Tabs, TextArea, TextField, useAnnounce, type Tone } from "@careertwin/ui";
 import { ConfirmDialog, Page } from "@/components/common";
-import { ASSIGNMENT_SCHEMA, OUTCOME_SCHEMA, type ExperimentAssignment, type ExperimentOutcome } from "@/adapters/proposed";
+import { ASSIGNMENT_SCHEMA, OUTCOME_SCHEMA, type AnalysisVerdict, type ExperimentAssignment, type ExperimentOutcome } from "@/adapters/proposed";
 import { ASSIGNMENT_UNITS, type AssignmentUnit, type ExperimentSpec, type ExperimentStatus } from "@/contracts/types";
 import { ASSIGNMENT_ALGORITHM, assignVariant } from "@/lib/assign";
 import { designProblems, plannedPerArmFromRule, summariseExperiment } from "@/lib/experimentView";
@@ -30,6 +30,15 @@ const EVIDENCE_TEXT: Record<EvidenceLevel, { title: string; tone: Tone }> = {
   insufficient: { title: "Insufficient evidence. No conclusion can be drawn.", tone: "warning" },
   inconclusive: { title: "Inconclusive. The data do not separate the variants.", tone: "warning" },
   "meets-preregistered-criterion": { title: "The preregistered criterion is met.", tone: "info" },
+};
+
+const UPSTREAM_VERDICT: Record<AnalysisVerdict, string> = {
+  EVIDENCE_FOR_DIFFERENCE: "The preregistered criterion is met.",
+  INCONCLUSIVE: "Inconclusive. This is not evidence of no effect.",
+  INTERIM_NO_CLAIM: "Interim look. No result can be claimed yet.",
+  EXPLORATORY_NO_CLAIM: "Exploratory only. No claim is made.",
+  NOT_ANALYZABLE: "Not analyzable as designed.",
+  OBSERVATIONAL_ONLY: "Observational history, not an experiment. No causal reading.",
 };
 
 interface Unit {
@@ -71,6 +80,7 @@ export default function ExperimentsPage() {
   const assignments = selected ? workspace.assignments.filter((a) => a.experiment_id === selected.id) : [];
   const plannedPerArm = selected ? plannedPerArmFromRule(selected) : null;
   const results = useMemo(() => (selected ? summariseExperiment(selected, workspace.assignments, workspace.outcomes, plannedPerArm) : null), [selected, workspace.assignments, workspace.outcomes, plannedPerArm]);
+  const upstream = selected ? bundle.analyses.find((a) => a.experiment_id === selected.id) ?? null : null;
 
   const candidateFromDraft = (): ExperimentSpec | null => {
     if (!draft) return null;
@@ -391,6 +401,52 @@ export default function ExperimentsPage() {
             </TabPanel>
 
             <TabPanel idBase="exp" id="results" active={tab}>
+              {upstream ? (
+                <div className="ct-stack" data-testid="exp-results">
+                  <Banner tone={upstream.verdict === "EVIDENCE_FOR_DIFFERENCE" ? "info" : "warning"} title={UPSTREAM_VERDICT[upstream.verdict]} data-testid="upstream-verdict">
+                    Analysis computed upstream ({upstream.producer}){upstream.estimand ? `, estimand ${upstream.estimand}` : ""}. It is shown as given; nothing here is recalculated in the browser.
+                    {upstream.verdict === "EVIDENCE_FOR_DIFFERENCE" ? " This is one experiment on synthetic data; it supports a difference under the preregistered plan, nothing more." : " No variant is declared better."}
+                  </Banner>
+                  <TableRegion label="Upstream analysis by variant">
+                    <table className="ct-table" data-testid="upstream-arms">
+                      <thead>
+                        <tr>
+                          <th scope="col">Variant</th>
+                          <th scope="col" className="ct-num">Assigned</th>
+                          <th scope="col" className="ct-num">Positive</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {upstream.arms.map((a) => (
+                          <tr key={a.variant}>
+                            <th scope="row">{a.variant}</th>
+                            <td className="ct-num">{a.n_assigned}</td>
+                            <td className="ct-num">{a.n_success ?? "Not reported"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </TableRegion>
+                  <Facts
+                    items={[
+                      {
+                        label: "Difference",
+                        value: upstream.effect
+                          ? `${upstream.effect.contrast}: ${(upstream.effect.estimate * 100).toFixed(1)} points (${Math.round(upstream.effect.ci_level * 100)}% interval ${(upstream.effect.ci_low * 100).toFixed(1)} to ${(upstream.effect.ci_high * 100).toFixed(1)} points; ${upstream.effect.method})`
+                          : "Not reported",
+                      },
+                    ]}
+                  />
+                  {[["Why no claim is made", upstream.reasons_withheld], ["Warnings", upstream.warnings], ["Limits of interpretation", upstream.interpretation_limits]].map(([title, list]) =>
+                    (list as string[]).length > 0 ? (
+                      <div key={title as string}>
+                        <h3>{title as string}</h3>
+                        <ul className="ct-small">{(list as string[]).map((x) => <li key={x}>{x}</li>)}</ul>
+                      </div>
+                    ) : null,
+                  )}
+                </div>
+              ) : (
               <div className="ct-stack" data-testid="exp-results">
                 <Banner tone="synthetic" title="Simulated outcomes." data-testid="results-synthetic">
                   {results.origins.includes("user-recorded") ? "Some outcomes were recorded by you; the rest are simulated." : "Every outcome shown here was generated by a seeded simulator, not observed."}
@@ -456,6 +512,7 @@ export default function ExperimentsPage() {
                 ) : null}
                 <p className="ct-small ct-muted">Application outcomes you record without random assignment are observational. They cannot be shown as experiment results and are not mixed into this table.</p>
               </div>
+              )}
             </TabPanel>
 
             <TabPanel idBase="exp" id="power" active={tab}>

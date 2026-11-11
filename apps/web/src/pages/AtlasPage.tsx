@@ -144,11 +144,34 @@ export default function AtlasPage() {
             {d.continuity ? `${d.continuity.value.toFixed(2)} (k=${d.continuity.k})` : "unknown"}. 1.00 would mean neighbourhoods are perfectly preserved; lower means points that look
             close may not be, and points that are close may look far apart.
           </li>
-          {projection.warnings.map((w) => (
+          {d.knn_recall ? (
+            <li>
+              On average {percent(d.knn_recall.value)} of a point’s {d.knn_recall.k} nearest map neighbours are true nearest neighbours in the original space.
+            </li>
+          ) : null}
+          {[...(d.flags ?? []), ...projection.warnings].map((w) => (
             <li key={w}>{w}</li>
           ))}
         </ul>
       </Banner>
+      {projection.synthetic_only === false ? (
+        <Banner tone="warning" title="Provenance of the fitted postings is not verified as synthetic." data-testid="atlas-provenance">
+          The analytics lane reports that not every fitted posting declares the source “synthetic”. This build accepts synthetic data only; treat the map as unverified.
+        </Banner>
+      ) : null}
+      {projection.unplaced && projection.unplaced.length > 0 ? (
+        <Banner tone="info" title={`${projection.unplaced.length} item${projection.unplaced.length === 1 ? " is" : "s are"} not shown on the map.`} data-testid="atlas-unplaced">
+          Unknown is not the centre of the map, so these were left off rather than drawn at the origin.
+          <ul className="ct-small">
+            {projection.unplaced.slice(0, 20).map((u, i) => (
+              <li key={`${u.entity_id ?? "item"}-${i}`}>
+                {u.entity_id ?? "Unnamed item"}: {u.reason}
+              </li>
+            ))}
+            {projection.unplaced.length > 20 ? <li>and {projection.unplaced.length - 20} more</li> : null}
+          </ul>
+        </Banner>
+      ) : null}
 
       <Card title="View and filters">
         <div className="app-toolbar">

@@ -25,13 +25,16 @@ import {
 } from "./frozen";
 import type {
   AtlasProjection,
+  BundleProvenance,
   CandidatePreferences,
   EvidenceItem,
   ExperimentAssignment,
   ExperimentOutcome,
   MatchExplanation,
+  MatchRefusal,
   ResumeVariant,
   ScenarioOutputs,
+  UpstreamAnalysis,
 } from "./proposed";
 import {
   isAtlasProjection,
@@ -61,11 +64,23 @@ export type PayloadName =
   | "application-events"
   | "manifest";
 
-/** Where payloads come from. The fixture source is the only one in this build. */
+/** Returned by a source for a payload it does not provide. Absent is not an error and is never back-filled. */
+export const ABSENT: unique symbol = Symbol("payload not provided by this source");
+
+/** Data that travels beside the payloads: upstream analyses, refusals, and provenance. */
+export interface BundleExtras {
+  analyses: UpstreamAnalysis[];
+  matchRefusals: MatchRefusal[];
+  provenance: BundleProvenance;
+  notes: string[];
+}
+
+/** Where payloads come from: bundled fixtures, or the artifacts of an integration run. */
 export interface PayloadSource {
   readonly id: string;
   readonly label: string;
   load(name: PayloadName): Promise<unknown>;
+  extras?(): Promise<BundleExtras>;
 }
 
 export interface AdapterSpec {
@@ -102,6 +117,8 @@ export interface AdapterReport {
   fatal: AdapterIssue[];
   /** Cross-reference problems (e.g. a match for a job that is not in the feed). */
   integrity: string[];
+  /** The source does not provide this payload at all. Not an error. */
+  absent: boolean;
 }
 
 export interface ScenarioView {
@@ -137,6 +154,12 @@ export interface DataBundle {
   outcomes: ExperimentOutcome[];
   resumeVariants: ResumeVariant[];
   applicationEvents: ApplicationEvent[];
+  /** Experiment analyses computed upstream. Rendered as given, in place of local statistics. */
+  analyses: UpstreamAnalysis[];
+  /** Postings the matching engine refused, with its reasons. Never silently dropped. */
+  matchRefusals: MatchRefusal[];
+  provenance: BundleProvenance;
+  sourceNotes: string[];
   reports: AdapterReport[];
 }
 
@@ -158,11 +181,12 @@ async function listAdapter<T>(
   } catch (e) {
     return {
       items: [],
-      report: { adapter, accepted: 0, rejected: [], fatal: [{ path: "$", message: `payload could not be loaded: ${errorText(e)}` }], integrity: [] },
+      report: { adapter, accepted: 0, rejected: [], fatal: [{ path: "$", message: `payload could not be loaded: ${errorText(e)}` }], integrity: [], absent: false },
     };
   }
+  if (payload === ABSENT) return { items: [], report: { adapter, accepted: 0, rejected: [], fatal: [], integrity: [], absent: true } };
   const parsed = parseList(payload, validate);
-  return { items: parsed.items, report: { adapter, accepted: parsed.items.length, rejected: parsed.rejected, fatal: parsed.fatal, integrity: [] } };
+  return { items: parsed.items, report: { adapter, accepted: parsed.items.length, rejected: parsed.rejected, fatal: parsed.fatal, integrity: [], absent: false } };
 }
 
 async function oneAdapter<T>(
@@ -172,11 +196,13 @@ async function oneAdapter<T>(
 ): Promise<{ value: T | null; report: AdapterReport }> {
   const adapter = spec(id);
   try {
-    const parsed = parseOne(await source.load(adapter.payload), validate);
-    if (parsed.ok) return { value: parsed.value, report: { adapter, accepted: 1, rejected: [], fatal: [], integrity: [] } };
-    return { value: null, report: { adapter, accepted: 0, rejected: [], fatal: parsed.issues, integrity: [] } };
+    const payload = await source.load(adapter.payload);
+    if (payload === ABSENT) return { value: null, report: { adapter, accepted: 0, rejected: [], fatal: [], integrity: [], absent: true } };
+    const parsed = parseOne(payload, validate);
+    if (parsed.ok) return { value: parsed.value, report: { adapter, accepted: 1, rejected: [], fatal: [], integrity: [], absent: false } };
+    return { value: null, report: { adapter, accepted: 0, rejected: [], fatal: parsed.issues, integrity: [], absent: false } };
   } catch (e) {
-    return { value: null, report: { adapter, accepted: 0, rejected: [], fatal: [{ path: "$", message: `payload could not be loaded: ${errorText(e)}` }], integrity: [] } };
+    return { value: null, report: { adapter, accepted: 0, rejected: [], fatal: [{ path: "$", message: `payload could not be loaded: ${errorText(e)}` }], integrity: [], absent: false } };
   }
 }
 
@@ -282,7 +308,14 @@ export async function loadBundle(source: PayloadSource): Promise<DataBundle> {
     return { scenario, outputs: parsed.ok ? parsed.value : null };
   });
 
-  const manifest = readManifest(manifestRaw);
+  const manifest = readManifest(manifestRaw === ABSENT ? null : manifestRaw);
+  // Extras are read after the payloads so a source can report what it actually recognised.
+  const extras: BundleExtras = (await source.extras?.().catch(() => undefined)) ?? {
+    analyses: [],
+    matchRefusals: [],
+    provenance: { data_source: "fixtures", dialects: {}, mock_sources: [], missing: [] },
+    notes: [],
+  };
   return {
     sourceId: source.id,
     sourceLabel: source.label,
@@ -300,6 +333,13 @@ export async function loadBundle(source: PayloadSource): Promise<DataBundle> {
     outcomes,
     resumeVariants: uniqueBy(rvR.items, (r) => r.id, rvR.report),
     applicationEvents,
+    analyses: extras.analyses.filter((a) => expIds.has(a.experiment_id)),
+    matchRefusals: extras.matchRefusals,
+    provenance: extras.provenance,
+    sourceNotes: [
+      ...extras.notes,
+      ...extras.analyses.filter((a) => !expIds.has(a.experiment_id)).map((a) => `analysis for unknown experiment '${a.experiment_id.slice(0, 80)}' was dropped`),
+    ],
     reports: [jobsR, claimsR, evidenceR, prefsR, matchesR, evtR, expR, asgR, outR, rvR, pcaR, axesR, scenariosR].map((r) => r.report),
   };
 }

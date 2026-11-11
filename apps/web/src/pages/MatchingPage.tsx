@@ -115,6 +115,19 @@ export default function MatchingPage() {
         </div>
       </Card>
 
+      {bundle.matchRefusals.length > 0 ? (
+        <Card title={`Refused by the matching engine (${bundle.matchRefusals.length})`}>
+          <p className="ct-small ct-muted">These postings failed a hard constraint upstream and were not ranked. They are listed so nothing disappears silently.</p>
+          <ul className="ct-small" data-testid="match-refusals">
+            {bundle.matchRefusals.map((r) => (
+              <li key={r.job_id}>
+                {jobById.get(r.job_id)?.title ?? r.job_id}: {r.reasons.join("; ")}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      ) : null}
+
       <div className="app-split">
         <Card title={`Ranked postings (${ranked.length})`}>
           {ranked.length === 0 ? (
@@ -135,8 +148,14 @@ export default function MatchingPage() {
                       </span>
                       <span className="ct-muted ct-small">{j?.organization}</span>
                       <span className="ct-row ct-small">
-                        <span>Near-term {match.near_term_fit.score ?? "unknown"}</span>
-                        <span>Strategic {match.strategic_value.score ?? "unknown"}</span>
+                        {match.near_term_fit.score === null && match.strategic_value.score === null && match.overall ? (
+                          <span>Single score {match.overall.score}</span>
+                        ) : (
+                          <>
+                            <span>Near-term {match.near_term_fit.score ?? "unknown"}</span>
+                            <span>Strategic {match.strategic_value.score ?? "unknown"}</span>
+                          </>
+                        )}
                         {failed > 0 ? <Badge tone="danger">{failed} hard constraint{failed === 1 ? "" : "s"} failed</Badge> : null}
                       </span>
                     </button>
@@ -182,8 +201,18 @@ export default function MatchingPage() {
               </div>
               <Banner tone="info" title="Relative heuristic, not a hiring probability.">
                 Score type: <code>{selected.score_type}</code>. Computed {formatDateTime(selected.computed_at)} by {selected.engine.name}{" "}
-                {selected.engine.version}, a lane-D fixture stand-in for the lane-A matching engine.
+                {selected.engine.version}
+                {selected.engine.name === "lane-d-fixture-standin" ? ", a lane-D fixture stand-in for the lane-A matching engine." : "."}
               </Banner>
+              {selected.overall ? (
+                <p data-testid="overall-score">
+                  <strong>Overall score: {selected.overall.score} / 100</strong>
+                  {selected.overall.interval ? (
+                    <> (range {selected.overall.interval.low} to {selected.overall.interval.high})</>
+                  ) : null}
+                  <span className="ct-muted ct-small"> — {selected.overall.note}</span>
+                </p>
+              ) : null}
             </Card>
 
             <Card title="Hard constraints" headingLevel={3}>
@@ -237,6 +266,19 @@ export default function MatchingPage() {
                 </div>
               </div>
             </Card>
+
+            {selected.counterfactuals && selected.counterfactuals.length > 0 ? (
+              <Card title="Hypothetical changes (from the engine)" headingLevel={3}>
+                <ul data-testid="counterfactuals">
+                  {selected.counterfactuals.map((cf) => (
+                    <li key={cf.change}>
+                      {cf.change}: score would change by {cf.score_delta > 0 ? "+" : ""}
+                      {cf.score_delta}. <span className="ct-muted ct-small">{cf.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            ) : null}
 
             <Card title="What the engine does not know" headingLevel={3}>
               <ul data-testid="unknown-inputs">
