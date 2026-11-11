@@ -1,0 +1,73 @@
+{
+  "schema_version": "fixture-manifest/1",
+  "fixture_clock": "2026-11-10T12:00:00Z",
+  "generator": {
+    "name": "lane-d-fixture-standin",
+    "version": "0.1.0",
+    "script": "apps/web/scripts/generate-fixtures.ts"
+  },
+  "data_origin": "synthetic",
+  "notice": "All employers, postings, people, events and outcomes are fictional. Stand-in for lanes A/B/C until their payloads exist.",
+  "role_family_labels": {
+    "fde": "Forward Deployed Engineering",
+    "ai-architect": "AI Architecture",
+    "field-cto": "Field CTO",
+    "backend": "Backend Engineering",
+    "solutions-engineer": "Solutions Engineering",
+    "eng-manager": "Engineering Management",
+    "product-ai": "AI Product",
+    "platform": "Platform Engineering",
+    "security-eng": "Security Engineering"
+  },
+  "experiment": {
+    "synthetic_true_rate_all_variants": 0.25,
+    "prng": "mulberry32",
+    "seed": 20261110,
+    "salt_digest": "8de8cbebf0a5ff1187c7da2d35627cb32f76c357a490c81811762c8b35e52f7e"
+  },
+  "skill_vocabulary": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "aws",
+    "cloud-architecture",
+    "compliance",
+    "customer-delivery",
+    "data-modeling",
+    "distributed-systems",
+    "enterprise-sales",
+    "executive-communication",
+    "go",
+    "incident-response",
+    "kubernetes",
+    "llm-apps",
+    "mlops",
+    "observability",
+    "people-management",
+    "pricing",
+    "privacy-engineering",
+    "python",
+    "roadmapping",
+    "security",
+    "solution-design",
+    "sql",
+    "stakeholder-management",
+    "technical-writing",
+    "typescript"
+  ],
+  "sha256": {
+    "jobs.feed.json": "1efb55e50068f45a3ee14a59a648103387b7a876e21baa999982645fe0ea6b45",
+    "claims.json": "e5b88cd3ad85b9ba7b55b619d6c3a7e626786445cca129071ebbf55957737c2d",
+    "evidence.json": "14301e8ac65e26a70eba2c2fd6af94e42e54236655a44f75d3651369c47f4b16",
+    "preferences.json": "9aa9f2d64bb70249aabe6c2dca798000eb609240a2a13f4d046ecf5e1f378aa5",
+    "matches.json": "78a2e794bc0a7989b0f7b472852ea250e8003caa119af98a9b3ae7aa9c182b64",
+    "scenarios.json": "c4b8df39d4c2b6d33e8ecdf322582e345e1dd5f075d4896929b1e49b3c629ade",
+    "atlas.pca.json": "58cc24821983e8371efbc5f8d192c05e0ce921a8a6c0fe579cc902338acb0904",
+    "atlas.axes.json": "80de23859ae82cd66093bcadab0c972daaf8216f1966422fd58cfa8e5070a403",
+    "experiments.json": "f758c116d32d5e84116216e295bd2f93cabde1578037ed689ad555fdb6ace802",
+    "assignments.json": "2687a81fefb53b310c078c4a5d4932e738f713842277f0b8261a862cf40e07e6",
+    "outcomes.json": "f15b215586faef0e674b5f351377115969439dc270b336ecbe71435207e3df7f",
+    "resume-variants.json": "9a308847898d5f63e212de4d45e7613dbf944de01ea3c20fa7bb5eb06792d93b",
+    "application-events.json": "0d441634a324f1ce58d215814e1875db654604409bb8e407822e5349e6ded27f"
+  }
+}

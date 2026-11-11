@@ -1,0 +1,142 @@
+[
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-001",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": false,
+    "recorded_at": "2026-10-29T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-002",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": false,
+    "recorded_at": "2026-10-30T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-003",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": false,
+    "recorded_at": "2026-10-31T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-004",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": false,
+    "recorded_at": "2026-11-01T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-005",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": false,
+    "recorded_at": "2026-11-02T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-006",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": true,
+    "recorded_at": "2026-11-03T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-007",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": true,
+    "recorded_at": "2026-11-04T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-008",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": true,
+    "recorded_at": "2026-11-05T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-009",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "observed",
+    "value": false,
+    "recorded_at": "2026-11-06T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-010",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "censored",
+    "value": null,
+    "recorded_at": "2026-11-07T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-011",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "censored",
+    "value": null,
+    "recorded_at": "2026-11-08T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-012",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "censored",
+    "value": null,
+    "recorded_at": "2026-11-09T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-013",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "missing",
+    "value": null,
+    "recorded_at": "2026-11-10T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  },
+  {
+    "schema_version": "experiment-outcome/0.1-proposed",
+    "assignment_id": "asg-synth-014",
+    "experiment_id": "exp-synth-resume-framing",
+    "metric": "recruiter_screen_within_window",
+    "status": "missing",
+    "value": null,
+    "recorded_at": "2026-11-10T09:00:00Z",
+    "data_origin": "synthetic-simulation"
+  }
+]

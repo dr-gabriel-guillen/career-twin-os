@@ -1,0 +1,3162 @@
+[
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-fde-1",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 86,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.8,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.8,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 60.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.85,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.2,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-evaluation",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-other-talk",
+          "claim-project-evals",
+          "claim-skill-aieval"
+        ]
+      },
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "typescript",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-skill-typescript"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-ai-2",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 66.6,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.72,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.8,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: staff; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: hybrid; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 68,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.9,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.2,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.6,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'staff'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Disclosed but unverified or incomplete. Excluded from the score."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Hybrid: only you can decide whether that is acceptable."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-evaluation",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-other-talk",
+          "claim-project-evals",
+          "claim-skill-aieval"
+        ]
+      },
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "aws",
+        "evidence_strength": "self-reported",
+        "claim_ids": [
+          "claim-credential-cloud",
+          "claim-skill-aws"
+        ]
+      },
+      {
+        "skill": "mlops",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-cto-3",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 19.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: director; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 100,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 1,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 1,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'director'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-strategy",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "cloud-architecture",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "enterprise-sales",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "executive-communication",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-backend-4",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 86.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 1,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: onsite; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 16.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.2,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Disclosed but unverified or incomplete. Excluded from the score."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "fail",
+        "detail": "Posting is onsite; preference is remote."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "distributed-systems",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-distsys"
+        ]
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-se-5",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 58,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.4,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.4,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 56.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.7,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.4,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Disclosed but unverified or incomplete. Excluded from the score."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "solution-design",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "technical-writing",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-se-6",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 50.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.4,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.4,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: hybrid; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 61.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.7,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.6,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Hybrid: only you can decide whether that is acceptable."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "solution-design",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "stakeholder-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "typescript",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-skill-typescript"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-fde-7",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 36.8,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.26,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.4,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: onsite; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 70.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.85,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.6,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "fail",
+        "detail": "Posting is onsite; preference is remote."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "data-modeling",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "security",
+        "evidence_strength": "unverified",
+        "claim_ids": [
+          "claim-credential-sec",
+          "claim-skill-security"
+        ]
+      },
+      {
+        "skill": "sql",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-fde-8",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 86,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.8,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.8,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 60.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.85,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.2,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-evaluation",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-other-talk",
+          "claim-project-evals",
+          "claim-skill-aieval"
+        ]
+      },
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "typescript",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-skill-typescript"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-ai-9",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 50.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.4,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.4,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: staff; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 78,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.9,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.6,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.6,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'staff'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Disclosed but unverified or incomplete. Excluded from the score."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-evaluation",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-other-talk",
+          "claim-project-evals",
+          "claim-skill-aieval"
+        ]
+      },
+      {
+        "skill": "cloud-architecture",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "llm-apps",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "solution-design",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-ai-10",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 21.6,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.12,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.2,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: principal; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: hybrid; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 86,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.9,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.8,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.8,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'principal'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Hybrid: only you can decide whether that is acceptable."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "fail",
+        "detail": "Marked expired when captured."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-strategy",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "aws",
+        "evidence_strength": "self-reported",
+        "claim_ids": [
+          "claim-credential-cloud",
+          "claim-skill-aws"
+        ]
+      },
+      {
+        "skill": "cloud-architecture",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "executive-communication",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "mlops",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-cto-11",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 12,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: director; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: hybrid; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 100,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 1,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 1,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'director'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Hybrid: only you can decide whether that is acceptable."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-strategy",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "compliance",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "enterprise-sales",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "executive-communication",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "stakeholder-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-backend-12",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 36.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.2,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.2,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: staff; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 26,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.2,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.2,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.6,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'staff'."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "distributed-systems",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-distsys"
+        ]
+      },
+      {
+        "skill": "go",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "kubernetes",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "observability",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "sql",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-backend-13",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 52.7,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.46,
+          "weight": 0.6471,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.6,
+          "weight": 0.1765,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.7,
+          "weight": 0.1765,
+          "status": "known",
+          "note": "Posting: mid; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Remote policy unknown; excluded rather than assumed."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 23.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.2,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.4,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'mid'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Remote policy is not stated."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "unknown",
+        "detail": "Status unknown at capture."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "compliance",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "security",
+        "evidence_strength": "unverified",
+        "claim_ids": [
+          "claim-credential-sec",
+          "claim-skill-security"
+        ]
+      },
+      {
+        "skill": "sql",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status",
+      "remote_policy"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-platform-14",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 39.6,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.12,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.2,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 25.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.35,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "aws",
+        "evidence_strength": "self-reported",
+        "claim_ids": [
+          "claim-credential-cloud",
+          "claim-skill-aws"
+        ]
+      },
+      {
+        "skill": "go",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "incident-response",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "kubernetes",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "observability",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-platform-15",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 56.8,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.46,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.6,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: hybrid; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 25.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.35,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Disclosed but unverified or incomplete. Excluded from the score."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Hybrid: only you can decide whether that is acceptable."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "fail",
+        "detail": "Posting is contract; preference is full-time."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "distributed-systems",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-distsys"
+        ]
+      },
+      {
+        "skill": "kubernetes",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "observability",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "security",
+        "evidence_strength": "unverified",
+        "claim_ids": [
+          "claim-credential-sec",
+          "claim-skill-security"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-sec-16",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 50.3,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.26,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.4,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 27.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.3,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.2,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "compliance",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "incident-response",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "privacy-engineering",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "security",
+        "evidence_strength": "unverified",
+        "claim_ids": [
+          "claim-credential-sec",
+          "claim-skill-security"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-em-17",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 33.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.2,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.2,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: manager; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 57.3,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.6,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.4,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.75,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'manager'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "customer-delivery",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "people-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "roadmapping",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "stakeholder-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-em-18",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 26,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.2,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.2,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: manager; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: hybrid; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 57.3,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.6,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.4,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.75,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'manager'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Disclosed but unverified or incomplete. Excluded from the score."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Hybrid: only you can decide whether that is acceptable."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-evaluation",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-other-talk",
+          "claim-project-evals",
+          "claim-skill-aieval"
+        ]
+      },
+      {
+        "skill": "executive-communication",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "mlops",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "people-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "roadmapping",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-pm-19",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 25.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.7,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: lead; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 62.3,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.65,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.6,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.55,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'lead'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "ai-strategy",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "llm-apps",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "pricing",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "roadmapping",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "stakeholder-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-pm-20",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 30.5,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.2,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.2,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 0.1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: onsite; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 48.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.65,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.2,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "fail",
+        "detail": "Posting is onsite; preference is remote."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "api-design",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-achievement-latency",
+          "claim-employment-halcyon",
+          "claim-skill-api"
+        ]
+      },
+      {
+        "skill": "pricing",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "roadmapping",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "stakeholder-management",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "technical-writing",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-hostile-21",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 45.8,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.15,
+          "weight": 0.55,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.5,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: senior; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": 1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Posting: remote; preference: remote."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 25.5,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.35,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.3,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'senior'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "pass",
+        "detail": "Posting is remote, as preferred."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "pass",
+        "detail": "Marked active when captured. Not re-verified; this is a synthetic record."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "kubernetes",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "security",
+        "evidence_strength": "unverified",
+        "claim_ids": [
+          "claim-credential-sec",
+          "claim-skill-security"
+        ]
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status"
+    ],
+    "warnings": [
+      "Fewer than three skills listed; coverage is unstable."
+    ],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  },
+  {
+    "schema_version": "match-explanation/0.1-proposed",
+    "job_id": "fake-hostile-22",
+    "candidate_ref": "candidate-synthetic-001",
+    "computed_at": "2026-11-10T12:00:00Z",
+    "engine": {
+      "name": "lane-d-fixture-standin",
+      "version": "0.1.0"
+    },
+    "score_type": "relative_heuristic_not_hiring_probability",
+    "near_term_fit": {
+      "score": 39.8,
+      "components": [
+        {
+          "key": "evidence_weighted_skill_coverage",
+          "label": "Skill coverage weighted by evidence strength",
+          "value": 0.3333,
+          "weight": 0.6471,
+          "status": "known",
+          "note": "Supported = 1, self-reported = 0.6, unverified = 0.3, contradicted or missing = 0."
+        },
+        {
+          "key": "skill_coverage",
+          "label": "Raw skill coverage (any non-contradicted claim)",
+          "value": 0.333,
+          "weight": 0.1765,
+          "status": "known",
+          "note": "Same definition as the frozen reference engine on main."
+        },
+        {
+          "key": "seniority_alignment",
+          "label": "Seniority alignment",
+          "value": 0.7,
+          "weight": 0.1765,
+          "status": "known",
+          "note": "Posting: mid; candidate preference: senior."
+        },
+        {
+          "key": "workstyle",
+          "label": "Work-style match",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Remote policy unknown; excluded rather than assumed."
+        }
+      ]
+    },
+    "strategic_value": {
+      "score": 30.2,
+      "components": [
+        {
+          "key": "trajectory_utility",
+          "label": "Trajectory utility (user-stated)",
+          "value": 0.2,
+          "weight": 0.6,
+          "status": "known",
+          "note": "A stated preference for this role family, not a prediction."
+        },
+        {
+          "key": "target_skill_exposure",
+          "label": "Exposure to skills needed for target roles",
+          "value": 0.667,
+          "weight": 0.25,
+          "status": "known",
+          "note": "Share of this posting's skills that are missing today and appear in target-role postings."
+        },
+        {
+          "key": "leadership_scope",
+          "label": "Leadership scope implied by level",
+          "value": 0.1,
+          "weight": 0.15,
+          "status": "known",
+          "note": "Derived from the seniority label 'mid'."
+        },
+        {
+          "key": "compensation",
+          "label": "Compensation",
+          "value": null,
+          "weight": 0,
+          "status": "unknown",
+          "note": "Not disclosed. Excluded from the score; never treated as zero."
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "key": "work_style",
+        "label": "Work style",
+        "status": "unknown",
+        "detail": "Remote policy is not stated."
+      },
+      {
+        "key": "posting_status",
+        "label": "Posting status at capture",
+        "status": "unknown",
+        "detail": "Status unknown at capture."
+      },
+      {
+        "key": "employment_type",
+        "label": "Employment type",
+        "status": "pass",
+        "detail": "Full-time, as preferred."
+      }
+    ],
+    "skills": [
+      {
+        "skill": "data-modeling",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      },
+      {
+        "skill": "python",
+        "evidence_strength": "supported",
+        "claim_ids": [
+          "claim-employment-halcyon",
+          "claim-project-evals",
+          "claim-skill-python"
+        ]
+      },
+      {
+        "skill": "sql",
+        "evidence_strength": "missing",
+        "claim_ids": []
+      }
+    ],
+    "unknown_inputs": [
+      "compensation_verified",
+      "recruiter_preferences",
+      "job_activity_status",
+      "remote_policy"
+    ],
+    "warnings": [],
+    "profile_digest": "2b7add0869303a01586c0ad965fcf90ac11899cc6af615fda494233b767c7a69"
+  }
+]
