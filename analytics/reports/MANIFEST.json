@@ -1,0 +1,19 @@
+{
+ "files": {
+  "DIAGNOSTICS_REPORT.md": "15ba2aa820f5522bdcdee1287ad8ddd9953145746c0dd206382123b157b6d44e",
+  "atlas_bundle.sample.json": "2c354fdd2d9ff5449af9407e869e8493a4b416565a76c213a3e83d2f59f1220f",
+  "atlas_map.svg": "94a9338667a7144f7ca175dfe82a4d001527a3318243a7ecfff1b14fff6396eb",
+  "gap_field_cto.json": "6fa2a75cdfe0127d3f7145bdd7d6e80fce2c922e1f8910aff0947ef764b2bbf2",
+  "held_out_and_drift.json": "f39577aa802a19e80c87123f362ef098c9ffa8366ea2d6987283ca36f2817abe",
+  "pca_model.json": "8581ee9bbebeb9cee8d31cda420b4aa98370be913c06141ff57c3f06598ca769",
+  "projection_comparison.json": "70ef0a436ed7e48e606feb9d206739181aeeb0492b8f6d7e2b4f1b36ce03fa14",
+  "scenario_field_cto.json": "5f328f9c8c5005f5c575a61eea89f625383b27c21b7fbfd62710bf4c84d9c0fc",
+  "sensitivity.json": "2e44eb07bc110f9ef70f701a354a85707567fe17fc2eb6eb787166becfdb040c",
+  "transition_graph.json": "4534cd0555b18a76cb81b12b514d48828cbfefda240c7aa1dcf1569a99cc6dc6"
+ },
+ "full_bundle_sha256": "7d68c13b51a926092b8db2d8cab2b26f5f7311b7daf722b29b340dbfeea1618a",
+ "generated_by": "careertwin_atlas 0.1.0",
+ "n_postings": 1500,
+ "note": "Timings in the report and the last digits of floating-point results can differ between machines; regenerate with: python -m careertwin_atlas demo --out <dir>",
+ "seed": 7
+}

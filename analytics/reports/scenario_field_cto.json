@@ -1,0 +1,657 @@
+{
+ "assumptions": [
+  "All role requirements come from synthetic, fictional postings grouped by role_family.",
+  "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
+  "Effort reference hours are vocabulary placeholders; real effort varies by person.",
+  "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
+  "Capacity assumes 6.0 hours per week for 12 month(s).",
+  "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
+ ],
+ "candidate_ref": "candidate-synthetic-001",
+ "id": "scn-c1a9f61e3099bd95",
+ "outputs": {
+  "alternatives": {
+   "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
+   "paths": [
+    {
+     "assumed_tenure_months_total": 0.0,
+     "caveats": [
+      "candidate seniority is unknown, so seniority steps are not assessed"
+     ],
+     "effort_hours_range": [
+      420.0,
+      1560.0
+     ],
+     "entry_barriers_hardest_step": 4,
+     "entry_barriers_total": 4,
+     "fits_time_horizon": "no",
+     "kind": "direct",
+     "months_range": [
+      16.1,
+      59.8
+     ],
+     "pareto_optimal_on_time_and_barriers": true,
+     "path": [
+      "field-cto"
+     ],
+     "ranking_score": 7.6575,
+     "steps": [
+      {
+       "assumed_tenure_months_before_next_step": 0.0,
+       "effort_hours_range": [
+        420.0,
+        1560.0
+       ],
+       "entry_barriers_role_exposure": [
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication",
+        "stakeholder-management"
+       ],
+       "label": "Field CTO",
+       "missing_study_or_project_evidence": [
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          40.0,
+          160.0
+         ],
+         "feature": "ai-strategy"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          60.0,
+          200.0
+         ],
+         "feature": "cloud-architecture"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          120.0,
+          400.0
+         ],
+         "feature": "solution-design"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          200.0,
+          800.0
+         ],
+         "feature": "technical-leadership"
+        }
+       ],
+       "role": "field-cto",
+       "role_profile_unstable": false
+      }
+     ]
+    },
+    {
+     "assumed_tenure_months_total": 18.0,
+     "caveats": [
+      "candidate seniority is unknown, so seniority steps are not assessed"
+     ],
+     "effort_hours_range": [
+      550.0,
+      2000.0
+     ],
+     "entry_barriers_hardest_step": 2,
+     "entry_barriers_total": 3,
+     "fits_time_horizon": "no",
+     "kind": "stepping-stone",
+     "months_range": [
+      39.1,
+      94.7
+     ],
+     "pareto_optimal_on_time_and_barriers": true,
+     "path": [
+      "fde",
+      "field-cto"
+     ],
+     "ranking_score": 8.2125,
+     "steps": [
+      {
+       "assumed_tenure_months_before_next_step": 18.0,
+       "effort_hours_range": [
+        250.0,
+        840.0
+       ],
+       "entry_barriers_role_exposure": [
+        "customer-delivery"
+       ],
+       "label": "Forward Deployed Engineer",
+       "missing_study_or_project_evidence": [
+        {
+         "current_evidence_level": 0.6,
+         "effort_hours_range": [
+          10.0,
+          40.0
+         ],
+         "feature": "llm-integration"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          120.0,
+          400.0
+         ],
+         "feature": "solution-design"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          120.0,
+          400.0
+         ],
+         "feature": "technical-discovery"
+        }
+       ],
+       "role": "fde",
+       "role_profile_unstable": false
+      },
+      {
+       "assumed_tenure_months_before_next_step": 0.0,
+       "effort_hours_range": [
+        300.0,
+        1160.0
+       ],
+       "entry_barriers_role_exposure": [
+        "enterprise-sales",
+        "executive-communication"
+       ],
+       "label": "Field CTO",
+       "missing_study_or_project_evidence": [
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          40.0,
+          160.0
+         ],
+         "feature": "ai-strategy"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          60.0,
+          200.0
+         ],
+         "feature": "cloud-architecture"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          200.0,
+          800.0
+         ],
+         "feature": "technical-leadership"
+        }
+       ],
+       "role": "field-cto",
+       "role_profile_unstable": false
+      }
+     ]
+    },
+    {
+     "assumed_tenure_months_total": 18.0,
+     "caveats": [
+      "candidate seniority is unknown, so seniority steps are not assessed"
+     ],
+     "effort_hours_range": [
+      420.0,
+      1600.0
+     ],
+     "entry_barriers_hardest_step": 4,
+     "entry_barriers_total": 4,
+     "fits_time_horizon": "no",
+     "kind": "stepping-stone",
+     "months_range": [
+      34.1,
+      79.4
+     ],
+     "pareto_optimal_on_time_and_barriers": false,
+     "path": [
+      "ai-architect",
+      "field-cto"
+     ],
+     "ranking_score": 9.234167,
+     "steps": [
+      {
+       "assumed_tenure_months_before_next_step": 18.0,
+       "effort_hours_range": [
+        220.0,
+        800.0
+       ],
+       "entry_barriers_role_exposure": [],
+       "label": "Applied AI Architect",
+       "missing_study_or_project_evidence": [
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          60.0,
+          200.0
+         ],
+         "feature": "system-design"
+        },
+        {
+         "current_evidence_level": 0.6,
+         "effort_hours_range": [
+          10.0,
+          40.0
+         ],
+         "feature": "ai-evaluation"
+        },
+        {
+         "current_evidence_level": 0.6,
+         "effort_hours_range": [
+          10.0,
+          40.0
+         ],
+         "feature": "llm-integration"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          40.0,
+          160.0
+         ],
+         "feature": "rag"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          40.0,
+          160.0
+         ],
+         "feature": "mlops"
+        },
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          60.0,
+          200.0
+         ],
+         "feature": "cloud-architecture"
+        }
+       ],
+       "role": "ai-architect",
+       "role_profile_unstable": false
+      },
+      {
+       "assumed_tenure_months_before_next_step": 0.0,
+       "effort_hours_range": [
+        200.0,
+        800.0
+       ],
+       "entry_barriers_role_exposure": [
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication",
+        "stakeholder-management"
+       ],
+       "label": "Field CTO",
+       "missing_study_or_project_evidence": [
+        {
+         "current_evidence_level": 0.0,
+         "effort_hours_range": [
+          200.0,
+          800.0
+         ],
+         "feature": "technical-leadership"
+        }
+       ],
+       "role": "field-cto",
+       "role_profile_unstable": false
+      }
+     ]
+    }
+   ],
+   "same_budget": {
+    "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
+    "core_summary": {
+     "contradicted": 0,
+     "evidenced": 2,
+     "no-evidence-on-file": 5,
+     "unknown": 0,
+     "weak-evidence": 1
+    },
+    "hours_used": 290.0,
+    "label": "same hours, spent where the stated shortfall shrinks most per hour",
+    "planned_actions": [
+     {
+      "effort_hours": 100.0,
+      "evidence_goal": "portfolio-project",
+      "skill": "ai-strategy"
+     },
+     {
+      "effort_hours": 130.0,
+      "evidence_goal": "portfolio-project",
+      "skill": "cloud-architecture"
+     },
+     {
+      "effort_hours": 60.0,
+      "evidence_goal": "portfolio-project",
+      "skill": "solution-design"
+     }
+    ],
+    "requirement_shortfall": 2.085757
+   }
+  },
+  "applied_actions": [
+   {
+    "blocked_by_contradiction": false,
+    "completion": 0.9231,
+    "effort_hours": 120.0,
+    "evidence_goal": "portfolio-project",
+    "evidence_level_after": 0.7385,
+    "evidence_level_before": 0.0,
+    "feature": "cloud-architecture",
+    "reaches_evidenced_level": false,
+    "reference_hours_assumed": 130.0,
+    "resolved_via": "exact",
+    "skill": "cloud-architecture"
+   },
+   {
+    "blocked_by_contradiction": false,
+    "completion": 0.8,
+    "effort_hours": 80.0,
+    "evidence_goal": "portfolio-project",
+    "evidence_level_after": 0.64,
+    "evidence_level_before": 0.0,
+    "feature": "ai-strategy",
+    "reaches_evidenced_level": false,
+    "reference_hours_assumed": 100.0,
+    "resolved_via": "exact",
+    "skill": "ai-strategy"
+   },
+   {
+    "blocked_by_contradiction": false,
+    "completion": 0.1154,
+    "effort_hours": 30.0,
+    "evidence_goal": "coursework",
+    "evidence_level_after": 0.0346,
+    "evidence_level_before": 0.0,
+    "feature": "customer-delivery",
+    "reaches_evidenced_level": false,
+    "reference_hours_assumed": 260.0,
+    "resolved_via": "bundle",
+    "skill": "client-exposure"
+   },
+   {
+    "blocked_by_contradiction": false,
+    "completion": 0.1154,
+    "effort_hours": 30.0,
+    "evidence_goal": "coursework",
+    "evidence_level_after": 0.0346,
+    "evidence_level_before": 0.0,
+    "feature": "stakeholder-management",
+    "reaches_evidenced_level": false,
+    "reference_hours_assumed": 260.0,
+    "resolved_via": "bundle",
+    "skill": "client-exposure"
+   },
+   {
+    "blocked_by_contradiction": false,
+    "completion": 0.1154,
+    "effort_hours": 30.0,
+    "evidence_goal": "coursework",
+    "evidence_level_after": 0.0692,
+    "evidence_level_before": 0.0,
+    "feature": "technical-discovery",
+    "reaches_evidenced_level": false,
+    "reference_hours_assumed": 260.0,
+    "resolved_via": "bundle",
+    "skill": "client-exposure"
+   }
+  ],
+  "baseline": {
+   "core_summary": {
+    "contradicted": 0,
+    "evidenced": 0,
+    "no-evidence-on-file": 8,
+    "unknown": 0,
+    "weak-evidence": 0
+   },
+   "full_space_distance": 3.357401,
+   "nearest_roles_by_shortfall": [
+    "backend",
+    "fde",
+    "ai-architect"
+   ],
+   "requirement_shortfall": 2.464347,
+   "shortfall_rank_among_roles": 7
+  },
+  "confidence_in_role_description": {
+   "level": "high",
+   "meaning": "confidence in the description of the role's stated requirements; not confidence in any hiring outcome",
+   "reasons": [
+    "profile built from enough postings, stable under resampling, requirements mostly interpretable"
+   ]
+  },
+  "delta": {
+   "core_requirements_evidenced": 0,
+   "full_space_distance": -0.239319,
+   "requirement_shortfall": -0.337541,
+   "shortfall_rank_among_roles": -1
+  },
+  "effort": {
+   "capacity_hours_within_horizon": 312.8,
+   "fits_time_budget": true,
+   "hours_per_week": 6.0,
+   "planned_hours": 290.0
+  },
+  "hypothetical": {
+   "core_summary": {
+    "contradicted": 0,
+    "evidenced": 0,
+    "no-evidence-on-file": 4,
+    "unknown": 0,
+    "weak-evidence": 4
+   },
+   "full_space_distance": 3.118082,
+   "nearest_roles_by_shortfall": [
+    "backend",
+    "fde",
+    "ai-architect"
+   ],
+   "requirement_shortfall": 2.126806,
+   "shortfall_rank_among_roles": 6
+  },
+  "map_points": [
+   {
+    "coords": [
+     -1.093403,
+     0.214812
+    ],
+    "entity_id": "candidate-synthetic-001",
+    "fit_metric_ref": "gap:field-cto:requirement_shortfall",
+    "label": "Candidate (evidence on file)",
+    "neighborhood_quality": null,
+    "projection_id": "pca-b17abad8c9efaf97-2d",
+    "projection_method": "pca",
+    "representation_type": "candidate",
+    "source_vector_ref": "vec:sha256:99b67877c1ed04004b3f424d",
+    "warnings": [
+     "map-position-is-not-a-fit-or-hiring-score"
+    ]
+   },
+   {
+    "coords": [
+     -0.872852,
+     0.266126
+    ],
+    "entity_id": "candidate-synthetic-001#scn-c1a9f61e3099bd95",
+    "fit_metric_ref": "gap:field-cto:requirement_shortfall",
+    "label": "Hypothetical scenario",
+    "neighborhood_quality": null,
+    "projection_id": "pca-b17abad8c9efaf97-2d",
+    "projection_method": "pca",
+    "representation_type": "scenario",
+    "source_vector_ref": "vec:sha256:77c3aa1ec0cc9746921a2673",
+    "warnings": [
+     "map-position-is-not-a-fit-or-hiring-score",
+     "hypothetical-scenario"
+    ]
+   }
+  ],
+  "metric_semantics": "Outputs are distances, counts, hours and ranks in a synthetic feature space. They are not probabilities of interview, offer or compensation.",
+  "model_ref": {
+   "model_id": "b17abad8c9efaf97",
+   "projection_id": "pca-b17abad8c9efaf97-2d",
+   "vocab_digest": "ae8229a4dad29a62"
+  },
+  "movement": {
+   "features_changed": 5,
+   "full_space_distance_to_role": {
+    "after": 3.118082,
+    "before": 3.357401,
+    "role": "field-cto"
+   },
+   "full_space_shift_length": 0.980875,
+   "map_shift": [
+    0.220551,
+    0.051315
+   ],
+   "map_shift_length": 0.226442,
+   "note": "The map shows only part of a movement. Judge progress by full-space numbers.",
+   "per_feature": [
+    {
+     "change": 0.64,
+     "feature": "ai-strategy",
+     "full_space_sq_distance_change": -0.673964,
+     "map_shift": [
+      0.192695,
+      0.022436
+     ]
+    },
+    {
+     "change": 0.738462,
+     "feature": "cloud-architecture",
+     "full_space_sq_distance_change": -0.712253,
+     "map_shift": [
+      0.015441,
+      0.02589
+     ]
+    },
+    {
+     "change": 0.034615,
+     "feature": "stakeholder-management",
+     "full_space_sq_distance_change": -0.057751,
+     "map_shift": [
+      0.010584,
+      -0.003113
+     ]
+    },
+    {
+     "change": 0.069231,
+     "feature": "technical-discovery",
+     "full_space_sq_distance_change": -0.048672,
+     "map_shift": [
+      -0.000437,
+      0.004142
+     ]
+    },
+    {
+     "change": 0.034615,
+     "feature": "customer-delivery",
+     "full_space_sq_distance_change": -0.057065,
+     "map_shift": [
+      0.002268,
+      0.001959
+     ]
+    }
+   ],
+   "share_of_movement_visible_on_map": 0.230858
+  },
+  "not_a_hiring_probability": true,
+  "remaining_missing_evidence": [
+   {
+    "acquisition": "role-exposure",
+    "feature": "executive-communication",
+    "state": "no-evidence-on-file",
+    "stated_in_share_of_postings": 0.8663,
+    "tier": "core"
+   },
+   {
+    "acquisition": "study-or-project",
+    "feature": "solution-design",
+    "state": "no-evidence-on-file",
+    "stated_in_share_of_postings": 0.8663,
+    "tier": "core"
+   },
+   {
+    "acquisition": "study-or-project",
+    "feature": "cloud-architecture",
+    "state": "weak-evidence",
+    "stated_in_share_of_postings": 0.8515,
+    "tier": "core"
+   },
+   {
+    "acquisition": "role-exposure",
+    "feature": "enterprise-sales",
+    "state": "no-evidence-on-file",
+    "stated_in_share_of_postings": 0.8515,
+    "tier": "core"
+   },
+   {
+    "acquisition": "role-exposure",
+    "feature": "stakeholder-management",
+    "state": "weak-evidence",
+    "stated_in_share_of_postings": 0.8515,
+    "tier": "core"
+   },
+   {
+    "acquisition": "study-or-project",
+    "feature": "ai-strategy",
+    "state": "weak-evidence",
+    "stated_in_share_of_postings": 0.8465,
+    "tier": "core"
+   },
+   {
+    "acquisition": "role-exposure",
+    "feature": "customer-delivery",
+    "state": "weak-evidence",
+    "stated_in_share_of_postings": 0.8416,
+    "tier": "core"
+   },
+   {
+    "acquisition": "study-or-project",
+    "feature": "technical-leadership",
+    "state": "no-evidence-on-file",
+    "stated_in_share_of_postings": 0.5099,
+    "tier": "core"
+   }
+  ],
+  "target_label": "Field CTO",
+  "unmapped_actions": []
+ },
+ "planned_actions": [
+  {
+   "effort_hours": 120.0,
+   "evidence_goal": "portfolio-project",
+   "skill": "cloud-architecture"
+  },
+  {
+   "effort_hours": 80.0,
+   "evidence_goal": "portfolio-project",
+   "skill": "ai-strategy"
+  },
+  {
+   "effort_hours": 90.0,
+   "evidence_goal": "coursework",
+   "skill": "client-exposure"
+  }
+ ],
+ "risks": [
+  "customer-delivery: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3",
+  "stakeholder-management: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3",
+  "4 core requirement(s) need in-role evidence this plan cannot produce: executive-communication, enterprise-sales, stakeholder-management, customer-delivery",
+  "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
+  "some posting requirements could not be interpreted; the requirement list is incomplete",
+  "only 23% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
+ ],
+ "status": "hypothetical",
+ "target_role": "field-cto",
+ "time_horizon_months": 12
+}

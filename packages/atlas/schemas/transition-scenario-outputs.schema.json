@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careertwin.local/lane-c/transition-scenario-outputs.v0.1.schema.json",
+  "title": "TransitionScenarioOutputs",
+  "description": "Shape of TransitionScenario.outputs as produced by lane C. The frozen contract leaves `outputs` as a free object; this schema documents what consumers can rely on.",
+  "type": "object",
+  "required": ["not_a_hiring_probability", "metric_semantics", "baseline", "hypothetical", "delta",
+               "applied_actions", "unmapped_actions", "remaining_missing_evidence", "effort", "movement",
+               "map_points", "alternatives", "confidence_in_role_description", "model_ref"],
+  "properties": {
+    "not_a_hiring_probability": {"const": true},
+    "metric_semantics": {"type": "string"},
+    "baseline": {"$ref": "#/$defs/snapshot"},
+    "hypothetical": {"$ref": "#/$defs/snapshot"},
+    "delta": {"type": "object", "required": ["requirement_shortfall", "full_space_distance"]},
+    "applied_actions": {"type": "array"},
+    "unmapped_actions": {"type": "array", "items": {"type": "string"}},
+    "remaining_missing_evidence": {
+      "type": "array",
+      "items": {"type": "object", "required": ["feature", "tier", "state", "acquisition"]}
+    },
+    "effort": {
+      "type": "object",
+      "required": ["planned_hours", "capacity_hours_within_horizon", "fits_time_budget", "hours_per_week"]
+    },
+    "movement": {"type": "object"},
+    "map_points": {"type": "array", "minItems": 2},
+    "alternatives": {
+      "type": "object",
+      "required": ["same_budget", "paths"],
+      "properties": {"paths": {"type": "array", "minItems": 1}}
+    },
+    "confidence_in_role_description": {"type": "object", "required": ["level", "reasons"]},
+    "model_ref": {"type": "object", "required": ["model_id", "vocab_digest", "projection_id"]}
+  },
+  "$defs": {
+    "snapshot": {
+      "type": "object",
+      "required": ["requirement_shortfall", "full_space_distance", "shortfall_rank_among_roles", "core_summary"],
+      "properties": {
+        "requirement_shortfall": {"type": "number", "minimum": 0},
+        "full_space_distance": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

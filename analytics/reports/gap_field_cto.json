@@ -1,0 +1,181 @@
+{
+ "basis": {
+  "common_threshold": 0.25,
+  "core_threshold": 0.5,
+  "n_postings": 202,
+  "note": "requirements are what synthetic postings state, grouped by role_family"
+ },
+ "confidence": {
+  "level": "high",
+  "meaning": "confidence in the description of the role's stated requirements; not confidence in any hiring outcome",
+  "reasons": [
+   "profile built from enough postings, stable under resampling, requirements mostly interpretable"
+  ]
+ },
+ "contradicted": [],
+ "core_summary": {
+  "contradicted": 0,
+  "evidenced": 0,
+  "no-evidence-on-file": 8,
+  "unknown": 0,
+  "weak-evidence": 0
+ },
+ "evidence_gaps": [],
+ "minimum_qualifications": [
+  "executive-communication",
+  "enterprise-sales"
+ ],
+ "proximity": {
+  "cosine_similarity": 0.129404,
+  "full_space_distance": 3.357401,
+  "full_space_rank_among_roles": 8,
+  "map_distance": 2.259294,
+  "map_rank_among_roles": 7,
+  "map_rank_disagrees_with_full_space": true,
+  "note": "Use the full-space numbers. Map distance is shown only to expose distortion.",
+  "requirement_shortfall": 2.464347,
+  "shortfall_rank_among_roles": 7
+ },
+ "requirements": [
+  {
+   "acquisition": "role-exposure",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "executive-communication",
+   "named_as_minimum_qualification_share": 0.8663,
+   "stated_in_share_of_postings": 0.8663,
+   "tier": "core"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "solution-design",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.8663,
+   "tier": "core"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "cloud-architecture",
+   "named_as_minimum_qualification_share": 0.2277,
+   "stated_in_share_of_postings": 0.8515,
+   "tier": "core"
+  },
+  {
+   "acquisition": "role-exposure",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "enterprise-sales",
+   "named_as_minimum_qualification_share": 0.8515,
+   "stated_in_share_of_postings": 0.8515,
+   "tier": "core"
+  },
+  {
+   "acquisition": "role-exposure",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "stakeholder-management",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.8515,
+   "tier": "core"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "ai-strategy",
+   "named_as_minimum_qualification_share": 0.0545,
+   "stated_in_share_of_postings": 0.8465,
+   "tier": "core"
+  },
+  {
+   "acquisition": "role-exposure",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "customer-delivery",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.8416,
+   "tier": "core"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "technical-leadership",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.5099,
+   "tier": "core"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "roadmap-planning",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.4505,
+   "tier": "common"
+  },
+  {
+   "acquisition": "role-exposure",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "pre-sales-demos",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.4257,
+   "tier": "common"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "technical-discovery",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.3861,
+   "tier": "common"
+  },
+  {
+   "acquisition": "study-or-project",
+   "candidate_evidence_level": 0.0,
+   "candidate_state": "no-evidence-on-file",
+   "evidence_refs": [],
+   "feature": "system-design",
+   "named_as_minimum_qualification_share": 0.0,
+   "stated_in_share_of_postings": 0.3663,
+   "tier": "common"
+  }
+ ],
+ "skill_gaps": [
+  "executive-communication",
+  "solution-design",
+  "cloud-architecture",
+  "enterprise-sales",
+  "stakeholder-management",
+  "ai-strategy",
+  "customer-delivery",
+  "technical-leadership"
+ ],
+ "status": "hypothetical_gap_not_probability",
+ "target_label": "Field CTO",
+ "target_role": "field-cto",
+ "unknown_candidate_inputs": [
+  "ctx:seniority-level"
+ ],
+ "unobserved_requirements": {
+  "note": "Postings can hold requirements this vocabulary cannot read, and real roles have requirements that postings never state. Treat this list as incomplete.",
+  "unmapped_requirement_share": 0.133
+ }
+}
