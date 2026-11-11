@@ -113,3 +113,20 @@ def test_evidence_goal_kind_prefix_and_free_text(engine, candidate):
     sc2 = simulate_transition(engine, candidate, "fde", [{"skill": "sql", "effort_hours": 1, "evidence_goal": long_goal}])
     assert len(sc2["planned_actions"][0]["evidence_goal"]) <= 300 and chr(0) not in sc2["planned_actions"][0]["evidence_goal"]
     assert set(EVIDENCE_GOALS) >= {"coursework", "portfolio-project", "client-engagement"}
+
+
+def test_cli_export_writes_lane_d_files(tmp_path, capsys):
+    jsonschema = pytest.importorskip("jsonschema")
+    from careertwin_atlas.__main__ import main
+    assert main(["export", "--out", str(tmp_path), "--generated-at", GENERATED_AT, "--n", "200",
+                 "--max-job-points", "40"]) == 0
+    capsys.readouterr()
+    view_v = jsonschema.Draft202012Validator(_schema("atlas-projection.schema.json"))
+    for name in ("atlas.pca.json", "atlas.axes.json"):
+        doc = json.loads((tmp_path / name).read_text(encoding="utf-8"))
+        assert not list(view_v.iter_errors(doc)), name
+    pca = json.loads((tmp_path / "atlas.pca.json").read_text(encoding="utf-8"))
+    assert len(pca["paths"]) == 3 and pca["generated_at"] == GENERATED_AT
+    scenarios = json.loads((tmp_path / "scenarios.json").read_text(encoding="utf-8"))
+    assert [s["outputs"]["target_role_family"] for s in scenarios] == ["fde", "ai-architect", "field-cto"]
+    assert main(["export", "--out", str(tmp_path), "--generated-at", "now"]) == 2
