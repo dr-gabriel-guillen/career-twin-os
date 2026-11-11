@@ -191,6 +191,8 @@ def run_scenario(lab: Lab, sc: Scenario, rng: random.Random) -> dict[str, Any]:
         employer = f"emp-{sc.key}-{u:03d}"
         base = _clamp(sc.baseline + (sc.staff_shift if seniority == "staff" else 0.0))
         cluster_logit_shift = _cluster_rate(rng, base, sc.icc) - base
+        # enrol every application of the unit before any of them is submitted (a unit closes at first exposure)
+        enrolled = []
         for k in range(rng.randint(*sc.cluster_size)):
             clock.advance(hours=7)
             job = synthetic.job(f"fake-{sc.key}-{u:03d}-{k}", org=f"Fictional Employer {sc.key}-{u:03d}",
@@ -201,6 +203,8 @@ def run_scenario(lab: Lab, sc: Scenario, rng: random.Random) -> dict[str, Any]:
             lab.store.open_application(application_id=app_id, job_id=job["id"], employer_id=employer)
             arm = lab.engine.assign(experiment_id=exp_id, application_id=app_id,
                                     attributes={"seniority": seniority, "role_family": "fde"})["variant"]
+            enrolled.append((job, app_id, arm, abandon_draw, withdraw_draw))
+        for job, app_id, arm, abandon_draw, withdraw_draw in enrolled:
             # ...and then compared with the arm-specific abandonment rate
             submit = abandon_draw >= sc.never_submitted.get(arm, 0.0)
             variant = lab.resumes.build_variant(subject_id=synthetic.SUBJECT, job=job, claims=claims, max_bullets=4,

@@ -120,7 +120,7 @@ class TestStages(unittest.TestCase):
             self.write_inputs(d, pin="jp_not_in_jobs")
             self.assertEqual(self.run_stage(d, "resume"), 2)
             (d / "jobs.json").write_text('[{"posting": {"id": "x"}}]', encoding="utf-8")
-            self.assertEqual(self.run_stage(d, "resume"), 3)  # contract violation in A's payload
+            self.assertEqual(self.run_stage(d, "resume"), 2)  # contract violation in A's payload is bad input
             self.write_inputs(d, n_jobs=10)
             self.assertEqual(self.run_stage(d, "experiment"), 2)  # too few units for any valid experiment
 

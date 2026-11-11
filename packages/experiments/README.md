@@ -63,12 +63,20 @@ Frozen contracts are **not** modified. B-only data travels beside them.
 * Primary test: stratified permutation test that re-randomises within strata, mirroring the assignment mechanism.
   Interval: Newcombe hybrid score (single stratum, binary units) or a t-interval on unit means (approximate; flagged).
 * Fixed horizon only. Interim reports are blinded by arm and carry no test; an early stop yields no test.
-* `as_of` can never lie in the future. An unsubmitted enrolled application stays pending (censored) until one
+* Before the result of record exists a report is computed at the current time only (a past `as_of` is refused,
+  a future one always). Interim reports blank every per-arm outcome count and list no per-application rows.
+* One posting (including lane A duplicates) gets one application, for every unit kind; a posting already
+  applied to outside the experiment is ineligible. An employer cluster takes further applications only until
+  the first of its applications is approved or submitted, so a cluster can never grow in response to outcomes.
+* An unsubmitted enrolled application stays pending (censored) until one
   outcome window after its assignment, then counts as never exposed; a later submission is ignored.
 * The first terminal analysis is journaled as the **result of record**. Later reports are computed at the same
   instant; if the data changed since (late entries, corrections) the re-analysis is `EXPLORATORY_NO_CLAIM`
   and the recorded result stands. Deviating analyses (`override`) exist only after that record.
-* A claim must also survive re-analysis on the history as first recorded (before the user's own corrections).
+* A claim must also survive re-analysis on each application's history as it stood before its first correction
+  (events entered after a void count as corrections too); the claimed arms and directions must match exactly.
+* A second result of record, or one that does not match its own hash, is an integrity failure; reports always
+  return freshly recomputed numbers.
 * Simple randomisation balances arms only in expectation: designs whose arms could plausibly fall below the
   preregistered minimum (risk > 20%) are refused at registration.
 * Missing outcomes count as "no success" (preregistered), with complete-case and worst-case sensitivity analyses;

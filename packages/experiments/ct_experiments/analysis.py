@@ -208,9 +208,14 @@ def analyze(experiment_id: str, *, registry: ExperimentRegistry, engine: Assignm
     * Deviating analyses (`override`) are available only after the result of
       record exists, so they cannot be used to peek.
     """
-    if as_of > store.clock.now() + timedelta(minutes=5):
+    now = store.clock.now().replace(microsecond=0)
+    as_of = as_of.replace(microsecond=0)  # reports are computed and recorded at whole seconds
+    if as_of > now:
         raise CareerTwinError("as_of lies in the future; outcomes that have not happened cannot be analysed")
     final = registry.final_analysis(experiment_id)
+    if final is None and as_of < now - timedelta(seconds=60):
+        raise CareerTwinError("until the result of record exists, reports are computed at the current time only; "
+                              "a past as_of would let the analysis instant be chosen after seeing the data")
     if final is None:
         if override:
             raise CareerTwinError("exploratory analyses are available only after the preregistered "
@@ -228,8 +233,10 @@ def analyze(experiment_id: str, *, registry: ExperimentRegistry, engine: Assignm
                             as_of=parse_ts(final["as_of"]), override=override)
     if override or current["phase"] == "NOT_ANALYZABLE":
         return {**current, "result_of_record": record}
+    if content_hash(final["report"]) != final["report_hash"]:
+        raise CareerTwinError("result of record does not match its own hash")
     if content_hash(current) == final["report_hash"]:
-        return {**final["report"], "result_of_record": {**record, "unchanged": True}}
+        return {**current, "result_of_record": {**record, "unchanged": True}}  # recomputed, never the stored body
     current.update(verdict="EXPLORATORY_NO_CLAIM", claim=None)
     current["reasons_withheld"].insert(
         0, "DATA_CHANGED_AFTER_FINAL_ANALYSIS: events were added or corrected after the final analysis was "
@@ -315,8 +322,8 @@ def _analyze_core(experiment_id: str, *, registry: ExperimentRegistry, engine: A
         report["blinded_progress"] = {
             "applications_with_known_outcome": len(known),
             "pooled_success_rate": (sum(x["status"] == "success" for x in known) / len(known)) if known else None}
-        for arm in flow.values():  # blind the arm-level outcome split
-            for key in ("success", "no_success"):
+        for arm in flow.values():  # blind every arm-level outcome count (differencing would unblind them)
+            for key in ("success", "no_success", "censored", "missing", "withdrawn", "deviations"):
                 arm[key] = None
         return report
 
@@ -383,8 +390,12 @@ def _analyze_core(experiment_id: str, *, registry: ExperimentRegistry, engine: A
                     minimum_units=design["minimum_units_per_arm"], alpha=alpha, n_perm=design["n_permutations"],
                     seed_key="|".join((rec["design_hash"], metric, str(window))), metric=metric,
                     unit_label=spec["assignment_unit"])
-        report["sensitivity_uncorrected_history"] = {"claims": len(raw["claims"])}
-        if len(raw["claims"]) != len(claims) or any(u["censored"] for u in raw_units.values()):
+        def signature(res: dict[str, Any]) -> set[tuple[str, int]]:
+            return {(c["treatment"], 1 if c["estimate"] > 0 else -1) for c in res["comparisons"]
+                    if not c["blocking"] and "p_value" in c}
+
+        report["sensitivity_uncorrected_history"] = {"claims": sorted(map(list, signature(raw)))}
+        if signature(raw) != signature(result) or any(u["censored"] for u in raw_units.values()):
             claims = []
             withheld.append("NOT_ROBUST_TO_CORRECTIONS: the difference appears only after the user's own "
                             "corrections to recorded events; no claim is made")
@@ -414,7 +425,12 @@ def portfolio_summary(reports: list[dict[str, Any]], alpha: float = 0.05) -> dic
              "p_holm_across_experiments": hi, "q_benjamini_hochberg": bi,
              "claim_survives_portfolio_holm": r["verdict"] == "EVIDENCE_FOR_DIFFERENCE" and hi < alpha}
             for r, pi, hi, bi in zip(final, p, holm_p, bh_p)]
+    untested = [r["experiment_id"] for r in reports if r not in final]
     return {"schema": "careertwin.b.portfolio-summary.v1", "experiments": len(reports),
+            "experiments_without_final_test": untested,
+            "abandonment_caution": "Experiments closed early or never finished are part of the family of questions "
+                                   "asked. A habit of abandoning unpromising experiments makes the remaining "
+                                   "'differences' less trustworthy than their p-values suggest.",
             "verdict_counts": counts, "final_tests": len(final),
             "expected_false_alarms_if_all_null": alpha * len(final),
             "caution": "Each experiment controls its own error rate. Across many experiments some "

@@ -7,7 +7,11 @@
 Reads from DIR: jobs.json (JobPosting[] or lane A envelopes {"posting", "ext"}), claims.json
 (ProfileClaim[] or {"claim", ...} envelopes), pin.json ({"job_id": ...}).
 Writes to DIR: resume_variant.json | events.json | experiment.json, assignments.json,
-experiment_events.json, analysis.json. State shared by the stages lives in DIR/lane-b/.
+experiment_events.json, analysis.json. State shared by the stages lives in DIR/lane-b/; a stage
+works on a copy and swaps it in only on success, so a failed stage leaves the state untouched.
+
+The randomisation seed is derived from --seed and therefore predictable: this stage is a synthetic
+negative control for integration testing, not a concealed allocation.
 
 Offline and synthetic. The human user is simulated (simulate.simulated_user_grant) and employer
 responses are drawn from a seeded RNG with a true effect of exactly zero, so the expected
@@ -18,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import shutil
 import sys
 from datetime import timedelta
 from pathlib import Path
@@ -57,20 +62,46 @@ def _dump(dir_: Path, name: str, payload) -> None:
                              encoding="utf-8", newline="\n")
 
 
+def _contract(obj, contract: str, where: str) -> None:
+    try:
+        validate(obj, contract)
+    except CareerTwinError as exc:
+        raise BadInput(f"{where}: {exc}") from None
+
+
+def _obj(value, where: str) -> dict:
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise BadInput(f"{where} must be an object")
+    return value
+
+
 def load_jobs(dir_: Path) -> list[dict]:
     """Returns [{posting, employer_id, members, employer_source}] for every contract-valid record."""
     raw = _load(dir_, "jobs.json")
     if isinstance(raw, dict):
         raw = raw.get("jobs") or raw.get("records") or []
-    out = []
-    for rec in raw:
-        posting = rec.get("posting", rec) if isinstance(rec, dict) else None
+    if not isinstance(raw, list):
+        raise BadInput("jobs.json must be a list of postings or lane A records")
+    out, seen = [], set()
+    for i, rec in enumerate(raw):
+        if not isinstance(rec, dict):
+            raise BadInput(f"jobs.json[{i}] must be an object")
+        posting = rec.get("posting", rec)
         if not isinstance(posting, dict):
-            raise BadInput("jobs.json entries must be objects")
-        validate(posting, "job-posting")
-        ext = rec.get("ext", {}) if "posting" in rec else {}
-        emp = (ext.get("employer") or {}).get("id")
-        members = (ext.get("dedup") or {}).get("members") or []
+            raise BadInput(f"jobs.json[{i}].posting must be an object")
+        _contract(posting, "job-posting", f"jobs.json[{i}]")
+        if posting["id"] in seen:
+            raise BadInput(f"jobs.json lists posting {posting['id']!r} twice")
+        seen.add(posting["id"])
+        ext = _obj(rec.get("ext"), f"jobs.json[{i}].ext") if "posting" in rec else {}
+        emp = _obj(ext.get("employer"), f"jobs.json[{i}].ext.employer").get("id")
+        members = _obj(ext.get("dedup"), f"jobs.json[{i}].ext.dedup").get("members") or []
+        if not isinstance(members, list):
+            raise BadInput(f"jobs.json[{i}].ext.dedup.members must be a list")
+        if emp is not None and (not isinstance(emp, str) or not emp):
+            raise BadInput(f"jobs.json[{i}].ext.employer.id must be a non-empty string")
         out.append({"posting": posting,
                     # lane A's employer.id when present; otherwise the raw organization string, unnormalised
                     "employer_id": emp or "org:" + content_hash(posting["organization"])[:16],
@@ -85,16 +116,22 @@ def load_claims(dir_: Path) -> list[dict]:
     raw = _load(dir_, "claims.json")
     if isinstance(raw, dict):
         raw = raw.get("claims") or []
+    if not isinstance(raw, list):
+        raise BadInput("claims.json must be a list of ProfileClaim objects")
     claims = [c.get("claim", c) if isinstance(c, dict) else c for c in raw]
-    for c in claims:
-        validate(c, "profile-claim")
+    ids = set()
+    for i, c in enumerate(claims):
+        _contract(c, "profile-claim", f"claims.json[{i}]")
+        if c["id"] in ids:
+            raise BadInput(f"claims.json lists claim {c['id']!r} twice")
+        ids.add(c["id"])
     return claims
 
 
 class Stage:
-    def __init__(self, artifacts: Path):
+    def __init__(self, artifacts: Path, state: Path):
         self.dir = artifacts
-        self.state = artifacts / "lane-b"
+        self.state = state
         self.state.mkdir(parents=True, exist_ok=True)
         clock_file = self.state / "clock.json"
         start = json.loads(clock_file.read_text(encoding="utf-8"))["now"] if clock_file.exists() else START
@@ -168,6 +205,10 @@ class Stage:
             raise BadInput("no active job postings to enrol")
         exp_id = f"exp-e2e-{seed}"
         reg, rng = self.lab.registry, random.Random(seed)
+        other = [e for e in reg.ids() if e.startswith("exp-e2e-") and e != exp_id]
+        if other:
+            raise BadInput(f"this artifacts directory already holds experiment {other[0]!r}; "
+                           "use a fresh directory for another seed")
         levels = sorted({j["posting"]["seniority"] for j in active})
         employers = {j["employer_id"] for j in active}
         # cluster by employer when there are enough employers to analyse clusters; otherwise randomise postings
@@ -241,6 +282,8 @@ class Stage:
         report = self.lab.report(exp_id)
         assignments = self.lab.engine.assignments(exp_id)
         apps = [a["application_id"] for a in assignments]
+        if not apps:
+            raise CareerTwinError("no posting could be enrolled; nothing to report")
         _dump(self.dir, "experiment.json", reg.spec(exp_id))
         _dump(self.dir, "assignments.json", [{k: v for k, v in a.items() if k != "consent_token_ref"}
                                              for a in assignments])
@@ -248,7 +291,8 @@ class Stage:
         _dump(self.dir, "analysis.json", report)
         return {"experiment_id": exp_id, "phase": report["phase"], "verdict": report["verdict"],
                 "assigned_applications": len(apps),
-                "refused_enrolments": len(json.loads((self.state / "refused_enrolments.json").read_text()))}
+                "refused_enrolments": len(json.loads((self.state / "refused_enrolments.json").read_text()))
+                if (self.state / "refused_enrolments.json").exists() else 0}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -257,15 +301,31 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--artifacts", required=True)
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args(argv)
+    artifacts = Path(args.artifacts)
+    state, scratch = artifacts / "lane-b", artifacts / "lane-b.partial"
     try:
-        stage = Stage(Path(args.artifacts))
+        if not artifacts.is_dir():
+            raise BadInput(f"--artifacts {artifacts} is not a directory")
+        # all-or-nothing: work on a copy of the state, swap it in only if the stage succeeds
+        shutil.rmtree(scratch, ignore_errors=True)
+        if state.exists():
+            shutil.copytree(state, scratch)
+        stage = Stage(artifacts, scratch)
         summary = {"resume": stage.resume, "application": stage.application,
                    "experiment": lambda: stage.experiment(args.seed)}[args.stage]()
         stage.save()
+        shutil.rmtree(state, ignore_errors=True)
+        scratch.rename(state)
     except BadInput as exc:
+        shutil.rmtree(scratch, ignore_errors=True)
         print(json.dumps({"ok": False, "stage": args.stage, "error": "BadInput", "message": str(exc)}))
         return 2
+    except OSError as exc:
+        shutil.rmtree(scratch, ignore_errors=True)
+        print(json.dumps({"ok": False, "stage": args.stage, "error": "BadInput", "message": f"{type(exc).__name__}: {exc}"}))
+        return 2
     except CareerTwinError as exc:
+        shutil.rmtree(scratch, ignore_errors=True)
         print(json.dumps({"ok": False, "stage": args.stage, "error": type(exc).__name__, "message": str(exc)}))
         return 3
     print(json.dumps({"ok": True, "stage": args.stage, **summary}))

@@ -169,14 +169,27 @@ class AssignmentEngine:
                 f"employer {employer_id!r} is in open experiment(s) {sorted(others)}; overlapping experiments refused")
         unit_kind = spec["assignment_unit"]
         unit_id = {"application": application_id, "job": job_id, "employer-cluster": employer_id}[unit_kind]
-        if unit_kind == "application" and any(self._job_exp.get(k) == experiment_id for k in job_keys):
-            raise CrossoverError("this posting already has an application in the experiment; "
-                                 "a second arm for the same posting is refused")
+        if any(self._job_exp.get(k) == experiment_id for k in job_keys):  # every unit kind
+            raise CrossoverError("this posting (or a lane A duplicate of it) already has an application in "
+                                 "the experiment; one posting gets one application")
+        elsewhere = self.store.applications_for_jobs(job_keys) - {application_id}
+        if elsewhere:
+            raise IneligibleError(f"this posting (or a duplicate) already has application(s) {sorted(elsewhere)} "
+                                  "outside the experiment; a second application would not be an independent unit")
         stratum = stratum_key(spec["strata"], attributes)
         first = self._unit.get((experiment_id, unit_id))
         if first is None and n_units >= planned:
             raise AssignmentError("the preregistered sample is complete; enrolling more units would "
                                   "change the design. Close this experiment and register a new one")
+        if first is not None:
+            exposed = [a["application_id"] for a in self._by_exp.get(experiment_id, [])
+                       if a["unit_id"] == unit_id and {e["event_type"] for e in self.store.raw_events(
+                           a["application_id"])} - {"saved", "drafted", "note"}]
+            if exposed:
+                raise AssignmentError(
+                    f"unit {unit_id!r} is closed: application(s) {exposed} have already been approved or "
+                    "submitted. Adding applications once outcomes can be observed would let them be chosen "
+                    "by outcome")
         if first is not None and self.clock.now() > parse_ts(first["assigned_at"]) + timedelta(
                 days=spec["outcome_window_days"]):
             raise AssignmentError("this unit's enrolment period (one outcome window after its first assignment) "

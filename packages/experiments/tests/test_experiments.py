@@ -353,7 +353,9 @@ class TestAssignment(unittest.TestCase):
         kept = self.lab.engine.assignments(self.exp)
         self.assertEqual(len(kept), 1)
         self.assertEqual([n["kind"] for n in kept[0]["annotations"]], ["withdrawn", "deviation"])
-        self.assertEqual(self.lab.report(self.exp)["flow"]["by_arm"][a["variant"]]["withdrawn"], 1)
+        flow = self.lab.report(self.exp)["flow"]["by_arm"][a["variant"]]
+        self.assertEqual(flow["units"], 1)  # the withdrawn unit stays in the ITT denominator
+        self.assertIsNone(flow["withdrawn"])  # interim reports blind every per-arm count
 
 
 def ev(kind, at, status="observed", recorded=None):

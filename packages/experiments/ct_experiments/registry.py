@@ -179,6 +179,10 @@ class ExperimentRegistry:
         elif kind == "consent":
             rec["consent_token_ref"] = body["token_id"]
         elif kind == "final_analysis":
+            if rec.get("final_analysis"):
+                raise IntegrityError(f"{body['id']}: a second result of record was appended to the journal")
+            if content_hash(body["report"]) != body["report_hash"]:
+                raise IntegrityError(f"{body['id']}: result of record does not match its own hash")
             rec["final_analysis"] = body
 
     # -- drafting --------------------------------------------------------

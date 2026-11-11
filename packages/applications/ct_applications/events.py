@@ -58,6 +58,7 @@ class ApplicationStore:
         self._voided: dict[str, str] = {}                 # target event id -> correcting event id
         self._amended: dict[str, dict[str, Any]] = {}     # target event id -> merged changes
         self._import_keys: set[tuple[str, str, str, str | None]] = set()
+        self._job_apps: dict[str, set[str]] = {}            # posting id (or duplicate id) -> applications
         self.duplicates_ignored = 0
         for rec in self.journal:
             if rec["kind"] == "event":
@@ -75,6 +76,8 @@ class ApplicationStore:
                 "job_id": ev["job_id"], "employer_id": ext.get("employer_id"),
                 "historical": bool(ext.get("historical")),
                 "job_members": list(ext.get("job_members") or [ev["job_id"]])}
+            for key in self._meta[ev["application_id"]]["job_members"]:
+                self._job_apps.setdefault(key, set()).add(ev["application_id"])
         if ev["actor"] == "import":
             self._import_keys.add((ev["application_id"], ev["event_type"], ev["source"], ev.get("occurred_at")))
         corr = ext.get("correction")
@@ -341,9 +344,20 @@ class ApplicationStore:
         return self._effective(application_id)
 
     def uncorrected_events(self, application_id: str) -> list[dict[str, Any]]:
-        """History exactly as first recorded: no void or amendment applied, correction notes left out."""
-        return [dict(self._events[e]["event"]) for e in self._order.get(application_id, [])
-                if not self._events[e]["ext"].get("correction")]
+        """History as it stood before the user's first correction of this application.
+
+        Everything recorded from the first correction onwards is left out, including
+        new events entered after a void (e.g. void a rejection, then record a screen)."""
+        out = []
+        for e in self._order.get(application_id, []):
+            if self._events[e]["ext"].get("correction"):
+                break
+            out.append(dict(self._events[e]["event"]))
+        return out
+
+    def applications_for_jobs(self, job_keys: list[str]) -> set[str]:
+        """Every application opened for any of these posting ids (lane A duplicates included)."""
+        return set().union(*(self._job_apps.get(k, set()) for k in job_keys)) if job_keys else set()
 
     def event_ext(self, event_id: str) -> dict[str, Any]:
         return dict(self._events[event_id]["ext"])
