@@ -1,0 +1,43 @@
+[
+  {
+    "id": "exp-synth-resume-framing",
+    "title": "Résumé framing: impact-first vs skills-first (synthetic)",
+    "hypothesis": "Leading with a quantified achievement instead of a skills summary changes the share of applications that reach a recruiter screen within 21 days.",
+    "status": "running",
+    "variants": [
+      "impact-first",
+      "skills-first"
+    ],
+    "assignment_unit": "employer-cluster",
+    "strata": [
+      "role_family"
+    ],
+    "primary_metric": "recruiter_screen_within_window",
+    "design_locked_at": "2026-10-06T09:00:00Z",
+    "stopping_rule": "Stop when 40 employer clusters have a closed outcome window. No interim decisions.",
+    "consent_required": true,
+    "outcome_window_days": 21,
+    "secondary_metrics": [
+      "any_reply_within_window"
+    ],
+    "analysis_plan": "Difference in proportions with a 95% Newcombe interval on the primary metric. Censored and missing units are reported and excluded from rates. Secondary metrics are descriptive only.",
+    "seed_digest": "8de8cbebf0a5ff1187c7da2d35627cb32f76c357a490c81811762c8b35e52f7e"
+  },
+  {
+    "id": "exp-synth-cover-note",
+    "title": "Short cover note: with vs without (draft, synthetic)",
+    "hypothesis": "Adding a three-sentence cover note changes the recruiter-screen rate.",
+    "status": "draft",
+    "variants": [
+      "with-note",
+      "without-note"
+    ],
+    "assignment_unit": "application",
+    "strata": [],
+    "primary_metric": "recruiter_screen_within_window",
+    "design_locked_at": null,
+    "stopping_rule": "Not set yet.",
+    "consent_required": true,
+    "outcome_window_days": 21
+  }
+]

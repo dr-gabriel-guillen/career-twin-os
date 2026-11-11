@@ -1,0 +1,227 @@
+[
+  {
+    "id": "claim-skill-python",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "Python for backend services and evaluation tooling",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-repo-orders",
+      "ev-ref-halcyon"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-27T09:00:00Z",
+    "skills": [
+      "python"
+    ]
+  },
+  {
+    "id": "claim-skill-typescript",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "TypeScript for API clients and internal tools",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-repo-console"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-26T09:00:00Z",
+    "skills": [
+      "typescript"
+    ]
+  },
+  {
+    "id": "claim-skill-aws",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "AWS (compute, queues, IAM) in day-to-day work",
+    "status": "self-reported",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-25T09:00:00Z",
+    "skills": [
+      "aws"
+    ]
+  },
+  {
+    "id": "claim-skill-api",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "API design for partner integrations",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-doc-api-guidelines"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-24T09:00:00Z",
+    "skills": [
+      "api-design"
+    ]
+  },
+  {
+    "id": "claim-skill-security",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "Application security reviews",
+    "status": "unverified",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-23T09:00:00Z",
+    "skills": [
+      "security"
+    ]
+  },
+  {
+    "id": "claim-skill-aieval",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "Evaluation harnesses for AI features",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-repo-evals"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-22T09:00:00Z",
+    "skills": [
+      "ai-evaluation"
+    ]
+  },
+  {
+    "id": "claim-skill-distsys",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "skill",
+    "claim_text": "Distributed systems (queues, idempotency, backpressure)",
+    "status": "self-reported",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-21T09:00:00Z",
+    "skills": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "id": "claim-employment-halcyon",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "employment",
+    "claim_text": "Senior Software Engineer at Fictional Halcyon Robotics (2021–2025)",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-ref-halcyon"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-20T09:00:00Z",
+    "skills": [
+      "python",
+      "api-design",
+      "distributed-systems"
+    ]
+  },
+  {
+    "id": "claim-role-techlead",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "role",
+    "claim_text": "Acting tech lead for a four-person integrations squad",
+    "status": "self-reported",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-19T09:00:00Z",
+    "skills": []
+  },
+  {
+    "id": "claim-education-bsc",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "education",
+    "claim_text": "B.S. Computer Science, Fictional Northfield University",
+    "status": "self-reported",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-18T09:00:00Z",
+    "skills": []
+  },
+  {
+    "id": "claim-credential-cloud",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "credential",
+    "claim_text": "Fictional Cloud Practitioner Certificate (current)",
+    "status": "contradicted",
+    "evidence_ids": [
+      "ev-record-cert-expired"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-17T09:00:00Z",
+    "skills": [
+      "aws"
+    ],
+    "valid_to": "2025-06-30T00:00:00Z"
+  },
+  {
+    "id": "claim-credential-sec",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "credential",
+    "claim_text": "Fictional Security Analyst Certificate",
+    "status": "unverified",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-16T09:00:00Z",
+    "skills": [
+      "security"
+    ]
+  },
+  {
+    "id": "claim-project-evals",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "project",
+    "claim_text": "Built an offline evaluation suite for a fictional support-assistant feature",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-repo-evals",
+      "ev-doc-eval-report"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-15T09:00:00Z",
+    "skills": [
+      "ai-evaluation",
+      "python"
+    ]
+  },
+  {
+    "id": "claim-achievement-latency",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "achievement",
+    "claim_text": "Reduced p95 latency of the fictional order API by 38%",
+    "status": "supported",
+    "evidence_ids": [
+      "ev-doc-latency-report"
+    ],
+    "visibility": "shareable",
+    "updated_at": "2026-10-14T09:00:00Z",
+    "skills": [
+      "distributed-systems",
+      "api-design"
+    ]
+  },
+  {
+    "id": "claim-achievement-team",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "achievement",
+    "claim_text": "Led a team of 12 engineers through a platform migration",
+    "status": "unverified",
+    "evidence_ids": [],
+    "visibility": "shareable",
+    "updated_at": "2026-10-13T09:00:00Z",
+    "skills": []
+  },
+  {
+    "id": "claim-other-talk",
+    "subject_id": "candidate-synthetic-001",
+    "claim_type": "other",
+    "claim_text": "Internal talk on evaluation-first AI delivery",
+    "status": "self-reported",
+    "evidence_ids": [],
+    "visibility": "private",
+    "updated_at": "2026-10-12T09:00:00Z",
+    "skills": [
+      "ai-evaluation"
+    ]
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "manifest_version": "0.1",
+  "session_id": "CAREER-TWIN-D",
+  "setup": [
+    [
+      "npm",
+      "ci",
+      "--prefix",
+      "apps/web"
+    ]
+  ],
+  "tests": [
+    {
+      "name": "unit",
+      "cmd": [
+        "npm",
+        "test",
+        "--prefix",
+        "apps/web"
+      ]
+    }
+  ],
+  "stages": {
+    "ui.e2e": {
+      "mock": false,
+      "timeout_s": 900,
+      "cmd": [
+        "npm",
+        "run",
+        "e2e:integration",
+        "--prefix",
+        "apps/web",
+        "--",
+        "--artifacts",
+        "{artifacts}"
+      ]
+    }
+  }
+}
