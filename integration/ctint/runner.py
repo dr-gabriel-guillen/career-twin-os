@@ -24,6 +24,7 @@ import argparse
 import contextlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -45,6 +46,11 @@ _KEEP_ENV = (
     "PATH",
     "SYSTEMROOT",
     "SYSTEMDRIVE",
+    # Windows program-file roots: non-secret system paths that browser launchers use to find an installed
+    # browser (lane D's Playwright `chrome` channel failed without them in run final3).
+    "PROGRAMFILES",
+    "PROGRAMFILES(X86)",
+    "PROGRAMW6432",
     "COMSPEC",
     "PATHEXT",
     "WINDIR",
@@ -74,6 +80,28 @@ def offline_env(home: Path) -> dict[str, str]:
         }
     )  # fmt: skip
     return env
+
+
+_SECRETISH = re.compile(r"(?i)token|secret|passw|key|credential|auth|cookie|session|private|_pat\b|^pat$")
+_ENV_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]{0,63}$")
+
+
+def parse_pass_env(items: list[str]) -> dict[str, str]:
+    """``NAME=VALUE`` pairs an operator explicitly passes to lane commands, e.g. ``PW_CHANNEL=chrome``.
+
+    Added because lane D's browser E2E needs a browser selection that E's environment scrub removes
+    (run final2: Playwright found no browser under the empty temporary HOME). Names that look like
+    credentials are refused, and every passed variable is written to the report.
+    """
+    passed: dict[str, str] = {}
+    for item in items:
+        name, sep, value = item.partition("=")
+        if not sep or not _ENV_NAME.match(name):
+            raise SystemExit(f"--pass-env expects NAME=VALUE, got {item!r}")
+        if _SECRETISH.search(name) or _SECRETISH.search(value):
+            raise SystemExit(f"--pass-env refuses credential-like variable {name!r}")
+        passed[name] = value
+    return passed
 
 
 _PROXY_KEYS = ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy")
@@ -372,6 +400,8 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
     temp = Path(tempfile.mkdtemp(prefix="ct-int-"))
     worktree = temp / "wt"
     env = offline_env(temp / "home")
+    passed = parse_pass_env(getattr(args, "pass_env", None) or [])
+    env.update(passed)
     lanes: list[LaneReport] = []
     stages: list[e2e.StageResult] = []
     started = datetime.now(UTC)
@@ -456,6 +486,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
         )
         if on
     )
+    flags = " ".join([flags, *(f"--pass-env {k}={v}" for k, v in sorted(passed.items()))]).strip()
     report: dict[str, Any] = {
         "batch": BATCH_ID,
         "generated_by": SESSION_ID,
@@ -466,6 +497,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
         "count": args.count,
         "allow_stub": bool(args.allow_stub),
         "hermetic": hermetic,
+        "passed_env": dict(sorted(passed.items())),
         "python": sys.version.split()[0],
         "lanes": [asdict(lane) for lane in lanes],
         "stages": [stage.as_dict() for stage in stages],
@@ -493,6 +525,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--allow-setup", action="store_true", help="run lanes' setup commands (needs network; non-hermetic)"
     )
     parser.add_argument("--no-probes", action="store_true", help="skip canned-output probes")
+    parser.add_argument(
+        "--pass-env", action="append", metavar="NAME=VALUE",
+        help="pass one explicitly named, non-secret variable to lane commands (recorded in the report)",
+    )  # fmt: skip
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--count", type=int, default=150)
     parser.add_argument("--out", help="report directory (default: integration/.work/run-<utc>)")

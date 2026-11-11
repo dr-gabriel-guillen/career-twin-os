@@ -11,7 +11,7 @@ Offline and synthetic: uses lane A's own seeded corpus and synthetic profile. Pr
   refusal reason changed to something other than ``content-integrity`` (A-F3 and phantom evasion)
   and score changes among postings eligible in both runs.
 
-Exit status 1 if any finding reproduces, else 0. Not part of the isolated test suite because it needs
+Each observation is classified FINDING / accepted / note; exit status 1 only for a FINDING or a canary leak. Not part of the isolated test suite because it needs
 lane A's code; lane E runs it per pinned SHA during review.
 """
 
@@ -65,11 +65,19 @@ def main(argv: list[str] | None = None) -> int:
             for e in service.store.view(as_of)
         ]
 
-    def rank(doc: dict[str, Any]) -> dict[str, Any]:
+    def rank(doc: dict[str, Any]) -> tuple[dict[str, Any], dict[str, list[str]]]:
+        """Ranking result plus required skills per posting (to attribute score changes)."""
         service = Service()
         service.import_doc(copy.deepcopy(doc))
+        required = {
+            e["posting"]["id"]: list(e["ext"].get("skills_required") or []) for e in service.store.view(as_of)
+        }
         result: dict[str, Any] = service.rank({"as_of": as_of, "profile": profile, "top_n": 50})
-        return result
+        return result, required
+
+    def integrity_refused(result: dict[str, Any], job_id: str) -> bool:
+        reasons = next((r["reasons"] for r in result["refusals"] if r["job_id"] == job_id), [])
+        return any(str(r).startswith("content-integrity") for r in reasons)
 
     hostile = [("prompt", p.format(canary="CT-CANARY-TEST")) for p in sec_inject.PROMPT_INJECTIONS]
     hostile += [("html", h) for h in sec_inject.HTML_PAYLOADS] + [
@@ -96,10 +104,28 @@ def main(argv: list[str] | None = None) -> int:
                     "</p>", "</p>" + (text if kind == "html" else f"<p>{text}</p>"), 1
                 )
             got = skills(trial)
-            if got != base:
-                minimal.append(
-                    {"source": source, "kind": kind, "inserted": text, "before": base, "after": got}
-                )
+            if got == base:
+                continue
+            trial_result, _ = rank(trial)
+            ids = [r["job_id"] for r in trial_result["refusals"]] + [
+                r["job_id"] for r in trial_result["shortlist"]
+            ]
+            if ids and integrity_refused(trial_result, ids[0]):
+                outcome = "accepted: posting refused under content-integrity (fail-closed)"
+            elif [g[0] for g in got] != [b[0] for b in base]:
+                outcome = "FINDING: required skills changed and the posting was not refused"
+            else:
+                outcome = "note: only preferred skills changed (lane A: prose contributes at most preferred)"
+            minimal.append(
+                {
+                    "source": source,
+                    "kind": kind,
+                    "inserted": text,
+                    "before": base,
+                    "after": got,
+                    "outcome": outcome,
+                }
+            )
 
     poisoned = copy.deepcopy(bundle)
     for i, capture in enumerate(poisoned["captures"]):
@@ -114,22 +140,31 @@ def main(argv: list[str] | None = None) -> int:
             )
             for key in _html_fields(job):
                 job[key] = re.sub(r"(</p>)", lambda m, t=text: m.group(1) + t, job[key], count=1)
-    clean, dirty = rank(bundle), rank(poisoned)
+    (clean, req_clean), (dirty, req_dirty) = rank(bundle), rank(poisoned)
     reasons_clean = {r["job_id"]: r["reasons"] for r in clean["refusals"]}
     reasons_dirty = {r["job_id"]: r["reasons"] for r in dirty["refusals"]}
     eligible_clean = {r["job_id"]: r for r in clean["shortlist"]}
     eligible_dirty = {r["job_id"]: r for r in dirty["shortlist"]}
-    evasions = [
-        {"job_id": jid, "clean": reasons_clean.get(jid, ["ELIGIBLE"]), "poisoned": reasons_dirty.get(jid, ["ELIGIBLE"])}
-        for jid in sorted(set(reasons_clean) | set(reasons_dirty) | set(eligible_clean) | set(eligible_dirty))
-        if reasons_clean.get(jid, ["ELIGIBLE"]) != reasons_dirty.get(jid, ["ELIGIBLE"])
-        and not reasons_dirty.get(jid, ["ELIGIBLE"])[0].startswith("content-integrity")
-    ]  # fmt: skip
+    evasions: list[dict[str, Any]] = []
+    for jid in sorted(set(reasons_clean) | set(reasons_dirty) | set(eligible_clean) | set(eligible_dirty)):
+        before, after = reasons_clean.get(jid, ["ELIGIBLE"]), reasons_dirty.get(jid, ["ELIGIBLE"])
+        if before == after or after[0].startswith("content-integrity"):
+            continue
+        outcome = "FINDING"
+        if before[0].startswith("duplicate-of:"):
+            canonical = before[0].split(":", 1)[1]
+            if integrity_refused(dirty, canonical):
+                outcome = (
+                    "accepted: duplicate promoted because its canonical posting was refused for integrity"
+                )
+        evasions.append({"job_id": jid, "clean": before, "poisoned": after, "outcome": outcome})
     score_changes = [
-        {"job_id": jid, "clean": eligible_clean[jid]["score"], "poisoned": eligible_dirty[jid]["score"]}
+        {"job_id": jid, "clean": eligible_clean[jid]["score"], "poisoned": eligible_dirty[jid]["score"],
+         "outcome": "FINDING: required skills changed" if req_clean.get(jid) != req_dirty.get(jid)
+         else "note: required skills unchanged (preferred-skill effect)"}
         for jid in sorted(set(eligible_clean) & set(eligible_dirty))
         if eligible_clean[jid]["score"] != eligible_dirty[jid]["score"]
-    ]
+    ]  # fmt: skip
     report = {
         "lane_root": str(root), "seed": SEED, "n": N,
         "minimal": minimal,
@@ -141,7 +176,10 @@ def main(argv: list[str] | None = None) -> int:
         },
     }  # fmt: skip
     print(json.dumps(report, indent=1, ensure_ascii=True))
-    return 1 if minimal or evasions or score_changes or report["differential"]["canary_leaks"] else 0
+    findings = [x for x in [*minimal, *evasions, *score_changes] if str(x["outcome"]).startswith("FINDING")]
+    report["findings"] = len(findings)
+    print(json.dumps({"findings": len(findings)}))
+    return 1 if findings or report["differential"]["canary_leaks"] else 0
 
 
 if __name__ == "__main__":

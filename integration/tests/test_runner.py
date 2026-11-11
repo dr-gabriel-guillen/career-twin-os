@@ -242,6 +242,9 @@ def test_offline_env_scrubs_credentials(monkeypatch: pytest.MonkeyPatch, tmp_pat
     assert not {k for k, v in env.items() if v == "should-not-leak"}
     assert env["HTTPS_PROXY"] == runner.DEAD_PROXY and env["HOME"] == str(tmp_path / "home")
     assert env["PIP_NO_INDEX"] == "1"
+    monkeypatch.setenv("ProgramFiles", r"C:\Program Files")
+    kept = {k.upper(): v for k, v in runner.offline_env(tmp_path / "home2").items()}
+    assert kept.get("PROGRAMFILES") == r"C:\Program Files"  # Windows env keys are case-insensitive
 
 
 def test_setup_environment_reaches_the_network_but_keeps_secrets_out(
@@ -257,6 +260,44 @@ def test_setup_environment_reaches_the_network_but_keeps_secrets_out(
     assert "should-not-leak" not in setup.values()
     monkeypatch.setenv("HTTPS_PROXY", "http://proxy.fictional-corp.example:3128")
     assert runner.setup_environment(runner.offline_env(tmp_path / "home"))["HTTPS_PROXY"].endswith(":3128")
+
+
+def test_pass_env_accepts_plain_settings_and_refuses_credentials() -> None:
+    assert runner.parse_pass_env(["PW_CHANNEL=chrome", "TZ=UTC"]) == {"PW_CHANNEL": "chrome", "TZ": "UTC"}
+    for bad in ("GITHUB_TOKEN=x", "OPENAI_API_KEY=x", "DB_PASSWORD=x", "AWS_SECRET_ACCESS_KEY=x",
+                "SESSION_COOKIE=x", "NAME=my-token-value", "no-equals", "1BAD=x"):  # fmt: skip
+        with pytest.raises(SystemExit):
+            runner.parse_pass_env([bad])
+
+
+def test_passed_env_reaches_lane_commands_and_is_recorded(toy: Path, tmp_path: Path) -> None:
+    tests = [
+        {
+            "name": "sees-channel",
+            "cmd": [
+                "{python}",
+                "-c",
+                "import os, sys; sys.exit(0 if os.environ.get('PW_CHANNEL') == 'chrome' else 4)",
+            ],
+        }
+    ]
+    sha = _branch(
+        toy,
+        "agent/ct-c-atlas",
+        {"packages/atlas/integration-manifest.json": _manifest("CAREER-TWIN-C", {}, tests)},
+    )
+    report, _ = _run(
+        toy,
+        tmp_path / "out",
+        {"A": "none", "B": "none", "C": sha, "D": "none"},
+        pass_env=["PW_CHANNEL=chrome"],
+    )
+    lane = next(lane for lane in report["lanes"] if lane["lane"] == "C")
+    assert lane["tests"][0]["status"] == "PASS"
+    assert (
+        report["passed_env"] == {"PW_CHANNEL": "chrome"}
+        and "--pass-env PW_CHANNEL=chrome" in report["reproduce"]
+    )
 
 
 @pytest.fixture(autouse=True)
