@@ -150,20 +150,29 @@ class AtlasEngine:
         """Distance of one vector to every role centroid, in the full space and on the map.
 
         ``requirement_shortfall`` only counts what the role states and the vector does not
-        cover (one-sided), over features whose state is known. ``full_space_distance`` is the
-        symmetric Euclidean distance in the model's metric space. ``map_distance`` is reported
-        only so that disagreement with the full space can be shown; it is never a fit score.
+        cover (one-sided). A skill feature whose state is UNKNOWN counts as **no evidence**:
+        evidence that is not on file cannot cover a requirement. (Repair note, review cycle 1,
+        F1: unknown features used to be dropped, so a candidate with no readable evidence scored
+        0.0 for every role and adding evidence made the number worse.) A vector with no observed
+        skill feature at all is refused. ``full_space_distance`` is the symmetric Euclidean
+        distance in the model's metric space (unknowns mean-imputed, as for the map).
+        ``map_distance`` is reported only so that disagreement with the full space can be shown;
+        it is never a fit score. Equal values share a rank.
         """
+        if not self.has_observed_skills(vec):
+            raise InvalidInputError(f"{vec.entity_id!r} has no observed skill evidence; a role comparison "
+                                    "is not assessable")
         x = self.imputed(vec)
-        known = vec.states != STATE_UNKNOWN
         skill = np.array([not n.startswith("ctx:") for n in self.matrix.feature_names])
+        evidence = np.where(vec.states == STATE_UNKNOWN, 0.0, np.nan_to_num(vec.values, nan=0.0))
+        n_unknown = int(((vec.states == STATE_UNKNOWN) & skill).sum())
         scale = self.model.scale
         here = self.model.transform(x[None, :])[0]
         rows = []
         for fam in sorted(self.profiles):
             p = self.profiles[fam]
             diff = (p.centroid - x) / scale
-            short = np.clip(diff, 0.0, None) * (known & skill)
+            short = np.clip((p.centroid - evidence) / scale, 0.0, None) * skill
             denom = float(np.linalg.norm(x) * np.linalg.norm(p.centroid))
             there = self.model.transform(p.centroid[None, :])[0]
             rows.append({
@@ -172,16 +181,17 @@ class AtlasEngine:
                 "full_space_distance": float(np.linalg.norm(diff)),
                 "cosine_similarity": float(x @ p.centroid / denom) if denom > 1e-12 else None,
                 "map_distance": float(np.linalg.norm(here - there)),
+                "unknown_features_counted_as_no_evidence": n_unknown,
             })
         for key, rank_key in (("requirement_shortfall", "shortfall_rank"),
                               ("full_space_distance", "full_space_rank"),
                               ("map_distance", "map_rank")):
-            order = sorted(range(len(rows)), key=lambda i: (rows[i][key], rows[i]["role"]))
-            for rank, i in enumerate(order, start=1):
-                rows[i][rank_key] = rank
+            vals = [round(r[key], 9) for r in rows]
+            for r, v in zip(rows, vals):
+                r[rank_key] = 1 + sum(1 for w in vals if w < v)        # competition ranking: ties share
         for r in rows:
             r["map_rank_disagrees"] = bool(r["map_rank"] != r["full_space_rank"])
-        return sorted(rows, key=lambda r: r["shortfall_rank"])
+        return sorted(rows, key=lambda r: (r["shortfall_rank"], r["requirement_shortfall"], r["role"]))
 
     def role_order(self, vec: FeatureVector) -> list[str]:
         return [r["role"] for r in self.role_table(vec)]

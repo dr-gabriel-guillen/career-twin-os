@@ -64,6 +64,10 @@ def main(argv: list[str] | None = None) -> int:
     stress.add_argument("--n", type=int, default=5000)
     stress.add_argument("--seed", type=int, default=7)
     args = parser.parse_args(argv)
+    if getattr(args, "seed", 0) < 0:
+        parser.error("--seed must be >= 0")
+    if getattr(args, "n", 100) < 20 or getattr(args, "n", 100) > 200_000:
+        parser.error("--n must be within [20, 200000]")
 
     try:
         if args.cmd == "demo":

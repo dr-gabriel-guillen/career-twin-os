@@ -164,8 +164,16 @@ class PCAModel:
         dn = len(names)
         if (mean.shape != (dn,) or scale.shape != (dn,) or comps.ndim != 2 or comps.shape[1] != dn
                 or not np.all(np.isfinite(mean)) or not np.all(np.isfinite(comps))
-                or not np.all(np.isfinite(scale)) or np.any(scale <= 0)):
+                or not np.all(np.isfinite(scale)) or np.any(scale <= 1e-12)):
             raise InvalidInputError("PCA model document has inconsistent or non-finite parameters")
+        k = comps.shape[0]
+        if (model.explained_variance.shape != (k,) or model.explained_variance_ratio.shape != (k,)
+                or not np.all(np.isfinite(model.explained_variance_ratio))):
+            raise InvalidInputError("PCA model document: variance arrays do not match the components")
+        nonzero = np.linalg.norm(comps, axis=1) > 0
+        G = comps[nonzero] @ comps[nonzero].T
+        if not np.allclose(G, np.eye(int(nonzero.sum())), atol=1e-6):
+            raise InvalidInputError("PCA model document: components are not orthonormal")
         return model
 
 

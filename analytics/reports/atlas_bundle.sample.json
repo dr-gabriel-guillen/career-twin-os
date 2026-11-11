@@ -14,7 +14,8 @@
     "n_postings": 166,
     "requirement_shortfall": 1.477347,
     "role": "backend",
-    "shortfall_rank": 1
+    "shortfall_rank": 1,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.597475,
@@ -27,7 +28,8 @@
     "n_postings": 185,
     "requirement_shortfall": 1.666893,
     "role": "fde",
-    "shortfall_rank": 2
+    "shortfall_rank": 2,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.499773,
@@ -40,7 +42,8 @@
     "n_postings": 160,
     "requirement_shortfall": 2.000976,
     "role": "ai-architect",
-    "shortfall_rank": 3
+    "shortfall_rank": 3,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.441843,
@@ -53,7 +56,8 @@
     "n_postings": 187,
     "requirement_shortfall": 2.068024,
     "role": "ai-eng-lead",
-    "shortfall_rank": 4
+    "shortfall_rank": 4,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.345369,
@@ -66,7 +70,8 @@
     "n_postings": 201,
     "requirement_shortfall": 2.110295,
     "role": "platform",
-    "shortfall_rank": 5
+    "shortfall_rank": 5,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.240804,
@@ -79,7 +84,8 @@
     "n_postings": 197,
     "requirement_shortfall": 2.241196,
     "role": "privacy-legal-ai",
-    "shortfall_rank": 6
+    "shortfall_rank": 6,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.129404,
@@ -92,7 +98,8 @@
     "n_postings": 202,
     "requirement_shortfall": 2.464347,
     "role": "field-cto",
-    "shortfall_rank": 7
+    "shortfall_rank": 7,
+    "unknown_features_counted_as_no_evidence": 0
    },
    {
     "cosine_similarity": 0.170177,
@@ -105,10 +112,12 @@
     "n_postings": 202,
     "requirement_shortfall": 2.465898,
     "role": "ai-director",
-    "shortfall_rank": 8
+    "shortfall_rank": 8,
+    "unknown_features_counted_as_no_evidence": 0
    }
   ],
   "role_table_note": "Ordered by requirement_shortfall (full feature space). map_distance is included only to expose where the picture disagrees.",
+  "role_table_status": "assessed",
   "warnings": [
    "claim-expired:claim-syn-007: downgraded to unverified weight",
    "candidate-seniority-unknown: imputed at projection time, flagged",
@@ -366,8 +375,8 @@
  "diagnostics": {
   "continuity": 0.9366148871673965,
   "distance_pairs_used": 200000,
-  "distance_pearson": 0.7071921386819054,
-  "distance_spearman": 0.6982145859449392,
+  "distance_pearson": 0.7071921386819056,
+  "distance_spearman": 0.6982146728514443,
   "explained_variance_cumulative": 0.24882838723136663,
   "explained_variance_ratio": [
    0.1388599952323773,
@@ -380,7 +389,9 @@
   ],
   "interpretation": "Geometric fidelity of the picture only. Not a match score and not a hiring probability.",
   "k_neighbours": 10,
+  "knn_recall_exact_mean": 0.09226666666666668,
   "knn_recall_mean": 0.11173333333333335,
+  "knn_recall_note": "knn_recall_mean is tie-inclusive (an equidistant point counts as a true neighbour); knn_recall_exact_mean compares stable top-k sets and is the pessimistic end",
   "n_features": 52,
   "n_map_dims": 2,
   "n_points": 1500,

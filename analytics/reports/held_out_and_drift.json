@@ -9,9 +9,9 @@
      "drifted": false,
      "n_early": 95,
      "n_late": 98,
-     "permutation_exceedance_share": 0.542458,
-     "shift_to_noise": 0.9787,
-     "shuffled_shift_mean": 0.289726,
+     "permutation_exceedance_share": 0.532792,
+     "shift_to_noise": 0.9822,
+     "shuffled_shift_mean": 0.288711,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -41,9 +41,9 @@
      "drifted": false,
      "n_early": 95,
      "n_late": 91,
-     "permutation_exceedance_share": 0.637363,
-     "shift_to_noise": 0.9492,
-     "shuffled_shift_mean": 0.287798,
+     "permutation_exceedance_share": 0.633354,
+     "shift_to_noise": 0.949,
+     "shuffled_shift_mean": 0.287853,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -73,9 +73,9 @@
      "drifted": false,
      "n_early": 94,
      "n_late": 89,
-     "permutation_exceedance_share": 0.178821,
-     "shift_to_noise": 1.1228,
-     "shuffled_shift_mean": 0.291598,
+     "permutation_exceedance_share": 0.185509,
+     "shift_to_noise": 1.1213,
+     "shuffled_shift_mean": 0.291977,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -105,9 +105,9 @@
      "drifted": false,
      "n_early": 86,
      "n_late": 105,
-     "permutation_exceedance_share": 0.308691,
-     "shift_to_noise": 1.0597,
-     "shuffled_shift_mean": 0.293906,
+     "permutation_exceedance_share": 0.316677,
+     "shift_to_noise": 1.0579,
+     "shuffled_shift_mean": 0.294385,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -137,9 +137,9 @@
      "drifted": false,
      "n_early": 97,
      "n_late": 93,
-     "permutation_exceedance_share": 0.202797,
-     "shift_to_noise": 1.1131,
-     "shuffled_shift_mean": 0.289383,
+     "permutation_exceedance_share": 0.194254,
+     "shift_to_noise": 1.1087,
+     "shuffled_shift_mean": 0.290524,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -169,9 +169,9 @@
      "drifted": false,
      "n_early": 91,
      "n_late": 94,
-     "permutation_exceedance_share": 0.444555,
-     "shift_to_noise": 1.0103,
-     "shuffled_shift_mean": 0.279384,
+     "permutation_exceedance_share": 0.45534,
+     "shift_to_noise": 1.0078,
+     "shuffled_shift_mean": 0.280071,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -201,9 +201,9 @@
      "drifted": false,
      "n_early": 92,
      "n_late": 84,
-     "permutation_exceedance_share": 0.803197,
-     "shift_to_noise": 0.8793,
-     "shuffled_shift_mean": 0.285508,
+     "permutation_exceedance_share": 0.827608,
+     "shift_to_noise": 0.8725,
+     "shuffled_shift_mean": 0.287755,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -233,9 +233,9 @@
      "drifted": false,
      "n_early": 96,
      "n_late": 100,
-     "permutation_exceedance_share": 0.33966,
-     "shift_to_noise": 1.0508,
-     "shuffled_shift_mean": 0.275841,
+     "permutation_exceedance_share": 0.324797,
+     "shift_to_noise": 1.0514,
+     "shuffled_shift_mean": 0.275701,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -276,9 +276,9 @@
      "drifted": false,
      "n_early": 85,
      "n_late": 100,
-     "permutation_exceedance_share": 0.322677,
-     "shift_to_noise": 1.0502,
-     "shuffled_shift_mean": 0.297755,
+     "permutation_exceedance_share": 0.344785,
+     "shift_to_noise": 1.0468,
+     "shuffled_shift_mean": 0.298713,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -308,9 +308,9 @@
      "drifted": false,
      "n_early": 83,
      "n_late": 98,
-     "permutation_exceedance_share": 0.801199,
-     "shift_to_noise": 0.8898,
-     "shuffled_shift_mean": 0.289302,
+     "permutation_exceedance_share": 0.805746,
+     "shift_to_noise": 0.8847,
+     "shuffled_shift_mean": 0.290969,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -340,9 +340,9 @@
      "drifted": false,
      "n_early": 108,
      "n_late": 84,
-     "permutation_exceedance_share": 0.631369,
-     "shift_to_noise": 0.945,
-     "shuffled_shift_mean": 0.286366,
+     "permutation_exceedance_share": 0.64772,
+     "shift_to_noise": 0.9427,
+     "shuffled_shift_mean": 0.287084,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -372,9 +372,9 @@
      "drifted": true,
      "n_early": 73,
      "n_late": 90,
-     "permutation_exceedance_share": 0.000999,
-     "shift_to_noise": 2.5645,
-     "shuffled_shift_mean": 0.331683,
+     "permutation_exceedance_share": 0.000625,
+     "shift_to_noise": 2.5625,
+     "shuffled_shift_mean": 0.331942,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -404,9 +404,9 @@
      "drifted": false,
      "n_early": 89,
      "n_late": 125,
-     "permutation_exceedance_share": 0.946054,
-     "shift_to_noise": 0.7956,
-     "shuffled_shift_mean": 0.274567,
+     "permutation_exceedance_share": 0.947533,
+     "shift_to_noise": 0.7987,
+     "shuffled_shift_mean": 0.273481,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -436,9 +436,9 @@
      "drifted": false,
      "n_early": 91,
      "n_late": 91,
-     "permutation_exceedance_share": 0.146853,
-     "shift_to_noise": 1.1278,
-     "shuffled_shift_mean": 0.285369,
+     "permutation_exceedance_share": 0.142411,
+     "shift_to_noise": 1.1324,
+     "shuffled_shift_mean": 0.284222,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -468,9 +468,9 @@
      "drifted": false,
      "n_early": 94,
      "n_late": 87,
-     "permutation_exceedance_share": 0.847153,
-     "shift_to_noise": 0.8678,
-     "shuffled_shift_mean": 0.289238,
+     "permutation_exceedance_share": 0.865084,
+     "shift_to_noise": 0.8658,
+     "shuffled_shift_mean": 0.289909,
      "status": "compared",
      "top_feature_changes": [
       {
@@ -500,9 +500,9 @@
      "drifted": false,
      "n_early": 99,
      "n_late": 103,
-     "permutation_exceedance_share": 0.127872,
-     "shift_to_noise": 1.1516,
-     "shuffled_shift_mean": 0.274771,
+     "permutation_exceedance_share": 0.133666,
+     "shift_to_noise": 1.1503,
+     "shuffled_shift_mean": 0.27508,
      "status": "compared",
      "top_feature_changes": [
       {

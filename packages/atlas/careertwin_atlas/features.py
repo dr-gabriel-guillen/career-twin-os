@@ -15,6 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Mapping, Sequence
@@ -39,8 +40,11 @@ DEFAULT_EVIDENCE_WEIGHTS: dict[str, float] = {
 MAX_LIST_ITEMS = 200
 MAX_TEXT_CHARS = 2000
 _LABEL_MAX = 120
-_CONTROL = re.compile(r"[\x00-\x1f\x7f-\x9f​-‏‪-‮⁦-⁩]")
 _TEXT_TOKEN = re.compile(r"[a-z0-9+#.\-]+")
+#: A requirement line with one of these words is not read as a requirement (review cycle 1, F11).
+_NEGATION = re.compile(r"\b(not|no|without|never|none)\b|n't\b", re.IGNORECASE)
+#: A requirement line with one of these words states a skill but not a minimum qualification.
+_OPTIONAL = re.compile(r"\b(optional|nice[\s-]to[\s-]have|bonus|preferred|a plus|desirable)\b", re.IGNORECASE)
 #: Single words that are also ordinary English; never matched inside free-text requirements.
 _FREE_TEXT_AMBIGUOUS = frozenset({
     "go", "rest", "cloud", "agents", "hiring", "testing", "security", "privacy", "monitoring",
@@ -58,15 +62,37 @@ def normalize_family(raw: object) -> str | None:
     return None if token is None or token in UNLABELLED_FAMILIES else token
 
 
+_STRIP_CATEGORIES = frozenset({"Cc", "Cf", "Cs", "Co", "Cn"})
+
+
 def sanitize_label(raw: object, fallback: str = "unlabelled") -> str:
-    """Strip control/bidi characters and cap length. Consumers must still escape for HTML/CSV."""
+    """Remove control, format (bidi, zero-width, BOM, tags), surrogate, private-use and unassigned
+    code points, collapse whitespace and cap length. Consumers must still escape for HTML/CSV.
+
+    Repair note (review cycle 1, F14): the first version used a hand-written list and missed
+    U+061C, U+FEFF, U+2060, tag characters and lone surrogates.
+    """
     if not isinstance(raw, str):
         return fallback
-    text = _CONTROL.sub(" ", raw)
+    text = "".join(" " if unicodedata.category(ch) in _STRIP_CATEGORIES else ch for ch in raw[:4 * _LABEL_MAX])
     text = re.sub(r"\s+", " ", text).strip()
     if not text:
         return fallback
     return text[:_LABEL_MAX]
+
+
+def finite_number(x: object) -> float | None:
+    """Return ``float(x)`` if ``x`` is a real, finite number (not bool); otherwise ``None``.
+
+    Python ints can exceed float range (``10**400``); those return ``None`` instead of raising.
+    """
+    if isinstance(x, bool) or not isinstance(x, (int, float)):
+        return None
+    try:
+        f = float(x)
+    except (OverflowError, ValueError):
+        return None
+    return f if np.isfinite(f) else None
 
 
 def parse_utc(ts: object) -> datetime | None:
@@ -124,6 +150,17 @@ class FeatureVector:
         }
         blob = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
         return "vec:sha256:" + hashlib.sha256(blob).hexdigest()[:24]
+
+    @property
+    def content_digest(self) -> str:
+        """Digest of id, kind, feature space, values and states (ignores any upstream reference)."""
+        payload = {
+            "entity_id": self.entity_id, "kind": self.kind, "vocab": self.vocab_digest,
+            "values": [None if np.isnan(v) else round(float(v), 6) for v in self.values],
+            "states": [int(s) for s in self.states],
+        }
+        blob = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(blob).hexdigest()[:24]
 
     def stated_features(self) -> list[str]:
         return [n for n, s in zip(self.feature_names, self.states) if s == STATE_STATED]
@@ -212,6 +249,7 @@ def job_to_vector(job: Mapping[str, Any], vocab: Vocabulary) -> FeatureVector:
 
     min_quals: list[str] = []
     unmapped_reqs = 0
+    negated_reqs = 0
     reqs = job.get("requirements")
     n_reqs = 0
     if isinstance(reqs, Sequence) and not isinstance(reqs, (str, bytes)):
@@ -219,15 +257,21 @@ def job_to_vector(job: Mapping[str, Any], vocab: Vocabulary) -> FeatureVector:
             if not isinstance(text, str) or not text.strip():
                 continue
             n_reqs += 1
+            if _NEGATION.search(text[:MAX_TEXT_CHARS]):
+                # "X is NOT required", "no people management": reading the skill would invent a requirement
+                negated_reqs += 1
+                unmapped_reqs += 1
+                continue
             hits = match_free_text(text, vocab)
             if not hits:
                 unmapped_reqs += 1
                 continue
+            optional = bool(_OPTIONAL.search(text[:MAX_TEXT_CHARS]))
             for feature in hits:
                 i = index[feature]
                 values[i], states[i] = 1.0, STATE_STATED
                 prov.setdefault(feature, []).append(f"job:{job_id}#requirements[{pos}]")
-                if feature not in min_quals:
+                if not optional and feature not in min_quals:
                     min_quals.append(feature)
 
     si = index.get(SENIORITY_FEATURE)
@@ -245,15 +289,26 @@ def job_to_vector(job: Mapping[str, Any], vocab: Vocabulary) -> FeatureVector:
         warnings.append(f"unmapped-skill-terms: {len(unmapped)} preserved, not used in vector")
     if lossy:
         warnings.append("lossy-alias-used: " + ",".join(sorted(set(lossy))))
+    if negated_reqs:
+        warnings.append(f"negated-requirements: {negated_reqs} line(s) contain a negation and were not read")
     family = normalize_family(job.get("role_family"))
     comp = job.get("compensation")
     comp_mid = None
+    comp_currency = None
     if isinstance(comp, Mapping):
-        lo, hi = comp.get("min"), comp.get("max")
-        nums = [float(x) for x in (lo, hi) if isinstance(x, (int, float)) and not isinstance(x, bool)
-                and np.isfinite(x)]
-        if nums:
-            comp_mid = sum(nums) / len(nums)
+        lo, hi = finite_number(comp.get("min")), finite_number(comp.get("max"))
+        cur = comp.get("currency")
+        comp_currency = cur.strip().upper()[:12] if isinstance(cur, str) and cur.strip() else None
+        basis = comp.get("basis") if comp.get("basis") in ("base", "total") else "unknown"
+        if lo is not None and hi is not None and lo > hi:
+            warnings.append("compensation-invalid: min > max; treated as unknown")
+        elif any(v is not None and v < 0 for v in (lo, hi)):
+            warnings.append("compensation-invalid: negative value; treated as unknown")
+        elif lo is not None and hi is not None and comp_currency:
+            comp_mid = (lo + hi) / 2.0
+        elif lo is not None or hi is not None:
+            warnings.append("compensation-partial: only one bound or no currency; treated as unknown")
+        comp_currency = f"{comp_currency}/{basis}" if comp_mid is not None else None
     evidence = job.get("source_evidence")
     meta = {
         "role_family": family,
@@ -264,7 +319,7 @@ def job_to_vector(job: Mapping[str, Any], vocab: Vocabulary) -> FeatureVector:
         "n_requirements": n_reqs,
         "n_unmapped_requirements": unmapped_reqs,
         "compensation_mid": comp_mid,
-        "compensation_currency": comp.get("currency") if isinstance(comp, Mapping) else None,
+        "compensation_currency": comp_currency,
         "source_evidence": tuple(e for e in evidence if isinstance(e, str))[:20]
         if isinstance(evidence, Sequence) and not isinstance(evidence, (str, bytes)) else (),
     }
@@ -311,25 +366,33 @@ def claims_to_vector(
     warnings: list[str] = []
     positive: dict[str, float] = {}
     contradicted: set[str] = set()
+    expiry_unchecked = False
 
     for claim in list(claims)[:5000]:
         if not isinstance(claim, Mapping):
             warnings.append("claim-skipped: not a mapping")
             continue
-        cid = claim.get("id") if isinstance(claim.get("id"), str) else "<no-id>"
+        cid = sanitize_label(claim.get("id"), "<no-id>")[:64] if isinstance(claim.get("id"), str) else "<no-id>"
         if claim.get("subject_id") not in (None, candidate_ref):
             warnings.append(f"claim-skipped:{cid}: subject_id does not match candidate_ref")
             continue
         status = claim.get("status")
-        if status not in weights:
+        if not isinstance(status, str) or status not in weights:
             warnings.append(f"claim-skipped:{cid}: unknown status")
             continue
         terms = claim.get("skills")
         if not isinstance(terms, Sequence) or isinstance(terms, (str, bytes)) or not terms:
             terms = [claim.get("claim_text")] if claim.get("claim_type") == "skill" else []
         expired = False
-        valid_to = parse_utc(claim.get("valid_to"))
-        if now is not None and valid_to is not None and valid_to < now:
+        raw_valid_to = claim.get("valid_to")
+        valid_to = parse_utc(raw_valid_to)
+        if raw_valid_to is not None and valid_to is None:
+            # unparseable expiry: validity is unknown, so the claim is not trusted at full weight
+            expired = True
+            warnings.append(f"claim-validity-unknown:{cid}: valid_to is not a UTC timestamp; downgraded")
+        elif valid_to is not None and now is None:
+            expiry_unchecked = True
+        elif now is not None and valid_to is not None and valid_to < now:
             expired = True
             warnings.append(f"claim-expired:{cid}: downgraded to unverified weight")
         for raw in list(terms)[:MAX_LIST_ITEMS]:
@@ -348,9 +411,12 @@ def claims_to_vector(
     for feature in sorted(set(positive) | contradicted):
         i = index[feature]
         if feature in contradicted and feature in positive:
-            values[i] = min(positive[feature], weights["unverified"])
-            states[i] = STATE_STATED
-            warnings.append(f"claim-conflict:{feature}: supported and contradicted; held at unverified weight")
+            # Repair note (review cycle 1, F2): this used to become STATED at 0.3, which let any
+            # unverified self-claim erase a contradiction. Evidence that says "no" now wins until
+            # the contradiction itself is resolved upstream.
+            values[i], states[i] = 0.0, STATE_CONTRADICTED
+            warnings.append(f"claim-conflict:{feature}: contradicted and positive claims both on file; "
+                            "kept as contradicted until resolved")
         elif feature in contradicted:
             values[i], states[i] = 0.0, STATE_CONTRADICTED
         else:
@@ -367,6 +433,9 @@ def claims_to_vector(
             values[si], states[si] = level, STATE_STATED
     if unmapped:
         warnings.append(f"unmapped-claim-terms: {len(unmapped)} preserved, not used in vector")
+    if expiry_unchecked:
+        warnings.append("expiry-not-checked: some claims carry valid_to but no as_of was given; "
+                        "pass as_of to downgrade expired claims")
     return FeatureVector(
         entity_id=candidate_ref, kind="candidate", label="Candidate (evidence on file)",
         values=values, states=states, vocab_digest=vocab.digest(),

@@ -21,6 +21,7 @@ from . import __version__
 from .api import build_atlas_bundle, canonical_json, compare_projections, digest
 from .engine import AtlasEngine
 from .features import claims_to_vector, job_to_vector
+from .errors import InvalidInputError
 from .gaps import analyze_gap
 from .graph import build_transition_graph, plan_paths
 from .roles import centroid_drift, split_by_time
@@ -110,6 +111,8 @@ def drift_check(n: int, seed: int) -> dict[str, Any]:
 
 def render_svg(engine: AtlasEngine, bundle: Mapping[str, Any], width: int = 860, height: int = 560) -> str:
     """Self-contained SVG scatter of the 2-D map. All text is escaped."""
+    if engine.coords.shape[1] < 2:
+        raise InvalidInputError("render_svg needs a model with at least two components")
     coords = engine.coords[:, :2]
     fams = [v.meta.get("role_family") for v in engine.matrix.vectors]
     pad, legend_w = 46, 220
@@ -159,8 +162,12 @@ def render_svg(engine: AtlasEngine, bundle: Mapping[str, Any], width: int = 860,
                  f'Axis 1: {evr[0]:.1%} of variance · Axis 2: {evr[1]:.1%} of variance · '
                  f'{1 - float(evr[:2].sum()):.1%} not shown</text>')
     d = bundle["diagnostics"]
-    cap = (f'Trustworthiness {d["trustworthiness"]:.2f} · continuity {d["continuity"]:.2f} · '
-           f'kNN recall {d["knn_recall_mean"]:.2f} · distance rank agreement {d["distance_spearman"]:.2f}')
+
+    def fmt(v: object) -> str:
+        return "n/a" if v is None else f"{float(v):.2f}"
+
+    cap = (f'Trustworthiness {fmt(d["trustworthiness"])} · continuity {fmt(d["continuity"])} · '
+           f'kNN recall {fmt(d["knn_recall_mean"])} · distance rank agreement {fmt(d["distance_spearman"])}')
     parts.append(f'<text x="{pad}" y="{height - 34}" font-family="sans-serif" font-size="11">{html.escape(cap)}</text>')
     parts.append(f'<text x="{pad}" y="{height - 16}" font-family="sans-serif" font-size="11">'
                  'All postings and employers are fictional. Large dots: role centroids. Diamonds: candidate / scenario.</text>')
@@ -168,8 +175,12 @@ def render_svg(engine: AtlasEngine, bundle: Mapping[str, Any], width: int = 860,
     return "\n".join(parts)
 
 
+_MD_SPECIAL = str.maketrans({c: "\\" + c for c in "\\`*_[]()!|#<>"})
+
+
 def _md_escape(text: object) -> str:
-    return html.escape(str(text), quote=False).replace("|", "\\|").replace("\n", " ")
+    """Neutralise Markdown/HTML in untrusted text (links, images, emphasis, tables). Review cycle 1, F14."""
+    return html.escape(str(text).replace("\n", " "), quote=False).translate(_MD_SPECIAL)
 
 
 def render_markdown(summary: Mapping[str, Any]) -> str:
@@ -302,15 +313,17 @@ def render_markdown(summary: Mapping[str, Any]) -> str:
              f"{uw['n_draws']} weight perturbations (ordering stability, not an outcome likelihood).")
     ms = sens["missing_salary"]
     L.append(f"- Missing salary: top choice identifiable without compensation: "
-             f"{ms['top_choice_identifiable_without_compensation']}; unit is {ms['compensation_unit']}.")
+             f"{ms['top_choice_identifiable_without_compensation']}; units observed {ms['compensation_units_observed']} "
+             f"({_md_escape(ms['compensation_unit_note'])})")
     for key in ("seniority", "job_freshness", "source_volume", "lexicon", "normalization"):
         L.append(f"- {key}: {sens[key].get('verdict', 'n/a')} (min Kendall tau {sens[key].get('min_kendall_tau')})")
     L.append("")
     L.append("## 7. Scale")
     L.append("")
     st = summary["stress"]
-    L.append(f"{st['n_postings']} synthetic vectors × {st['n_features']} features: fit {st['fit_seconds']} s, "
-             f"bundle with diagnostics {st['bundle_seconds']} s on this machine (timings vary by hardware).")
+    L.append(f"{st['n_postings']} synthetic vectors × {st['n_features']} features run through fit and the full "
+             "bundle with diagnostics. Wall-clock timings vary by machine, so they are written to "
+             "`timings.json`, which is deliberately left out of `MANIFEST.json`.")
     L.append("")
     L.append("## 8. Limits")
     L.append("")
@@ -391,6 +404,9 @@ def run_demo(n: int = 1500, seed: int = 7, out_dir: str | Path | None = None,
                            ("DIAGNOSTICS_REPORT.md", render_markdown(summary))):
             (out / name).write_text(text, encoding="utf-8", newline="\n")
             manifest["files"][name] = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        (out / "timings.json").write_text(json.dumps(summary["stress"], indent=1, sort_keys=True) + "\n",
+                                          encoding="utf-8", newline="\n")
+        manifest["not_hashed"] = ["timings.json"]
         manifest["note"] = ("Timings in the report and the last digits of floating-point results can differ "
                             "between machines; regenerate with: python -m careertwin_atlas demo --out <dir>")
         (out / "MANIFEST.json").write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n",

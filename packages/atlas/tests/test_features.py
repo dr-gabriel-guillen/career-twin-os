@@ -204,7 +204,8 @@ def test_candidate_provenance_never_contains_claim_text(candidate, claims):
     assert candidate.provenance["python"] == ("claim:claim-syn-001:supported",)
 
 
-def test_conflicting_claims_are_held_at_unverified(vocab):
+def test_conflicting_claims_keep_the_contradiction(vocab):
+    """Review cycle 1, F2: a positive claim must not erase a contradiction."""
     claims = [
         {"id": "a", "subject_id": "c1", "claim_type": "skill", "claim_text": "x", "status": "supported",
          "evidence_ids": [], "visibility": "private", "updated_at": AS_OF, "skills": ["python"]},
@@ -212,8 +213,8 @@ def test_conflicting_claims_are_held_at_unverified(vocab):
          "evidence_ids": [], "visibility": "private", "updated_at": AS_OF, "skills": ["python"]},
     ]
     v = claims_to_vector(claims, vocab, "c1")
-    assert v.value_of("python") == 0.3 and v.state_of("python") == STATE_STATED
-    assert any(w.startswith("claim-conflict:python") for w in v.warnings)
+    assert v.value_of("python") == 0.0 and v.state_of("python") == STATE_CONTRADICTED
+    assert any(w.startswith("claim-conflict:python") and "kept as contradicted" in w for w in v.warnings)
 
 
 def test_claims_for_another_subject_or_with_bad_status_are_skipped(vocab):

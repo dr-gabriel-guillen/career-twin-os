@@ -17,7 +17,7 @@
    "value": 0.935268
   },
   "cumulative_explained_variance": 0.2456826086974641,
-  "distance_spearman": 0.693207719046809,
+  "distance_spearman": 0.6932076909289312,
   "flags": [
    "low-explained-variance: the map shows 24.6% of total variance; 75.4% of the variation between points is not visible",
    "weak-local-structure: on average fewer than 40% of a point's map neighbours are true neighbours",
@@ -2580,12 +2580,12 @@
   },
   {
    "detail": "hypothetical evidence after planned actions",
-   "entity_id": "candidate-synthetic-001#scn-dce37724084e54cf",
+   "entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd",
    "evidence_basis": "not-applicable",
    "job_id": null,
    "representation_type": "scenario",
    "role_family": null,
-   "scenario_id": "scn-dce37724084e54cf",
+   "scenario_id": "scn-402ca82f3c1debbd",
    "top_skills": [
     "customer-delivery",
     "llm-integration"
@@ -2593,12 +2593,12 @@
   },
   {
    "detail": "hypothetical evidence after planned actions",
-   "entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1",
+   "entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd",
    "evidence_basis": "not-applicable",
    "job_id": null,
    "representation_type": "scenario",
    "role_family": null,
-   "scenario_id": "scn-181e458d8dfaa7d1",
+   "scenario_id": "scn-c98d97f9ac75f6bd",
    "top_skills": [
     "mlops",
     "rag"
@@ -2606,12 +2606,12 @@
   },
   {
    "detail": "hypothetical evidence after planned actions",
-   "entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692",
+   "entity_id": "candidate-synthetic-001#scn-308de79a8b61071a",
    "evidence_basis": "not-applicable",
    "job_id": null,
    "representation_type": "scenario",
    "role_family": null,
-   "scenario_id": "scn-ff882c3ef2882692",
+   "scenario_id": "scn-308de79a8b61071a",
    "top_skills": [
     "cloud-architecture",
     "ai-strategy",
@@ -2636,24 +2636,24 @@
  "paths": [
   {
    "from_entity_id": "candidate-synthetic-001",
-   "id": "path:scn-dce37724084e54cf",
+   "id": "path:scn-402ca82f3c1debbd",
    "label": "Hypothetical move toward Forward Deployed Engineer (0.2708 of it visible on the map)",
-   "scenario_id": "scn-dce37724084e54cf",
-   "to_entity_id": "candidate-synthetic-001#scn-dce37724084e54cf"
+   "scenario_id": "scn-402ca82f3c1debbd",
+   "to_entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd"
   },
   {
    "from_entity_id": "candidate-synthetic-001",
-   "id": "path:scn-181e458d8dfaa7d1",
-   "label": "Hypothetical move toward Applied AI Architect (0.381957 of it visible on the map)",
-   "scenario_id": "scn-181e458d8dfaa7d1",
-   "to_entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1"
+   "id": "path:scn-c98d97f9ac75f6bd",
+   "label": "Hypothetical move toward Applied AI Architect (0.389464 of it visible on the map)",
+   "scenario_id": "scn-c98d97f9ac75f6bd",
+   "to_entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd"
   },
   {
    "from_entity_id": "candidate-synthetic-001",
-   "id": "path:scn-ff882c3ef2882692",
-   "label": "Hypothetical move toward Field CTO (0.210636 of it visible on the map)",
-   "scenario_id": "scn-ff882c3ef2882692",
-   "to_entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692"
+   "id": "path:scn-308de79a8b61071a",
+   "label": "Hypothetical move toward Field CTO (0.242913 of it visible on the map)",
+   "scenario_id": "scn-308de79a8b61071a",
+   "to_entity_id": "candidate-synthetic-001#scn-308de79a8b61071a"
   }
  ],
  "points": [
@@ -5552,14 +5552,14 @@
     -1.09472,
     0.30925
    ],
-   "entity_id": "candidate-synthetic-001#scn-dce37724084e54cf",
+   "entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd",
    "fit_metric_ref": "gap:fde:requirement_shortfall",
    "label": "Hypothetical scenario",
    "neighborhood_quality": null,
    "projection_id": "pca-8c1634a44e5a47de-2d",
    "projection_method": "pca",
    "representation_type": "scenario",
-   "source_vector_ref": "vec:sha256:07b4cd87c255ec8e12b4ca80",
+   "source_vector_ref": "vec:sha256:d24396ce05cefa6398df7745",
    "warnings": [
     "map-position-is-not-a-fit-or-hiring-score",
     "hypothetical-scenario"
@@ -5567,17 +5567,17 @@
   },
   {
    "coords": [
-    -1.068059,
-    0.566696
+    -1.077869,
+    0.600075
    ],
-   "entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1",
+   "entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd",
    "fit_metric_ref": "gap:ai-architect:requirement_shortfall",
    "label": "Hypothetical scenario",
    "neighborhood_quality": null,
    "projection_id": "pca-8c1634a44e5a47de-2d",
    "projection_method": "pca",
    "representation_type": "scenario",
-   "source_vector_ref": "vec:sha256:e9245e1a4d1a7541c3485537",
+   "source_vector_ref": "vec:sha256:e975e534207c2256863b58a7",
    "warnings": [
     "map-position-is-not-a-fit-or-hiring-score",
     "hypothetical-scenario"
@@ -5585,17 +5585,17 @@
   },
   {
    "coords": [
-    -0.879786,
-    0.251007
+    -0.807512,
+    0.258753
    ],
-   "entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692",
+   "entity_id": "candidate-synthetic-001#scn-308de79a8b61071a",
    "fit_metric_ref": "gap:field-cto:requirement_shortfall",
    "label": "Hypothetical scenario",
    "neighborhood_quality": null,
    "projection_id": "pca-8c1634a44e5a47de-2d",
    "projection_method": "pca",
    "representation_type": "scenario",
-   "source_vector_ref": "vec:sha256:6352e50db5ab2f9357d713b8",
+   "source_vector_ref": "vec:sha256:aed72ecfdf5153727bb35969",
    "warnings": [
     "map-position-is-not-a-fit-or-hiring-score",
     "hypothetical-scenario"

@@ -64,7 +64,8 @@ def test_invalid_weights_are_rejected(engine, candidate, weights):
 
 def test_missing_salary_gives_rank_bounds_instead_of_guesses(engine, candidate):
     res = missing_salary_sensitivity(engine, candidate)
-    assert "not a currency" in res["compensation_unit"]
+    assert res["compensation_units_observed"] == ["SYN/unknown"] and res["compensation_comparable"] is True
+    assert "non-currency unit" in res["compensation_unit_note"]
     bounds = res["rank_bounds_if_compensation_fully_unknown"]
     assert all(1 <= b["best_possible_rank"] <= b["worst_possible_rank"] <= 8 for b in bounds.values())
     assert sorted(res["ordering_with_compensation_dropped"]) == sorted(engine.profiles)
@@ -97,7 +98,8 @@ def test_data_perturbations_report_ordering_changes(inputs):
     norm = normalization_sensitivity(inputs)
     assert norm["unstandardised"]["explained_variance_cumulative"] != norm["standardised"]["explained_variance_cumulative"]
     assert 0.0 <= norm["map_knn_overlap_between_scalings"] <= 1.0
-    for res in (sen, fresh, vol, lex, norm):
+    assert sen["verdict"] == "not-applicable" and sen["variants"]["20pct_bumped_one_level"]["n_bumped"] > 0
+    for res in (fresh, vol, lex, norm):
         assert res["verdict"] in ("stable", "sensitive") and "convention" in res
 
 

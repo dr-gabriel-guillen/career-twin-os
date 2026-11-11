@@ -1,7 +1,7 @@
 [
  {
   "assumptions": [
-   "All role requirements come from synthetic, fictional postings grouped by role_family.",
+   "All role requirements come from postings marked source='synthetic', grouped by role_family.",
    "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
    "Effort reference hours are vocabulary placeholders; real effort varies by person.",
    "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
@@ -9,7 +9,7 @@
    "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
   ],
   "candidate_ref": "candidate-synthetic-001",
-  "id": "scn-dce37724084e54cf",
+  "id": "scn-402ca82f3c1debbd",
   "outputs": {
    "alternatives": {
     "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
@@ -17,7 +17,7 @@
      {
       "assumed_tenure_months_total": 0.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        305.0,
@@ -97,7 +97,7 @@
      {
       "assumed_tenure_months_total": 18.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        355.0,
@@ -215,7 +215,7 @@
      {
       "assumed_tenure_months_total": 18.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        462.5,
@@ -349,7 +349,7 @@
        "skill": "solution-design"
       }
      ],
-     "requirement_shortfall": 1.522641
+     "requirement_shortfall": 1.493158
     }
    },
    "applied_actions": [
@@ -357,10 +357,13 @@
      "blocked_by_contradiction": false,
      "completion": 0.3077,
      "effort_hours": 80.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "client-engagement",
      "evidence_level_after": 0.3077,
      "evidence_level_before": 0.0,
      "feature": "customer-delivery",
+     "feature_ceiling": 1.0,
+     "feature_hours_total": 80.0,
      "reaches_evidenced_level": false,
      "reference_hours_assumed": 260.0,
      "resolved_via": "exact",
@@ -370,17 +373,20 @@
      "blocked_by_contradiction": false,
      "completion": 1.0,
      "effort_hours": 60.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "portfolio-project",
      "evidence_level_after": 0.8,
      "evidence_level_before": 0.6,
      "feature": "llm-integration",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 60.0,
      "reaches_evidenced_level": true,
      "reference_hours_assumed": 100.0,
      "resolved_via": "exact",
      "skill": "llm-integration"
     }
    ],
-   "atlas_entity_id": "candidate-synthetic-001#scn-dce37724084e54cf",
+   "atlas_entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd",
    "baseline": {
     "core_summary": {
      "contradicted": 0,
@@ -463,14 +469,14 @@
       -1.09472,
       0.30925
      ],
-     "entity_id": "candidate-synthetic-001#scn-dce37724084e54cf",
+     "entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd",
      "fit_metric_ref": "gap:fde:requirement_shortfall",
      "label": "Hypothetical scenario",
      "neighborhood_quality": null,
      "projection_id": "pca-8c1634a44e5a47de-2d",
      "projection_method": "pca",
      "representation_type": "scenario",
-     "source_vector_ref": "vec:sha256:07b4cd87c255ec8e12b4ca80",
+     "source_vector_ref": "vec:sha256:d24396ce05cefa6398df7745",
      "warnings": [
       "map-position-is-not-a-fit-or-hiring-score",
       "hypothetical-scenario"
@@ -587,6 +593,8 @@
    }
   ],
   "risks": [
+   "customer-delivery: 'client-engagement' is a user-stated assumption that the role exposure will exist; the simulator cannot verify that such an opportunity is available",
+   "llm-integration: about 40 of 60 planned hours have no effect (evidence already at this goal's ceiling 0.8)",
    "1 core requirement(s) need in-role evidence this plan cannot produce: customer-delivery",
    "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
    "some posting requirements could not be interpreted; the requirement list is incomplete",
@@ -598,7 +606,7 @@
  },
  {
   "assumptions": [
-   "All role requirements come from synthetic, fictional postings grouped by role_family.",
+   "All role requirements come from postings marked source='synthetic', grouped by role_family.",
    "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
    "Effort reference hours are vocabulary placeholders; real effort varies by person.",
    "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
@@ -606,7 +614,7 @@
    "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
   ],
   "candidate_ref": "candidate-synthetic-001",
-  "id": "scn-181e458d8dfaa7d1",
+  "id": "scn-c98d97f9ac75f6bd",
   "outputs": {
    "alternatives": {
     "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
@@ -614,7 +622,7 @@
      {
       "assumed_tenure_months_total": 0.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        220.0,
@@ -700,7 +708,7 @@
      {
       "assumed_tenure_months_total": 18.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        332.5,
@@ -825,7 +833,7 @@
       "assumed_tenure_months_total": 18.0,
       "caveats": [
        "platform: evidence on file contradicts kubernetes; effort alone does not resolve a contradiction",
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        475.0,
@@ -986,7 +994,7 @@
        "skill": "mlops"
       }
      ],
-     "requirement_shortfall": 1.60686
+     "requirement_shortfall": 1.585352
     }
    },
    "applied_actions": [
@@ -994,10 +1002,13 @@
      "blocked_by_contradiction": false,
      "completion": 1.0,
      "effort_hours": 100.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "portfolio-project",
      "evidence_level_after": 0.8,
      "evidence_level_before": 0.0,
      "feature": "mlops",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 100.0,
      "reaches_evidenced_level": true,
      "reference_hours_assumed": 100.0,
      "resolved_via": "exact",
@@ -1005,19 +1016,22 @@
     },
     {
      "blocked_by_contradiction": false,
-     "completion": 0.6,
+     "completion": 0.75,
      "effort_hours": 60.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "portfolio-project",
-     "evidence_level_after": 0.48,
+     "evidence_level_after": 0.6,
      "evidence_level_before": 0.0,
      "feature": "rag",
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 60.0,
      "reaches_evidenced_level": false,
      "reference_hours_assumed": 100.0,
      "resolved_via": "exact",
      "skill": "rag"
     }
    ],
-   "atlas_entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1",
+   "atlas_entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd",
    "baseline": {
     "core_summary": {
      "contradicted": 0,
@@ -1047,8 +1061,8 @@
    "coverage_definition": "share of target_skills (stated in at least half of the target role's postings) with evidence at or above level 0.75; weak, missing and contradicted evidence do not count",
    "delta": {
     "core_requirements_evidenced": 1,
-    "full_space_distance": -0.259927,
-    "requirement_shortfall": -0.352288,
+    "full_space_distance": -0.275729,
+    "requirement_shortfall": -0.374853,
     "shortfall_rank_among_roles": -1
    },
    "effort": {
@@ -1065,13 +1079,13 @@
      "unknown": 0,
      "weak-evidence": 3
     },
-    "full_space_distance": 2.290508,
+    "full_space_distance": 2.274706,
     "nearest_roles_by_shortfall": [
      "backend",
      "ai-architect",
      "fde"
     ],
-    "requirement_shortfall": 1.609744,
+    "requirement_shortfall": 1.587179,
     "shortfall_rank_among_roles": 2
    },
    "leadership_exposure": "low",
@@ -1097,17 +1111,17 @@
     },
     {
      "coords": [
-      -1.068059,
-      0.566696
+      -1.077869,
+      0.600075
      ],
-     "entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1",
+     "entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd",
      "fit_metric_ref": "gap:ai-architect:requirement_shortfall",
      "label": "Hypothetical scenario",
      "neighborhood_quality": null,
      "projection_id": "pca-8c1634a44e5a47de-2d",
      "projection_method": "pca",
      "representation_type": "scenario",
-     "source_vector_ref": "vec:sha256:e9245e1a4d1a7541c3485537",
+     "source_vector_ref": "vec:sha256:e975e534207c2256863b58a7",
      "warnings": [
       "map-position-is-not-a-fit-or-hiring-score",
       "hypothetical-scenario"
@@ -1123,16 +1137,16 @@
    "movement": {
     "features_changed": 2,
     "full_space_distance_to_role": {
-     "after": 2.290508,
+     "after": 2.274706,
      "before": 2.550435,
      "role": "ai-architect"
     },
-    "full_space_shift_length": 0.932952,
+    "full_space_shift_length": 1.0,
     "map_shift": [
-     0.014352,
-     0.356059
+     0.004543,
+     0.389438
     ],
-    "map_shift_length": 0.356348,
+    "map_shift_length": 0.389464,
     "note": "The map shows only part of a movement. Judge progress by full-space numbers.",
     "per_feature": [
      {
@@ -1145,16 +1159,16 @@
       ]
      },
      {
-      "change": 0.48,
+      "change": 0.6,
       "feature": "rag",
-      "full_space_sq_distance_change": -0.576557,
+      "full_space_sq_distance_change": -0.648696,
       "map_shift": [
-       -0.039237,
-       0.133515
+       -0.049046,
+       0.166894
       ]
      }
     ],
-    "share_of_movement_visible_on_map": 0.381957
+    "share_of_movement_visible_on_map": 0.389464
    },
    "not_a_hiring_probability": true,
    "remaining_missing_evidence": [
@@ -1223,9 +1237,10 @@
    }
   ],
   "risks": [
+   "mlops: about 20 of 100 planned hours have no effect (evidence already at this goal's ceiling 0.8)",
    "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
    "some posting requirements could not be interpreted; the requirement list is incomplete",
-   "only 38% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
+   "only 39% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
   ],
   "status": "hypothetical",
   "target_role": "ai-architect",
@@ -1233,7 +1248,7 @@
  },
  {
   "assumptions": [
-   "All role requirements come from synthetic, fictional postings grouped by role_family.",
+   "All role requirements come from postings marked source='synthetic', grouped by role_family.",
    "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
    "Effort reference hours are vocabulary placeholders; real effort varies by person.",
    "A feature with no claim is 'no evidence on file', not proof the skill is absent.",
@@ -1241,7 +1256,7 @@
    "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
   ],
   "candidate_ref": "candidate-synthetic-001",
-  "id": "scn-ff882c3ef2882692",
+  "id": "scn-308de79a8b61071a",
   "outputs": {
    "alternatives": {
     "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
@@ -1249,7 +1264,7 @@
      {
       "assumed_tenure_months_total": 0.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        220.0,
@@ -1316,7 +1331,7 @@
      {
       "assumed_tenure_months_total": 18.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        405.0,
@@ -1429,7 +1444,7 @@
      {
       "assumed_tenure_months_total": 18.0,
       "caveats": [
-       "candidate seniority is unknown, so seniority steps are not assessed"
+       "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
       "effort_hours_range": [
        220.0,
@@ -1559,44 +1574,53 @@
        "skill": "solution-design"
       }
      ],
-     "requirement_shortfall": 2.149991
+     "requirement_shortfall": 2.135837
     }
    },
    "applied_actions": [
     {
      "blocked_by_contradiction": false,
-     "completion": 0.9231,
+     "completion": 1.0,
      "effort_hours": 120.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "portfolio-project",
-     "evidence_level_after": 0.7385,
+     "evidence_level_after": 0.8,
      "evidence_level_before": 0.0,
      "feature": "cloud-architecture",
-     "reaches_evidenced_level": false,
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 120.0,
+     "reaches_evidenced_level": true,
      "reference_hours_assumed": 130.0,
      "resolved_via": "exact",
      "skill": "cloud-architecture"
     },
     {
      "blocked_by_contradiction": false,
-     "completion": 0.8,
+     "completion": 1.0,
      "effort_hours": 80.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "portfolio-project",
-     "evidence_level_after": 0.64,
+     "evidence_level_after": 0.8,
      "evidence_level_before": 0.0,
      "feature": "ai-strategy",
-     "reaches_evidenced_level": false,
+     "feature_ceiling": 0.8,
+     "feature_hours_total": 80.0,
+     "reaches_evidenced_level": true,
      "reference_hours_assumed": 100.0,
      "resolved_via": "exact",
      "skill": "ai-strategy"
     },
     {
      "blocked_by_contradiction": false,
-     "completion": 0.1154,
+     "completion": 0.3846,
      "effort_hours": 30.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "coursework",
-     "evidence_level_after": 0.0346,
+     "evidence_level_after": 0.1154,
      "evidence_level_before": 0.0,
      "feature": "customer-delivery",
+     "feature_ceiling": 0.3,
+     "feature_hours_total": 30.0,
      "reaches_evidenced_level": false,
      "reference_hours_assumed": 260.0,
      "resolved_via": "bundle",
@@ -1604,12 +1628,15 @@
     },
     {
      "blocked_by_contradiction": false,
-     "completion": 0.1154,
+     "completion": 0.3846,
      "effort_hours": 30.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "coursework",
-     "evidence_level_after": 0.0346,
+     "evidence_level_after": 0.1154,
      "evidence_level_before": 0.0,
      "feature": "stakeholder-management",
+     "feature_ceiling": 0.3,
+     "feature_hours_total": 30.0,
      "reaches_evidenced_level": false,
      "reference_hours_assumed": 260.0,
      "resolved_via": "bundle",
@@ -1617,19 +1644,22 @@
     },
     {
      "blocked_by_contradiction": false,
-     "completion": 0.1154,
+     "completion": 0.1923,
      "effort_hours": 30.0,
+     "evidence_before_was_unknown": false,
      "evidence_goal": "coursework",
-     "evidence_level_after": 0.0692,
+     "evidence_level_after": 0.1154,
      "evidence_level_before": 0.0,
      "feature": "technical-discovery",
+     "feature_ceiling": 0.6,
+     "feature_hours_total": 30.0,
      "reaches_evidenced_level": false,
      "reference_hours_assumed": 260.0,
      "resolved_via": "bundle",
      "skill": "client-exposure"
     }
    ],
-   "atlas_entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692",
+   "atlas_entity_id": "candidate-synthetic-001#scn-308de79a8b61071a",
    "baseline": {
     "core_summary": {
      "contradicted": 0,
@@ -1654,13 +1684,13 @@
      "profile built from enough postings, stable under resampling, requirements mostly interpretable"
     ]
    },
-   "coverage_after": 0.0,
+   "coverage_after": 0.2857,
    "coverage_before": 0.0,
    "coverage_definition": "share of target_skills (stated in at least half of the target role's postings) with evidence at or above level 0.75; weak, missing and contradicted evidence do not count",
    "delta": {
-    "core_requirements_evidenced": 0,
-    "full_space_distance": -0.225881,
-    "requirement_shortfall": -0.316023,
+    "core_requirements_evidenced": 2,
+    "full_space_distance": -0.274664,
+    "requirement_shortfall": -0.387751,
     "shortfall_rank_among_roles": -2
    },
    "effort": {
@@ -1672,18 +1702,18 @@
    "hypothetical": {
     "core_summary": {
      "contradicted": 0,
-     "evidenced": 0,
+     "evidenced": 2,
      "no-evidence-on-file": 3,
      "unknown": 0,
-     "weak-evidence": 4
+     "weak-evidence": 2
     },
-    "full_space_distance": 3.162482,
+    "full_space_distance": 3.113699,
     "nearest_roles_by_shortfall": [
      "backend",
      "fde",
      "ai-architect"
     ],
-    "requirement_shortfall": 2.183137,
+    "requirement_shortfall": 2.111409,
     "shortfall_rank_among_roles": 6
    },
    "leadership_exposure": "low",
@@ -1709,17 +1739,17 @@
     },
     {
      "coords": [
-      -0.879786,
-      0.251007
+      -0.807512,
+      0.258753
      ],
-     "entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692",
+     "entity_id": "candidate-synthetic-001#scn-308de79a8b61071a",
      "fit_metric_ref": "gap:field-cto:requirement_shortfall",
      "label": "Hypothetical scenario",
      "neighborhood_quality": null,
      "projection_id": "pca-8c1634a44e5a47de-2d",
      "projection_method": "pca",
      "representation_type": "scenario",
-     "source_vector_ref": "vec:sha256:6352e50db5ab2f9357d713b8",
+     "source_vector_ref": "vec:sha256:aed72ecfdf5153727bb35969",
      "warnings": [
       "map-position-is-not-a-fit-or-hiring-score",
       "hypothetical-scenario"
@@ -1735,65 +1765,65 @@
    "movement": {
     "features_changed": 5,
     "full_space_distance_to_role": {
-     "after": 3.162482,
+     "after": 3.113699,
      "before": 3.388363,
      "role": "field-cto"
     },
-    "full_space_shift_length": 0.980875,
+    "full_space_shift_length": 1.148887,
     "map_shift": [
-     0.202625,
-     0.04037
+     0.2749,
+     0.048116
     ],
-    "map_shift_length": 0.206608,
+    "map_shift_length": 0.279079,
     "note": "The map shows only part of a movement. Judge progress by full-space numbers.",
     "per_feature": [
      {
-      "change": 0.64,
+      "change": 0.8,
       "feature": "ai-strategy",
-      "full_space_sq_distance_change": -0.559049,
+      "full_space_sq_distance_change": -0.570811,
       "map_shift": [
-       0.188949,
-       0.008937
+       0.236186,
+       0.011171
       ]
      },
      {
-      "change": 0.738462,
-      "feature": "cloud-architecture",
-      "full_space_sq_distance_change": -0.751972,
-      "map_shift": [
-       0.004244,
-       0.026035
-      ]
-     },
-     {
-      "change": 0.034615,
+      "change": 0.115385,
       "feature": "stakeholder-management",
-      "full_space_sq_distance_change": -0.05587,
+      "full_space_sq_distance_change": -0.176915,
       "map_shift": [
-       0.009994,
-       -0.002987
+       0.033313,
+       -0.009957
       ]
      },
      {
-      "change": 0.069231,
-      "feature": "technical-discovery",
-      "full_space_sq_distance_change": -0.053211,
+      "change": 0.8,
+      "feature": "cloud-architecture",
+      "full_space_sq_distance_change": -0.765405,
       "map_shift": [
-       -0.001605,
-       0.005553
+       0.004598,
+       0.028204
       ]
      },
      {
-      "change": 0.034615,
+      "change": 0.115385,
       "feature": "customer-delivery",
-      "full_space_sq_distance_change": -0.059613,
+      "full_space_sq_distance_change": -0.189389,
       "map_shift": [
-       0.001044,
-       0.002833
+       0.003479,
+       0.009444
+      ]
+     },
+     {
+      "change": 0.115385,
+      "feature": "technical-discovery",
+      "full_space_sq_distance_change": -0.08336,
+      "map_shift": [
+       -0.002676,
+       0.009254
       ]
      }
     ],
-    "share_of_movement_visible_on_map": 0.210636
+    "share_of_movement_visible_on_map": 0.242913
    },
    "not_a_hiring_probability": true,
    "remaining_missing_evidence": [
@@ -1802,13 +1832,6 @@
      "feature": "executive-communication",
      "state": "no-evidence-on-file",
      "stated_in_share_of_postings": 0.8919,
-     "tier": "core"
-    },
-    {
-     "acquisition": "study-or-project",
-     "feature": "cloud-architecture",
-     "state": "weak-evidence",
-     "stated_in_share_of_postings": 0.8784,
      "tier": "core"
     },
     {
@@ -1837,13 +1860,6 @@
      "feature": "stakeholder-management",
      "state": "weak-evidence",
      "stated_in_share_of_postings": 0.8243,
-     "tier": "core"
-    },
-    {
-     "acquisition": "study-or-project",
-     "feature": "ai-strategy",
-     "state": "weak-evidence",
-     "stated_in_share_of_postings": 0.7568,
      "tier": "core"
     }
    ],
@@ -1883,10 +1899,11 @@
   "risks": [
    "customer-delivery: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3",
    "stakeholder-management: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3",
+   "cloud-architecture: about 16 of 120 planned hours have no effect (evidence already at this goal's ceiling 0.8)",
    "4 core requirement(s) need in-role evidence this plan cannot produce: executive-communication, customer-delivery, enterprise-sales, stakeholder-management",
    "unknown candidate inputs were mean-imputed for distances: ctx:seniority-level",
    "some posting requirements could not be interpreted; the requirement list is incomplete",
-   "only 21% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
+   "only 24% of this scenario's movement is visible on the 2-D map; do not judge progress from the picture"
   ],
   "status": "hypothetical",
   "target_role": "field-cto",

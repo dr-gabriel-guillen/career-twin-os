@@ -34,6 +34,12 @@ def _check_pair(high: np.ndarray, low: np.ndarray) -> tuple[np.ndarray, np.ndarr
         raise InvalidInputError("high and low must be 2-D with the same number of rows")
     if not (np.all(np.isfinite(high)) and np.all(np.isfinite(low))):
         raise InvalidInputError("diagnostics need finite inputs (impute UNKNOWN first)")
+    # Repair note (review cycle 1, F13): distances are rounded relative to the largest squared norm
+    # so that exact ties stay ties. Without centring, a constant offset inflated that scale and
+    # merged distinct distances into false ties. Distances are translation-invariant, so centre.
+    if high.shape[0]:
+        high = high - high.mean(axis=0)
+        low = low - low.mean(axis=0)
     return high, low
 
 
@@ -64,7 +70,7 @@ def neighborhood_metrics(high: np.ndarray, low: np.ndarray, k: int = 10,
     k_max = (n - 1) // 2 if n >= 4 else 0
     if k_max < 1:
         return {"k": 0, "n": n, "trustworthiness": None, "continuity": None,
-                "knn_recall_mean": None, "knn_recall": [None] * n,
+                "knn_recall_mean": None, "knn_recall_exact_mean": None, "knn_recall": [None] * n,
                 "warnings": ["too-few-points: neighbourhood metrics need at least 4 points"]}
     if k > k_max:
         warnings.append(f"k reduced from {k} to {k_max} (needs k < n/2)")
@@ -73,6 +79,7 @@ def neighborhood_metrics(high: np.ndarray, low: np.ndarray, k: int = 10,
     trust_pen = 0.0
     cont_pen = 0.0
     recall = np.zeros(n)
+    exact = np.zeros(n)
     for start in range(0, n, chunk):
         stop = min(start + chunk, n)
         rows = np.arange(start, stop)
@@ -92,11 +99,13 @@ def neighborhood_metrics(high: np.ndarray, low: np.ndarray, k: int = 10,
             trust_pen += float(np.clip(rank_h_of_low - k, 0, None).sum())
             cont_pen += float(np.clip(rank_l_of_high - k, 0, None).sum())
             recall[start + r] = float((Dh[r, nl[r]] <= sh[r, k]).mean())
+            exact[start + r] = len(set(nh[r].tolist()) & set(nl[r].tolist())) / k
     return {
         "k": k, "n": n,
         "trustworthiness": float(1.0 - norm * trust_pen),
         "continuity": float(1.0 - norm * cont_pen),
         "knn_recall_mean": float(recall.mean()),
+        "knn_recall_exact_mean": float(exact.mean()),
         "knn_recall": recall.tolist(),
         "warnings": warnings,
     }
@@ -288,6 +297,9 @@ def diagnose_projection(high: np.ndarray, low: np.ndarray, k: int = 10, seed: in
         "trustworthiness": nb["trustworthiness"],
         "continuity": nb["continuity"],
         "knn_recall_mean": nb["knn_recall_mean"],
+        "knn_recall_exact_mean": nb["knn_recall_exact_mean"],
+        "knn_recall_note": "knn_recall_mean is tie-inclusive (an equidistant point counts as a true neighbour); "
+                           "knn_recall_exact_mean compares stable top-k sets and is the pessimistic end",
         "distance_spearman": da["spearman"],
         "distance_pearson": da["pearson"],
         "normalized_stress": da["normalized_stress"],

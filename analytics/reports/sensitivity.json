@@ -148,6 +148,7 @@
    "top1_same": true,
    "top3_overlap": 2
   },
+  "compensation_comparable": true,
   "compensation_coverage_by_role": {
    "ai-architect": 0.4313,
    "ai-director": 0.3614,
@@ -158,7 +159,10 @@
    "platform": 0.3333,
    "privacy-legal-ai": 0.3655
   },
-  "compensation_unit": "SYN (synthetic units; not a currency, not market data)",
+  "compensation_unit_note": "one unit across roles; compared within that unit. 'SYN' is the synthetic generator's non-currency unit.",
+  "compensation_units_observed": [
+   "SYN/unknown"
+  ],
   "handling": "Unknown compensation is never set to zero or guessed. It is dropped from that role's weighted sum, and rank bounds show what any value could change.",
   "ordering_note": "A preference ordering of roles under the user's declared weights. It ranks options; it does not predict outcomes.",
   "ordering_with_available_compensation": [
@@ -216,7 +220,8 @@
    }
   },
   "roles_with_unknown_compensation": [],
-  "top_choice_identifiable_without_compensation": false
+  "top_choice_identifiable_without_compensation": false,
+  "unranked_with_available_compensation": []
  },
  "normalization": {
   "change": {
@@ -284,14 +289,15 @@
    "field-cto",
    "ai-director"
   ],
-  "convention": "'sensitive' if any ordering has Kendall tau < 0.8, the nearest role changes, or a role disappears",
-  "min_kendall_tau": 1.0,
-  "top1_unchanged_share": 1.0,
+  "convention": "the role ordering does not use seniority, so this check cannot move it; see the map overlap and centroid displacement for the effect on the picture",
+  "min_kendall_tau": null,
+  "top1_unchanged_share": null,
   "variants": {
    "20pct_bumped_one_level": {
     "centroid_displacement_share": 0.0079,
     "kendall_tau": 1.0,
     "map_knn_overlap_with_baseline": 0.9394,
+    "n_bumped": 255,
     "roles_compared": 8,
     "roles_lost": [],
     "top1_same": true,
@@ -307,7 +313,7 @@
     "top3_overlap": 3
    }
   },
-  "verdict": "stable"
+  "verdict": "not-applicable"
  },
  "source_volume": {
   "baseline_ordering": [
@@ -359,6 +365,9 @@
   "verdict": "sensitive"
  },
  "summary": {
+  "not_assessable_or_not_applicable": [
+   "seniority"
+  ],
   "note": "Instability findings describe how much modelling choices and data volume move the analysis. They are not probabilities of career outcomes.",
   "sensitive_to": [
    "job_freshness",
@@ -368,8 +377,7 @@
    "utility_weights"
   ],
   "stable_under": [
-   "normalization",
-   "seniority"
+   "normalization"
   ]
  },
  "utility_weights": {
@@ -432,6 +440,7 @@
    }
   },
   "top_choice_unchanged_share": 0.75,
+  "unranked_at_baseline": [],
   "verdict": "sensitive",
   "weights_normalised": {
    "compensation": 0.2,

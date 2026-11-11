@@ -1,19 +1,22 @@
 {
  "files": {
-  "DIAGNOSTICS_REPORT.md": "c0e819a6ed75f61905b93b99cd998bfe8d7cdf62df3b911efc1b54541c452d28",
-  "atlas_bundle.sample.json": "eec6d3ecfec8c71182e2c75fef2a0a880ea437e4116f3d7da6e0b19064169b20",
-  "atlas_map.svg": "67f01aab6146555e37a2604ee71dea9d11ad6cae0796e0e7be20ad7f161e4b62",
+  "DIAGNOSTICS_REPORT.md": "93a40b05d81358c38020f42ee16a18a044712c27e1c21ee747453967f7afc0e5",
+  "atlas_bundle.sample.json": "773b3e76ba50871c302f0c8a36486c4893dbe56a9536db779063b0a0b005b9d7",
+  "atlas_map.svg": "bd0bcd4fb93ce709b6be8c5140bba4f0df02abf1987914f6122da34eeed7eacf",
   "gap_field_cto.json": "6fa2a75cdfe0127d3f7145bdd7d6e80fce2c922e1f8910aff0947ef764b2bbf2",
-  "held_out_and_drift.json": "f39577aa802a19e80c87123f362ef098c9ffa8366ea2d6987283ca36f2817abe",
+  "held_out_and_drift.json": "e3969bb7be674d679f58f2eea41bc5db893c0c31950e3ce1ad76e6f6ff2b751b",
   "pca_model.json": "49c141846a54315720a04d5cb4020b7f28dab4b61f96f93719a3bd325ed80ffe",
-  "projection_comparison.json": "70ef0a436ed7e48e606feb9d206739181aeeb0492b8f6d7e2b4f1b36ce03fa14",
-  "scenario_field_cto.json": "76197228d562918ef9c745a13a0e41c3d2b6cfb9b3fd3ea6f65e5f417b11773c",
-  "sensitivity.json": "2e44eb07bc110f9ef70f701a354a85707567fe17fc2eb6eb787166becfdb040c",
+  "projection_comparison.json": "b1a29e5ee58c89f15c4e374c423653eae7d0fb53dc08b36eca143eaa4897e2d1",
+  "scenario_field_cto.json": "584b6fbb889a02cc98dc4b2404423f248f75eda9c0e069372f90857ca074737e",
+  "sensitivity.json": "b5bf78317bb7aef44b33998144e521a21b52cf533cf417d181c85f12eaf36fa4",
   "transition_graph.json": "4534cd0555b18a76cb81b12b514d48828cbfefda240c7aa1dcf1569a99cc6dc6"
  },
- "full_bundle_sha256": "45c686e510d523bb3bcdcc26458133e2a1cd581f04230f8417138e3e7a246ca1",
+ "full_bundle_sha256": "324aff12cab72ae4175dd3dbdcd678f0e44b456f4aa6ab05f8f0b867898d6da5",
  "generated_by": "careertwin_atlas 0.1.0",
  "n_postings": 1500,
+ "not_hashed": [
+  "timings.json"
+ ],
  "note": "Timings in the report and the last digits of floating-point results can differ between machines; regenerate with: python -m careertwin_atlas demo --out <dir>",
  "seed": 7
 }

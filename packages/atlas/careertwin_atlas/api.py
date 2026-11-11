@@ -102,9 +102,16 @@ def _evidence_basis(vec: FeatureVector) -> str:
     statuses = set()
     for refs in vec.provenance.values():
         for ref in refs:
-            parts = ref.split(":")
-            if parts[0] == "claim" and len(parts) >= 3:
-                statuses.add("unverified" if parts[-1] == "expired" else parts[2])
+            # format "claim:<id>:<status>[:expired]"; ids may contain ":" (review cycle 1, F7),
+            # so the status is read from the right.
+            if not ref.startswith("claim:"):
+                continue
+            body = ref[len("claim:"):]
+            expired = body.endswith(":expired")
+            if expired:
+                body = body[: -len(":expired")]
+            status = body.rsplit(":", 1)[-1]
+            statuses.add("unverified" if expired and status != "contradicted" else status)
     known = statuses & {"supported", "self-reported", "contradicted", "unverified"}
     if not known:
         return "not-applicable"
@@ -141,6 +148,9 @@ def build_atlas_bundle(
     if max_job_points is not None and (isinstance(max_job_points, bool)
                                        or not isinstance(max_job_points, int) or max_job_points < 0):
         raise InvalidInputError("max_job_points must be a non-negative integer or None")
+    for name, value, lo in (("cluster_boot", cluster_boot, 1), ("k", k, 1), ("seed", seed, 0)):
+        if isinstance(value, bool) or not isinstance(value, int) or value < lo:
+            raise InvalidInputError(f"{name} must be an integer >= {lo}")
     proj = _project(engine, method, dims, seed)
     coords = proj["coords"]
     pid = proj["projection_id"]
@@ -232,10 +242,13 @@ def build_atlas_bundle(
         points.append(atlas_point(vec.entity_id, vec.label, proj["apply"](x), vec.vector_ref, rep_type,
                                   method, pid, None, "role_table:requirement_shortfall", warn))
     if candidate is not None:
+        assessable = engine.has_observed_skills(candidate)
         candidate_block = {
             "entity_id": candidate.entity_id, "placed_on_map": candidate.entity_id in placed_ids,
             "role_table": [{k2: (round(v2, 6) if isinstance(v2, float) else v2) for k2, v2 in r.items()}
-                           for r in engine.role_table(candidate)],
+                           for r in engine.role_table(candidate)] if assessable else None,
+            "role_table_status": "assessed" if assessable else
+            "not-assessable: the candidate has no observed skill evidence",
             "role_table_note": "Ordered by requirement_shortfall (full feature space). map_distance is "
                                "included only to expose where the picture disagrees.",
             "warnings": list(candidate.warnings),
@@ -305,6 +318,14 @@ def projection_view(bundle: dict[str, Any], generated_at: str,
     information-loss statement. ``generated_at`` is supplied by the caller: this package never
     reads the clock. Each scenario adds its hypothetical point and a candidate -> scenario path.
     """
+    try:
+        return _projection_view(bundle, generated_at, scenarios)
+    except (KeyError, TypeError, AttributeError, IndexError) as exc:
+        raise InvalidInputError(f"malformed bundle or scenario for projection_view: {exc!r}") from exc
+
+
+def _projection_view(bundle: dict[str, Any], generated_at: str,
+                     scenarios: Sequence[dict[str, Any]] = ()) -> dict[str, Any]:
     if parse_utc(generated_at) is None:
         raise InvalidInputError("generated_at must be an ISO-8601 timestamp with a UTC offset")
     if not isinstance(bundle, dict) or bundle.get("schema_version") != BUNDLE_SCHEMA_VERSION:
@@ -321,7 +342,8 @@ def projection_view(bundle: dict[str, Any], generated_at: str,
     paths = []
     for sc in scenarios:
         out = sc.get("outputs", {}) if isinstance(sc, dict) else {}
-        if out.get("model_ref", {}).get("projection_id") != proj["projection_id"]:
+        scen_method = {p.get("projection_method") for p in out.get("map_points", [])}
+        if out.get("model_ref", {}).get("projection_id") != proj["projection_id"] or scen_method != {proj["method"]}:
             raise InvalidInputError(f"scenario {sc.get('id') if isinstance(sc, dict) else sc!r} was computed for "
                                     "another projection; rebuild it with this engine and method")
         cand_pt, scen_pt = out["map_points"][0], out["map_points"][1]

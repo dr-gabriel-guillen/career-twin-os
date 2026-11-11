@@ -32,6 +32,7 @@ class RoleProfile:
     compensation_mid_median: float | None
     bootstrap_radius: float            # mean centroid displacement under resampling
     feature_names: tuple[str, ...]
+    compensation_units: tuple[str, ...] = ()   # distinct "CURRENCY/basis" units behind the median
 
     def core_features(self, threshold: float = 0.5) -> list[str]:
         return [n for n, p in zip(self.feature_names, self.prevalence)
@@ -72,6 +73,7 @@ def build_role_profiles(matrix: FeatureMatrix, X_imputed: np.ndarray,
         minq = np.zeros(d)
         n_req = n_unmapped = 0
         comps = []
+        units: set[str] = set()
         name_index = {n: j for j, n in enumerate(matrix.feature_names)}
         for i in idx:
             meta = matrix.vectors[int(i)].meta
@@ -81,6 +83,7 @@ def build_role_profiles(matrix: FeatureMatrix, X_imputed: np.ndarray,
             n_unmapped += int(meta.get("n_unmapped_requirements", 0))
             if meta.get("compensation_mid") is not None:
                 comps.append(float(meta["compensation_mid"]))
+                units.add(str(meta.get("compensation_currency") or "unknown-unit"))
         centroid = Xg.mean(axis=0)
         if len(idx) >= 2 and n_boot > 0:
             disp = []
@@ -96,7 +99,9 @@ def build_role_profiles(matrix: FeatureMatrix, X_imputed: np.ndarray,
             min_qualification_share=minq / len(idx),
             unmapped_requirement_share=(n_unmapped / n_req) if n_req else 0.0,
             compensation_coverage=len(comps) / len(idx),
-            compensation_mid_median=float(np.median(comps)) if comps else None,
+            # A median across different currencies or bases is meaningless (review cycle 1, F8).
+            compensation_mid_median=float(np.median(comps)) if comps and len(units) == 1 else None,
+            compensation_units=tuple(sorted(units)),
             bootstrap_radius=radius, feature_names=matrix.feature_names)
     return out
 
@@ -165,6 +170,10 @@ def centroid_drift(early: Sequence[FeatureVector], late: Sequence[FeatureVector]
     comparable = [f for f in sorted(set(ge) & set(gl))
                   if len(ge[f]) >= MIN_POSTINGS_FOR_STABLE and len(gl[f]) >= MIN_POSTINGS_FOR_STABLE]
     threshold = alpha / max(1, len(comparable))
+    # Repair note (review cycle 1, F5): the smallest attainable exceedance share is 1/(n_perm+1).
+    # With 1000 shuffles and 11+ families that floor sat above the threshold, so nothing could ever
+    # be flagged. The shuffle count is raised until the floor is at most half the threshold.
+    n_perm = max(int(n_perm), int(np.ceil(2.0 / threshold)))
     for fam in sorted(set(ge) | set(gl)):
         if fam not in comparable:
             results[fam] = {"status": "not-comparable", "n_early": int(len(ge.get(fam, []))),

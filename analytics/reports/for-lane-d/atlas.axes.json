@@ -17,7 +17,7 @@
    "value": 0.922269
   },
   "cumulative_explained_variance": null,
-  "distance_spearman": 0.5362619051207881,
+  "distance_spearman": 0.5362581274718481,
   "flags": [
    "weak-local-structure: on average fewer than 40% of a point's map neighbours are true neighbours",
    "distance-order-distorted: map distances rank pairs differently from full-space distances"

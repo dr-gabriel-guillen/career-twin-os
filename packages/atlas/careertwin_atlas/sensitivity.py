@@ -15,7 +15,8 @@ import numpy as np
 from .diagnostics import kendall_tau, knn_overlap
 from .engine import AtlasEngine
 from .errors import AtlasError, InvalidInputError
-from .features import FeatureVector, claims_to_vector, parse_utc
+from .features import FeatureVector, claims_to_vector, finite_number, parse_utc
+from .vocabulary import normalize_token
 from .graph import build_transition_graph, evaluate_path
 from .vocabulary import Vocabulary, default_vocabulary
 
@@ -37,6 +38,11 @@ class SensitivityInputs:
     seed: int = 0
     standardize: bool = False
     n_boot: int = 20
+
+
+def _rows(jobs: Sequence[Any]) -> list[Mapping[str, Any]]:
+    """Only mapping rows can be perturbed; others are skipped by AtlasEngine.fit anyway."""
+    return [j for j in jobs if isinstance(j, Mapping)]
 
 
 def _fit(inp: SensitivityInputs, jobs: Sequence[Mapping[str, Any]] | None = None,
@@ -63,6 +69,10 @@ def _order_change(base: list[str], new: list[str]) -> dict[str, Any]:
 
 
 def _verdict(changes: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    if not changes:
+        # Repair note (review cycle 1, F4): nothing assessable used to read as "stable".
+        return {"verdict": "not-assessable", "min_kendall_tau": None, "top1_unchanged_share": None,
+                "convention": "no perturbation could be assessed, so no stability statement is made"}
     taus = [c["kendall_tau"] for c in changes if c["kendall_tau"] is not None]
     top1 = [c["top1_same"] for c in changes]
     sensitive = (bool(taus) and min(taus) < SENSITIVE_TAU) or (bool(top1) and not all(top1)) \
@@ -92,6 +102,8 @@ def _centroid_displacement(base: AtlasEngine, other: AtlasEngine) -> float | Non
 def utility_components(engine: AtlasEngine, candidate: FeatureVector, hours_per_week: float = 6.0,
                        horizon_months: int = 12) -> dict[str, dict[str, float | None]]:
     """Per-role components in [0, 1] (higher = more preferred). ``None`` means UNKNOWN."""
+    if not engine.profiles:
+        raise InvalidInputError("no role profiles: postings carry no role_family, so roles cannot be ordered")
     graph = build_transition_graph(engine)
     table = {r["role"]: r for r in engine.role_table(candidate)}
     roles = sorted(table)
@@ -100,8 +112,11 @@ def utility_components(engine: AtlasEngine, candidate: FeatureVector, hours_per_
     for r in roles:
         res = evaluate_path(engine, graph, candidate, (r,), hours_per_week, horizon_months)
         effort[r] = sum(res["effort_hours_range"]) / 2.0
+    units = compensation_units(engine)
+    comparable = len(units) == 1
     comp_raw = {r: (engine.profiles[r].compensation_mid_median
-                    if engine.profiles[r].compensation_coverage >= MIN_COMPENSATION_COVERAGE else None)
+                    if comparable and engine.profiles[r].compensation_coverage >= MIN_COMPENSATION_COVERAGE
+                    else None)
                 for r in roles}
     lead = {r: float(graph.nodes[r]["leadership_exposure"]) for r in roles}
 
@@ -121,6 +136,11 @@ def utility_components(engine: AtlasEngine, candidate: FeatureVector, hours_per_
     return {r: {"skills": s[r], "effort": e[r], "compensation": c[r], "leadership": l[r]} for r in roles}
 
 
+def compensation_units(engine: AtlasEngine) -> list[str]:
+    """Distinct compensation units (CURRENCY/basis) across all role profiles."""
+    return sorted({u for p in engine.profiles.values() for u in p.compensation_units})
+
+
 def _clean_weights(weights: Mapping[str, float] | None) -> dict[str, float]:
     w = dict(DEFAULT_WEIGHTS)
     if weights is not None:
@@ -130,9 +150,10 @@ def _clean_weights(weights: Mapping[str, float] | None) -> dict[str, float]:
         for k, v in weights.items():
             if k not in COMPONENTS:
                 raise InvalidInputError(f"unknown weight {k!r}; allowed: {COMPONENTS}")
-            if isinstance(v, bool) or not isinstance(v, (int, float)) or not np.isfinite(v) or v < 0:
+            fv = finite_number(v)
+            if fv is None or fv < 0:
                 raise InvalidInputError(f"weight {k!r} must be a finite number >= 0")
-            w[k] = float(v)
+            w[k] = fv
     total = sum(w.values())
     if total <= 0:
         raise InvalidInputError("at least one weight must be positive")
@@ -153,12 +174,15 @@ def _utilities(components: Mapping[str, Mapping[str, float | None]], w: Mapping[
                 v = unknown_as
             num += w[k] * v
             den += w[k]
-        out[role] = num / den if den > 1e-12 else 0.0
+        # every weighted component unknown: the role is unranked, never scored 0 (review cycle 1, F8)
+        out[role] = num / den if den > 1e-12 else None
     return out
 
 
-def _ordering(util: Mapping[str, float]) -> list[str]:
-    return [r for r, _ in sorted(util.items(), key=lambda kv: (-kv[1], kv[0]))]
+def _ordering(util: Mapping[str, float | None]) -> list[str]:
+    """Roles with a known utility, best first. Roles whose utility is unknown are left out."""
+    return [r for r, _ in sorted(((k, v) for k, v in util.items() if v is not None),
+                                 key=lambda kv: (-kv[1], kv[0]))]
 
 
 def weight_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
@@ -178,9 +202,9 @@ def weight_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
         draw = dict(zip(COMPONENTS, rng.dirichlet(alpha)))
         order = _ordering(_utilities(comps, draw, None))
         for pos, r in enumerate(order, start=1):
-            ranks[r].append(pos)
+            ranks.setdefault(r, []).append(pos)
         taus.append(kendall_tau(base, order) or 0.0)
-        top_same += int(order[0] == base[0])
+        top_same += int(bool(order) and bool(base) and order[0] == base[0])
     share = top_same / n_draws
     return {
         "weights_normalised": {k: round(v, 4) for k, v in w.items()},
@@ -188,8 +212,9 @@ def weight_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
         "n_draws": n_draws, "dirichlet_concentration": concentration,
         "top_choice_unchanged_share": round(share, 4),
         "kendall_tau_mean": round(float(np.mean(taus)), 4), "kendall_tau_min": round(float(np.min(taus)), 4),
-        "rank_range": {r: {"baseline": base.index(r) + 1, "min": int(min(v)), "max": int(max(v))}
-                       for r, v in ranks.items()},
+        "rank_range": {r: {"baseline": base.index(r) + 1 if r in base else None,
+                           "min": int(min(v)), "max": int(max(v))} for r, v in ranks.items() if v},
+        "unranked_at_baseline": sorted(set(comps) - set(base)),
         "verdict": "stable" if share >= 0.8 and float(np.min(taus)) >= SENSITIVE_TAU else "sensitive",
         "interpretation": "Share of weight perturbations under which the top-ranked role stays on top. "
                           "A stability measure of the ordering, not a likelihood of any outcome.",
@@ -202,7 +227,8 @@ def missing_salary_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
     """What can and cannot be concluded when compensation is missing for some or all roles."""
     w = _clean_weights(weights)
     comps = utility_components(engine, candidate)
-    observed = _ordering(_utilities(comps, w, None))
+    observed_util = _utilities(comps, w, None)
+    observed = _ordering(observed_util)
     blind = {r: {**c, "compensation": None} for r, c in comps.items()}
     lower = _utilities(blind, w, 0.0)
     upper = _utilities(blind, w, 1.0)
@@ -212,18 +238,26 @@ def missing_salary_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
         best = 1 + sum(1 for s in comps if s != r and lower[s] > upper[r])
         worst = 1 + sum(1 for s in comps if s != r and upper[s] > lower[r])
         bounds[r] = {"best_possible_rank": best, "worst_possible_rank": worst}
-    top = dropped[0]
+    units = compensation_units(engine)
     coverage = {r: round(engine.profiles[r].compensation_coverage, 4) for r in comps}
     unknown_roles = sorted(r for r, c in comps.items() if c["compensation"] is None)
     return {
-        "compensation_unit": "SYN (synthetic units; not a currency, not market data)",
+        "compensation_units_observed": units,
+        "compensation_comparable": len(units) == 1,
+        "compensation_unit_note": ("one unit across roles; compared within that unit" if len(units) == 1 else
+                                   "no compensation figures" if not units else
+                                   "different currencies or bases across roles; compensation is NOT compared "
+                                   "(no conversion is attempted)") + ". 'SYN' is the synthetic generator's "
+                                  "non-currency unit.",
+        "unranked_with_available_compensation": sorted(r for r, u in observed_util.items() if u is None),
         "compensation_coverage_by_role": coverage,
         "roles_with_unknown_compensation": unknown_roles,
         "ordering_with_available_compensation": observed,
         "ordering_with_compensation_dropped": dropped,
         "change_when_dropped": _order_change(observed, dropped),
         "rank_bounds_if_compensation_fully_unknown": bounds,
-        "top_choice_identifiable_without_compensation": bounds[top]["worst_possible_rank"] == 1,
+        "top_choice_identifiable_without_compensation":
+            bool(dropped) and bounds[dropped[0]]["worst_possible_rank"] == 1,
         "handling": "Unknown compensation is never set to zero or guessed. It is dropped from that "
                     "role's weighted sum, and rank bounds show what any value could change.",
         "ordering_note": ORDERING_NOTE,
@@ -237,12 +271,14 @@ def seniority_sensitivity(inp: SensitivityInputs) -> dict[str, Any]:
     rng = np.random.default_rng(inp.seed)
     ladder = ["mid", "senior", "staff", "principal", "director", "vp"]
     variants = {}
-    unknown = [{**j, "seniority": "unspecified"} for j in inp.jobs]
-    bumped = []
-    for j in inp.jobs:
-        s = j.get("seniority")
+    rows = _rows(inp.jobs)
+    unknown = [{**j, "seniority": "unspecified"} for j in rows]
+    bumped, n_bumped = [], 0
+    for j in rows:
+        s = normalize_token(j.get("seniority"))
         if s in ladder[:-1] and rng.random() < 0.2:
             bumped.append({**j, "seniority": ladder[ladder.index(s) + 1]})
+            n_bumped += 1
         else:
             bumped.append(dict(j))
     for name, jobs in (("all_seniority_unknown", unknown), ("20pct_bumped_one_level", bumped)):
@@ -251,20 +287,28 @@ def seniority_sensitivity(inp: SensitivityInputs) -> dict[str, Any]:
         ch["centroid_displacement_share"] = _centroid_displacement(base, eng)
         ch["map_knn_overlap_with_baseline"] = round(knn_overlap(base.coords, eng.coords, 10) or 0.0, 4)
         variants[name] = ch
-    return {"baseline_ordering": base_order, "variants": variants, **_verdict(list(variants.values()))}
+    variants["20pct_bumped_one_level"]["n_bumped"] = n_bumped
+    # Repair note (review cycle 1, F3): the role ordering (requirement_shortfall) uses skill features only,
+    # so no seniority perturbation can change it. Reporting "stable" was true by construction and
+    # therefore uninformative. The map and centroid effects are still reported.
+    return {"baseline_ordering": base_order, "variants": variants, "verdict": "not-applicable",
+            "min_kendall_tau": None, "top1_unchanged_share": None,
+            "convention": "the role ordering does not use seniority, so this check cannot move it; see the "
+                          "map overlap and centroid displacement for the effect on the picture"}
 
 
 def freshness_sensitivity(inp: SensitivityInputs, windows_days: Sequence[int] = (90, 45)) -> dict[str, Any]:
     base, cand = _fit(inp)
     base_order = base.role_order(cand)
-    stamps = [parse_utc(j.get("fetched_at")) for j in inp.jobs]
+    rows = _rows(inp.jobs)
+    stamps = [parse_utc(j.get("fetched_at")) for j in rows]
     known = [s for s in stamps if s is not None]
     if not known:
         return {"status": "not-assessable", "reason": "no posting has a usable fetched_at"}
     latest = max(known)
     variants = {}
     for days in windows_days:
-        jobs = [j for j, s in zip(inp.jobs, stamps) if s is not None and (latest - s).days < days]
+        jobs = [j for j, s in zip(rows, stamps) if s is not None and (latest - s).days < days]
         try:
             eng, c = _fit(inp, jobs=jobs)
         except AtlasError as exc:
@@ -277,7 +321,7 @@ def freshness_sensitivity(inp: SensitivityInputs, windows_days: Sequence[int] = 
                    "unstable_roles": sorted(r for r, s in eng.stability.items() if s["unstable"])})
         variants[f"last_{days}_days"] = ch
     assessed = [v for v in variants.values() if "kendall_tau" in v]
-    return {"baseline_ordering": base_order, "n_postings_total": len(inp.jobs),
+    return {"baseline_ordering": base_order, "n_postings_total": len(rows),
             "undated_postings": len(stamps) - len(known), "variants": variants, **_verdict(assessed)}
 
 
@@ -388,7 +432,10 @@ def run_sensitivity(inp: SensitivityInputs, weights: Mapping[str, float] | None 
         fragile.append("missing_salary")
     report["summary"] = {
         "sensitive_to": sorted(set(fragile)),
-        "stable_under": sorted(k for k, v in report.items() if isinstance(v, dict) and v.get("verdict") == "stable"),
+        "stable_under": sorted(k for k, v in report.items() if isinstance(v, dict) and v.get("verdict") == "stable"
+                               and k not in fragile),
+        "not_assessable_or_not_applicable": sorted(k for k, v in report.items() if isinstance(v, dict)
+                                                   and v.get("verdict") in ("not-assessable", "not-applicable")),
         "note": "Instability findings describe how much modelling choices and data volume move the "
                 "analysis. They are not probabilities of career outcomes.",
     }

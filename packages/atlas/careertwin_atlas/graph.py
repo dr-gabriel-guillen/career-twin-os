@@ -27,13 +27,14 @@ import numpy as np
 
 from .engine import AtlasEngine
 from .errors import InvalidInputError
-from .features import STATE_CONTRADICTED, STATE_UNKNOWN, FeatureVector
+from .features import STATE_CONTRADICTED, STATE_UNKNOWN, FeatureVector, finite_number
 from .gaps import EVIDENCED_LEVEL
 from .vocabulary import ACQ_ROLE, SENIORITY_FEATURE
 
 WEEKS_PER_MONTH = 4.345
 STUDY_EVIDENCE_CAP = 0.8
 CONFERRED_THRESHOLD = 0.25
+MAX_INTERMEDIATES = 8
 ELIGIBILITY_NOTE = ("No path guarantees eligibility, an interview or an offer. A title, degree or "
                     "certificate does not by itself establish that requirements are met.")
 DEFAULT_PATH_WEIGHTS = {"time": 1.0, "barriers": 1.0, "effort": 0.5}
@@ -208,10 +209,15 @@ def evaluate_path(engine: AtlasEngine, graph: TransitionGraph, candidate: Featur
     months_lo = total_lo / per_month + tenure_total
     months_hi = total_hi / per_month + tenure_total
     fits = "yes" if months_hi <= horizon_months else "no" if months_lo > horizon_months else "uncertain"
-    seniority_known = (SENIORITY_FEATURE in candidate.feature_names
-                       and candidate.state_of(SENIORITY_FEATURE) != STATE_UNKNOWN)
-    if not seniority_known:
-        caveats.append("candidate seniority is unknown, so seniority steps are not assessed")
+    # Repair note (review cycle 1, F3): the caveat used to appear only when seniority was unknown,
+    # implying seniority was assessed otherwise. It never is.
+    caveats.append("seniority steps are not modelled: path effort and ranking ignore seniority; edges only "
+                   "flag large seniority gaps as constraints")
+    unknown_core = sorted({f for role in path for f in graph.nodes[role]["core_features"]
+                           if candidate.state_of(f) == STATE_UNKNOWN})
+    if unknown_core:
+        caveats.append("candidate evidence is unknown (not observed) for " + ", ".join(unknown_core)
+                       + "; counted as no evidence, so effort may be overstated")
     return {
         "path": list(path), "kind": "direct" if len(path) == 1 else "stepping-stone",
         "steps": steps,
@@ -233,19 +239,30 @@ def plan_paths(engine: AtlasEngine, graph: TransitionGraph, candidate: FeatureVe
     engine.check_vector(candidate)
     if target not in graph.nodes:
         raise InvalidInputError(f"unknown target role {target!r}; known: {sorted(graph.nodes)}")
-    if not (isinstance(hours_per_week, (int, float)) and np.isfinite(hours_per_week) and hours_per_week > 0):
-        raise InvalidInputError("hours_per_week must be a positive number")
-    if isinstance(horizon_months, bool) or not isinstance(horizon_months, int) or horizon_months < 1:
-        raise InvalidInputError("horizon_months must be a positive integer")
+    hpw = finite_number(hours_per_week)
+    if hpw is None or not (0 < hpw <= 100):
+        raise InvalidInputError("hours_per_week must be within (0, 100]")
+    if isinstance(horizon_months, bool) or not isinstance(horizon_months, int) or not 1 <= horizon_months <= 600:
+        raise InvalidInputError("horizon_months must be an integer within [1, 600]")
+    tm = finite_number(tenure_months)
+    if tm is None or not (0 <= tm <= 120):
+        raise InvalidInputError("tenure_months must be a number within [0, 120]")
+    if isinstance(top, bool) or not isinstance(top, int) or not 1 <= top <= 50:
+        raise InvalidInputError("top must be an integer within [1, 50]")
     if isinstance(max_hops, bool) or not isinstance(max_hops, int) or not (1 <= max_hops <= 4):
         raise InvalidInputError("max_hops must be an integer between 1 and 4")
     w = dict(DEFAULT_PATH_WEIGHTS)
     if weights:
         for k, v in weights.items():
-            if k not in w or not isinstance(v, (int, float)) or not np.isfinite(v) or v < 0:
+            fv = finite_number(v)
+            if k not in w or fv is None or fv < 0:
                 raise InvalidInputError(f"invalid path weight {k!r}")
             w[k] = float(v)
-    others = sorted(r for r in graph.nodes if r != target)
+    # Repair note (review cycle 1, F12): intermediates used to be every other role, so cost grew with
+    # the cube of the number of posting-supplied role families. Only the MAX_INTERMEDIATES roles whose
+    # edge into the target needs the least new evidence are considered as stepping stones.
+    others = sorted((r for r in graph.nodes if r != target),
+                    key=lambda r: (len(graph.edges[(r, target)].required_evidence), r))[:MAX_INTERMEDIATES]
     results = []
     for n_mid in range(0, max_hops):
         for mids in permutations(others, n_mid):
@@ -273,6 +290,7 @@ def plan_paths(engine: AtlasEngine, graph: TransitionGraph, candidate: FeatureVe
         "ranking_weights": w,
         "ranking_note": "Lower score ranks first. The score orders options under the declared "
                         "weights; it is not a likelihood of success.",
+        "stepping_stones_considered": others,
         "inputs": {"hours_per_week": hours_per_week, "horizon_months": horizon_months,
                    "max_hops": max_hops, "assumed_tenure_months": tenure_months},
         "eligibility_note": ELIGIBILITY_NOTE,

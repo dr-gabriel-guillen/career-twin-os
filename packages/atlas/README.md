@@ -17,6 +17,11 @@ python -m pytest packages/atlas/tests                # full test suite
 python -m careertwin_atlas demo --out ../../analytics/reports
 python -m careertwin_atlas simulate --target field-cto --action cloud-architecture:120:portfolio-project
 python -m careertwin_atlas stress --n 5000
+python -m careertwin_atlas export --out DIR --generated-at 2026-11-10T12:00:00Z   # files for lane D
+
+# lane E integration stages (see integration-manifest.json)
+python packages/atlas/e2e_stage.py project  --vectors DIR/vectors.json --out-dir DIR
+python packages/atlas/e2e_stage.py scenario --artifacts DIR
 ```
 
 ## What is here
@@ -34,7 +39,9 @@ python -m careertwin_atlas stress --n 5000
 | `graph.py` | Role transition graph and candidate-specific path planning (direct vs stepping stone) |
 | `simulator.py` | Counterfactual simulator → `TransitionScenario` |
 | `sensitivity.py` | Weight, missing-salary, seniority, freshness, volume, lexicon and normalisation perturbations |
-| `api.py` | `build_atlas_bundle` / `compare_projections` — the adapter for lane D and E's harness |
+| `api.py` | `build_atlas_bundle`, `projection_view` (lane D's atlas document), `compare_projections` |
+| `adapters.py` | Lane A inputs: `{posting, ext}` JobRecords and `a-api/0.1` skill vectors (fit in A's feature space) |
+| `../e2e_stage.py`, `../integration-manifest.json` | Stages and manifest for lane E's integration runner |
 | `report.py`, `__main__.py` | Offline demo, diagnostics report, CLI |
 
 ## Interface for consumers (lanes D and E)
@@ -56,6 +63,9 @@ scenario = simulate_transition(engine, candidate, "field-cto",
 - `bundle["points"][i]` validates against the frozen `contracts/atlas-point.schema.json`.
 - `scenario` validates against the frozen `contracts/transition-scenario.schema.json`.
 - The envelope around the points and the shape of `scenario["outputs"]` are documented in `schemas/` (lane-C owned, not part of `contracts/`).
+- `projection_view(bundle, generated_at, scenarios)` returns the `atlas-projection/0.1` document for lane D (`schemas/atlas-projection.schema.json`); pinned examples are in `analytics/reports/for-lane-d/`.
+- Points with no observed skill feature are not drawn; they are listed in `bundle["unplaced"]` with a reason.
+- `bundle["synthetic_only"]` is computed from the inputs' `source` field. `false` means "not verified", not "real data".
 - `bundle["flags"]["two_d_geometry_is_not_match_metric"]` is always `true`, and every point carries the warning `map-position-is-not-a-fit-or-hiring-score`.
 - `label` values are sanitised (control and bidi characters removed, 120 chars) but **not escaped**. The renderer must escape them.
 - Rank roles with `bundle["candidate"]["role_table"]` (full-space `requirement_shortfall`), never with distances between map coordinates.
@@ -63,7 +73,7 @@ scenario = simulate_transition(engine, candidate, "field-cto",
 ## Modelling decisions a reader should know
 
 1. **Absence is not disproof.** A skill a posting does not list is `not-stated`; a skill with no claim is `no-evidence-on-file`. Only `contradicted` means "evidence says no". An empty or unreadable skills list makes the whole skill block `unknown`.
-2. **Unknown values are mean-imputed for geometry and counted.** Imputed counts appear per point and in model warnings; imputation understates variance.
+2. **Unknown values are mean-imputed for geometry and counted.** Imputed counts appear per point and in model warnings; imputation understates variance. A row with *no* observed skill is not imputed at all: it is left off the map and listed as unplaced.
 3. **Distances that matter are computed in the full space.** `requirement_shortfall` is one-sided (only what the role states and the candidate does not cover). Map distance is reported only to expose disagreement.
 4. **Role-exposure evidence cannot be bought with study hours.** Client work, management scope and executive communication are capped for coursework-type actions and shown as entry barriers on paths.
 5. **A contradiction is not simulated away.** Planned hours on a contradicted claim change nothing until the contradiction is resolved.

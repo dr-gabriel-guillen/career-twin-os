@@ -121,7 +121,7 @@ def test_paths_include_direct_and_stepping_stones_with_explicit_tradeoff(engine,
     for a in plan["alternatives"]:
         assert a["months_range"][0] <= a["months_range"][1]
         assert a["fits_time_horizon"] in ("yes", "no", "uncertain")
-        assert any("seniority is unknown" in c for c in a["caveats"])
+        assert any("seniority steps are not modelled" in c for c in a["caveats"])
 
 
 def test_path_weights_change_the_ranking(engine, candidate, graph):

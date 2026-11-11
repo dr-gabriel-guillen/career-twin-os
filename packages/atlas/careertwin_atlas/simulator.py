@@ -17,7 +17,8 @@ import numpy as np
 
 from .engine import AtlasEngine
 from .errors import InvalidInputError
-from .features import STATE_CONTRADICTED, STATE_STATED, STATE_UNKNOWN, FeatureVector, sanitize_label
+from .features import (STATE_CONTRADICTED, STATE_STATED, STATE_UNKNOWN, FeatureVector, finite_number,
+                       sanitize_label)
 from .gaps import EVIDENCED_LEVEL, analyze_gap, candidate_state, explain_movement
 from .graph import ELIGIBILITY_NOTE, WEEKS_PER_MONTH, TransitionGraph, build_transition_graph, plan_paths
 from .points import MAP_IS_NOT_FIT, atlas_point
@@ -33,6 +34,8 @@ ROLE_CAPABLE_GOALS = frozenset({"client-engagement", "in-role", "verified-work-s
 NON_ROLE_CAP = 0.3
 DEFAULT_GOAL = "coursework"
 MAX_ACTIONS = 50
+MAX_ACTION_HOURS = 10_000.0
+MAX_HORIZON_MONTHS = 600
 GOAL_TEXT_MAX = 300
 SCENARIO_OUTPUTS_VERSION = "scenario-outputs/0.1"
 LEADERSHIP_BINS = (0.2, 0.5)          # < 0.2 low, < 0.5 medium, otherwise high. Reading convention.
@@ -72,12 +75,14 @@ def _validate_actions(planned_actions: Sequence[Mapping[str, Any]]) -> list[dict
         skill, hours = a.get("skill"), a.get("effort_hours")
         if not isinstance(skill, str) or not skill.strip():
             raise InvalidInputError(f"planned_actions[{n}].skill must be a non-empty string")
-        if isinstance(hours, bool) or not isinstance(hours, (int, float)) or not np.isfinite(hours) or hours < 0:
-            raise InvalidInputError(f"planned_actions[{n}].effort_hours must be a finite number >= 0")
+        h = finite_number(hours)
+        if h is None or h < 0 or h > MAX_ACTION_HOURS:
+            raise InvalidInputError(f"planned_actions[{n}].effort_hours must be a finite number within "
+                                    f"[0, {MAX_ACTION_HOURS:.0f}]")
         goal = a.get("evidence_goal")
         if goal is not None and not isinstance(goal, str):
             raise InvalidInputError(f"planned_actions[{n}].evidence_goal must be a string")
-        clean: dict[str, Any] = {"skill": skill.strip()[:64], "effort_hours": float(hours)}
+        clean: dict[str, Any] = {"skill": skill.strip()[:64], "effort_hours": h}
         if goal is not None:
             clean["evidence_goal"] = sanitize_label(goal, "")[:GOAL_TEXT_MAX]
         out.append(clean)
@@ -86,12 +91,21 @@ def _validate_actions(planned_actions: Sequence[Mapping[str, Any]]) -> list[dict
 
 def apply_actions(engine: AtlasEngine, candidate: FeatureVector,
                   actions: Sequence[Mapping[str, Any]], scenario_ref: str) -> dict[str, Any]:
-    """Return the hypothetical evidence vector after ``actions`` plus a full audit trail."""
+    """Return the hypothetical evidence vector after ``actions`` plus a full audit trail.
+
+    Repair note (review cycle 1, F10). The first version applied actions one at a time and let
+    the goal's cap also set the accrual rate, so the result depended on action order and a
+    higher-cap label bought evidence faster. Now hours are pooled per feature first, the
+    feature's ceiling is the highest cap among its goals, and accrual is one rate for every
+    goal: ``reference_hours`` of effort move evidence by 1.0 until the ceiling. Hours beyond
+    the ceiling are reported as having no effect.
+    """
     vocab = engine.vocab
     index = vocab.index
     values = candidate.values.copy()
     states = candidate.states.copy()
-    applied, unmapped, risks, assumptions = [], [], [], []
+    unmapped, risks, assumptions = [], [], []
+    resolved: list[tuple[str, str, str, str, float]] = []      # (skill, feature, how, goal, hours)
     for a in actions:
         raw = a["skill"]
         token = normalize_token(raw)
@@ -106,55 +120,77 @@ def apply_actions(engine: AtlasEngine, candidate: FeatureVector,
             continue
         goal_token, _ = parse_evidence_goal(a.get("evidence_goal"))
         if goal_token is not None:
-            goal, cap = goal_token, EVIDENCE_GOALS[goal_token]
+            goal = goal_token
         else:
-            goal, cap = DEFAULT_GOAL, EVIDENCE_GOALS[DEFAULT_GOAL]
+            goal = DEFAULT_GOAL
             assumptions.append(f"action on {raw!r}: evidence goal missing or not recognised; "
-                               f"treated as {DEFAULT_GOAL} (evidence level capped at {cap}). Prefix the "
-                               f"goal with a kind, for example 'portfolio-project: ...', to change this")
-        hours_each = a["effort_hours"] / len(features)
+                               f"treated as {DEFAULT_GOAL} (evidence level capped at {EVIDENCE_GOALS[DEFAULT_GOAL]}). "
+                               "Prefix the goal with a kind, for example 'portfolio-project: ...', to change this")
         for f in features:
-            i = index[f]
-            fdef = vocab.get(f)
-            f_cap = cap
-            if fdef.acquisition == ACQ_ROLE and goal not in ROLE_CAPABLE_GOALS:
-                f_cap = min(cap, NON_ROLE_CAP)
-                risks.append(f"{f}: evidence is normally gained in-role; a {goal} action is capped "
-                             f"at evidence level {NON_ROLE_CAP}")
-            before_state = int(states[i])
-            old = 0.0 if before_state in (STATE_UNKNOWN, STATE_CONTRADICTED) else float(values[i])
-            ref = fdef.effort_mid
-            blocked = before_state == STATE_CONTRADICTED
-            if blocked:
-                # A contradiction is a fact about existing evidence. Hours do not erase it.
-                new = 0.0
-                risks.append(f"{f}: evidence on file contradicts this claim; the action is not "
-                             "simulated until the contradiction is resolved")
-            elif old >= f_cap:
-                new = old
-            elif ref <= 0:
-                new = f_cap
-            else:
-                # Linear evidence rate: ``ref`` hours take a feature from 0 to the goal's cap.
-                new = min(f_cap, old + hours_each * f_cap / ref)
-            completion = 1.0 if f_cap <= old else (new - old) / (f_cap - old)
-            if hours_each == 0:
-                risks.append(f"{f}: zero effort hours planned; no change")
-            if not blocked:
-                if new > 0:
-                    values[i], states[i] = new, STATE_STATED
-                elif before_state == STATE_UNKNOWN:
-                    values[i] = np.nan
-            applied.append({
-                "skill": raw, "feature": f, "resolved_via": how, "evidence_goal": goal,
-                "effort_hours": round(hours_each, 2),
-                "reference_hours_assumed": round(ref, 1),
-                "completion": round(completion, 4),
-                "evidence_level_before": round(old, 4),
-                "evidence_level_after": round(float(new), 4),
-                "blocked_by_contradiction": bool(blocked),
-                "reaches_evidenced_level": bool(new >= EVIDENCED_LEVEL),
-            })
+            resolved.append((raw, f, how, goal, a["effort_hours"] / len(features)))
+
+    per_feature: dict[str, dict[str, Any]] = {}
+    for raw, f, how, goal, hours in resolved:
+        fdef = vocab.get(f)
+        cap = EVIDENCE_GOALS[goal]
+        if fdef.acquisition == ACQ_ROLE and goal not in ROLE_CAPABLE_GOALS:
+            cap = min(cap, NON_ROLE_CAP)
+            risks.append(f"{f}: evidence is normally gained in-role; a {goal} action is capped "
+                         f"at evidence level {NON_ROLE_CAP}")
+        if fdef.acquisition == ACQ_ROLE and goal in ROLE_CAPABLE_GOALS:
+            risks.append(f"{f}: '{goal}' is a user-stated assumption that the role exposure will exist; "
+                         "the simulator cannot verify that such an opportunity is available")
+        entry = per_feature.setdefault(f, {"hours": 0.0, "cap": 0.0})
+        entry["hours"] += hours
+        entry["cap"] = max(entry["cap"], cap)
+
+    outcome: dict[str, dict[str, Any]] = {}
+    for f, entry in per_feature.items():
+        i = index[f]
+        fdef = vocab.get(f)
+        before_state = int(states[i])
+        old = 0.0 if before_state in (STATE_UNKNOWN, STATE_CONTRADICTED) else float(values[i])
+        ref, cap, hours = fdef.effort_mid, entry["cap"], entry["hours"]
+        blocked = before_state == STATE_CONTRADICTED
+        if blocked:
+            new = 0.0
+            risks.append(f"{f}: evidence on file contradicts this claim; the action is not "
+                         "simulated until the contradiction is resolved")
+        elif old >= cap:
+            new = old
+        elif ref <= 0:
+            new = cap
+        else:
+            new = min(cap, old + hours / ref)
+        useful = 0.0 if blocked or old >= cap else (cap - old) * ref if ref > 0 else 0.0
+        surplus = max(0.0, hours - useful) if not blocked else hours
+        if hours == 0:
+            risks.append(f"{f}: zero effort hours planned; no change")
+        elif surplus > 0.5 and not blocked:
+            risks.append(f"{f}: about {surplus:.0f} of {hours:.0f} planned hours have no effect "
+                         f"(evidence already at this goal's ceiling {cap})")
+        if not blocked and new > 0:
+            values[i], states[i] = new, STATE_STATED
+        completion = 1.0 if cap <= old else (new - old) / (cap - old)
+        outcome[f] = {"before": old, "after": float(new), "cap": cap, "hours": hours, "ref": ref,
+                      "blocked": blocked, "completion": completion, "unknown_before": before_state == STATE_UNKNOWN}
+
+    applied = []
+    for raw, f, how, goal, hours in resolved:
+        o = outcome[f]
+        applied.append({
+            "skill": raw, "feature": f, "resolved_via": how, "evidence_goal": goal,
+            "effort_hours": round(hours, 2),
+            "feature_hours_total": round(o["hours"], 2),
+            "feature_ceiling": o["cap"],
+            "reference_hours_assumed": round(o["ref"], 1),
+            "completion": round(o["completion"], 4),
+            "evidence_level_before": round(o["before"], 4),
+            "evidence_before_was_unknown": o["unknown_before"],
+            "evidence_level_after": round(o["after"], 4),
+            "blocked_by_contradiction": bool(o["blocked"]),
+            "reaches_evidenced_level": bool(o["after"] >= EVIDENCED_LEVEL),
+        })
     if unmapped:
         risks.append(f"{len(unmapped)} planned action(s) name skills outside the vocabulary and "
                      "were not simulated: " + ", ".join(repr(u) for u in unmapped[:5]))
@@ -224,7 +260,6 @@ def simulate_transition(
     time_horizon_months: int = 12,
     hours_per_week: float = 6.0,
     graph: TransitionGraph | None = None,
-    projection_id: str | None = None,
 ) -> dict[str, Any]:
     """Build one hypothetical ``TransitionScenario`` for a candidate, target role and plan."""
     engine.check_vector(candidate)
@@ -233,16 +268,18 @@ def simulate_transition(
         target_role = engine.resolve_role(target_role)
     except InvalidInputError as exc:
         raise InvalidInputError(f"unknown target_role: {exc}") from exc
-    if isinstance(time_horizon_months, bool) or not isinstance(time_horizon_months, int) or time_horizon_months < 1:
-        raise InvalidInputError("time_horizon_months must be an integer >= 1")
-    if isinstance(hours_per_week, bool) or not isinstance(hours_per_week, (int, float)) \
-            or not np.isfinite(hours_per_week) or not (0 < hours_per_week <= 100):
+    if (isinstance(time_horizon_months, bool) or not isinstance(time_horizon_months, int)
+            or not 1 <= time_horizon_months <= MAX_HORIZON_MONTHS):
+        raise InvalidInputError(f"time_horizon_months must be an integer within [1, {MAX_HORIZON_MONTHS}]")
+    hpw = finite_number(hours_per_week)
+    if hpw is None or not (0 < hpw <= 100):
         raise InvalidInputError("hours_per_week must be within (0, 100]")
     actions = _validate_actions(planned_actions)
     graph = graph or build_transition_graph(engine)
-    projection_id = projection_id or f"pca-{engine.model.model_id}-{engine.model.n_components}d"
+    # Always the engine's own PCA projection id: the map points below are PCA coordinates.
+    projection_id = f"pca-{engine.model.model_id}-{engine.model.n_components}d"
 
-    digest_src = json.dumps({"c": candidate.vector_ref, "t": target_role, "a": actions,
+    digest_src = json.dumps({"c": candidate.content_digest, "t": target_role, "a": actions,
                              "h": time_horizon_months, "w": hours_per_week, "m": engine.model.model_id},
                             sort_keys=True, separators=(",", ":")).encode("utf-8")
     scenario_id = "scn-" + hashlib.sha256(digest_src).hexdigest()[:16]
@@ -250,7 +287,10 @@ def simulate_transition(
     scenario_vec: FeatureVector = result["vector"]
     risks: list[str] = list(result["risks"])
     assumptions: list[str] = [
-        "All role requirements come from synthetic, fictional postings grouped by role_family.",
+        ("All role requirements come from postings marked source='synthetic', grouped by role_family."
+         if all(v.meta.get("source") == "synthetic" for v in engine.matrix.vectors) else
+         "Role requirements come from postings grouped by role_family; not every posting is marked synthetic, "
+         "and lane C cannot verify their provenance."),
         "Evidence levels per claim status and per evidence goal are declared conventions, not measurements.",
         "Effort reference hours are vocabulary placeholders; real effort varies by person.",
         "A feature with no claim is 'no evidence on file', not proof the skill is absent.",

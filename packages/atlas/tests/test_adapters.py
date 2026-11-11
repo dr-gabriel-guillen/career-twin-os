@@ -88,7 +88,7 @@ def test_downstream_analysis_runs_on_lane_a_vectors(contracts):
                              [{"skill": "ai-strategy", "effort_hours": 100, "evidence_goal": "portfolio-project"}])
     assert not list(jsonschema.Draft202012Validator(contracts["transition-scenario.schema.json"]).iter_errors(sc))
     assert sc["outputs"]["delta"]["requirement_shortfall"] < 0
-    assert any("seniority is unknown" in c for a in sc["outputs"]["alternatives"]["paths"] for c in a["caveats"])
+    assert any("seniority steps are not modelled" in c for a in sc["outputs"]["alternatives"]["paths"] for c in a["caveats"])
 
 
 def test_unobserved_rows_are_masked_not_drawn_at_the_origin():
