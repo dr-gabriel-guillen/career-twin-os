@@ -1,0 +1,38 @@
+[project]
+name = "ctint"
+version = "0.1.0"
+description = "CareerTwin OS lane E: contract conformance, integration runner and security checks (offline, synthetic)"
+requires-python = ">=3.12"
+dependencies = ["jsonschema>=4.23", "numpy>=2.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers -p no:cacheprovider"
+markers = [
+    "network: needs real network access. Never selected in CI; the socket guard blocks it anyway.",
+    "slow: scale/performance checks (1k+ synthetic records).",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "C4", "PIE", "RET", "SIM"]
+ignore = [
+    "S101",  # asserts are the point of a test suite
+    "S603",  # subprocess with a fixed argv list and shell=False is how the runner works
+    "S607",  # 'git' is resolved from PATH on purpose
+    "S311",  # random.Random is used for reproducible synthetic data, not for security
+    "E501",  # long literal lines are handled by the formatter where it can
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S105", "S106", "S108", "B011"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["ctint"]
+warn_unused_ignores = true

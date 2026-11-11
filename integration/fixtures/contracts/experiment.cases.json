@@ -1,0 +1,389 @@
+{
+  "contract": "experiment",
+  "bases": {
+    "minimal": {
+      "id": "exp-syn-0001",
+      "title": "Synthetic bullet-order test",
+      "hypothesis": "Variant B changes the recruiter-screen rate relative to A (synthetic).",
+      "status": "draft",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "assignment_unit": "employer-cluster",
+      "strata": [
+        "role_family"
+      ],
+      "primary_metric": "recruiter_screen_within_window",
+      "design_locked_at": null,
+      "stopping_rule": "Fixed sample: stop at 200 assigned units.",
+      "consent_required": true
+    },
+    "full": {
+      "id": "exp-syn-0001",
+      "title": "Synthetic bullet-order test",
+      "hypothesis": "Variant B changes the recruiter-screen rate relative to A (synthetic).",
+      "status": "running",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "assignment_unit": "employer-cluster",
+      "strata": [
+        "role_family"
+      ],
+      "primary_metric": "recruiter_screen_within_window",
+      "design_locked_at": "2026-01-05T09:00:00Z",
+      "stopping_rule": "Fixed sample: stop at 200 assigned units.",
+      "consent_required": true,
+      "outcome_window_days": 30,
+      "secondary_metrics": [
+        "interview_within_window"
+      ],
+      "analysis_plan": "Intention-to-treat difference in proportions with a 95% interval.",
+      "seed_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "valid": [
+    {
+      "name": "minimal-draft",
+      "base": "minimal",
+      "patch": []
+    },
+    {
+      "name": "full-running-locked",
+      "base": "full",
+      "patch": []
+    },
+    {
+      "name": "three-variants",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/variants",
+          "value": [
+            "A",
+            "B",
+            "C"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "no-strata",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/strata",
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "closed-locked",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "closed"
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "missing-hypothesis",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/hypothesis"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-stopping-rule",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/stopping_rule"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-design-locked-at",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/design_locked_at"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-consent",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/consent_required"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-primary-metric",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/primary_metric"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "single-variant",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/variants",
+          "value": [
+            "A"
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "no-variants",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/variants",
+          "value": []
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "duplicate-variants",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/variants",
+          "value": [
+            "A",
+            "A"
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "status-winner-declared",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "winner"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "assignment-unit-recruiter",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/assignment_unit",
+          "value": "recruiter"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "consent-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/consent_required",
+          "value": "yes"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "outcome-window-zero",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outcome_window_days",
+          "value": 0
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "outcome-window-fractional",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outcome_window_days",
+          "value": 7.5
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "design-locked-at-prose",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/design_locked_at",
+          "value": "locked"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "extra-p-value-field",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/p_value",
+          "value": 0.03
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "strata-not-array",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/strata",
+          "value": "role_family"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "running-without-lock",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "running"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "EXP-LOCK-001"
+    },
+    {
+      "name": "preregistered-without-lock",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "preregistered"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "EXP-LOCK-001"
+    },
+    {
+      "name": "closed-without-lock",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/design_locked_at",
+          "value": null
+        },
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "closed"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "EXP-LOCK-001"
+    },
+    {
+      "name": "blank-variant",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/variants",
+          "value": [
+            "A",
+            " "
+          ]
+        }
+      ],
+      "layer": "semantic",
+      "rule": "EXP-VAR-001"
+    },
+    {
+      "name": "non-utc-lock",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/design_locked_at",
+          "value": "2026-01-05T10:00:00+01:00"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "UTC-001"
+    },
+    {
+      "name": "empty-id-accepted-by-schema",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/id",
+          "value": ""
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "hypothesis-promises-offer-chance",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/hypothesis",
+          "value": "Variant B raises the chance of an offer to 80%"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    }
+  ]
+}
