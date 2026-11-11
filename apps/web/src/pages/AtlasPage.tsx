@@ -5,6 +5,7 @@ import { Page, SkillChips } from "@/components/common";
 import type { AtlasEntity, AtlasProjection } from "@/adapters/proposed";
 import { REPRESENTATION_TYPES, type AtlasPoint, type RepresentationType } from "@/contracts/types";
 import { percent, truncate } from "@/lib/format";
+import { niceTicks } from "@/lib/ticks";
 import { useApp } from "@/state/AppContext";
 import { useIndexes } from "@/state/selectors";
 
@@ -20,16 +21,6 @@ function Shape({ type, x, y, className }: { type: RepresentationType; x: number;
   if (type === "role-centroid") return <rect className={className} x={x - 6} y={y - 6} width={12} height={12} transform={`rotate(45 ${x} ${y})`} />;
   if (type === "candidate") return <rect className={className} x={x - 7} y={y - 7} width={14} height={14} />;
   return <polygon className={className} points={`${x},${y - 8} ${x + 8},${y + 7} ${x - 8},${y + 7}`} />;
-}
-
-function niceTicks(min: number, max: number): number[] {
-  const span = max - min || 1;
-  const step = 10 ** Math.floor(Math.log10(span / 4));
-  const mult = span / 4 / step >= 5 ? 5 : span / 4 / step >= 2 ? 2 : 1;
-  const s = step * mult;
-  const ticks: number[] = [];
-  for (let t = Math.ceil(min / s) * s; t <= max + 1e-9; t += s) ticks.push(Math.round(t * 1000) / 1000);
-  return ticks;
 }
 
 export default function AtlasPage() {
@@ -122,7 +113,9 @@ export default function AtlasPage() {
     pointRefs.current.get(target.entity_id)?.focus();
   };
 
-  const quality = (q: number | null | undefined) => (q === null || q === undefined ? "Unknown" : `${percent(q)} of its 5 nearest neighbours are preserved`);
+  // The neighbourhood size is whatever the producer used; it is not assumed (finding F-08).
+  const k = d.knn_recall?.k ?? d.trustworthiness?.k ?? d.continuity?.k ?? null;
+  const quality = (q: number | null | undefined) => (q === null || q === undefined ? "Unknown" : `${percent(q)} of its ${k === null ? "" : `${k} `}nearest neighbours are preserved`);
 
   return (
     <Page
@@ -133,7 +126,7 @@ export default function AtlasPage() {
         <ul>
           {d.cumulative_explained_variance !== null ? (
             <li data-testid="explained-variance">
-              The two axes keep <strong>{percent(d.cumulative_explained_variance)}</strong> of the variance in the original {projection.input.n_dims}-dimensional skill
+              The two axes keep <strong>{percent(d.cumulative_explained_variance)}</strong> of the variance in the original {projection.input.n_dims === null ? "" : `${projection.input.n_dims}-dimensional `}skill
               vectors. The other {percent(1 - d.cumulative_explained_variance)} is not visible.
             </li>
           ) : (

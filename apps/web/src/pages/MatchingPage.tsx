@@ -11,12 +11,17 @@ const CONSTRAINT_TONE: Record<ConstraintStatus, Tone> = { pass: "success", fail:
 const CONSTRAINT_LABEL: Record<ConstraintStatus, string> = { pass: "Pass", fail: "Fail", unknown: "Unknown" };
 
 /** Plain-language reading of a score group: what lifts it, what limits it, what is unknown. */
-function explain(group: ScoreGroup): { lifts: MatchComponent | null; limits: MatchComponent | null; unknown: MatchComponent[] } {
+function explain(group: ScoreGroup): { ranked: boolean; lifts: MatchComponent | null; limits: MatchComponent | null; unknown: MatchComponent[] } {
+  const unknown = group.components.filter((c) => c.status === "unknown");
   const known = group.components.filter((c) => c.status === "known" && c.value !== null);
-  const byContribution = [...known].sort((a, b) => b.weight * (b.value as number) - a.weight * (a.value as number));
-  const byLoss = [...known].sort((a, b) => b.weight * (1 - (b.value as number)) - a.weight * (1 - (a.value as number)));
-  const limits = byLoss[0] && byLoss[0].weight * (1 - (byLoss[0].value as number)) > 0.005 ? byLoss[0] : null;
-  return { lifts: byContribution[0] ?? null, limits, unknown: group.components.filter((c) => c.status === "unknown") };
+  // Contributions can only be ranked when the engine published a weight for every known component.
+  // Without weights nothing is said about what lifts or limits the score (finding F-06).
+  if (known.length === 0 || known.some((c) => c.weight === null)) return { ranked: false, lifts: null, limits: null, unknown };
+  const w = (c: MatchComponent) => c.weight as number;
+  const byContribution = [...known].sort((a, b) => w(b) * (b.value as number) - w(a) * (a.value as number));
+  const byLoss = [...known].sort((a, b) => w(b) * (1 - (b.value as number)) - w(a) * (1 - (a.value as number)));
+  const limits = byLoss[0] && w(byLoss[0]) * (1 - (byLoss[0].value as number)) > 0.005 ? byLoss[0] : null;
+  return { ranked: true, lifts: byContribution[0] ?? null, limits, unknown };
 }
 
 function ScoreBlock({ title, description, group, testId }: { title: string; description: string; group: ScoreGroup; testId: string }) {
@@ -39,14 +44,15 @@ function ScoreBlock({ title, description, group, testId }: { title: string; desc
                 <span className="ct-muted ct-small"> — {c.note}</span>
               </span>
               <Meter value={c.status === "known" ? c.value : null} label={c.label} />
-              <span className="ct-small ct-muted">{c.status === "known" ? `weight ${Math.round(c.weight * 100)}%` : "excluded"}</span>
+              <span className="ct-small ct-muted">{c.status !== "known" ? "excluded" : c.weight === null ? "weight not published" : `weight ${Math.round(c.weight * 100)}%`}</span>
             </div>
           </li>
         ))}
       </ul>
       <p className="ct-small">
-        {e.lifts ? <>Largest contribution: <strong>{e.lifts.label}</strong>. </> : null}
-        {e.limits ? <>Biggest limiter: <strong>{e.limits.label}</strong>. </> : "Nothing known is holding this score back. "}
+        {!e.ranked ? "The engine did not publish weights for these terms, so what lifts or limits the score cannot be stated. " : null}
+        {e.ranked && e.lifts ? <>Largest contribution: <strong>{e.lifts.label}</strong>. </> : null}
+        {e.ranked ? (e.limits ? <>Biggest limiter: <strong>{e.limits.label}</strong>. </> : "No known term is below its maximum. ") : null}
         {e.unknown.length > 0 ? <>Unknown and excluded (not counted as zero): {e.unknown.map((u) => u.label).join(", ")}.</> : null}
       </p>
     </Card>
@@ -119,8 +125,8 @@ export default function MatchingPage() {
         <Card title={`Refused by the matching engine (${bundle.matchRefusals.length})`}>
           <p className="ct-small ct-muted">These postings failed a hard constraint upstream and were not ranked. They are listed so nothing disappears silently.</p>
           <ul className="ct-small" data-testid="match-refusals">
-            {bundle.matchRefusals.map((r) => (
-              <li key={r.job_id}>
+            {bundle.matchRefusals.map((r, i) => (
+              <li key={`${i}-${r.job_id}`}>
                 {jobById.get(r.job_id)?.title ?? r.job_id}: {r.reasons.join("; ")}
               </li>
             ))}
@@ -195,12 +201,12 @@ export default function MatchingPage() {
               }
             >
               <div className="ct-row">
-                <SyntheticBadge />
+                {job.source === "synthetic" || bundle.jobFacets[job.id]?.synthetic === true ? <SyntheticBadge /> : <Badge tone="warning">Provenance not verified</Badge>}
                 <Badge>{familyLabel(job.role_family)}</Badge>
                 <span className="ct-muted">{job.organization}</span>
               </div>
               <Banner tone="info" title="Relative heuristic, not a hiring probability.">
-                Score type: <code>{selected.score_type}</code>. Computed {formatDateTime(selected.computed_at)} by {selected.engine.name}{" "}
+                Score type: <code>{selected.score_type}</code>. {selected.computed_at ? `Computed ${formatDateTime(selected.computed_at)}` : "Compute time not stated"} by {selected.engine.name}{" "}
                 {selected.engine.version}
                 {selected.engine.name === "lane-d-fixture-standin" ? ", a lane-D fixture stand-in for the lane-A matching engine." : "."}
               </Banner>
@@ -270,8 +276,8 @@ export default function MatchingPage() {
             {selected.counterfactuals && selected.counterfactuals.length > 0 ? (
               <Card title="Hypothetical changes (from the engine)" headingLevel={3}>
                 <ul data-testid="counterfactuals">
-                  {selected.counterfactuals.map((cf) => (
-                    <li key={cf.change}>
+                  {selected.counterfactuals.map((cf, i) => (
+                    <li key={`${i}-${cf.change}`}>
                       {cf.change}: score would change by {cf.score_delta > 0 ? "+" : ""}
                       {cf.score_delta}. <span className="ct-muted ct-small">{cf.status}</span>
                     </li>
@@ -282,13 +288,13 @@ export default function MatchingPage() {
 
             <Card title="What the engine does not know" headingLevel={3}>
               <ul data-testid="unknown-inputs">
-                {selected.unknown_inputs.map((u) => (
-                  <li key={u}>{humanise(u)}</li>
+                {selected.unknown_inputs.map((u, i) => (
+                  <li key={`${i}-${u}`}>{humanise(u)}</li>
                 ))}
               </ul>
               {selected.warnings.length > 0 ? (
                 <Banner tone="warning" title="Warnings from the engine">
-                  <ul>{selected.warnings.map((w) => <li key={w}>{w}</li>)}</ul>
+                  <ul>{selected.warnings.map((w, i) => <li key={`${i}-${w}`}>{w}</li>)}</ul>
                 </Banner>
               ) : null}
               <p className="ct-small ct-muted">

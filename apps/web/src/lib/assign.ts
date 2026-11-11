@@ -7,7 +7,7 @@
  * big-endian unsigned integer, modulo the number of variants.
  *
  * Parity with the Python reference is asserted with golden vectors in
- * tests/unit/assign.test.ts. Lane B owns assignment policy; when B publishes
+ * tests/unit/reference-parity.test.ts. Lane B owns assignment policy; when B publishes
  * its implementation this mirror must be replaced by B's adapter, not evolved.
  *
  * NOTE: only imports ./sha256.ts (with extension) so Node can run it directly.

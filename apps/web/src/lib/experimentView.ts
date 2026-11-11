@@ -4,7 +4,7 @@
  */
 import type { ExperimentSpec } from "@/contracts/types";
 import type { ExperimentAssignment, ExperimentOutcome } from "@/adapters/proposed";
-import { evidenceLevel, newcombeDifference, wilsonInterval, type ArmSummary, type EvidenceLevel, type Interval } from "./stats";
+import { MIN_OBSERVED_PER_ARM, evidenceLevel, newcombeDifference, wilsonInterval, type ArmSummary, type EvidenceLevel, type Interval } from "./stats";
 
 export interface ExperimentResults {
   arms: ArmSummary[];
@@ -73,18 +73,31 @@ export function summariseExperiment(
     exposed: mine.filter((m) => m.exposure_logged_at !== null).length,
     difference,
     differenceLabel: arms.length === 2 && a && b ? `${a.variant} − ${b.variant}` : null,
-    evidence: evidenceLevel({ arms, designLocked: spec.design_locked_at !== null, plannedPerArm, difference }),
+    evidence: evidenceLevel({ arms, designLocked: spec.design_locked_at !== null, plannedPerArm, difference, closed: spec.status === "closed" }),
     origins: [...new Set(outcomes.filter((o) => o.experiment_id === spec.id).map((o) => o.data_origin))],
   };
 }
 
-/** Planned units per variant, if the stopping rule states a total ("Stop when 40 ..."). */
+/**
+ * Planned units per variant, read from the stopping rule.
+ *
+ * Only a number that is directly followed by "unit(s)" (at most two words between,
+ * e.g. "116 job units") counts. Dates, percentages and durations are ignored. If the
+ * rule names no such number, or more than one different one, the answer is null and no
+ * result can be claimed: guessing a plan would be worse than having none (finding F-03).
+ */
 export function plannedPerArmFromRule(spec: ExperimentSpec): number | null {
-  const m = /\b(\d{1,6})\b/.exec(spec.stopping_rule);
-  if (!m) return null;
-  const total = Number(m[1]);
-  return total > 0 ? Math.ceil(total / spec.variants.length) : null;
+  const re = /(?<![\d.,/-])(\d{1,3}(?:[,\u00a0\u202f ]\d{3})+|\d+)(?![\d.,%/-])\s+(?:[a-z-]+\s+){0,2}units?\b(\s+(?:per|in each|for each)\s+(?:variant|arm|cohort|group))?/gi;
+  const found = [...spec.stopping_rule.matchAll(re)].map((m) => ({ n: Number(m[1]!.replace(/[^\d]/g, "")), perArm: m[2] !== undefined }));
+  const distinct = [...new Set(found.map((f) => `${f.n}/${f.perArm}`))];
+  if (distinct.length !== 1) return null;
+  const { n, perArm } = found[0]!;
+  if (!Number.isSafeInteger(n) || n <= 0 || spec.variants.length < 2) return null;
+  return perArm ? n : Math.ceil(n / spec.variants.length);
 }
+
+/** Smallest plan the UI lets a design be locked with. */
+export const MIN_PLANNED_PER_ARM = MIN_OBSERVED_PER_ARM;
 
 /** Structural problems that should stop a design from being locked. */
 export function designProblems(spec: ExperimentSpec): string[] {
@@ -97,7 +110,9 @@ export function designProblems(spec: ExperimentSpec): string[] {
   if (new Set(variants).size !== variants.length) problems.push("Variant names must be unique.");
   if (spec.primary_metric.trim().length === 0) problems.push("Name exactly one primary metric.");
   if (!spec.outcome_window_days || spec.outcome_window_days < 1) problems.push("Set an outcome window of at least one day.");
-  if (plannedPerArmFromRule(spec) === null) problems.push("The stopping rule must state the planned number of units (for example: “Stop when 40 units have a closed outcome window”).");
+  const planned = plannedPerArmFromRule(spec);
+  if (planned === null) problems.push("The stopping rule must state the planned number of units (for example: “Stop when 40 units have a closed outcome window”).");
+  else if (planned < MIN_PLANNED_PER_ARM) problems.push(`Plan at least ${MIN_PLANNED_PER_ARM} units per variant (${MIN_PLANNED_PER_ARM * Math.max(2, spec.variants.length)} in total). A smaller plan cannot support any claim.`);
   if ((spec.analysis_plan ?? "").trim().length < 20) problems.push("Describe the analysis plan before any data exists.");
   if (!spec.consent_required) problems.push("Consent must be required: experiments act on your own applications.");
   return problems;

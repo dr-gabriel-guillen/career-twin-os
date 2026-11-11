@@ -31,7 +31,7 @@ export default function SimulatorPage() {
 
   const setWeights = (key: "coverage" | "effort" | "leadership", value: number) => dispatch({ type: "simulator/set", settings: { ...sim, weights: { ...sim.weights, [key]: value } } });
   const editAction = (view: ScenarioView, index: number, patch: Partial<ScenarioActionEdit>) => {
-    const current = workspace.scenarioEdits[view.scenario.id] ?? defaultEdits(view.scenario);
+    const current = (Object.hasOwn(workspace.scenarioEdits, view.scenario.id) ? workspace.scenarioEdits[view.scenario.id] : undefined) ?? defaultEdits(view.scenario);
     dispatch({ type: "scenario/edit", scenarioId: view.scenario.id, actions: current.map((a, i) => (i === index ? { ...a, ...patch } : a)) });
   };
   const ranked = [...computed].filter((c) => c.priority !== null).sort((a, b) => (b.priority as number) - (a.priority as number));
@@ -116,7 +116,7 @@ export default function SimulatorPage() {
       </Card>
 
       {selected ? (
-        <Card title={`Plan: ${selected.view.scenario.target_role}`} actions={<Button size="sm" onClick={() => { dispatch({ type: "scenario/reset", scenarioId: selected.view.scenario.id }); announce("Scenario reset to the upstream assumptions."); }} disabled={!(selected.view.scenario.id in workspace.scenarioEdits)} data-testid="scenario-reset">Reset to upstream assumptions</Button>} data-testid="scenario-detail">
+        <Card title={`Plan: ${selected.view.scenario.target_role}`} actions={<Button size="sm" onClick={() => { dispatch({ type: "scenario/reset", scenarioId: selected.view.scenario.id }); announce("Scenario reset to the upstream assumptions."); }} disabled={!Object.hasOwn(workspace.scenarioEdits, selected.view.scenario.id)} data-testid="scenario-reset">Reset to upstream assumptions</Button>} data-testid="scenario-detail">
           {selected.edited ? <Banner tone="info" title="You changed this plan." data-testid="scenario-edited">Totals and coverage below use your numbers. The upstream scenario is unchanged.</Banner> : null}
           {selected.coverageBasis === "needs-upstream-recompute" ? (
             <Banner tone="warning" title="Coverage for this edited plan is not shown." data-testid="coverage-recompute">
@@ -145,7 +145,7 @@ export default function SimulatorPage() {
                 {selected.actions.map((a, i) => {
                   const inTarget = selected.view.outputs ? selected.view.outputs.target_skills.includes(a.skill) : null;
                   return (
-                    <tr key={a.skill}>
+                    <tr key={`${i}-${a.skill}`}>
                       <td>
                         <input type="checkbox" checked={a.included} onChange={(e) => editAction(selected.view, i, { included: e.target.checked })} aria-label={`Include ${humanise(a.skill)}`} data-testid={`action-include-${i}`} />
                       </td>
@@ -187,11 +187,11 @@ export default function SimulatorPage() {
             <div className="ct-stack">
               <div>
                 <h3>Assumptions</h3>
-                <ul className="ct-small">{selected.view.scenario.assumptions.map((a) => <li key={a}>{a}</li>)}</ul>
+                <ul className="ct-small">{selected.view.scenario.assumptions.map((a, i) => <li key={`${i}-${a}`}>{a}</li>)}</ul>
               </div>
               <div>
                 <h3>Risks</h3>
-                {(selected.view.scenario.risks ?? []).length === 0 ? <p className="ct-muted">None listed.</p> : <ul className="ct-small">{(selected.view.scenario.risks ?? []).map((r) => <li key={r}>{r}</li>)}</ul>}
+                {(selected.view.scenario.risks ?? []).length === 0 ? <p className="ct-muted">None listed.</p> : <ul className="ct-small">{(selected.view.scenario.risks ?? []).map((r, i) => <li key={`${i}-${r}`}>{r}</li>)}</ul>}
               </div>
             </div>
           </div>

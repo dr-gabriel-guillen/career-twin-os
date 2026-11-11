@@ -12,6 +12,7 @@ import { allowedNext, daysWithoutFeedback, groupApplications } from "@/lib/appli
 import { designProblems, plannedPerArmFromRule, summariseExperiment } from "@/lib/experimentView";
 import { profileDigest } from "@/lib/profileDigest";
 import { resumeContentDigest } from "@/lib/resumeDigest";
+import { sha256Hex } from "@/lib/sha256";
 import { compareScenarios, defaultEdits } from "@/lib/simulator";
 import { DEFAULT_SIMULATOR, STORAGE_KEY, loadWorkspace, parseSettings, parseWorkspace, reduce, saveWorkspace, seedWorkspace, type Action, type Workspace } from "@/state/workspace";
 
@@ -70,21 +71,30 @@ describe("application events are append-only and gated", () => {
   });
 
   it("'approved' needs the user's approval of the exact résumé content", () => {
-    let s = apply(seeded, { type: "event/append", event: ev("app-z", "fake-fde-1", "saved") }, { type: "event/append", event: ev("app-z", "fake-fde-1", "drafted", { resume_variant_id: "rv-base" }) });
-    // rv-base has never been approved.
-    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-base", approval_token_ref: "made-up" }) }).refused).toContain("not been approved");
-    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-base" }) }).refused).toContain("approval record");
     const v = approvedVariant("rv-test");
-    s = apply(s, { type: "resume/upsert", variant: v });
-    // Wrong token, system actor, and stale digest are all refused.
-    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-test", approval_token_ref: "someone-elses-token" }) }).refused).toContain("does not belong");
-    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref, actor: "system" }) }).refused).toContain("Only you");
-    const tampered = apply(s, { type: "resume/upsert", variant: { ...v, sections: [{ ...v.sections[0]!, bullets: [...v.sections[0]!.bullets, { id: "b-new", text: "Invented line", claim_ids: [], origin: "manual-edit" }] }] } });
-    expect(reduce(tampered, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref }) }).refused).toContain("changed after you approved");
-    // The legitimate path works, and "submitted" must cite the same approval.
+    let s = apply(seeded, { type: "resume/upsert", variant: v }, { type: "event/append", event: ev("app-z", "fake-fde-1", "saved") });
+    // Drafting needs a variant that exists.
+    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "drafted", { resume_variant_id: "rv-does-not-exist" }) }).refused).toContain("existing");
+    s = apply(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "drafted", { resume_variant_id: "rv-test" }) });
+    const approve = (over: Partial<ApplicationEvent>) => reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref, ...over }) });
+    // No token, a made-up token, another variant's token, a never-approved variant, the system as actor: all refused.
+    expect(approve({ approval_token_ref: null }).refused).toContain("approval record");
+    expect(approve({ approval_token_ref: "someone-elses-token" }).refused).toContain("does not belong");
+    expect(approve({ actor: "system" }).refused).toContain("Only you");
+    expect(approve({ resume_variant_id: "rv-base", approval_token_ref: "made-up" }).refused).toContain("not been approved");
+    expect(approve({ resume_variant_id: "rv-ai-architect", approval_token_ref: "approval-synth-001" }).refused).toContain("drafted with");
+    // An approved variant is a locked snapshot: it cannot be rewritten, with or without its approval.
+    const rewritten = { ...v, sections: [{ ...v.sections[0]!, bullets: [...v.sections[0]!.bullets, { id: "b-new", text: "Invented line", claim_ids: [], origin: "manual-edit" as const }] }] };
+    expect(reduce(s, { type: "resume/upsert", variant: rewritten }).refused).toContain("locked");
+    expect(reduce(s, { type: "resume/upsert", variant: { ...rewritten, approval: null } }).refused).toContain("locked");
+    // A variant cannot be stored with an approval that does not match its content.
+    expect(reduce(s, { type: "resume/upsert", variant: { ...rewritten, id: "rv-forged" } }).refused).toContain("does not match");
+    // The legitimate path works, and "submitted" must cite the same approval and variant.
     s = apply(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "approved", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref }) });
-    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "submitted", { resume_variant_id: "rv-test", approval_token_ref: "different" }) }).refused).toContain("same approval");
-    expect(reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "submitted", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref, actor: "system" }) }).refused).toContain("Only you");
+    const submit = (over: Partial<ApplicationEvent>) => reduce(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "submitted", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref, ...over }) });
+    expect(submit({ approval_token_ref: "different" }).refused).toBeTruthy();
+    expect(submit({ resume_variant_id: "rv-ai-architect", approval_token_ref: "approval-synth-001" }).refused).toContain("same approval");
+    expect(submit({ actor: "system" }).refused).toContain("Only you");
     s = apply(s, { type: "event/append", event: ev("app-z", "fake-fde-1", "submitted", { resume_variant_id: "rv-test", approval_token_ref: v.approval!.approval_token_ref }) });
     expect(groupApplications(s.applicationEvents).find((a) => a.id === "app-z")!.stage).toBe("submitted");
     // A variant cited by an event cannot be deleted.
@@ -95,7 +105,7 @@ describe("application events are append-only and gated", () => {
 describe("evidence vault rules", () => {
   it("a claim cannot be marked supported without evidence", () => {
     const r = reduce(seeded, { type: "claim/setStatus", id: "claim-skill-aws", status: "supported", at: "2026-11-10T12:00:00Z", auditId: "a1" });
-    expect(r.refused).toContain("without at least one evidence reference");
+    expect(r.refused).toContain("cannot be marked supported by hand");
     const okChange = reduce(seeded, { type: "claim/setStatus", id: "claim-skill-security", status: "self-reported", at: "2026-11-10T12:00:00Z", auditId: "a2" });
     expect(okChange.refused).toBeUndefined();
     expect(okChange.state.audit.at(-1)).toMatchObject({ action: "claim.status", detail: "claim-skill-security: unverified -> self-reported" });
@@ -118,11 +128,13 @@ describe("experiment rules", () => {
     analysis_plan: "Difference in proportions with a 95% interval on the primary metric.", ...over,
   });
   const asg = (unit: string, variant: string, over: Partial<ExperimentAssignment> = {}): ExperimentAssignment => ({ schema_version: ASSIGNMENT_SCHEMA, id: `asg-${unit}`, experiment_id: "exp-t", unit_id: unit, unit_label: unit, stratum: "all", variant, assigned_at: "2026-11-10T12:00:00Z", algorithm: "t", seed_digest: "d", exposure_logged_at: null, ...over });
-  const locked = () => draft({ status: "preregistered", design_locked_at: "2026-11-10T12:00:00Z", seed_digest: "d" });
+  const locked = () => draft({ status: "preregistered", design_locked_at: "2026-11-10T12:00:00Z", seed_digest: sha256Hex("salt") });
 
   it("design problems block locking", () => {
     expect(designProblems(draft())).toEqual([]);
     expect(designProblems(draft({ hypothesis: "short", variants: ["a", "a"], stopping_rule: "whenever", analysis_plan: "", consent_required: false, title: "" })).length).toBe(6);
+    // A plan too small to support any claim cannot be locked.
+    expect(designProblems(draft({ stopping_rule: "Stop when 2 units have a closed outcome window." })).join(" ")).toContain("at least 10 units per variant");
     expect(plannedPerArmFromRule(draft())).toBe(20);
     expect(plannedPerArmFromRule(draft({ stopping_rule: "none" }))).toBeNull();
   });

@@ -41,7 +41,7 @@ Ages ("captured 3 days before the snapshot", "no reply for 28 days") are measure
 
 ## D-06 — Application events are append-only; approval is content-bound
 
-The reducer has no action that edits or deletes an event. A correction is a new `note`. `approved` requires a résumé variant whose approval digest equals a SHA-256 of its current content, and `submitted` must cite the same approval and come from the user. An approved variant is a locked snapshot: changing it means creating a new version.
+The reducer has no action that edits or deletes an event, and none that replaces the workspace. A correction is a new `note`. Only an `approved` event can set an application's approval; `approved` requires the variant the application was drafted with, whose approval digest equals a SHA-256 of its current content; `submitted` must cite that same approval and variant and come from the user. An approved variant is a locked snapshot in the reducer, not only in the UI: changing it means creating a new version. The log order is the recorded order; `occurred_at` is displayed and checked for plausibility but never re-orders the log.
 
 ## D-07 — No drag and drop on the board
 
@@ -54,6 +54,18 @@ The PCA stand-in keeps 36% of the variance in two axes. A third axis would add i
 ## D-09 — Pages are bundled eagerly
 
 Route-level code splitting made screens fail when the network was cut after first load. All ten screens now ship in the main bundle (about 138 kB gzipped), and the favicon is inlined, so nothing is requested after startup.
+
+## D-11 — "Supported" and "contradicted" are conclusions from evidence, never choices
+
+A user can mark a claim self-reported or unverified. They cannot mark it supported or contradicted, because those states say what evidence shows, and this build has no way to attach or assess evidence. Rewording a claim drops its evidence references (they were about the old wording). A claim that evidence contradicts cannot be relabelled or reworded; it can be removed and a new claim stated. The first version let "supported" be chosen for any claim that still had an evidence reference; the independent review showed that this let invented text pass the export gate.
+
+## D-12 — Translators copy; they never clamp, default or repair
+
+An upstream value that is out of range is passed to the strict validator as it is, and the record is rejected. A value upstream did not give (a weight, a compute time, an interval level, a dimensionality, a count) is shown as not stated. The first version clamped and defaulted in several places; the independent review showed that this turned unknown into zero and invalid into valid.
+
+## D-13 — A stored workspace is replayed before it is trusted
+
+On load, stored data must pass the record validators and then a cross-record check that replays every application's events through the same gate the reducer uses. Anything the reducer could not have produced rejects the whole blob, which is reported to the user and left untouched in storage until they make a change.
 
 ## D-10 — QA simulation never touches stored data
 

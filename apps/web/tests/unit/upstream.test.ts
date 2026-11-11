@@ -41,7 +41,7 @@ const reader = (lane: string, overrides: Record<string, unknown> = {}, drop: str
 
 describe("lane A: a-match/0.1 MatchResult", () => {
   const result = sample("lane-a", "rank_result.json") as Record<string, any>;
-  const t = matchesFromUpstream(result, { subject: "unused", computedAt: "unused" });
+  const t = matchesFromUpstream(result, { subject: "unused" });
 
   it("is recognised and every shortlist item becomes a valid match view", () => {
     expect(t.dialect).toBe("a-match/0.1");
@@ -65,7 +65,7 @@ describe("lane A: a-match/0.1 MatchResult", () => {
     // Component values are the engine's; display weights within a group sum to 1.
     for (const group of [m!.near_term_fit, m!.strategic_value]) {
       for (const c of group.components) expect(c.value).toBe(src.components[c.key].value);
-      expect(group.components.reduce((s, c) => s + c.weight, 0)).toBeCloseTo(1, 3);
+      expect(group.components.reduce((s, c) => s + (c.weight ?? 0), 0)).toBeCloseTo(1, 3);
     }
     // Missing skills surface as gaps; matched skills keep the engine's proof status.
     for (const s of src.missing_skills) expect(m!.skills.find((x) => x.skill === s)?.evidence_strength).toBe("missing");
@@ -81,17 +81,17 @@ describe("lane A: a-match/0.1 MatchResult", () => {
   it("an unknown component (value null) stays unknown and carries no weight", () => {
     const r = clone(result);
     r.shortlist[0].components.workstyle.value = null;
-    const [m] = parseList(matchesFromUpstream(r, { subject: "s", computedAt: "c" }).payload, isMatchExplanation).items;
+    const [m] = parseList(matchesFromUpstream(r, { subject: "s" }).payload, isMatchExplanation).items;
     const w = m!.near_term_fit.components.find((c) => c.key === "workstyle")!;
     expect(w).toMatchObject({ value: null, status: "unknown", weight: 0 });
-    expect(m!.near_term_fit.components.reduce((s, c) => s + c.weight, 0)).toBeCloseTo(1, 3);
+    expect(m!.near_term_fit.components.reduce((s, c) => s + (c.weight ?? 0), 0)).toBeCloseTo(1, 3);
   });
 
   it("a payload that calls its score a probability is refused", () => {
     const r = clone(result);
     r.shortlist[0].score_type = "offer_probability";
     r.score_type = "offer_probability";
-    const parsed = parseList(matchesFromUpstream(r, { subject: "s", computedAt: "c" }).payload, isMatchExplanation);
+    const parsed = parseList(matchesFromUpstream(r, { subject: "s" }).payload, isMatchExplanation);
     expect(parsed.items).toHaveLength(result.shortlist.length - 1);
     expect(parsed.rejected[0]!.issues.some((i) => i.path.endsWith("score_type"))).toBe(true);
   });
@@ -99,13 +99,13 @@ describe("lane A: a-match/0.1 MatchResult", () => {
   it("a counterfactual not labelled hypothetical is refused", () => {
     const r = clone(result);
     r.shortlist[0].counterfactuals[0].status = "expected outcome";
-    expect(parseList(matchesFromUpstream(r, { subject: "s", computedAt: "c" }).payload, isMatchExplanation).rejected).toHaveLength(1);
+    expect(parseList(matchesFromUpstream(r, { subject: "s" }).payload, isMatchExplanation).rejected).toHaveLength(1);
   });
 });
 
 describe("reference-engine dialect (lane E stub matches.json)", () => {
   const raw = sample("e-stub", "matches.json") as Record<string, any>[];
-  const t = matchesFromUpstream(raw, { subject: "candidate-synthetic-001", computedAt: "2026-11-10T00:00:00Z" });
+  const t = matchesFromUpstream(raw, { subject: "candidate-synthetic-001" });
   it("is labelled mock and yields valid views with ONE score and no invented group scores", () => {
     expect(t.dialect).toBe("reference-engine");
     expect(t.mock).toBe(true);
@@ -175,14 +175,15 @@ describe("résumé variants, assignments, analysis", () => {
     expect(stub.payload!.arms).toEqual([{ variant: "A", n_assigned: 13, n_success: 4, n_censored: null, n_missing: null }, { variant: "B", n_assigned: 11, n_success: 3, n_censored: null, n_missing: null }]);
     expect(stub.payload!.effect!.ci_low).toBeLessThan(0);
     expect(stub.payload!.effect!.ci_high).toBeGreaterThan(0);
-    const b = analysisFromUpstream({ experiment_id: "e", verdict: "INTERIM_NO_CLAIM", claim: null, reasons_withheld: ["planned sample not reached"], warnings: ["w"], interpretation_limits: ["l"] });
+    const twoArms = { arms: { control: { units: 12 }, treated: { units: 11 } } };
+    const b = analysisFromUpstream({ experiment_id: "e", verdict: "INTERIM_NO_CLAIM", claim: null, reasons_withheld: ["planned sample not reached"], warnings: ["w"], interpretation_limits: ["l"], ...twoArms });
     expect(b.payload).toMatchObject({ verdict: "INTERIM_NO_CLAIM", reasons_withheld: ["planned sample not reached"], effect: null });
     expect(b.dialect).toBe("careertwin.b.analysis-report.v1");
     for (const bad of [{ experiment_id: "e", verdict: "WINNER_B" }, { experiment_id: "e", decision: "B_WINS" }, { verdict: "INCONCLUSIVE" }, "text", null]) {
       expect(analysisFromUpstream(bad).payload).toBeNull();
     }
     // An effect whose interval is inverted or incomplete is dropped rather than shown.
-    expect(analysisFromUpstream({ experiment_id: "e", verdict: "INCONCLUSIVE", effect: { contrast: "B - A", estimate: 0.1, ci_low: 0.3, ci_high: 0.1 } }).payload!.effect).toBeNull();
+    expect(analysisFromUpstream({ experiment_id: "e", verdict: "INCONCLUSIVE", effect: { contrast: "B - A", estimate: 0.1, ci_low: 0.3, ci_high: 0.1 }, ...twoArms }).payload!.effect).toBeNull();
   });
 });
 
@@ -372,7 +373,7 @@ describe("REAL integrated pipeline run: lane A -> lane B -> lane C (pinned under
           } else expect(c.value).toBe(oc.value);
         }
         const known = group.components.filter((c) => c.status === "known");
-        if (known.length > 0) expect(known.reduce((s, c) => s + c.weight, 0)).toBeCloseTo(1, 2);
+        if (known.length > 0) expect(known.reduce((s, c) => s + (c.weight ?? 0), 0)).toBeCloseTo(1, 2);
       }
     }
     expect(unknown).toBe(src.flatMap((x) => Object.values(x.components) as any[]).filter((c) => c.state !== "known").length);
@@ -380,7 +381,7 @@ describe("REAL integrated pipeline run: lane A -> lane B -> lane C (pinned under
     // A lane-A payload carrying the retired reference constant is refused.
     const tampered = clone(src);
     tampered[0].score_type = "relative_heuristic_not_hiring_probability";
-    const parsed = parseList(matchesFromUpstream(tampered, { subject: "s", computedAt: "2026-11-10T00:00:00Z" }).payload, isMatchExplanation);
+    const parsed = parseList(matchesFromUpstream(tampered, { subject: "s" }).payload, isMatchExplanation);
     expect(parsed.rejected).toHaveLength(1);
     expect(parsed.rejected[0]!.issues[0]!.path).toContain("score_type");
   });

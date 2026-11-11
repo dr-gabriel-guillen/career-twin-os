@@ -11,8 +11,11 @@ export type LinkVerdict =
 const RESERVED_TLDS = [".invalid", ".example", ".test", ".localhost"];
 const RESERVED_HOSTS = ["example.com", "example.org", "example.net"];
 
+/** Suffixes that name private, special-use or wildcard-to-IP zones. None can host a public posting. */
+const PRIVATE_SUFFIXES = [".localhost", ".local", ".internal", ".localdomain", ".lan", ".home", ".corp", ".intranet", ".private", ".home.arpa", ".arpa", ".svc", ".cluster", ".onion", ".nip.io", ".sslip.io", ".xip.io", ".localtest.me", ".lvh.me"];
+
 function isPrivateHost(host: string): boolean {
-  if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return true;
+  if (host === "localhost" || PRIVATE_SUFFIXES.some((suffix) => host.endsWith(suffix) || host === suffix.slice(1))) return true;
   if (host.startsWith("[")) return true; // IPv6 literal: never expected for a job posting
   const m = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(host);
   if (!m) return /^\d+$/.test(host) || /^0x[0-9a-f]+$/i.test(host); // integer / hex IP forms
@@ -46,6 +49,7 @@ export function classifyLink(raw: string): LinkVerdict {
   if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(host)) return { kind: "blocked", reason: "The link does not point at a public host name." };
   const notes: string[] = [];
   if (url.protocol === "http:") notes.push("This link is not encrypted (http).");
+  if (url.port !== "") notes.push(`This link uses a non-standard port (${url.port}).`);
   if (RESERVED_TLDS.some((t) => host.endsWith(t)) || RESERVED_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) {
     notes.push("This is a reserved test domain. It will not resolve: the posting is synthetic.");
   }
@@ -53,13 +57,20 @@ export function classifyLink(raw: string): LinkVerdict {
   return { kind: "ok", href: url.href, host, notes };
 }
 
-const FORMULA_LEAD = /^[=+\-@\t\r]/;
+/** Characters that start a formula in a spreadsheet, including their full-width forms. */
+const FORMULA_LEAD = /^[=+\-@\t\r\uFF1D\uFF0B\uFF0D\uFF20]/;
 
-/** Neutralise spreadsheet formula injection, then apply RFC 4180 quoting. */
+/**
+ * Neutralise spreadsheet formula injection, then apply RFC 4180 quoting.
+ * - A real number is written as a number (a negative amount is not a formula).
+ * - Any text that starts with a formula character is prefixed with an apostrophe.
+ * - Cells containing a semicolon are quoted too, because some locales split on it.
+ */
 export function csvCell(value: unknown): string {
+  if (typeof value === "number") return Number.isFinite(value) ? String(value) : "";
   let text = value === null || value === undefined ? "" : String(value);
   if (FORMULA_LEAD.test(text)) text = `'${text}`;
-  if (/[",\r\n]/.test(text) || text !== text.trim()) return `"${text.replace(/"/g, '""')}"`;
+  if (/[",;\r\n]/.test(text) || text !== text.trim()) return `"${text.replace(/"/g, '""')}"`;
   return text;
 }
 

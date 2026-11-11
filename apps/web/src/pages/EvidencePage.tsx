@@ -4,6 +4,7 @@ import { CLAIM_LABEL, ConfirmDialog, Page, SkillChips, TruthBadge } from "@/comp
 import { CLAIM_STATUSES, CLAIM_TYPES, CLAIM_VISIBILITIES, type ClaimStatus, type ClaimType, type ClaimVisibility, type ProfileClaim } from "@/contracts/types";
 import { formatDate, formatDateTime, humanise } from "@/lib/format";
 import { newId } from "@/lib/safety";
+import { USER_SETTABLE_STATUSES } from "@/state/workspace";
 import { useApp } from "@/state/AppContext";
 
 interface Draft {
@@ -63,17 +64,24 @@ export default function EvidencePage() {
       subject_id: existing?.subject_id ?? subject,
       claim_type: draft.claim_type,
       claim_text: text,
-      // Rewording a supported claim detaches it from what the evidence showed: it drops to unverified.
+      // Rewording detaches a claim from what its evidence showed: the evidence references are dropped
+      // and a supported claim becomes unverified. The reducer enforces the same rule.
       status: existing ? (textChanged && existing.status === "supported" ? "unverified" : existing.status) : draft.status,
-      evidence_ids: existing?.evidence_ids ?? [],
+      evidence_ids: existing && !textChanged ? existing.evidence_ids : [],
       visibility: draft.visibility,
       updated_at: at,
       skills,
     };
     if (existing?.valid_to !== undefined) claim.valid_to = existing.valid_to;
-    dispatch({ type: "claim/upsert", claim, at, auditId: newId("audit") });
+    const refused = dispatch({ type: "claim/upsert", claim, at, auditId: newId("audit") });
+    if (refused) {
+      setNotice(refused);
+      setDraft(null);
+      setDraftError(null);
+      return;
+    }
     announce(existing ? "Claim updated." : "Claim added.");
-    if (textChanged && existing.status === "supported") setNotice("The wording changed, so the claim is now unverified until evidence for the new wording exists.");
+    if (textChanged && existing.status === "supported") setNotice("The wording changed, so the claim is now unverified and its evidence references were removed: they were about the old wording.");
     setDraft(null);
     setDraftError(null);
   };
@@ -99,7 +107,7 @@ export default function EvidencePage() {
 
       <Banner tone="neutral" title="What the truth states mean">
         <ul className="ct-small">
-          <li><strong>Supported by evidence</strong>: at least one evidence item backs the claim. May be used freely.</li>
+          <li><strong>Supported by evidence</strong>: at least one evidence item backs the claim. May be used freely. Only evidence can put a claim in this state; it cannot be chosen by hand.</li>
           <li><strong>Self-reported</strong>: you assert it; no evidence is attached. May be used, and is labelled as self-reported.</li>
           <li><strong>Unverified</strong>: not yet asserted or checked. Blocked from résumé export.</li>
           <li><strong>Contradicted by evidence</strong>: evidence disagrees with the claim. Blocked from résumé export.</li>
@@ -171,7 +179,7 @@ export default function EvidencePage() {
                   />
                   <div className="ct-row">
                     <div className="app-inline-select">
-                      <SelectField label="Truth state" value={c.status} onChange={(e) => setStatus(c, e.target.value as ClaimStatus)} options={CLAIM_STATUSES.map((s) => ({ value: s, label: CLAIM_LABEL[s] }))} data-testid={`claim-status-${c.id}`} />
+                      <SelectField label="Truth state" value={c.status} onChange={(e) => setStatus(c, e.target.value as ClaimStatus)} options={CLAIM_STATUSES.filter((s) => s === c.status || USER_SETTABLE_STATUSES.includes(s)).map((s) => ({ value: s, label: CLAIM_LABEL[s] }))} disabled={c.status === "contradicted"} hint={c.status === "contradicted" ? "Set by evidence; cannot be changed." : c.status === "supported" ? "Set by evidence. Downgrading cannot be undone here." : undefined} data-testid={`claim-status-${c.id}`} />
                     </div>
                     <Button size="sm" onClick={() => { setDraft({ id: c.id, claim_type: c.claim_type, claim_text: c.claim_text, skills: (c.skills ?? []).join(", "), visibility: c.visibility, status: c.status }); setDraftError(null); }} data-testid={`claim-edit-${c.id}`}>
                       Edit

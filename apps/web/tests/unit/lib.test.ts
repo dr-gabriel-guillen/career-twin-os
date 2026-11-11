@@ -54,18 +54,18 @@ describe("stats: textbook values", () => {
   it("evidenceLevel never reaches the top label on small, unlocked or unplanned data", () => {
     const big = [arm("a", 200, 120), arm("b", 200, 60)];
     const diff = newcombeDifference(120, 200, 60, 200);
-    expect(evidenceLevel({ arms: big, designLocked: true, plannedPerArm: 200, difference: diff }).level).toBe("meets-preregistered-criterion");
-    expect(evidenceLevel({ arms: big, designLocked: false, plannedPerArm: 200, difference: diff }).level).toBe("inconclusive");
-    expect(evidenceLevel({ arms: big, designLocked: true, plannedPerArm: null, difference: diff }).level).toBe("inconclusive");
-    expect(evidenceLevel({ arms: big, designLocked: true, plannedPerArm: 500, difference: diff }).level).toBe("inconclusive");
+    expect(evidenceLevel({ closed: true, arms: big, designLocked: true, plannedPerArm: 200, difference: diff }).level).toBe("meets-preregistered-criterion");
+    expect(evidenceLevel({ closed: true, arms: big, designLocked: false, plannedPerArm: 200, difference: diff }).level).toBe("inconclusive");
+    expect(evidenceLevel({ closed: true, arms: big, designLocked: true, plannedPerArm: null, difference: diff }).level).toBe("inconclusive");
+    expect(evidenceLevel({ closed: true, arms: big, designLocked: true, plannedPerArm: 500, difference: diff }).level).toBe("inconclusive");
     const small = [arm("a", 5, 5), arm("b", 4, 0)];
-    const res = evidenceLevel({ arms: small, designLocked: true, plannedPerArm: 4, difference: newcombeDifference(5, 5, 0, 4) });
+    const res = evidenceLevel({ closed: true, arms: small, designLocked: true, plannedPerArm: 4, difference: newcombeDifference(5, 5, 0, 4) });
     expect(res.level).toBe("insufficient");
-    expect(evidenceLevel({ arms: [arm("a", 0, 0), arm("b", 0, 0)], designLocked: true, plannedPerArm: 10, difference: null }).level).toBe("no-data");
+    expect(evidenceLevel({ closed: true, arms: [arm("a", 0, 0), arm("b", 0, 0)], designLocked: true, plannedPerArm: 10, difference: null }).level).toBe("no-data");
     const three = [arm("a", 200, 120), arm("b", 200, 60), arm("c", 200, 60)];
-    expect(evidenceLevel({ arms: three, designLocked: true, plannedPerArm: 200, difference: null }).level).toBe("inconclusive");
+    expect(evidenceLevel({ closed: true, arms: three, designLocked: true, plannedPerArm: 200, difference: null }).level).toBe("inconclusive");
     const same = [arm("a", 200, 60), arm("b", 200, 62)];
-    expect(evidenceLevel({ arms: same, designLocked: true, plannedPerArm: 200, difference: newcombeDifference(60, 200, 62, 200) }).level).toBe("inconclusive");
+    expect(evidenceLevel({ closed: true, arms: same, designLocked: true, plannedPerArm: 200, difference: newcombeDifference(60, 200, 62, 200) }).level).toBe("inconclusive");
   });
 });
 
@@ -105,7 +105,9 @@ describe("safety: CSV export", () => {
     expect(csvCell("plain")).toBe("plain");
     expect(csvCell(null)).toBe("");
     expect(csvCell(12)).toBe("12");
-    expect(csvCell(-5)).toBe("'-5");
+    // A real negative number is data, not a formula; the same characters as text are neutralised.
+    expect(csvCell(-5)).toBe("-5");
+    expect(csvCell("-5")).toBe("'-5");
   });
   it("quotes commas, quotes and newlines and ends rows with CRLF", () => {
     expect(csvCell('a,"b"\nc')).toBe('"a,""b""\nc"');

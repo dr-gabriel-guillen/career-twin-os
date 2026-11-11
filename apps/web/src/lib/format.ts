@@ -25,6 +25,7 @@ export function daysBefore(iso: string, clock: string): number {
 
 export type Freshness = "fresh" | "aging" | "stale";
 export function freshness(fetchedAt: string, clock: string): { level: Freshness; days: number; label: string } {
+  if (Number.isNaN(Date.parse(fetchedAt)) || Number.isNaN(Date.parse(clock))) return { level: "stale", days: 0, label: "Capture time unreadable" };
   const days = daysBefore(fetchedAt, clock);
   const level: Freshness = days <= 7 ? "fresh" : days <= 21 ? "aging" : "stale";
   const label = days === 0 ? "Captured on the snapshot date" : `Captured ${days} day${days === 1 ? "" : "s"} before the snapshot`;

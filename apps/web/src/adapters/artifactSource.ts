@@ -48,13 +48,24 @@ function validJobs(payload: unknown): JobPosting[] {
 
 export function createArtifactSource(reader: ArtifactReader, label = "Pipeline artifacts"): PayloadSource {
   const cache = new Map<ArtifactFile, Promise<unknown>>();
+  /** A file that exists but cannot be read or parsed. It is a failure, not an absence. */
+  class Unreadable extends Error {}
+  const unreadable = new Set<string>();
   const read = (file: ArtifactFile) => {
     let p = cache.get(file);
     if (!p) {
-      p = reader.read(file).catch(() => undefined);
+      p = reader.read(file).catch((e: unknown) => {
+        unreadable.add(file);
+        return new Unreadable(`${file} could not be read: ${e instanceof Error ? e.message : String(e)}`);
+      });
       cache.set(file, p);
     }
     return p;
+  };
+  /** For optional siblings and derived facts: an unreadable file counts as not there (and is reported once). */
+  const peek = async (file: ArtifactFile): Promise<unknown> => {
+    const raw = await read(file);
+    return raw instanceof Unreadable ? undefined : raw;
   };
   const dialects: Record<string, string> = {};
   const mock = new Set<string>();
@@ -65,6 +76,8 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
 
   const need = async (file: ArtifactFile): Promise<unknown> => {
     const raw = await read(file);
+    // Throwing makes the adapter report a fatal "could not be loaded", instead of "not provided".
+    if (raw instanceof Unreadable) throw raw;
     if (raw === undefined) {
       missing.add(file);
       return undefined;
@@ -77,14 +90,25 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
     return raw;
   };
 
-  /** Reference clock for ages: the latest capture time in the feed. The wall clock is never used. */
+  /**
+   * Reference clock for ages and expiry: the latest instant the run itself mentions (capture times,
+   * then event and claim times). Only if the run mentions no time at all is the wall clock used,
+   * so that "expired" can never be switched off by an empty feed.
+   */
   const clock = async (): Promise<string> => {
-    const jobs = validJobs(unwrapJobs(await read("jobs.json")).payload);
-    const latest = jobs.map((j) => j.fetched_at).sort().at(-1);
-    return latest ?? "1970-01-01T00:00:00Z";
+    const times: number[] = validJobs(unwrapJobs(await peek("jobs.json")).payload).map((j) => Date.parse(j.fetched_at));
+    if (times.length === 0) {
+      for (const [file, key] of [["events.json", "recorded_at"], ["experiment_events.json", "recorded_at"], ["claims.json", "updated_at"]] as const) {
+        const raw = await peek(file);
+        const list = isObj(raw) && Array.isArray(raw.claims) ? raw.claims : raw;
+        if (Array.isArray(list)) for (const x of list) if (isObj(x) && typeof x[key] === "string") times.push(Date.parse(x[key] as string));
+      }
+    }
+    const latest = Math.max(...times.filter((t) => !Number.isNaN(t)));
+    return new Date(Number.isFinite(latest) ? latest : Date.now()).toISOString().replace(".000Z", "Z");
   };
   const subject = async (): Promise<string> => {
-    const claims = await read("claims.json");
+    const claims = await peek("claims.json");
     const list = isObj(claims) && Array.isArray(claims.claims) ? claims.claims : claims;
     const first = Array.isArray(list) ? list.find(isObj) : undefined;
     return typeof first?.subject_id === "string" ? first.subject_id : "unknown-subject";
@@ -110,7 +134,8 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
         case "matches": {
           const raw = await need("matches.json");
           if (raw === undefined) return ABSENT;
-          const t = matchesFromUpstream(raw, { subject: await subject(), computedAt: await clock(), full: await read("matches_full.json") });
+          const t = matchesFromUpstream(raw, { subject: await subject(), full: await peek("matches_full.json") });
+          notes.push(...t.notes);
           dialects["matches.json"] = t.dialect;
           if (t.mock) mock.add("matches.json");
           refusals.push(...t.refusals);
@@ -128,6 +153,9 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
         case "application-events": {
           const [a, b] = await Promise.all([need("events.json"), need("experiment_events.json")]);
           if (a === undefined && b === undefined) return ABSENT;
+          // A file that is present but is not a list is handed on as it is, so the adapter reports it.
+          const bad = [a, b].find((x) => x !== undefined && !Array.isArray(x));
+          if (bad !== undefined) return bad;
           const seen = new Set<string>();
           return [...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].filter((e) => {
             const id = isObj(e) && typeof e.id === "string" ? e.id : null;
@@ -152,7 +180,8 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
           return t.payload;
         }
         case "outcomes": {
-          const raw = await read("outcomes.json");
+          const raw = await need("outcomes.json");
+          missing.delete("outcomes.json");
           return raw === undefined ? ABSENT : raw;
         }
         case "scenarios": {
@@ -160,28 +189,28 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
           return raw === undefined ? ABSENT : raw;
         }
         case "atlas.pca": {
-          const ready = await read("atlas.pca.json");
+          const ready = await peek("atlas.pca.json");
           if (ready !== undefined) {
             dialects["atlas.pca.json"] = isObj(ready) && typeof ready.schema_version === "string" ? ready.schema_version : "unrecognised";
             return ready;
           }
           const [points, diagnostics] = await Promise.all([need("atlas_points.json"), need("atlas_diagnostics.json")]);
           if (points === undefined || diagnostics === undefined) return ABSENT;
-          const t = atlasFromArtifacts(points, diagnostics, validJobs(unwrapJobs(await read("jobs.json")).payload), await clock());
+          const t = atlasFromArtifacts(points, diagnostics, validJobs(unwrapJobs(await peek("jobs.json")).payload), await clock());
           dialects["atlas_points.json"] = t.dialect;
           if (t.mock) mock.add("atlas_diagnostics.json");
           return t.payload;
         }
         case "atlas.axes": {
-          const raw = await read("atlas.axes.json");
+          const raw = await peek("atlas.axes.json");
           return raw === undefined ? ABSENT : raw;
         }
         case "evidence": {
-          const raw = await read("evidence.json");
+          const raw = await peek("evidence.json");
           return raw === undefined ? ABSENT : raw;
         }
         case "preferences": {
-          const raw = await read("preferences.json");
+          const raw = await peek("preferences.json");
           return raw === undefined ? ABSENT : raw;
         }
         case "manifest":
@@ -196,7 +225,8 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
       }
     },
     async extras(): Promise<BundleExtras> {
-      const raw = await need("analysis.json");
+      const raw = await need("analysis.json").catch(() => undefined);
+      for (const file of [...unreadable].sort()) notes.push(`${file} exists but could not be read; it is treated as a failure, not as "not provided".`);
       if (raw !== undefined) {
         for (const item of Array.isArray(raw) ? raw : [raw]) {
           const t = analysisFromUpstream(item);
@@ -207,7 +237,7 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
         }
       }
       const provenance: BundleProvenance = { data_source: "artifacts", dialects: { ...dialects }, mock_sources: [...mock].sort(), missing: [...missing].sort() };
-      const jobFacets: Record<string, JobFacet> = facetsFromJobsExt(await read("jobs_ext.json"));
+      const jobFacets: Record<string, JobFacet> = facetsFromJobsExt(await peek("jobs_ext.json"));
       return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes], jobFacets };
     },
   };

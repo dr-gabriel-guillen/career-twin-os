@@ -60,8 +60,12 @@ describe("shipped source hygiene", () => {
   });
 
   it("does not bundle the dev-time stand-in engine", () => {
-    const hits = sources.filter((s) => /scripts\/standin|generate-fixtures/.test(s.text) && !/^\s*(\/\/|\*)/m.test("")).filter((s) => /from\s+["'][^"']*scripts\//.test(s.text));
-    expect(hits.map((h) => h.path)).toEqual([]);
+    // Any static or dynamic import that reaches into scripts/ (the dev-time stand-in) is a failure.
+    const importsScripts = /(?:from\s+|import\s*\(\s*|require\s*\(\s*)["'`][^"'`]*(?:scripts\/|standin|generate-fixtures)[^"'`]*["'`]/;
+    expect(sources.filter((s) => importsScripts.test(s.text)).map((h) => h.path)).toEqual([]);
+    // The check itself must be able to fail.
+    expect(importsScripts.test('const x = await import("../../scripts/standin/engine.ts")')).toBe(true);
+    expect(importsScripts.test('import { pca2 } from "../scripts/standin/engine"')).toBe(true);
   });
 
   it("contains no probability-of-hire wording outside explicit denials", () => {

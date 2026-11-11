@@ -142,3 +142,19 @@ test("lane E injection corpus: 24 poisoned postings render as inert text (active
   await expect(page.getByTestId("jobs-table").locator("tbody tr")).toHaveCount(postings.length);
   await expect(page).toHaveURL(/source=artifacts#\/jobs$/);
 });
+
+test("a posting that does not declare itself synthetic is labelled 'provenance not verified' everywhere, including the link dialog", async ({ page }) => {
+  const posting = { ...(JSON.parse(readFileSync(join(WEB, "tests", "upstream-samples", "e-stub", "jobs.json"), "utf8")) as Record<string, unknown>[])[0]!, id: "job-unverified-1", source: "greenhouse", url: "https://boards.example.invalid/acme/jobs/1" };
+  await page.route("**/artifacts/*.json", (route) =>
+    route.request().url().endsWith("/artifacts/jobs.json") ? route.fulfill({ contentType: "application/json", body: JSON.stringify([posting]) }) : route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>app shell</title>" }),
+  );
+  await open(page, "/jobs", "Discover Jobs");
+  const card = page.getByTestId("job-job-unverified-1");
+  await expect(card).toContainText("Provenance not verified");
+  await expect(card.getByText("Synthetic", { exact: true })).toHaveCount(0);
+  await page.getByTestId("open-job-unverified-1").click();
+  const dlg = page.getByTestId("link-dialog");
+  await expect(dlg.getByTestId("link-unverified")).toContainText("The provenance of this posting is not verified.");
+  await expect(dlg).not.toContainText("This posting is synthetic.");
+  await expect(dlg.getByTestId("link-destination")).toHaveText("https://boards.example.invalid/acme/jobs/1");
+});

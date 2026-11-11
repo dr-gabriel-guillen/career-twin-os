@@ -56,7 +56,7 @@ function scoreGroup(c: Checker, v: unknown): boolean {
     ok = ci.at("key").string(raw.key, { minLength: 1 }) && ok;
     ok = ci.at("label").string(raw.label) && ok;
     ok = nullable(raw.value, () => unit(ci.at("value"), raw.value)) && ok;
-    ok = unit(ci.at("weight"), raw.weight) && ok;
+    ok = nullable(raw.weight, () => unit(ci.at("weight"), raw.weight)) && ok;
     ok = ci.at("status").oneOf(raw.status, ["known", "unknown"] as const) && ok;
     ok = ci.at("note").string(raw.note) && ok;
     // UNKNOWN must never carry a value; KNOWN must carry one.
@@ -71,7 +71,7 @@ export function isMatchExplanation(v: unknown, c: Checker): v is MatchExplanatio
   let ok = constant(c.at("schema_version"), v.schema_version, MATCH_SCHEMA);
   ok = c.at("job_id").string(v.job_id, { minLength: 1 }) && ok;
   ok = c.at("candidate_ref").string(v.candidate_ref, { minLength: 1 }) && ok;
-  ok = c.at("computed_at").dateTime(v.computed_at) && ok;
+  ok = nullable(v.computed_at, () => c.at("computed_at").dateTime(v.computed_at)) && ok;
   const ce = c.at("engine");
   if (ce.isObject(v.engine)) {
     ok = ce.at("name").string(v.engine.name) && ok;
@@ -188,6 +188,9 @@ export function isResumeVariant(v: unknown, c: Checker): v is ResumeVariant {
       });
     });
   } else ok = false;
+  // Line ids must be unique within a variant; findings and edits are addressed by them.
+  const lineIds = Array.isArray(v.sections) ? v.sections.flatMap((s) => (typeof s === "object" && s !== null && Array.isArray((s as Obj).bullets) ? ((s as Obj).bullets as unknown[]).map((b) => (typeof b === "object" && b !== null ? (b as Obj).id : undefined)) : [])) : [];
+  if (new Set(lineIds).size !== lineIds.length) ok = c.at("sections").fail("two lines share an id");
   if (v.approval !== null) {
     const ca = c.at("approval");
     if (ca.isObject(v.approval)) {
@@ -244,7 +247,8 @@ export function isAtlasProjection(v: unknown, c: Checker): v is AtlasProjection 
   if (ci.isObject(v.input)) {
     ok = ci.at("representation").string(v.input.representation) && ok;
     ok = ci.at("n_points").number(v.input.n_points, { integer: true, min: 0 }) && ok;
-    ok = ci.at("n_dims").number(v.input.n_dims, { integer: true, min: 1 }) && ok;
+    const dims = v.input.n_dims;
+    ok = nullable(dims, () => ci.at("n_dims").number(dims, { integer: true, min: 1 })) && ok;
   } else ok = false;
   const ca = c.at("axes");
   if (ca.array(v.axes)) {

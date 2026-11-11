@@ -4,7 +4,7 @@
  * Used for deterministic experiment assignment and content digests. A local
  * implementation is used instead of `crypto.subtle` because assignment must be
  * synchronous and identical in the browser, in Node (fixture generator) and in
- * tests. Verified against Node's `crypto` in tests/unit/sha256.test.ts.
+ * tests. Verified against Node's `crypto` in tests/unit/reference-parity.test.ts.
  *
  * NOTE: this file must stay import-free so Node can run it with type stripping.
  */

@@ -5,7 +5,7 @@
  * planning guidance and an evidence label for the synthetic example; when B
  * publishes an analysis payload the UI must render that instead.
  * All formulas are standard and verified against textbook values in
- * tests/unit/stats.test.ts.
+ * tests/unit/lib.test.ts.
  */
 
 /** Inverse standard normal CDF (Acklam's rational approximation, |error| < 1.2e-9). */
@@ -120,6 +120,8 @@ export function evidenceLevel(input: {
   designLocked: boolean;
   plannedPerArm: number | null;
   difference: Interval | null;
+  /** The experiment has been closed. A running experiment never yields the top label. */
+  closed: boolean;
 }): { level: EvidenceLevel; reasons: string[] } {
   const reasons: string[] = [];
   const observed = input.arms.map((a) => a.observed);
@@ -129,8 +131,13 @@ export function evidenceLevel(input: {
     reasons.push(`Fewer than ${MIN_OBSERVED_PER_ARM} observed outcomes in at least one variant (minimum is ${minObserved}).`);
   }
   if (!input.designLocked) reasons.push("The design was not preregistered and locked before assignment.");
-  if (input.plannedPerArm === null) reasons.push("No planned sample size was recorded.");
+  if (!input.closed) reasons.push("The experiment has not been closed. A result is read once, after it stops.");
+  if (input.plannedPerArm === null) reasons.push("No planned sample size could be read from the stopping rule.");
+  else if (input.plannedPerArm < MIN_OBSERVED_PER_ARM) reasons.push(`The planned sample (${input.plannedPerArm} per variant) is below the minimum of ${MIN_OBSERVED_PER_ARM}; a plan that small cannot support a claim.`);
   else if (minObserved < input.plannedPerArm) reasons.push(`Planned sample of ${input.plannedPerArm} per variant not reached (minimum observed is ${minObserved}).`);
+  const censored = input.arms.reduce((s, a) => s + a.censored, 0);
+  if (censored > 0) reasons.push(`${censored} unit(s) are still inside their outcome window.`);
+  if (input.plannedPerArm !== null && input.arms.some((a) => a.assigned > Math.ceil(input.plannedPerArm! * 1.1))) reasons.push("More units were assigned than the design planned.");
   if (input.arms.length !== 2) reasons.push("More than two variants: pairwise comparisons need a multiple-comparison plan.");
   if (minObserved < MIN_OBSERVED_PER_ARM) return { level: "insufficient", reasons };
   const excludesZero = input.difference !== null && (input.difference.lower > 0 || input.difference.upper < 0);

@@ -340,7 +340,8 @@ export async function loadBundle(source: PayloadSource): Promise<DataBundle> {
     analyses: extras.analyses.filter((a) => expIds.has(a.experiment_id)),
     matchRefusals: extras.matchRefusals,
     provenance: extras.provenance,
-    jobFacets: extras.jobFacets ?? {},
+    // A facet for a posting that failed validation (or is not in the feed) is dropped with it.
+    jobFacets: Object.fromEntries(Object.entries(extras.jobFacets ?? {}).filter(([id]) => jobIds.has(id))),
     sourceNotes: [
       ...extras.notes,
       ...extras.analyses.filter((a) => !expIds.has(a.experiment_id)).map((a) => `analysis for unknown experiment '${a.experiment_id.slice(0, 80)}' was dropped`),

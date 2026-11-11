@@ -76,7 +76,7 @@ export default function ExperimentsPage() {
   }, [selected?.id, selected?.design_locked_at, selected?.status]);
 
   const locked = selected !== null && selected.design_locked_at !== null;
-  const hasSalt = selected !== null && selected.id in workspace.experimentSalts;
+  const hasSalt = selected !== null && Object.hasOwn(workspace.experimentSalts, selected.id);
   const assignments = selected ? workspace.assignments.filter((a) => a.experiment_id === selected.id) : [];
   const plannedPerArm = selected ? plannedPerArmFromRule(selected) : null;
   const results = useMemo(() => (selected ? summariseExperiment(selected, workspace.assignments, workspace.outcomes, plannedPerArm) : null), [selected, workspace.assignments, workspace.outcomes, plannedPerArm]);
@@ -405,7 +405,7 @@ export default function ExperimentsPage() {
                 <div className="ct-stack" data-testid="exp-results">
                   <Banner tone={upstream.verdict === "EVIDENCE_FOR_DIFFERENCE" ? "info" : "warning"} title={UPSTREAM_VERDICT[upstream.verdict]} data-testid="upstream-verdict">
                     Analysis computed upstream ({upstream.producer}){upstream.estimand ? `, estimand ${upstream.estimand}` : ""}. It is shown as given; nothing here is recalculated in the browser.
-                    {upstream.verdict === "EVIDENCE_FOR_DIFFERENCE" ? " This is one experiment on synthetic data; it supports a difference under the preregistered plan, nothing more." : " No variant is declared better."}
+                    {upstream.verdict === "EVIDENCE_FOR_DIFFERENCE" ? " This is one experiment; it supports a difference under the preregistered plan, nothing more." : " No variant is declared better."}
                   </Banner>
                   <TableRegion label="Upstream analysis by variant">
                     <table className="ct-table" data-testid="upstream-arms">
@@ -437,7 +437,7 @@ export default function ExperimentsPage() {
                       {
                         label: "Difference",
                         value: upstream.effect
-                          ? `${upstream.effect.contrast}: ${(upstream.effect.estimate * 100).toFixed(1)} points (${Math.round(upstream.effect.ci_level * 100)}% interval ${(upstream.effect.ci_low * 100).toFixed(1)} to ${(upstream.effect.ci_high * 100).toFixed(1)} points; ${upstream.effect.method})`
+                          ? `${upstream.effect.contrast}: ${(upstream.effect.estimate * 100).toFixed(1)} points (${upstream.effect.ci_level === null ? "interval, level not stated," : `${Math.round(upstream.effect.ci_level * 100)}% interval`} ${(upstream.effect.ci_low * 100).toFixed(1)} to ${(upstream.effect.ci_high * 100).toFixed(1)} points; ${upstream.effect.method})`
                           : "Not reported",
                       },
                     ]}

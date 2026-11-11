@@ -51,6 +51,9 @@ Pinned copies of every sample, with lane, commit and command: `tests/upstream-sa
 ## Rules the adapters enforce
 
 - **A score that calls itself a probability is refused.** `score_type` must be one of two constants that deny it (`relative_heuristic_not_hiring_probability`, `relative_heuristic_not_offer_probability`).
+- **Nothing is clamped, defaulted or repaired.** An out-of-range score, component, metric or count is passed to the validator untouched and the record is rejected. An analysis with impossible counts, fewer than two variants, a verdict that is not spelled exactly as the producers spell it, or a claimed difference whose interval is missing or includes zero is not shown at all.
+- **Sibling files must describe the same run.** `matches_full.json` is used only if it names the same subject and contains every ranked posting; otherwise it is ignored and that is reported. A refusal never names a ranked posting. `jobs_ext.json` facets are kept only for postings that passed validation.
+- **Unreadable is not absent.** A file that is missing is "not provided". A file that exists but cannot be parsed, or is not in the expected shape, is a reported failure.
 - **Unknown is not zero.** A component with `value: null` is `unknown` with weight 0; a known component must carry a value. Censored and missing experiment outcomes must have `value: null`.
 - **Hypotheticals must say so.** A counterfactual whose `status` does not contain "hypothetical" is refused. A scenario whose `status` is not the constant `hypothetical` is refused by the frozen contract.
 - **No probability-shaped scenario outputs.** Keys that name a probability, chance, likelihood or odds make `outputs` unusable (hub finding E-F005), except an explicit denial flag such as `not_a_hiring_probability`.

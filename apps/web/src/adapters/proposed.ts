@@ -22,8 +22,8 @@ export interface MatchComponent {
   label: string;
   /** 0..1, or null when the input is UNKNOWN (never coerced to zero). */
   value: number | null;
-  /** Weight inside its group; weights of known components sum to 1. */
-  weight: number;
+  /** Weight inside its group; weights of known components sum to 1. Null when the engine does not publish weights. */
+  weight: number | null;
   status: "known" | "unknown";
   note: string;
 }
@@ -51,7 +51,8 @@ export interface MatchExplanation {
   schema_version: typeof MATCH_SCHEMA;
   job_id: string;
   candidate_ref: string;
-  computed_at: string;
+  /** Null when the engine does not say when it ran. */
+  computed_at: string | null;
   engine: { name: string; version: string };
   score_type: (typeof SCORE_TYPES)[number];
   near_term_fit: ScoreGroup;
@@ -189,7 +190,8 @@ export interface AtlasProjection {
   projection_id: string;
   method: ProjectionMethod;
   generated_at: string;
-  input: { representation: string; n_points: number; n_dims: number };
+  /** `n_dims` is null when the producer does not state the dimensionality. */
+  input: { representation: string; n_points: number; n_dims: number | null };
   axes: AtlasAxis[];
   diagnostics: {
     cumulative_explained_variance: number | null;
@@ -258,7 +260,8 @@ export interface UpstreamAnalysis {
   arms: { variant: string; n_assigned: number; n_success: number | null; n_censored: number | null; n_missing: number | null }[];
   /** e.g. "FINAL" or "INTERIM", when the producer states it. */
   phase: string | null;
-  effect: { contrast: string; estimate: number; ci_low: number; ci_high: number; ci_level: number; method: string } | null;
+  /** `ci_level` is null when the producer does not state it. */
+  effect: { contrast: string; estimate: number; ci_low: number; ci_high: number; ci_level: number | null; method: string } | null;
   reasons_withheld: string[];
   warnings: string[];
   interpretation_limits: string[];

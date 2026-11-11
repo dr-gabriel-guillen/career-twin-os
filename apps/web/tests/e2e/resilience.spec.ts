@@ -260,10 +260,13 @@ test("settings: adapters table shows contract basis and the rejected feed record
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 
-test("evidence vault: supported needs evidence, edits are audited, stale matches are flagged", async ({ page }) => {
+test("evidence vault: supported comes only from evidence, edits are audited, stale matches are flagged", async ({ page }) => {
   await open(page, "/evidence", "Profile Evidence");
-  await page.getByTestId("claim-status-claim-skill-aws").selectOption("supported");
-  await expect(page.getByTestId("evidence-notice")).toContainText("cannot be marked supported without at least one evidence reference");
+  // "Supported" and "contradicted" come from evidence only: they are not offered as choices.
+  await expect(page.getByTestId("claim-status-claim-skill-aws").locator("option")).toHaveText(["Self-reported", "Unverified"]);
+  await expect(page.getByTestId("claim-status-claim-skill-python").locator("option")).toHaveText(["Supported by evidence", "Self-reported", "Unverified"]);
+  // A claim that evidence contradicts cannot be relabelled at all.
+  await expect(page.getByTestId("claim-status-claim-credential-cloud")).toBeDisabled();
   await expect(page.getByTestId("claim-status-claim-skill-aws")).toHaveValue("self-reported");
   await page.getByTestId("claim-status-claim-skill-security").selectOption("self-reported");
   await expect(page.getByTestId("audit-table")).toContainText("claim-skill-security: unverified -> self-reported");
@@ -273,6 +276,9 @@ test("evidence vault: supported needs evidence, edits are audited, stale matches
   await page.getByTestId("claim-save").click();
   await expect(page.getByTestId("claim-claim-achievement-latency")).toContainText("Unverified");
   await expect(page.getByTestId("evidence-notice")).toContainText("now unverified");
+  // Its evidence was about the old wording, so it is gone, and "supported" cannot be chosen back.
+  await expect(page.getByTestId("claim-claim-achievement-latency")).toContainText("No evidence attached");
+  await expect(page.getByTestId("claim-status-claim-achievement-latency").locator("option")).toHaveText(["Self-reported", "Unverified"]);
   // Matching does not recompute; it says the scores may be out of date.
   await open(page, "/matching", "Matching");
   await expect(page.getByTestId("stale-banner")).toContainText("These scores may be out of date.");

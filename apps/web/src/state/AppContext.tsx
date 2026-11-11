@@ -9,6 +9,7 @@ import {
   STORAGE_KEY,
   loadWorkspace,
   parseSettings,
+  parseWorkspace,
   reduce,
   saveWorkspace,
   seedWorkspace,
@@ -96,6 +97,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
       window.removeEventListener("online", on);
       window.removeEventListener("offline", off);
     };
+  }, []);
+
+  // Two tabs share one stored workspace. When another tab saves, adopt its version here so the
+  // next change in this tab is appended to it instead of overwriting it.
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== STORAGE_KEY || !persistRef.current || e.newValue === null) return;
+      const parsed = parseWorkspace(e.newValue);
+      if (!parsed.workspace) return;
+      workspaceRef.current = parsed.workspace;
+      setWorkspace(parsed.workspace);
+      setStorageNotice("This workspace was changed in another tab. The latest saved version is now shown here.");
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   useEffect(() => {

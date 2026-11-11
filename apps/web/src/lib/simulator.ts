@@ -90,7 +90,7 @@ export function compareScenarios(
   settings: SimulatorSettings,
 ): ScenarioComputed[] {
   const base = views.map((view) => {
-    const stored = edits[view.scenario.id];
+    const stored = Object.hasOwn(edits, view.scenario.id) ? edits[view.scenario.id] : undefined;
     // Ignore stored edits that no longer line up with the upstream action list.
     const usable = stored !== undefined && stored.length === view.scenario.planned_actions.length && stored.every((a, i) => a.skill === view.scenario.planned_actions[i]?.skill);
     const actions = usable ? stored : defaultEdits(view.scenario);

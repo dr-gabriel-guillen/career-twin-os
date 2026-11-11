@@ -119,6 +119,8 @@ export function isRfc3339(v: string): boolean {
   const mi = Number(m[5]);
   const s = Number(m[6]);
   if (mo < 1 || mo > 12 || h > 23 || mi > 59 || s > 59) return false;
+  const offset = m[8]!;
+  if (offset.length === 6 && (Number(offset.slice(1, 3)) > 23 || Number(offset.slice(4, 6)) > 59)) return false;
   const daysInMonth = new Date(Date.UTC(y, mo, 0)).getUTCDate();
   return d >= 1 && d <= daysInMonth;
 }

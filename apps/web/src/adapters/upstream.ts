@@ -25,7 +25,7 @@ const isObj = (v: unknown): v is Obj => typeof v === "object" && v !== null && !
 const str = (v: unknown, fallback = ""): string => (typeof v === "string" ? v : fallback);
 const num = (v: unknown): number | null => (typeof v === "number" && Number.isFinite(v) ? v : null);
 const strings = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
-const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const inUnit = (v: number | null): v is number => v !== null && v >= 0 && v <= 1;
 const round4 = (v: number) => Math.round(v * 10000) / 10000;
 const MOCK_MARKER = /stub|mock/i;
 
@@ -47,9 +47,12 @@ function componentFromA(key: string, raw: Obj, groupTotal: number) {
   return {
     key,
     label: humanise(key),
-    value: value === null ? null : clamp01(value),
-    // Weight is shown as the component's share of its own group; this is display arithmetic only.
-    weight: value === null || groupTotal <= 0 ? 0 : round4(clamp01(effective / groupTotal)),
+    // The engine's value is passed through untouched. If it is out of range the strict validator
+    // rejects the whole record; nothing is clamped into shape (finding F-07).
+    value,
+    // An excluded component has weight 0. A known one shows its share of its group's effective
+    // weights (display arithmetic only), or null when the engine published no usable weights.
+    weight: value === null ? 0 : groupTotal > 0 ? round4(effective / groupTotal) : null,
     status: value === null ? "unknown" : "known",
     note: state === "not-applicable" ? `${basis} Not applicable: no such preference was given, so it is left out.` : basis,
   };
@@ -83,7 +86,7 @@ function matchFromA(m: Obj, result: Obj): Obj {
     schema_version: MATCH_SCHEMA,
     job_id: str(m.job_id),
     candidate_ref: str(result.subject_id, "unknown-subject"),
-    computed_at: str(result.as_of),
+    computed_at: typeof result.as_of === "string" && result.as_of !== "" ? result.as_of : null,
     engine: { name: "lane-a-matching", version: str(result.api_version) },
     // For lane A payloads only lane A's own constant is accepted; anything else is made unrecognisable
     // so the strict validator refuses the record.
@@ -115,20 +118,24 @@ function matchFromA(m: Obj, result: Obj): Obj {
   };
 }
 
-/** tools/reference_engine.py `score_job` output (also what lane E's stub emits). One score, three raw terms. */
-function matchFromReference(m: Obj, subject: string, computedAt: string): Obj {
+/**
+ * tools/reference_engine.py `score_job` output (also what lane E's stub emits). One score, three
+ * raw terms. The payload carries no weights, no compute time and no engine version, so none is
+ * shown: weight is null ("not published"), not 0 (finding F-06).
+ */
+function matchFromReference(m: Obj, subject: string): Obj {
   const ex = isObj(m.explanation) ? m.explanation : {};
   const term = (key: string, label: string) => {
     const value = num(ex[key]);
-    return { key, label, value: value === null ? null : clamp01(value), weight: 0, status: value === null ? "unknown" : "known", note: "Raw term from the reference engine. Its weight is not published in the payload." };
+    return { key, label, value, weight: value === null ? 0 : null, status: value === null ? "unknown" : "known", note: "Raw term from the reference engine. Its weight is not published in the payload." };
   };
   const score = num(m.score);
   return {
     schema_version: MATCH_SCHEMA,
     job_id: str(m.job_id),
     candidate_ref: subject,
-    computed_at: computedAt,
-    engine: { name: "reference-engine", version: "main" },
+    computed_at: null,
+    engine: { name: "reference-engine", version: "version not stated" },
     score_type: str(m.score_type),
     // The reference engine publishes ONE score. No per-group score is invented here.
     near_term_fit: { score: null, components: [term("skill_coverage", "Skill coverage"), term("workstyle", "Work-style match")] },
@@ -138,7 +145,7 @@ function matchFromReference(m: Obj, subject: string, computedAt: string): Obj {
     unknown_inputs: strings(m.unknown_inputs),
     warnings: ["This engine publishes a single score with no component weights, no hard constraints and no evidence strength."],
     profile_digest: "upstream:reference",
-    overall: score === null ? null : { score: Math.min(100, Math.max(0, score)), interval: null, note: "Single score from the reference engine; no interval published." },
+    overall: score === null ? null : { score, interval: null, note: "Single score from the reference engine; no interval published." },
   };
 }
 
@@ -149,31 +156,43 @@ const refusalsOf = (result: unknown): MatchRefusal[] =>
  * `full` is the optional sibling file (lane A writes the bare shortlist to matches.json and the
  * complete a-match/0.1 result, with refusals, to matches_full.json).
  */
-export function matchesFromUpstream(raw: unknown, ctx: { subject: string; computedAt: string; full?: unknown }): Translated<unknown> & { refusals: MatchRefusal[] } {
+export function matchesFromUpstream(raw: unknown, ctx: { subject: string; full?: unknown }): Translated<unknown> & { refusals: MatchRefusal[]; notes: string[] } {
   if (isObj(raw) && typeof raw.api_version === "string" && raw.api_version.startsWith("a-match/")) {
     const shortlist = Array.isArray(raw.shortlist) ? raw.shortlist : [];
-    return { payload: shortlist.map((m) => (isObj(m) ? matchFromA(m, raw) : m)), dialect: raw.api_version, mock: false, refusals: refusalsOf(raw) };
+    const ranked = new Set(shortlist.filter(isObj).map((m) => str(m.job_id)));
+    return { payload: shortlist.map((m) => (isObj(m) ? matchFromA(m, raw) : m)), dialect: raw.api_version, mock: false, refusals: refusalsOf(raw).filter((r) => !ranked.has(r.job_id)), notes: [] };
   }
   if (Array.isArray(raw)) {
     const first = raw.find(isObj);
     if (first && isObj(first.composites) && isObj(first.components)) {
-      // Bare list of lane A MatchExplanations. Result-level facts come from the sibling file when present.
-      const full = isObj(ctx.full) ? ctx.full : {};
+      // Bare list of lane A MatchExplanations. Result-level facts come from the sibling file, but only
+      // if that file describes THIS shortlist: same subject, and every ranked posting in its shortlist.
+      // A sibling that disagrees is ignored and reported, never mixed in (finding F-09).
+      const ranked = new Set(raw.filter(isObj).map((m) => str(m.job_id)));
+      const notes: string[] = [];
+      let full: Obj = {};
+      if (isObj(ctx.full)) {
+        const fullIds = new Set((Array.isArray(ctx.full.shortlist) ? ctx.full.shortlist : []).filter(isObj).map((m) => str(m.job_id)));
+        const sameSubject = typeof ctx.full.subject_id !== "string" || ctx.subject === "unknown-subject" || ctx.full.subject_id === ctx.subject;
+        const sameShortlist = [...ranked].every((id) => fullIds.has(id));
+        if (sameSubject && sameShortlist) full = ctx.full;
+        else notes.push(`matches_full.json does not describe the same run as matches.json (${sameSubject ? "its shortlist differs" : "it names a different subject"}); it was ignored, so refusals are not listed.`);
+      }
       const result = (m: Obj): Obj => ({
         api_version: str(full.api_version, "a-match/0.1"),
-        subject_id: str(full.subject_id, ctx.subject),
-        as_of: str(full.as_of, isObj(m.availability) ? str(m.availability.as_of, ctx.computedAt) : ctx.computedAt),
+        subject_id: ctx.subject,
+        as_of: typeof full.as_of === "string" ? full.as_of : isObj(m.availability) && typeof m.availability.as_of === "string" ? m.availability.as_of : null,
         result_hash: str(full.result_hash, "no-hash"),
       });
-      return { payload: raw.map((m) => (isObj(m) ? matchFromA(m, result(m)) : m)), dialect: "a-match/0.1 shortlist", mock: false, refusals: refusalsOf(ctx.full) };
+      return { payload: raw.map((m) => (isObj(m) ? matchFromA(m, result(m)) : m)), dialect: "a-match/0.1 shortlist", mock: false, refusals: refusalsOf(full).filter((r) => !ranked.has(r.job_id)), notes };
     }
-    if (first && typeof first.schema_version === "string") return { payload: raw, dialect: first.schema_version, mock: false, refusals: [] };
+    if (first && typeof first.schema_version === "string") return { payload: raw, dialect: first.schema_version, mock: false, refusals: [], notes: [] };
     if (first && isObj(first.explanation) && "score" in first) {
-      return { payload: raw.map((m) => (isObj(m) ? matchFromReference(m, ctx.subject, ctx.computedAt) : m)), dialect: "reference-engine", mock: true, refusals: [] };
+      return { payload: raw.map((m) => (isObj(m) ? matchFromReference(m, ctx.subject) : m)), dialect: "reference-engine", mock: true, refusals: [], notes: [] };
     }
-    return { payload: raw, dialect: raw.length === 0 ? "empty" : "unrecognised", mock: false, refusals: [] };
+    return { payload: raw, dialect: raw.length === 0 ? "empty" : "unrecognised", mock: false, refusals: [], notes: [] };
   }
-  return { payload: raw, dialect: "unrecognised", mock: false, refusals: [] };
+  return { payload: raw, dialect: "unrecognised", mock: false, refusals: [], notes: [] };
 }
 
 // ------------------------------------------------------------------ résumé variants
@@ -266,8 +285,9 @@ const STUB_DECISIONS: Record<string, AnalysisVerdict> = {
  */
 export function analysisFromUpstream(raw: unknown): (Translated<UpstreamAnalysis> & { reason?: undefined }) | { payload: null; dialect: string; mock: boolean; reason: string } {
   if (!isObj(raw)) return { payload: null, dialect: "unrecognised", mock: false, reason: "analysis is not an object" };
-  const verdictRaw = str(raw.verdict ?? raw.decision).toUpperCase();
-  const verdict = (ANALYSIS_VERDICTS as readonly string[]).includes(verdictRaw) ? (verdictRaw as AnalysisVerdict) : STUB_DECISIONS[verdictRaw];
+  // Verdicts are matched exactly, as the producers spell them. A near-miss is not a verdict.
+  const verdictRaw = str(raw.verdict ?? raw.decision);
+  const verdict = (ANALYSIS_VERDICTS as readonly string[]).includes(verdictRaw) ? (verdictRaw as AnalysisVerdict) : Object.hasOwn(STUB_DECISIONS, verdictRaw) ? STUB_DECISIONS[verdictRaw] : undefined;
   if (!verdict) return { payload: null, dialect: "unrecognised", mock: false, reason: `unknown verdict '${verdictRaw.slice(0, 40)}'` };
   const experimentId = str(raw.experiment_id);
   if (!experimentId) return { payload: null, dialect: "unrecognised", mock: false, reason: "analysis names no experiment" };
@@ -283,16 +303,26 @@ export function analysisFromUpstream(raw: unknown): (Translated<UpstreamAnalysis
   // Arms: a list (stub) or an object keyed by variant with counts under `flow.by_arm` (lane B).
   const flow = isObj(raw.flow) && isObj(raw.flow.by_arm) ? raw.flow.by_arm : {};
   const arms = Array.isArray(raw.arms)
-    ? raw.arms.filter(isObj).map((a) => ({ variant: str(a.variant), n_assigned: num(a.n_assigned) ?? 0, n_success: num(a.n_success), n_censored: num(a.n_censored), n_missing: num(a.n_missing) }))
+    ? raw.arms.filter(isObj).map((a) => ({ variant: str(a.variant), n_assigned: num(a.n_assigned) ?? Number.NaN, n_success: num(a.n_success), n_censored: num(a.n_censored), n_missing: num(a.n_missing) }))
     : isObj(raw.arms)
       ? Object.entries(raw.arms).filter(([, a]) => isObj(a)).map(([variant, a]) => {
           const f = isObj(flow[variant]) ? (flow[variant] as Obj) : {};
-          return { variant, n_assigned: num(f.units) ?? num((a as Obj).units) ?? 0, n_success: num(f.success), n_censored: num(f.censored), n_missing: num(f.missing) };
+          return { variant, n_assigned: num(f.units) ?? num((a as Obj).units) ?? Number.NaN, n_success: num(f.success), n_censored: num(f.censored), n_missing: num(f.missing) };
         })
       : [];
-  const effect = e && e.estimate !== null && e.ci_low !== null && e.ci_high !== null && e.ci_low <= e.ci_high
-    ? { contrast: e.contrast, estimate: e.estimate, ci_low: e.ci_low, ci_high: e.ci_high, ci_level: e.ci_level ?? 0.95, method: e.method }
+  const effect = e && e.estimate !== null && e.ci_low !== null && e.ci_high !== null && e.ci_low <= e.ci_high && e.estimate >= e.ci_low && e.estimate <= e.ci_high
+    ? { contrast: e.contrast, estimate: e.estimate, ci_low: e.ci_low, ci_high: e.ci_high, ci_level: e.ci_level !== null && e.ci_level > 0 && e.ci_level < 1 ? e.ci_level : null, method: e.method }
     : null;
+  // Counts must be real counts. An arm with a missing, negative or fractional count makes the whole
+  // report unusable: it is rejected, not patched up.
+  const count = (v: number | null) => v === null || (Number.isInteger(v) && v >= 0);
+  const badArm = arms.find((a) => !a.variant || !Number.isInteger(a.n_assigned) || a.n_assigned < 0 || !count(a.n_success) || !count(a.n_censored) || !count(a.n_missing) || (a.n_success !== null && a.n_success > a.n_assigned));
+  if (badArm) return { payload: null, dialect: "unrecognised", mock: false, reason: `variant '${badArm.variant.slice(0, 40)}' has counts that are missing or impossible` };
+  if (arms.length < 2) return { payload: null, dialect: "unrecognised", mock: false, reason: "analysis lists fewer than two variants" };
+  // A claim of difference with no interval, or with an interval that includes zero, contradicts itself.
+  if (verdict === "EVIDENCE_FOR_DIFFERENCE" && (effect === null || (effect.ci_low <= 0 && effect.ci_high >= 0))) {
+    return { payload: null, dialect: "unrecognised", mock: false, reason: "verdict claims a difference but the reported interval is missing or includes zero" };
+  }
   const isB = typeof raw.verdict === "string";
   const producer = str(raw.schema ?? raw.generated_by ?? raw.schema_version, isB ? "careertwin.b.analysis-report.v1" : "pipeline analysis (producer not stated)");
   return {
@@ -322,14 +352,16 @@ export function atlasFromArtifacts(pointsRaw: unknown, diagnosticsRaw: unknown, 
   const k = num(d.k) ?? 0;
   const metric = (v: unknown) => {
     const direct = num(v);
-    if (direct !== null && k >= 1) return { k, value: clamp01(direct) };
-    if (isObj(v) && num(v.value) !== null && num(v.k) !== null) return { k: num(v.k) as number, value: clamp01(num(v.value) as number) };
+    // Passed through untouched: an out-of-range metric fails validation and the projection is not shown.
+    if (direct !== null && k >= 1) return { k, value: direct };
+    if (isObj(v) && num(v.value) !== null && num(v.k) !== null) return { k: num(v.k) as number, value: num(v.value) as number };
     return null;
   };
   const points = pointsRaw as AtlasPoint[];
   const method = str(d.method, "pca");
   const stated = num(d.explained_variance_cumulative);
-  const cumulative = stated !== null ? clamp01(stated) : evr.length >= 2 && evr[0] !== null && evr[1] !== null && evr[0] !== undefined && evr[1] !== undefined ? clamp01(evr[0] + evr[1]) : null;
+  const cumulative = stated !== null ? stated : evr.length >= 2 && evr[0] !== null && evr[1] !== null && evr[0] !== undefined && evr[1] !== undefined ? round4(evr[0] + evr[1]) : null;
+  const dims = num(d.n_features) ?? num(d.n_dims);
   const note = str(d.note);
   const lost = num(d.information_lost);
   const lossStatement = isObj(d.information_loss) ? str(d.information_loss.statement) : "";
@@ -340,13 +372,13 @@ export function atlasFromArtifacts(pointsRaw: unknown, diagnosticsRaw: unknown, 
       projection_id: str(d.projection_id),
       method,
       generated_at: generatedAt,
-      input: { representation: `pipeline vectors (preprocessing: ${str(d.preprocessing, "not stated")})`, n_points: Array.isArray(d.fit_refs) ? d.fit_refs.length : points.length, n_dims: Math.max(1, num(d.n_features) ?? num(d.n_dims) ?? 1) },
-      axes: [0, 1].map((i) => ({ label: method === "pca" ? `PC${i + 1}` : `Axis ${i + 1}`, explained_variance_ratio: evr[i] === null || evr[i] === undefined ? null : clamp01(evr[i] as number), description: "Axis produced by the analytics lane. It has no intrinsic meaning." })),
+      input: { representation: `pipeline vectors (preprocessing: ${str(d.preprocessing, "not stated")})`, n_points: Array.isArray(d.fit_refs) ? d.fit_refs.length : points.length, n_dims: dims !== null && Number.isInteger(dims) && dims >= 1 ? dims : null },
+      axes: [0, 1].map((i) => ({ label: method === "pca" ? `PC${i + 1}` : `Axis ${i + 1}`, explained_variance_ratio: evr[i] === null || evr[i] === undefined ? null : (evr[i] as number), description: "Axis produced by the analytics lane. It has no intrinsic meaning." })),
       diagnostics: {
         cumulative_explained_variance: cumulative,
         trustworthiness: metric(d.trustworthiness),
         continuity: metric(d.continuity),
-        ...(knn !== null && k >= 1 ? { knn_recall: { k, value: clamp01(knn) } } : {}),
+        ...(knn !== null && k >= 1 ? { knn_recall: { k, value: knn } } : {}),
         flags: strings(d.flags),
       },
       warnings: [
@@ -354,7 +386,7 @@ export function atlasFromArtifacts(pointsRaw: unknown, diagnosticsRaw: unknown, 
         ...(note ? [note] : []),
         ...(lossStatement ? [lossStatement] : []),
         ...strings(d.warnings),
-        ...(lost !== null ? [`The pipeline reports that ${Math.round(clamp01(lost) * 100)}% of the information is not shown on this map.`] : []),
+        ...(inUnit(lost) ? [`The pipeline reports that ${Math.round(lost * 100)}% of the information is not shown on this map.`] : []),
       ],
       points,
       // The pipeline's point file has no entity table; role family is joined from the job feed by id.

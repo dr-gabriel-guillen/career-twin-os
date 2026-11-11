@@ -69,6 +69,8 @@ apps/web/
 packages/ui/         small accessible component kit and design tokens
 ```
 
+An independent adversarial review found 20 defects in the first complete version; all are listed with their fixes in [docs/QA-EVIDENCE.md](docs/QA-EVIDENCE.md).
+
 More detail: [docs/DECISIONS.md](docs/DECISIONS.md), [docs/ADAPTERS.md](docs/ADAPTERS.md), [docs/QA-EVIDENCE.md](docs/QA-EVIDENCE.md), [docs/HANDOFF.md](docs/HANDOFF.md).
 
 ## Safety properties (each one is tested)
@@ -76,6 +78,7 @@ More detail: [docs/DECISIONS.md](docs/DECISIONS.md), [docs/ADAPTERS.md](docs/ADA
 - No network: the production CSP is `default-src 'self'` with `connect-src 'self'` and no inline script; every browser test fails if any request leaves the local origin; the source contains no `fetch`, XHR, WebSocket, beacon or service-worker call.
 - No HTML from data: there is no `dangerouslySetInnerHTML`, `innerHTML` or similar sink. Hostile posting text (markup, script, prompt-injection, spreadsheet formulas) is in the fixtures on purpose and renders as plain text.
 - Links: a posting link can only be opened from a warning dialog that shows the full destination; `javascript:`, `data:`, credentialed, numeric and local-network links are blocked.
-- No auto-apply: "submitted" is a fact the user records after applying elsewhere; the reducer refuses it without the user's approval record and refuses it from any non-user actor.
+- No auto-apply: "submitted" is a fact the user records after applying elsewhere; the reducer refuses it without the approval record of the approved step, refuses it from any non-user actor, and refuses any attempt to set that approval through another kind of event.
+- Truth states: "supported" and "contradicted" come only from evidence and cannot be chosen by hand; every résumé line is compared with the claims it cites, whatever origin the data declares.
 - No fabricated certainty: unknown compensation stays unknown, scores are labelled relative heuristics, the atlas always shows its distortion metrics, experiment results never name a winner on thin evidence.
 - Data control: everything lives in `localStorage` under two keys; it can be exported as JSON and erased from Settings.

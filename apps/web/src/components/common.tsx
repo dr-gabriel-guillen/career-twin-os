@@ -105,9 +105,15 @@ export function ExternalLinkDialog({ job, onClose }: { job: JobPosting | null; o
     >
       {job && verdict ? (
         <>
-          <Banner tone="synthetic" title="This posting is synthetic.">
-            The link was authored for tests and is not expected to lead to a real job.
-          </Banner>
+          {job.source === "synthetic" ? (
+            <Banner tone="synthetic" title="This posting is synthetic.">
+              The link was authored for tests and is not expected to lead to a real job.
+            </Banner>
+          ) : (
+            <Banner tone="warning" title="The provenance of this posting is not verified." data-testid="link-unverified">
+              Its source is recorded as “{job.source}”. This build is meant for synthetic data only; check the destination below before you open it.
+            </Banner>
+          )}
           {verdict.kind === "ok" ? (
             <>
               <p>You are about to leave CareerTwin and open:</p>
