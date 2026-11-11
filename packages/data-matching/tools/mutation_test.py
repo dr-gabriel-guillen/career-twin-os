@@ -45,7 +45,7 @@ MUTANTS: list[tuple[Path, str, str, str]] = [
     (SRC / "normalize.py", "if ext.get(\"listed\") is False:", "if False:", "delisted postings stay active"),
     (SRC / "normalize.py", "if last.upper() in _AMBIGUOUS_STATE and explicit != \"US\":", "if False:", "ambiguous 'CA' guessed as US"),
     (SRC / "normalize.py", "return (stated or from_loc or \"unknown\"), None", "return (stated or from_loc or \"remote\"), None", "unknown workplace policy guessed as remote"),
-    (SRC / "normalize.py", 'for name in ("required", "unsectioned"):', 'for name in ("required", "unsectioned", "other"):', "benefits text creates requirements"),
+    (SRC / "normalize.py", 'stated = sections["required"] if sections["required"] else sections["unsectioned"]', 'stated = (sections["required"] if sections["required"] else sections["unsectioned"]) + sections["other"]', "benefits text creates requirements"),
     (SRC / "store.py", "if utc(at) < utc(latest[\"posting\"][\"fetched_at\"]):", "if False:", "stale capture overwrites newer state"),
     (SRC / "store.py", "if utc(at) <= utc(p[\"fetched_at\"]):", "if False:", "old snapshot revokes newer observation"),
     (SRC / "store.py", "if uid and head_uid and uid != head_uid:", "if False:", "distinct employers with same name merged"),
