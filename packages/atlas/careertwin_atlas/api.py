@@ -214,8 +214,13 @@ def build_atlas_bundle(
 
     candidate_block = None
     placed_ids: set[str] = set()
+    taken = set(engine.matrix.ids) | {u["entity_id"] for u in engine.unplaced}
     for vec in ([candidate] if candidate is not None else []) + list(extra_vectors):
         engine.check_vector(vec)
+        if vec.entity_id in taken:
+            # duplicate point ids would make the map ambiguous (review cycle 2, finding 11)
+            raise InvalidInputError(f"entity_id {vec.entity_id!r} is already used by a fitted posting or another point")
+        taken.add(vec.entity_id)
         if not can_place:
             continue
         if not engine.has_observed_skills(vec):
@@ -269,9 +274,11 @@ def build_atlas_bundle(
                     "warnings": stab["warnings"]}
 
     warnings = list(dict.fromkeys(list(engine.warnings) + proj["warnings"] + diag["warnings"]))
+    # every input counts, including unplaced and unreadable ones (review cycle 2, finding 6)
     sources: dict[str, int] = {}
-    for v in engine.matrix.vectors:
-        src = str(v.meta.get("source") or "unknown")
+    for src in ([str(v.meta.get("source") or "unknown") for v in engine.matrix.vectors]
+                + [str(u.get("source") or "unknown") for u in engine.unplaced]
+                + ["unreadable"] * len(engine.skipped)):
         sources[src] = sources.get(src, 0) + 1
     synthetic_only = set(sources) == {"synthetic"}
     if not synthetic_only:
@@ -347,6 +354,11 @@ def _projection_view(bundle: dict[str, Any], generated_at: str,
             raise InvalidInputError(f"scenario {sc.get('id') if isinstance(sc, dict) else sc!r} was computed for "
                                     "another projection; rebuild it with this engine and method")
         cand_pt, scen_pt = out["map_points"][0], out["map_points"][1]
+        existing = next((p for p in points if p["entity_id"] == cand_pt["entity_id"]), None)
+        if existing is not None and existing["source_vector_ref"] != cand_pt["source_vector_ref"]:
+            # the scenario was computed from different evidence than the candidate drawn on this map
+            raise InvalidInputError(f"scenario {sc.get('id')!r} starts from a different evidence vector than the "
+                                    f"candidate {cand_pt['entity_id']!r} on this map")
         for pt, kind in ((cand_pt, "candidate"), (scen_pt, "scenario")):
             if pt["entity_id"] not in have:
                 have.add(pt["entity_id"])
@@ -360,8 +372,10 @@ def _projection_view(bundle: dict[str, Any], generated_at: str,
                                  if kind == "scenario" else []})
         paths.append({"id": f"path:{sc['id']}", "from_entity_id": cand_pt["entity_id"],
                       "to_entity_id": scen_pt["entity_id"], "scenario_id": sc["id"],
-                      "label": f"Hypothetical move toward {out['target_label']} "
-                               f"({out['movement']['share_of_movement_visible_on_map']} of it visible on the map)"})
+                      "label": f"Hypothetical move toward {out['target_label']} ("
+                               + ("no movement" if out['movement']['share_of_movement_visible_on_map'] is None else
+                                  f"{out['movement']['share_of_movement_visible_on_map']:.0%} of it visible on the map")
+                               + ")"})
     return {
         "schema_version": "atlas-projection/0.1",
         "projection_id": proj["projection_id"],

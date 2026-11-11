@@ -21,7 +21,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from itertools import permutations
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 import numpy as np
 
@@ -32,6 +33,11 @@ from .gaps import EVIDENCED_LEVEL
 from .vocabulary import ACQ_ROLE, SENIORITY_FEATURE
 
 WEEKS_PER_MONTH = 4.345
+
+
+def hours_needed(level: float, cap: float, reference_hours: float) -> float:
+    """Same accrual model as ``simulator.hours_needed`` (kept here to avoid an import cycle)."""
+    return max(0.0, cap - level) * max(0.0, reference_hours)
 STUDY_EVIDENCE_CAP = 0.8
 CONFERRED_THRESHOLD = 0.25
 MAX_INTERMEDIATES = 8
@@ -110,34 +116,61 @@ def build_transition_graph(engine: AtlasEngine, core_threshold: float = 0.5) -> 
             "client_exposure": round(_group_mean(engine, p.prevalence, "customer"), 4),
             "centroid_unstable": bool(engine.stability[fam]["unstable"]),
         }
-    edges: dict[tuple[str, str], TransitionEdge] = {}
-    for u in nodes:
-        for v in nodes:
-            if u == v:
-                continue
-            need = [f for f in nodes[v]["core_features"] if f not in nodes[u]["core_features"]]
-            role_feats = [f for f in need if vocab.get(f).acquisition == ACQ_ROLE]
-            study = [f for f in need if f not in role_feats]
-            lo = sum(vocab.get(f).effort_hours[0] for f in study)
-            hi = sum(vocab.get(f).effort_hours[1] for f in study)
-            su, sv = nodes[u]["seniority_level_mean"], nodes[v]["seniority_level_mean"]
-            sdelta = None if su is None or sv is None else round(sv - su, 4)
-            constraints: list[str] = []
-            if role_feats:
-                constraints.append("requires evidence normally gained in-role, not from study alone: "
-                                   + ", ".join(role_feats))
-            if sdelta is not None and sdelta > 0.25:
-                constraints.append("target postings state a much higher seniority level; an "
-                                   "intermediate scope step is usually needed (assumption)")
-            if nodes[v]["n_postings"] < 5 or nodes[v]["centroid_unstable"]:
-                constraints.append("target role profile is unstable or built from few postings; "
-                                   "requirements may be mis-stated")
-            edges[(u, v)] = TransitionEdge(
-                u, v, tuple(need), tuple(role_feats), float(lo), float(hi), sdelta,
-                round(nodes[v]["leadership_exposure"] - nodes[u]["leadership_exposure"], 4),
-                round(nodes[v]["client_exposure"] - nodes[u]["client_exposure"], 4),
-                tuple(constraints))
-    return TransitionGraph(nodes, edges, core_threshold)
+    return TransitionGraph(nodes, _LazyEdges(nodes, vocab), core_threshold)
+
+
+class _LazyEdges(Mapping):
+    """All u -> v edges, computed on first access (review cycle 2, finding 9: building every edge eagerly
+    was quadratic in the number of posting-supplied role families on every simulation)."""
+
+    def __init__(self, nodes: Mapping[str, Mapping[str, Any]], vocab: Any) -> None:
+        self._nodes, self._vocab, self._cache = nodes, vocab, {}
+
+    def __len__(self) -> int:
+        n = len(self._nodes)
+        return n * (n - 1)
+
+    def __iter__(self):
+        for u in sorted(self._nodes):
+            for v in sorted(self._nodes):
+                if u != v:
+                    yield (u, v)
+
+    def __contains__(self, key: object) -> bool:
+        return (isinstance(key, tuple) and len(key) == 2 and key[0] != key[1]
+                and key[0] in self._nodes and key[1] in self._nodes)
+
+    def __getitem__(self, key: tuple[str, str]) -> TransitionEdge:
+        if key not in self:
+            raise KeyError(key)
+        if key not in self._cache:
+            self._cache[key] = _edge(self._nodes, self._vocab, *key)
+        return self._cache[key]
+
+
+def _edge(nodes: Mapping[str, Mapping[str, Any]], vocab: Any, u: str, v: str) -> TransitionEdge:
+    need = [f for f in nodes[v]["core_features"] if f not in nodes[u]["core_features"]]
+    role_feats = [f for f in need if vocab.get(f).acquisition == ACQ_ROLE]
+    study = [f for f in need if f not in role_feats]
+    lo = sum(vocab.get(f).effort_hours[0] * STUDY_EVIDENCE_CAP for f in study)
+    hi = sum(vocab.get(f).effort_hours[1] * STUDY_EVIDENCE_CAP for f in study)
+    su, sv = nodes[u]["seniority_level_mean"], nodes[v]["seniority_level_mean"]
+    sdelta = None if su is None or sv is None else round(sv - su, 4)
+    constraints: list[str] = []
+    if role_feats:
+        constraints.append("requires evidence normally gained in-role, not from study alone: "
+                           + ", ".join(role_feats))
+    if sdelta is not None and sdelta > 0.25:
+        constraints.append("target postings state a much higher seniority level; an "
+                           "intermediate scope step is usually needed (assumption)")
+    if nodes[v]["n_postings"] < 5 or nodes[v]["centroid_unstable"]:
+        constraints.append("target role profile is unstable or built from few postings; "
+                           "requirements may be mis-stated")
+    return TransitionEdge(
+        u, v, tuple(need), tuple(role_feats), float(lo), float(hi), sdelta,
+        round(nodes[v]["leadership_exposure"] - nodes[u]["leadership_exposure"], 4),
+        round(nodes[v]["client_exposure"] - nodes[u]["client_exposure"], 4),
+        tuple(constraints))
 
 
 def _levels(candidate: FeatureVector) -> tuple[dict[str, float], set[str]]:
@@ -162,13 +195,19 @@ def evaluate_path(engine: AtlasEngine, graph: TransitionGraph, candidate: Featur
     total_lo = total_hi = 0.0
     barriers_total = 0
     barriers_max_step = 0
+    blockers_total = 0
     tenure_total = 0.0
     caveats: list[str] = []
     for pos, role in enumerate(path):
         node = graph.nodes[role]
-        missing_study, barriers = [], []
+        missing_study, barriers, blockers = [], [], []
         lo = hi = 0.0
         for f in node["core_features"]:
+            if f in contradicted:
+                # Repair note (review cycle 2, finding 3): a contradicted skill used to be priced as ordinary
+                # study and conferred by tenure. It is now a blocker: no hours, never conferred.
+                blockers.append(f)
+                continue
             level = levels.get(f, 0.0)
             if level >= EVIDENCED_LEVEL:
                 continue
@@ -176,26 +215,28 @@ def evaluate_path(engine: AtlasEngine, graph: TransitionGraph, candidate: Featur
             if fdef.acquisition == ACQ_ROLE:
                 barriers.append(f)
                 continue
-            remaining = max(0.0, 1.0 - level / STUDY_EVIDENCE_CAP)
+            # same accrual model as the simulator: reference hours move evidence by 1.0
+            lo_f = hours_needed(level, STUDY_EVIDENCE_CAP, fdef.effort_hours[0])
+            hi_f = hours_needed(level, STUDY_EVIDENCE_CAP, fdef.effort_hours[1])
             missing_study.append({"feature": f, "current_evidence_level": round(level, 4),
-                                  "effort_hours_range": [round(fdef.effort_hours[0] * remaining, 1),
-                                                         round(fdef.effort_hours[1] * remaining, 1)]})
-            lo += fdef.effort_hours[0] * remaining
-            hi += fdef.effort_hours[1] * remaining
+                                  "effort_hours_range": [round(lo_f, 1), round(hi_f, 1)]})
+            lo += lo_f
+            hi += hi_f
             levels[f] = max(level, STUDY_EVIDENCE_CAP)
-        hit = sorted(contradicted & set(node["core_features"]))
-        if hit:
-            caveats.append(f"{role}: evidence on file contradicts {', '.join(hit)}; "
-                           "effort alone does not resolve a contradiction")
+        if blockers:
+            caveats.append(f"{role}: evidence on file contradicts {', '.join(blockers)}; effort alone does not "
+                           "resolve a contradiction, so these are blockers, not study items")
         is_final = pos == len(path) - 1
         tenure = 0.0 if is_final else float(tenure_months)
         if not is_final:
             for f in node["conferred_features"]:
-                levels[f] = max(levels.get(f, 0.0), 1.0)
+                if f not in contradicted:
+                    levels[f] = max(levels.get(f, 0.0), 1.0)
         steps.append({
             "role": role, "label": node["label"],
             "missing_study_or_project_evidence": missing_study,
             "entry_barriers_role_exposure": barriers,
+            "blocked_by_contradiction": blockers,
             "effort_hours_range": [round(lo, 1), round(hi, 1)],
             "assumed_tenure_months_before_next_step": tenure,
             "role_profile_unstable": node["centroid_unstable"],
@@ -203,12 +244,20 @@ def evaluate_path(engine: AtlasEngine, graph: TransitionGraph, candidate: Featur
         total_lo += lo
         total_hi += hi
         barriers_total += len(barriers)
-        barriers_max_step = max(barriers_max_step, len(barriers))
+        blockers_total += len(blockers)
+        barriers_max_step = max(barriers_max_step, len(barriers) + len(blockers))
         tenure_total += tenure
     per_month = hours_per_week * WEEKS_PER_MONTH
     months_lo = total_lo / per_month + tenure_total
     months_hi = total_hi / per_month + tenure_total
-    fits = "yes" if months_hi <= horizon_months else "no" if months_lo > horizon_months else "uncertain"
+    if months_lo > horizon_months:
+        fits = "no"
+    elif barriers_total or blockers_total:
+        # Repair note (review cycle 2, finding 15): months only count study hours, so a path with unmet in-role
+        # requirements or contradictions cannot be said to fit the horizon.
+        fits = "blocked"
+    else:
+        fits = "yes" if months_hi <= horizon_months else "uncertain"
     # Repair note (review cycle 1, F3): the caveat used to appear only when seniority was unknown,
     # implying seniority was assessed otherwise. It never is.
     caveats.append("seniority steps are not modelled: path effort and ranking ignore seniority; edges only "
@@ -226,7 +275,10 @@ def evaluate_path(engine: AtlasEngine, graph: TransitionGraph, candidate: Featur
         "assumed_tenure_months_total": tenure_total,
         "entry_barriers_total": barriers_total,
         "entry_barriers_hardest_step": barriers_max_step,
+        "contradiction_blockers_total": blockers_total,
         "fits_time_horizon": fits,
+        "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet "
+                                  "in-role requirements or contradicted evidence that hours cannot produce",
         "caveats": caveats,
     }
 

@@ -295,7 +295,8 @@ def render_markdown(summary: Mapping[str, Any]) -> str:
              f"(capacity {o['effort']['capacity_hours_within_horizon']:.0f} h).")
     L.append(f"- Share of the movement visible on the map: {o['movement']['share_of_movement_visible_on_map']}")
     alt = o["alternatives"]["same_budget"]
-    L.append(f"- Same hours spent greedily would reach shortfall {alt['requirement_shortfall']:.3f}.")
+    L.append(f"- A greedy heuristic spending the same hours would reach shortfall {alt['requirement_shortfall']:.3f} "
+             f"({'better' if alt['better_than_your_plan'] else 'not better'} than the plan above; it may not be optimal).")
     L.append("- Path alternatives (ordered by declared weights, not by likelihood):")
     for a in o["alternatives"]["paths"]:
         L.append(f"  - {' → '.join(a['path'])}: {a['months_range'][0]}–{a['months_range'][1]} months, hardest step "

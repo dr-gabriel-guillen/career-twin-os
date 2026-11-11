@@ -73,7 +73,7 @@ Drift detection (posting text only):
 
 - planted drift: families flagged = backend
 - no drift control: families flagged = none
-- backend in the planted case: shift-to-noise 2.5625, permutation exceedance share 0.000625 (top changes: llm-integration (+0.64), rag (+0.49), typescript (+0.15))
+- backend in the planted case: shift-to-noise 2.547, permutation exceedance share 0.000625 (top changes: llm-integration (+0.64), rag (+0.49), typescript (+0.15))
 
 ## 5. Gap analysis and scenario (hypothetical)
 
@@ -87,11 +87,11 @@ Scenario `scn-f99e87eecf6bfd98` (290 planned hours, horizon 12 months):
 - Requirement shortfall 2.464 → 2.048 (lower = fewer stated requirements uncovered).
 - Fits the time budget: yes (capacity 313 h).
 - Share of the movement visible on the map: 0.265902
-- Same hours spent greedily would reach shortfall 2.071.
+- A greedy heuristic spending the same hours would reach shortfall 2.024 (better than the plan above; it may not be optimal).
 - Path alternatives (ordered by declared weights, not by likelihood):
-  - field-cto: 16.1–59.8 months, hardest step has 4 in-role evidence barrier(s), fits horizon: no
-  - fde → field-cto: 39.1–94.7 months, hardest step has 2 in-role evidence barrier(s), fits horizon: no
-  - ai-architect → field-cto: 34.1–79.4 months, hardest step has 4 in-role evidence barrier(s), fits horizon: no
+  - field-cto: 12.9–47.9 months, hardest step has 4 in-role evidence barrier(s), fits horizon: no
+  - fde → field-cto: 34.9–79.4 months, hardest step has 2 in-role evidence barrier(s), fits horizon: no
+  - ai-architect → field-cto: 30.9–67.1 months, hardest step has 4 in-role evidence barrier(s), fits horizon: no
 - Risks:
   - customer-delivery: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3
   - stakeholder-management: evidence is normally gained in-role; a coursework action is capped at evidence level 0.3

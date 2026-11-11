@@ -140,9 +140,10 @@ def apply_actions(engine: AtlasEngine, candidate: FeatureVector,
         if fdef.acquisition == ACQ_ROLE and goal in ROLE_CAPABLE_GOALS:
             risks.append(f"{f}: '{goal}' is a user-stated assumption that the role exposure will exist; "
                          "the simulator cannot verify that such an opportunity is available")
-        entry = per_feature.setdefault(f, {"hours": 0.0, "cap": 0.0})
+        entry = per_feature.setdefault(f, {"hours": 0.0, "goals": {}})
         entry["hours"] += hours
-        entry["cap"] = max(entry["cap"], cap)
+        g = entry["goals"].setdefault(goal, {"hours": 0.0, "cap": cap})
+        g["hours"] += hours
 
     outcome: dict[str, dict[str, Any]] = {}
     for f, entry in per_feature.items():
@@ -150,20 +151,30 @@ def apply_actions(engine: AtlasEngine, candidate: FeatureVector,
         fdef = vocab.get(f)
         before_state = int(states[i])
         old = 0.0 if before_state in (STATE_UNKNOWN, STATE_CONTRADICTED) else float(values[i])
-        ref, cap, hours = fdef.effort_mid, entry["cap"], entry["hours"]
+        ref, hours = fdef.effort_mid, entry["hours"]
+        funded = [(g["cap"], name, g["hours"]) for name, g in entry["goals"].items() if g["hours"] > 0]
+        cap = max((c for c, _, _ in funded), default=0.0)
         blocked = before_state == STATE_CONTRADICTED
+        new, used = old, 0.0
         if blocked:
             new = 0.0
             risks.append(f"{f}: evidence on file contradicts this claim; the action is not "
                          "simulated until the contradiction is resolved")
-        elif old >= cap:
-            new = old
-        elif ref <= 0:
-            new = cap
         else:
-            new = min(cap, old + hours / ref)
-        useful = 0.0 if blocked or old >= cap else (cap - old) * ref if ref > 0 else 0.0
-        surplus = max(0.0, hours - useful) if not blocked else hours
+            # Repair note (review cycle 2, finding 2): pooling all hours under the highest cap let 0.01 h
+            # of an 'in-role' goal lift 500 h of coursework past the coursework ceiling. Goals are now
+            # filled in ascending cap order and each goal's hours can only raise evidence up to that
+            # goal's own cap. Deterministic and independent of action order.
+            for g_cap, _, g_hours in sorted(funded):
+                if new >= g_cap:
+                    continue
+                if ref <= 0:
+                    new = g_cap
+                    continue
+                gain = min(g_cap - new, g_hours / ref)
+                new += gain
+                used += gain * ref
+        surplus = hours if blocked else max(0.0, hours - used)
         if hours == 0:
             risks.append(f"{f}: zero effort hours planned; no change")
         elif surplus > 0.5 and not blocked:
@@ -214,6 +225,21 @@ def _snapshot(engine: AtlasEngine, vec: FeatureVector, role: str) -> dict[str, A
     }
 
 
+def _with_comparison(alt: dict[str, Any], plan_shortfall: float) -> dict[str, Any]:
+    alt["shortfall_vs_your_plan"] = round(alt["requirement_shortfall"] - plan_shortfall, 6)
+    alt["better_than_your_plan"] = bool(alt["requirement_shortfall"] < plan_shortfall - 1e-9)
+    return alt
+
+
+def hours_needed(level: float, cap: float, reference_hours: float) -> float:
+    """Hours to move evidence from ``level`` to ``cap`` at the simulator's single accrual rate.
+
+    One cost function for the simulator, the same-budget alternative and the path planner
+    (review cycle 2, finding 4: three different formulas disagreed).
+    """
+    return max(0.0, cap - level) * max(0.0, reference_hours)
+
+
 def _same_budget_alternative(engine: AtlasEngine, candidate: FeatureVector, role: str,
                              budget_hours: float) -> dict[str, Any]:
     """Greedy use of the same hours on the target's study-acquirable requirements."""
@@ -229,9 +255,10 @@ def _same_budget_alternative(engine: AtlasEngine, candidate: FeatureVector, role
         level = level or 0.0
         if fdef.acquisition == ACQ_ROLE or state == "contradicted" or level >= cap:
             continue
-        hours = fdef.effort_mid * (cap - level) / cap
+        hours = hours_needed(level, cap, fdef.effort_mid)
         s = engine.model.scale[i]
-        gain = (max(0.0, p.centroid[i] - level) / s) ** 2 - (max(0.0, p.centroid[i] - cap) / s) ** 2
+        req = p.requirement_profile if p.requirement_profile is not None else p.centroid
+        gain = (max(0.0, req[i] - level) / s) ** 2 - (max(0.0, req[i] - cap) / s) ** 2
         if hours > 0 and gain > 0:
             options.append((gain / hours, name, hours))
     options.sort(key=lambda t: (-t[0], t[1]))
@@ -245,7 +272,8 @@ def _same_budget_alternative(engine: AtlasEngine, candidate: FeatureVector, role
         left -= spend
     result = apply_actions(engine, candidate, actions, candidate.entity_id + "#alt-same-budget")
     snap = _snapshot(engine, result["vector"], role)
-    return {"label": "same hours, spent where the stated shortfall shrinks most per hour",
+    return {"label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction "
+                     "per hour first; it may not be optimal",
             "planned_actions": actions, "hours_used": round(budget_hours - max(left, 0.0), 1),
             "requirement_shortfall": snap["requirement_shortfall"], "core_summary": snap["core_summary"],
             "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded "
@@ -280,7 +308,7 @@ def simulate_transition(
     projection_id = f"pca-{engine.model.model_id}-{engine.model.n_components}d"
 
     digest_src = json.dumps({"c": candidate.content_digest, "t": target_role, "a": actions,
-                             "h": time_horizon_months, "w": hours_per_week, "m": engine.model.model_id},
+                             "h": time_horizon_months, "w": float(hpw), "m": engine.model.model_id},
                             sort_keys=True, separators=(",", ":")).encode("utf-8")
     scenario_id = "scn-" + hashlib.sha256(digest_src).hexdigest()[:16]
     result = apply_actions(engine, candidate, actions, f"{candidate.entity_id}#{scenario_id}")
@@ -396,7 +424,8 @@ def simulate_transition(
         "movement": movement,
         "map_points": points,
         "alternatives": {
-            "same_budget": _same_budget_alternative(engine, candidate, target_role, planned_hours),
+            "same_budget": _with_comparison(_same_budget_alternative(engine, candidate, target_role, planned_hours),
+                                            after["requirement_shortfall"]),
             "paths": paths["alternatives"],
             "path_ranking_note": paths["ranking_note"],
         },

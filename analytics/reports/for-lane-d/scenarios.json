@@ -19,29 +19,32 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       305.0,
-       1050.0
+       244.0,
+       840.0
       ],
       "entry_barriers_hardest_step": 1,
       "entry_barriers_total": 1,
-      "fits_time_horizon": "uncertain",
+      "fits_time_horizon": "blocked",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "direct",
       "months_range": [
-       11.7,
-       40.3
+       9.4,
+       32.2
       ],
       "pareto_optimal_on_time_and_barriers": true,
       "path": [
        "fde"
       ],
-      "ranking_score": 3.505417,
+      "ranking_score": 3.004333,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         305.0,
-         1050.0
+         244.0,
+         840.0
         ],
         "entry_barriers_role_exposure": [
          "customer-delivery"
@@ -51,40 +54,40 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           15.0,
-           50.0
+           12.0,
+           40.0
           ],
           "feature": "typescript"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "solution-design"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "technical-discovery"
          }
@@ -99,30 +102,33 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       355.0,
-       1250.0
+       284.0,
+       1000.0
       ],
       "entry_barriers_hardest_step": 1,
       "entry_barriers_total": 1,
       "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "stepping-stone",
       "months_range": [
-       31.6,
-       65.9
+       28.9,
+       56.4
       ],
       "pareto_optimal_on_time_and_barriers": false,
       "path": [
        "ai-architect",
        "fde"
       ],
-      "ranking_score": 5.46375,
+      "ranking_score": 4.875167,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         220.0,
-         800.0
+         176.0,
+         640.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Applied AI Architect",
@@ -130,48 +136,48 @@
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "system-design"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "ai-evaluation"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "mlops"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "cloud-architecture"
          }
@@ -181,9 +187,10 @@
        },
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         135.0,
-         450.0
+         108.0,
+         360.0
         ],
         "entry_barriers_role_exposure": [
          "customer-delivery"
@@ -193,16 +200,16 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           15.0,
-           50.0
+           12.0,
+           40.0
           ],
           "feature": "typescript"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "technical-discovery"
          }
@@ -217,30 +224,33 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       462.5,
-       1575.0
+       370.0,
+       1260.0
       ],
       "entry_barriers_hardest_step": 1,
       "entry_barriers_total": 1,
       "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "stepping-stone",
       "months_range": [
-       35.7,
-       78.4
+       32.2,
+       66.3
       ],
       "pareto_optimal_on_time_and_barriers": false,
       "path": [
        "backend",
        "fde"
       ],
-      "ranking_score": 6.263542,
+      "ranking_score": 5.511667,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         172.5,
-         575.0
+         138.0,
+         460.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Backend Engineer",
@@ -248,32 +258,32 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           15.0,
-           50.0
+           12.0,
+           40.0
           ],
           "feature": "typescript"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "go"
          },
          {
           "current_evidence_level": 0.3,
           "effort_hours_range": [
-           37.5,
-           125.0
+           30.0,
+           100.0
           ],
           "feature": "sql"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "system-design"
          }
@@ -283,9 +293,10 @@
        },
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         290.0,
-         1000.0
+         232.0,
+         800.0
         ],
         "entry_barriers_role_exposure": [
          "customer-delivery"
@@ -295,32 +306,32 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "solution-design"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "technical-discovery"
          }
@@ -332,6 +343,7 @@
      }
     ],
     "same_budget": {
+     "better_than_your_plan": true,
      "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
      "core_summary": {
       "contradicted": 0,
@@ -341,7 +353,7 @@
       "weak-evidence": 3
      },
      "hours_used": 140.0,
-     "label": "same hours, spent where the stated shortfall shrinks most per hour",
+     "label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction per hour first; it may not be optimal",
      "planned_actions": [
       {
        "effort_hours": 140.0,
@@ -349,7 +361,8 @@
        "skill": "solution-design"
       }
      ],
-     "requirement_shortfall": 1.493158
+     "requirement_shortfall": 1.493158,
+     "shortfall_vs_your_plan": -0.066038
     }
    },
    "applied_actions": [
@@ -624,29 +637,32 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       220.0,
-       800.0
+       176.0,
+       640.0
       ],
       "entry_barriers_hardest_step": 0,
       "entry_barriers_total": 0,
       "fits_time_horizon": "uncertain",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "direct",
       "months_range": [
-       8.4,
-       30.7
+       6.8,
+       24.5
       ],
       "pareto_optimal_on_time_and_barriers": true,
       "path": [
        "ai-architect"
       ],
-      "ranking_score": 1.884167,
+      "ranking_score": 1.508167,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         220.0,
-         800.0
+         176.0,
+         640.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Applied AI Architect",
@@ -654,48 +670,48 @@
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "system-design"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "ai-evaluation"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "mlops"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "cloud-architecture"
          }
@@ -710,30 +726,33 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       332.5,
-       1175.0
+       266.0,
+       940.0
       ],
       "entry_barriers_hardest_step": 0,
       "entry_barriers_total": 0,
       "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "stepping-stone",
       "months_range": [
-       30.8,
-       63.1
+       28.2,
+       54.1
       ],
       "pareto_optimal_on_time_and_barriers": false,
       "path": [
        "backend",
        "ai-architect"
       ],
-      "ranking_score": 4.289375,
+      "ranking_score": 3.730667,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         172.5,
-         575.0
+         138.0,
+         460.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Backend Engineer",
@@ -741,32 +760,32 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           15.0,
-           50.0
+           12.0,
+           40.0
           ],
           "feature": "typescript"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "go"
          },
          {
           "current_evidence_level": 0.3,
           "effort_hours_range": [
-           37.5,
-           125.0
+           30.0,
+           100.0
           ],
           "feature": "sql"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "system-design"
          }
@@ -776,9 +795,10 @@
        },
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         160.0,
-         600.0
+         128.0,
+         480.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Applied AI Architect",
@@ -786,40 +806,40 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "ai-evaluation"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "mlops"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "cloud-architecture"
          }
@@ -832,33 +852,38 @@
      {
       "assumed_tenure_months_total": 18.0,
       "caveats": [
-       "platform: evidence on file contradicts kubernetes; effort alone does not resolve a contradiction",
+       "platform: evidence on file contradicts kubernetes; effort alone does not resolve a contradiction, so these are blockers, not study items",
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 1,
       "effort_hours_range": [
-       475.0,
-       1650.0
+       332.0,
+       1160.0
       ],
-      "entry_barriers_hardest_step": 0,
+      "entry_barriers_hardest_step": 1,
       "entry_barriers_total": 0,
       "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "stepping-stone",
       "months_range": [
-       36.2,
-       81.3
+       30.7,
+       62.5
       ],
       "pareto_optimal_on_time_and_barriers": false,
       "path": [
        "platform",
        "ai-architect"
       ],
-      "ranking_score": 5.427083,
+      "ranking_score": 5.256333,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [
+         "kubernetes"
+        ],
         "effort_hours_range": [
-         315.0,
-         1050.0
+         204.0,
+         680.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Platform Engineer",
@@ -866,48 +891,40 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           15.0,
-           50.0
+           12.0,
+           40.0
           ],
           "feature": "aws"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
-          ],
-          "feature": "kubernetes"
-         },
-         {
-          "current_evidence_level": 0.0,
-          "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "infrastructure-as-code"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "ci-cd"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "observability"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "sre"
          }
@@ -917,9 +934,10 @@
        },
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         160.0,
-         600.0
+         128.0,
+         480.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Applied AI Architect",
@@ -927,40 +945,40 @@
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "system-design"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "ai-evaluation"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "mlops"
          }
@@ -972,29 +990,31 @@
      }
     ],
     "same_budget": {
+     "better_than_your_plan": true,
      "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
      "core_summary": {
       "contradicted": 0,
-      "evidenced": 2,
+      "evidenced": 3,
       "no-evidence-on-file": 2,
       "unknown": 0,
-      "weak-evidence": 3
+      "weak-evidence": 2
      },
      "hours_used": 160.0,
-     "label": "same hours, spent where the stated shortfall shrinks most per hour",
+     "label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction per hour first; it may not be optimal",
      "planned_actions": [
       {
-       "effort_hours": 100.0,
+       "effort_hours": 80.0,
        "evidence_goal": "portfolio-project",
        "skill": "rag"
       },
       {
-       "effort_hours": 60.0,
+       "effort_hours": 80.0,
        "evidence_goal": "portfolio-project",
        "skill": "mlops"
       }
      ],
-     "requirement_shortfall": 1.585352
+     "requirement_shortfall": 1.569364,
+     "shortfall_vs_your_plan": -0.017815
     }
    },
    "applied_actions": [
@@ -1266,29 +1286,32 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       220.0,
-       760.0
+       176.0,
+       608.0
       ],
       "entry_barriers_hardest_step": 4,
       "entry_barriers_total": 4,
-      "fits_time_horizon": "uncertain",
+      "fits_time_horizon": "blocked",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "direct",
       "months_range": [
-       8.4,
-       29.2
+       6.8,
+       23.3
       ],
       "pareto_optimal_on_time_and_barriers": true,
       "path": [
        "field-cto"
       ],
-      "ranking_score": 5.811667,
+      "ranking_score": 5.450167,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         220.0,
-         760.0
+         176.0,
+         608.0
         ],
         "entry_barriers_role_exposure": [
          "customer-delivery",
@@ -1301,24 +1324,24 @@
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "ai-strategy"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "cloud-architecture"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "solution-design"
          }
@@ -1333,30 +1356,33 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       405.0,
-       1410.0
+       324.0,
+       1128.0
       ],
       "entry_barriers_hardest_step": 2,
       "entry_barriers_total": 3,
       "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "stepping-stone",
       "months_range": [
-       33.5,
-       72.1
+       30.4,
+       61.3
       ],
       "pareto_optimal_on_time_and_barriers": true,
       "path": [
        "fde",
        "field-cto"
       ],
-      "ranking_score": 6.85375,
+      "ranking_score": 6.183833,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         305.0,
-         1050.0
+         244.0,
+         840.0
         ],
         "entry_barriers_role_exposure": [
          "customer-delivery"
@@ -1366,40 +1392,40 @@
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           15.0,
-           50.0
+           12.0,
+           40.0
           ],
           "feature": "typescript"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "solution-design"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           120.0,
-           400.0
+           96.0,
+           320.0
           ],
           "feature": "technical-discovery"
          }
@@ -1409,9 +1435,10 @@
        },
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         100.0,
-         360.0
+         80.0,
+         288.0
         ],
         "entry_barriers_role_exposure": [
          "enterprise-sales",
@@ -1422,16 +1449,16 @@
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "ai-strategy"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "cloud-architecture"
          }
@@ -1446,30 +1473,33 @@
       "caveats": [
        "seniority steps are not modelled: path effort and ranking ignore seniority; edges only flag large seniority gaps as constraints"
       ],
+      "contradiction_blockers_total": 0,
       "effort_hours_range": [
-       220.0,
-       800.0
+       176.0,
+       640.0
       ],
       "entry_barriers_hardest_step": 4,
       "entry_barriers_total": 4,
       "fits_time_horizon": "no",
+      "fits_time_horizon_note": "months count study hours and assumed tenure only; 'blocked' means unmet in-role requirements or contradicted evidence that hours cannot produce",
       "kind": "stepping-stone",
       "months_range": [
-       26.4,
-       48.7
+       24.8,
+       42.5
       ],
       "pareto_optimal_on_time_and_barriers": false,
       "path": [
        "ai-architect",
        "field-cto"
       ],
-      "ranking_score": 7.384167,
+      "ranking_score": 7.008167,
       "steps": [
        {
         "assumed_tenure_months_before_next_step": 18.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
-         220.0,
-         800.0
+         176.0,
+         640.0
         ],
         "entry_barriers_role_exposure": [],
         "label": "Applied AI Architect",
@@ -1477,48 +1507,48 @@
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "system-design"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "ai-evaluation"
          },
          {
           "current_evidence_level": 0.6,
           "effort_hours_range": [
-           10.0,
-           40.0
+           8.0,
+           32.0
           ],
           "feature": "llm-integration"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "rag"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           40.0,
-           160.0
+           32.0,
+           128.0
           ],
           "feature": "mlops"
          },
          {
           "current_evidence_level": 0.0,
           "effort_hours_range": [
-           60.0,
-           200.0
+           48.0,
+           160.0
           ],
           "feature": "cloud-architecture"
          }
@@ -1528,6 +1558,7 @@
        },
        {
         "assumed_tenure_months_before_next_step": 0.0,
+        "blocked_by_contradiction": [],
         "effort_hours_range": [
          0.0,
          0.0
@@ -1547,6 +1578,7 @@
      }
     ],
     "same_budget": {
+     "better_than_your_plan": true,
      "caveat": "Greedy on synthetic effort placeholders; role-exposure requirements are excluded because hours of study do not produce that evidence.",
      "core_summary": {
       "contradicted": 0,
@@ -1556,25 +1588,26 @@
       "weak-evidence": 1
      },
      "hours_used": 290.0,
-     "label": "same hours, spent where the stated shortfall shrinks most per hour",
+     "label": "greedy heuristic: the same hours spent feature by feature, largest shortfall reduction per hour first; it may not be optimal",
      "planned_actions": [
       {
-       "effort_hours": 130.0,
+       "effort_hours": 104.0,
        "evidence_goal": "portfolio-project",
        "skill": "cloud-architecture"
       },
       {
-       "effort_hours": 100.0,
+       "effort_hours": 80.0,
        "evidence_goal": "portfolio-project",
        "skill": "ai-strategy"
       },
       {
-       "effort_hours": 60.0,
+       "effort_hours": 106.0,
        "evidence_goal": "portfolio-project",
        "skill": "solution-design"
       }
      ],
-     "requirement_shortfall": 2.135837
+     "requirement_shortfall": 2.090151,
+     "shortfall_vs_your_plan": -0.021258
     }
    },
    "applied_actions": [

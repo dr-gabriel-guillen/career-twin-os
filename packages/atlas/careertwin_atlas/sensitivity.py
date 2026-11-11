@@ -194,6 +194,12 @@ def weight_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
     w = _clean_weights(weights)
     comps = utility_components(engine, candidate)
     base = _ordering(_utilities(comps, w, None))
+    if len(base) < 2:
+        # one role (or none) cannot be re-ordered: no stability statement (review cycle 2, finding 14)
+        return {"weights_normalised": {k: round(v, 4) for k, v in w.items()}, "baseline_ordering": base,
+                "n_draws": 0, "verdict": "not-assessable", "unranked_at_baseline": sorted(set(comps) - set(base)),
+                "interpretation": "fewer than two ranked roles; ordering stability is not defined",
+                "ordering_note": ORDERING_NOTE}
     rng = np.random.default_rng(seed)
     alpha = np.array([w[k] for k in COMPONENTS]) * concentration + 1e-3
     ranks: dict[str, list[int]] = {r: [] for r in base}
@@ -203,7 +209,9 @@ def weight_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
         order = _ordering(_utilities(comps, draw, None))
         for pos, r in enumerate(order, start=1):
             ranks.setdefault(r, []).append(pos)
-        taus.append(kendall_tau(base, order) or 0.0)
+        tau = kendall_tau(base, order)
+        if tau is not None:
+            taus.append(tau)
         top_same += int(bool(order) and bool(base) and order[0] == base[0])
     share = top_same / n_draws
     return {
@@ -239,6 +247,7 @@ def missing_salary_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
         worst = 1 + sum(1 for s in comps if s != r and upper[s] > lower[r])
         bounds[r] = {"best_possible_rank": best, "worst_possible_rank": worst}
     units = compensation_units(engine)
+    lo_m, up_m = _utilities(comps, w, 0.0), _utilities(comps, w, 1.0)   # unknown pay at worst / best
     coverage = {r: round(engine.profiles[r].compensation_coverage, 4) for r in comps}
     unknown_roles = sorted(r for r, c in comps.items() if c["compensation"] is None)
     return {
@@ -258,8 +267,16 @@ def missing_salary_sensitivity(engine: AtlasEngine, candidate: FeatureVector,
         "rank_bounds_if_compensation_fully_unknown": bounds,
         "top_choice_identifiable_without_compensation":
             bool(dropped) and bounds[dropped[0]]["worst_possible_rank"] == 1,
-        "handling": "Unknown compensation is never set to zero or guessed. It is dropped from that "
-                    "role's weighted sum, and rank bounds show what any value could change.",
+        "rank_bounds_for_roles_with_unknown_compensation": {
+            r: {"best_possible_rank": 1 + sum(1 for s in comps if s != r and lo_m[s] is not None and up_m[r] is not None
+                                              and lo_m[s] > up_m[r]),
+                "worst_possible_rank": 1 + sum(1 for s in comps if s != r and up_m[s] is not None
+                                               and lo_m[r] is not None and up_m[s] > lo_m[r])}
+            for r in unknown_roles},
+        "handling": "Unknown compensation is never set to zero. In the reported ordering it is dropped and the role's "
+                    "other components are renormalised, which is equivalent to assuming its pay matches its other "
+                    "components; it can therefore rank a role with missing pay above one with known low pay. "
+                    "rank_bounds_for_roles_with_unknown_compensation shows the full range any pay value could give.",
         "ordering_note": ORDERING_NOTE,
     }
 

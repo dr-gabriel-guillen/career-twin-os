@@ -163,7 +163,7 @@
   "compensation_units_observed": [
    "SYN/unknown"
   ],
-  "handling": "Unknown compensation is never set to zero or guessed. It is dropped from that role's weighted sum, and rank bounds show what any value could change.",
+  "handling": "Unknown compensation is never set to zero. In the reported ordering it is dropped and the role's other components are renormalised, which is equivalent to assuming its pay matches its other components; it can therefore rank a role with missing pay above one with known low pay. rank_bounds_for_roles_with_unknown_compensation shows the full range any pay value could give.",
   "ordering_note": "A preference ordering of roles under the user's declared weights. It ranks options; it does not predict outcomes.",
   "ordering_with_available_compensation": [
    "backend",
@@ -185,6 +185,7 @@
    "ai-eng-lead",
    "field-cto"
   ],
+  "rank_bounds_for_roles_with_unknown_compensation": {},
   "rank_bounds_if_compensation_fully_unknown": {
    "ai-architect": {
     "best_possible_rank": 1,
@@ -200,7 +201,7 @@
    },
    "backend": {
     "best_possible_rank": 1,
-    "worst_possible_rank": 3
+    "worst_possible_rank": 4
    },
    "fde": {
     "best_possible_rank": 1,
@@ -211,7 +212,7 @@
     "worst_possible_rank": 8
    },
    "platform": {
-    "best_possible_rank": 2,
+    "best_possible_rank": 1,
     "worst_possible_rank": 8
    },
    "privacy-legal-ai": {
@@ -393,7 +394,7 @@
   ],
   "dirichlet_concentration": 40.0,
   "interpretation": "Share of weight perturbations under which the top-ranked role stays on top. A stability measure of the ordering, not a likelihood of any outcome.",
-  "kendall_tau_mean": 0.766,
+  "kendall_tau_mean": 0.7643,
   "kendall_tau_min": 0.3571,
   "n_draws": 300,
   "ordering_note": "A preference ordering of roles under the user's declared weights. It ranks options; it does not predict outcomes.",

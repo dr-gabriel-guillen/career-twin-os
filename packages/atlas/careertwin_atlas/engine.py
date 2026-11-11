@@ -77,6 +77,7 @@ class AtlasEngine:
         for v in vectors:
             if skill_cols and bool(np.all(v.states[skill_cols] == STATE_UNKNOWN)):
                 unplaced.append({"entity_id": v.entity_id, "label": v.label, "source_vector_ref": v.vector_ref,
+                                 "source": str(v.meta.get("source") or "unknown"),
                                  "reason": "no observed skill features: unknown, not placed on the map"})
             else:
                 usable.append(v)
@@ -172,7 +173,8 @@ class AtlasEngine:
         for fam in sorted(self.profiles):
             p = self.profiles[fam]
             diff = (p.centroid - x) / scale
-            short = np.clip((p.centroid - evidence) / scale, 0.0, None) * skill
+            req = p.requirement_profile if p.requirement_profile is not None else p.centroid
+            short = np.clip((req - evidence) / scale, 0.0, None) * skill
             denom = float(np.linalg.norm(x) * np.linalg.norm(p.centroid))
             there = self.model.transform(p.centroid[None, :])[0]
             rows.append({
@@ -182,6 +184,7 @@ class AtlasEngine:
                 "cosine_similarity": float(x @ p.centroid / denom) if denom > 1e-12 else None,
                 "map_distance": float(np.linalg.norm(here - there)),
                 "unknown_features_counted_as_no_evidence": n_unknown,
+                "role_unknown_cell_share": p.unknown_cell_share,
             })
         for key, rank_key in (("requirement_shortfall", "shortfall_rank"),
                               ("full_space_distance", "full_space_rank"),

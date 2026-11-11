@@ -13,8 +13,8 @@
     "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership"
    ],
    "effort_hours_range": [
-    440.0,
-    1760.0
+    352.0,
+    1408.0
    ],
    "leadership_exposure_delta": 0.6554,
    "required_evidence": [
@@ -40,8 +40,8 @@
    "client_exposure_delta": -0.0708,
    "constraints": [],
    "effort_hours_range": [
-    400.0,
-    1600.0
+    320.0,
+    1280.0
    ],
    "leadership_exposure_delta": 0.4136,
    "required_evidence": [
@@ -57,8 +57,8 @@
    "client_exposure_delta": -0.064,
    "constraints": [],
    "effort_hours_range": [
-    240.0,
-    800.0
+    192.0,
+    640.0
    ],
    "leadership_exposure_delta": 0.0031,
    "required_evidence": [
@@ -78,8 +78,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery"
    ],
    "effort_hours_range": [
-    300.0,
-    1000.0
+    240.0,
+    800.0
    ],
    "leadership_exposure_delta": -0.0008,
    "required_evidence": [
@@ -101,8 +101,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management"
    ],
    "effort_hours_range": [
-    360.0,
-    1360.0
+    288.0,
+    1088.0
    ],
    "leadership_exposure_delta": 0.13,
    "required_evidence": [
@@ -128,8 +128,8 @@
    "client_exposure_delta": -0.0681,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": 0.0071,
    "required_evidence": [
@@ -149,8 +149,8 @@
    "client_exposure_delta": -0.0072,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": 0.016,
    "required_evidence": [
@@ -170,8 +170,8 @@
    "client_exposure_delta": -0.1015,
    "constraints": [],
    "effort_hours_range": [
-    340.0,
-    1240.0
+    272.0,
+    992.0
    ],
    "leadership_exposure_delta": -0.6554,
    "required_evidence": [
@@ -192,8 +192,8 @@
    "client_exposure_delta": -0.1723,
    "constraints": [],
    "effort_hours_range": [
-    440.0,
-    1680.0
+    352.0,
+    1344.0
    ],
    "leadership_exposure_delta": -0.2418,
    "required_evidence": [
@@ -213,8 +213,8 @@
    "client_exposure_delta": -0.1655,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.6523,
    "required_evidence": [
@@ -236,8 +236,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery"
    ],
    "effort_hours_range": [
-    400.0,
-    1360.0
+    320.0,
+    1088.0
    ],
    "leadership_exposure_delta": -0.6562,
    "required_evidence": [
@@ -261,8 +261,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication"
    ],
    "effort_hours_range": [
-    180.0,
-    600.0
+    144.0,
+    480.0
    ],
    "leadership_exposure_delta": -0.5254,
    "required_evidence": [
@@ -285,8 +285,8 @@
    "client_exposure_delta": -0.1696,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.6483,
    "required_evidence": [
@@ -306,8 +306,8 @@
    "client_exposure_delta": -0.1087,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": -0.6394,
    "required_evidence": [
@@ -327,8 +327,8 @@
    "client_exposure_delta": 0.0708,
    "constraints": [],
    "effort_hours_range": [
-    100.0,
-    360.0
+    80.0,
+    288.0
    ],
    "leadership_exposure_delta": -0.4136,
    "required_evidence": [
@@ -346,8 +346,8 @@
     "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership"
    ],
    "effort_hours_range": [
-    240.0,
-    960.0
+    192.0,
+    768.0
    ],
    "leadership_exposure_delta": 0.2418,
    "required_evidence": [
@@ -372,8 +372,8 @@
    "client_exposure_delta": 0.0068,
    "constraints": [],
    "effort_hours_range": [
-    240.0,
-    800.0
+    192.0,
+    640.0
    ],
    "leadership_exposure_delta": -0.4105,
    "required_evidence": [
@@ -393,8 +393,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery"
    ],
    "effort_hours_range": [
-    300.0,
-    1000.0
+    240.0,
+    800.0
    ],
    "leadership_exposure_delta": -0.4144,
    "required_evidence": [
@@ -416,8 +416,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management"
    ],
    "effort_hours_range": [
-    220.0,
-    760.0
+    176.0,
+    608.0
    ],
    "leadership_exposure_delta": -0.2836,
    "required_evidence": [
@@ -443,8 +443,8 @@
    "client_exposure_delta": 0.0027,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.4065,
    "required_evidence": [
@@ -464,8 +464,8 @@
    "client_exposure_delta": 0.0636,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": -0.3976,
    "required_evidence": [
@@ -485,8 +485,8 @@
    "client_exposure_delta": 0.064,
    "constraints": [],
    "effort_hours_range": [
-    220.0,
-    840.0
+    176.0,
+    672.0
    ],
    "leadership_exposure_delta": -0.0031,
    "required_evidence": [
@@ -508,8 +508,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    440.0,
-    1760.0
+    352.0,
+    1408.0
    ],
    "leadership_exposure_delta": 0.6523,
    "required_evidence": [
@@ -535,8 +535,8 @@
    "client_exposure_delta": -0.0068,
    "constraints": [],
    "effort_hours_range": [
-    520.0,
-    2080.0
+    416.0,
+    1664.0
    ],
    "leadership_exposure_delta": 0.4105,
    "required_evidence": [
@@ -557,8 +557,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery"
    ],
    "effort_hours_range": [
-    280.0,
-    960.0
+    224.0,
+    768.0
    ],
    "leadership_exposure_delta": -0.0039,
    "required_evidence": [
@@ -581,8 +581,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    420.0,
-    1560.0
+    336.0,
+    1248.0
    ],
    "leadership_exposure_delta": 0.1269,
    "required_evidence": [
@@ -609,8 +609,8 @@
    "client_exposure_delta": -0.0041,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": 0.004,
    "required_evidence": [
@@ -630,8 +630,8 @@
    "client_exposure_delta": 0.0568,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": 0.0129,
    "required_evidence": [
@@ -651,8 +651,8 @@
    "client_exposure_delta": -0.3211,
    "constraints": [],
    "effort_hours_range": [
-    240.0,
-    880.0
+    192.0,
+    704.0
    ],
    "leadership_exposure_delta": 0.0008,
    "required_evidence": [
@@ -674,8 +674,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    440.0,
-    1760.0
+    352.0,
+    1408.0
    ],
    "leadership_exposure_delta": 0.6562,
    "required_evidence": [
@@ -701,8 +701,8 @@
    "client_exposure_delta": -0.3919,
    "constraints": [],
    "effort_hours_range": [
-    540.0,
-    2120.0
+    432.0,
+    1696.0
    ],
    "leadership_exposure_delta": 0.4144,
    "required_evidence": [
@@ -721,8 +721,8 @@
    "client_exposure_delta": -0.3851,
    "constraints": [],
    "effort_hours_range": [
-    240.0,
-    800.0
+    192.0,
+    640.0
    ],
    "leadership_exposure_delta": 0.0039,
    "required_evidence": [
@@ -743,8 +743,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    300.0,
-    1160.0
+    240.0,
+    928.0
    ],
    "leadership_exposure_delta": 0.1308,
    "required_evidence": [
@@ -768,8 +768,8 @@
    "client_exposure_delta": -0.3892,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": 0.0079,
    "required_evidence": [
@@ -789,8 +789,8 @@
    "client_exposure_delta": -0.3283,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": 0.0168,
    "required_evidence": [
@@ -810,8 +810,8 @@
    "client_exposure_delta": -0.6234,
    "constraints": [],
    "effort_hours_range": [
-    280.0,
-    1040.0
+    224.0,
+    832.0
    ],
    "leadership_exposure_delta": -0.13,
    "required_evidence": [
@@ -833,8 +833,8 @@
     "requires evidence normally gained in-role, not from study alone: people-management, hiring, budget-ownership"
    ],
    "effort_hours_range": [
-    200.0,
-    800.0
+    160.0,
+    640.0
    ],
    "leadership_exposure_delta": 0.5254,
    "required_evidence": [
@@ -856,8 +856,8 @@
    "client_exposure_delta": -0.6942,
    "constraints": [],
    "effort_hours_range": [
-    440.0,
-    1680.0
+    352.0,
+    1344.0
    ],
    "leadership_exposure_delta": 0.2836,
    "required_evidence": [
@@ -877,8 +877,8 @@
    "client_exposure_delta": -0.6874,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.1269,
    "required_evidence": [
@@ -898,8 +898,8 @@
    "client_exposure_delta": -0.3023,
    "constraints": [],
    "effort_hours_range": [
-    280.0,
-    960.0
+    224.0,
+    768.0
    ],
    "leadership_exposure_delta": -0.1308,
    "required_evidence": [
@@ -917,8 +917,8 @@
    "client_exposure_delta": -0.6915,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.1229,
    "required_evidence": [
@@ -938,8 +938,8 @@
    "client_exposure_delta": -0.6306,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": -0.114,
    "required_evidence": [
@@ -959,8 +959,8 @@
    "client_exposure_delta": 0.0681,
    "constraints": [],
    "effort_hours_range": [
-    340.0,
-    1240.0
+    272.0,
+    992.0
    ],
    "leadership_exposure_delta": -0.0071,
    "required_evidence": [
@@ -984,8 +984,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    440.0,
-    1760.0
+    352.0,
+    1408.0
    ],
    "leadership_exposure_delta": 0.6483,
    "required_evidence": [
@@ -1011,8 +1011,8 @@
    "client_exposure_delta": -0.0027,
    "constraints": [],
    "effort_hours_range": [
-    640.0,
-    2480.0
+    512.0,
+    1984.0
    ],
    "leadership_exposure_delta": 0.4065,
    "required_evidence": [
@@ -1033,8 +1033,8 @@
    "client_exposure_delta": 0.0041,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.004,
    "required_evidence": [
@@ -1056,8 +1056,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery"
    ],
    "effort_hours_range": [
-    400.0,
-    1360.0
+    320.0,
+    1088.0
    ],
    "leadership_exposure_delta": -0.0079,
    "required_evidence": [
@@ -1082,8 +1082,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    420.0,
-    1560.0
+    336.0,
+    1248.0
    ],
    "leadership_exposure_delta": 0.1229,
    "required_evidence": [
@@ -1110,8 +1110,8 @@
    "client_exposure_delta": 0.0609,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1440.0
+    288.0,
+    1152.0
    ],
    "leadership_exposure_delta": 0.0089,
    "required_evidence": [
@@ -1131,8 +1131,8 @@
    "client_exposure_delta": 0.0072,
    "constraints": [],
    "effort_hours_range": [
-    340.0,
-    1240.0
+    272.0,
+    992.0
    ],
    "leadership_exposure_delta": -0.016,
    "required_evidence": [
@@ -1156,8 +1156,8 @@
     "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
    ],
    "effort_hours_range": [
-    440.0,
-    1760.0
+    352.0,
+    1408.0
    ],
    "leadership_exposure_delta": 0.6394,
    "required_evidence": [
@@ -1183,8 +1183,8 @@
    "client_exposure_delta": -0.0636,
    "constraints": [],
    "effort_hours_range": [
-    640.0,
-    2480.0
+    512.0,
+    1984.0
    ],
    "leadership_exposure_delta": 0.3976,
    "required_evidence": [
@@ -1205,8 +1205,8 @@
    "client_exposure_delta": -0.0568,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.0129,
    "required_evidence": [
@@ -1228,8 +1228,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery"
    ],
    "effort_hours_range": [
-    400.0,
-    1360.0
+    320.0,
+    1088.0
    ],
    "leadership_exposure_delta": -0.0168,
    "required_evidence": [
@@ -1253,8 +1253,8 @@
     "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management"
    ],
    "effort_hours_range": [
-    420.0,
-    1560.0
+    336.0,
+    1248.0
    ],
    "leadership_exposure_delta": 0.114,
    "required_evidence": [
@@ -1281,8 +1281,8 @@
    "client_exposure_delta": -0.0609,
    "constraints": [],
    "effort_hours_range": [
-    360.0,
-    1200.0
+    288.0,
+    960.0
    ],
    "leadership_exposure_delta": -0.0089,
    "required_evidence": [

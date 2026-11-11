@@ -2637,21 +2637,21 @@
   {
    "from_entity_id": "candidate-synthetic-001",
    "id": "path:scn-402ca82f3c1debbd",
-   "label": "Hypothetical move toward Forward Deployed Engineer (0.2708 of it visible on the map)",
+   "label": "Hypothetical move toward Forward Deployed Engineer (27% of it visible on the map)",
    "scenario_id": "scn-402ca82f3c1debbd",
    "to_entity_id": "candidate-synthetic-001#scn-402ca82f3c1debbd"
   },
   {
    "from_entity_id": "candidate-synthetic-001",
    "id": "path:scn-c98d97f9ac75f6bd",
-   "label": "Hypothetical move toward Applied AI Architect (0.389464 of it visible on the map)",
+   "label": "Hypothetical move toward Applied AI Architect (39% of it visible on the map)",
    "scenario_id": "scn-c98d97f9ac75f6bd",
    "to_entity_id": "candidate-synthetic-001#scn-c98d97f9ac75f6bd"
   },
   {
    "from_entity_id": "candidate-synthetic-001",
    "id": "path:scn-308de79a8b61071a",
-   "label": "Hypothetical move toward Field CTO (0.242913 of it visible on the map)",
+   "label": "Hypothetical move toward Field CTO (24% of it visible on the map)",
    "scenario_id": "scn-308de79a8b61071a",
    "to_entity_id": "candidate-synthetic-001#scn-308de79a8b61071a"
   }

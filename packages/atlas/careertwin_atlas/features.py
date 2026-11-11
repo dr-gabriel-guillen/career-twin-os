@@ -257,7 +257,9 @@ def job_to_vector(job: Mapping[str, Any], vocab: Vocabulary) -> FeatureVector:
             if not isinstance(text, str) or not text.strip():
                 continue
             n_reqs += 1
-            if _NEGATION.search(text[:MAX_TEXT_CHARS]):
+            # typographic apostrophes (U+2018/U+2019/U+02BC) normalised first (review cycle 2, finding 5)
+            plain = text[:MAX_TEXT_CHARS].replace("\u2019", "'").replace("\u2018", "'").replace("\u02bc", "'")
+            if _NEGATION.search(plain):
                 # "X is NOT required", "no people management": reading the skill would invent a requirement
                 negated_reqs += 1
                 unmapped_reqs += 1

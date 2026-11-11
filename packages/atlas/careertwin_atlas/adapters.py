@@ -95,7 +95,7 @@ def vocabulary_from_names(names: Sequence[Any], version: str,
 
 def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
                    postings: Mapping[str, Mapping[str, Any]] | None = None,
-                   payload_synthetic: bool = False) -> FeatureVector:
+                   payload_synthetic: bool | None = None) -> FeatureVector:
     if not isinstance(row, Mapping):
         raise InvalidInputError(f"{where}: row must be an object")
     entity_id = row.get("entity_id")
@@ -122,6 +122,9 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
         if (isinstance(upstream_states, (str, bytes)) or not isinstance(upstream_states, Sequence)
                 or len(upstream_states) != d or any(x not in A_CANDIDATE_STATES for x in upstream_states)):
             raise InvalidInputError(f"{where}: states must list {d} entries from {sorted(A_CANDIDATE_STATES)}")
+        if observed != bool((arr > 0).any()):
+            # Repair note (review cycle 2, finding 8): states used to bypass the observed=false guard.
+            raise InvalidInputError(f"{where}: observed must equal 'any value > 0' when states are supplied")
         zero_states = {"none", "contradicted", "expired"}
         if any((v == 0) != (st in zero_states) for v, st in zip(arr, upstream_states)):
             raise InvalidInputError(f"{where}: values and states disagree (values[i] == 0 must hold iff "
@@ -150,7 +153,14 @@ def _row_to_vector(row: Any, vocab: Vocabulary, kind: str, where: str,
     fetched = row.get("fetched_at") if parse_utc(row.get("fetched_at")) else None
     if fetched is None and record and parse_utc(record.get("fetched_at")):
         fetched = record.get("fetched_at")
-    synthetic = payload_synthetic or row.get("synthetic") is True or bool(record and record.get("_synthetic"))
+    # Repair note (review cycle 2, finding 6): any single "synthetic" signal used to win (OR). Every signal
+    # present must now agree (AND); a conflict is reported and the row counts as not verified.
+    signals = [b for b in (payload_synthetic, row.get("synthetic") if isinstance(row.get("synthetic"), bool) else None,
+                           record.get("_synthetic") if record else None) if isinstance(b, bool)]
+    synthetic = bool(signals) and all(signals)
+    if signals and not all(signals) and any(signals):
+        warnings.append("provenance-conflict: synthetic markers disagree between payload, row and record; "
+                        "treated as not verified")
     meta = {
         "role_family": family, "fetched_at": fetched,
         "status": row.get("status") if row.get("status") in ("active", "expired", "unknown") else "unknown",
@@ -197,7 +207,7 @@ def engine_from_skill_vectors(payload: Any, standardize: bool = False, n_compone
                 ext = item.get("ext") if isinstance(item.get("ext"), Mapping) else {}
                 postings[pid] = {"fetched_at": posting.get("fetched_at"),
                                  "_synthetic": posting.get("source") == "synthetic" or ext.get("synthetic") is True}
-    payload_synthetic = payload.get("synthetic") is True
+    payload_synthetic = payload.get("synthetic") if isinstance(payload.get("synthetic"), bool) else None
     version = payload.get("api_version")
     if version != A_API_VERSION:
         raise InvalidInputError(f"unsupported api_version {version!r}; this adapter is pinned to {A_API_VERSION!r}")

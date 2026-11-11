@@ -14,6 +14,7 @@
     "n_postings": 166,
     "requirement_shortfall": 1.477347,
     "role": "backend",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 1,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -28,6 +29,7 @@
     "n_postings": 185,
     "requirement_shortfall": 1.666893,
     "role": "fde",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 2,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -42,6 +44,7 @@
     "n_postings": 160,
     "requirement_shortfall": 2.000976,
     "role": "ai-architect",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 3,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -56,6 +59,7 @@
     "n_postings": 187,
     "requirement_shortfall": 2.068024,
     "role": "ai-eng-lead",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 4,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -70,6 +74,7 @@
     "n_postings": 201,
     "requirement_shortfall": 2.110295,
     "role": "platform",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 5,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -84,6 +89,7 @@
     "n_postings": 197,
     "requirement_shortfall": 2.241196,
     "role": "privacy-legal-ai",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 6,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -98,6 +104,7 @@
     "n_postings": 202,
     "requirement_shortfall": 2.464347,
     "role": "field-cto",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 7,
     "unknown_features_counted_as_no_evidence": 0
    },
@@ -112,6 +119,7 @@
     "n_postings": 202,
     "requirement_shortfall": 2.465898,
     "role": "ai-director",
+    "role_unknown_cell_share": 0.0,
     "shortfall_rank": 8,
     "unknown_features_counted_as_no_evidence": 0
    }

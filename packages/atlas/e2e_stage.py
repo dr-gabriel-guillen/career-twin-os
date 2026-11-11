@@ -67,6 +67,8 @@ def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
     jobs_path = vectors_path.parent / "jobs.json"
     if jobs_path.is_file():
         raw = _read(jobs_path)
+        if not isinstance(raw, list):
+            raise InvalidInputError("jobs.json must be a list of JobPosting objects")
         jobs = {j["id"]: j for j in raw if isinstance(j, dict) and isinstance(j.get("id"), str)}
     d = len(vocab.features)
     vectors, seen = [], set()
@@ -83,8 +85,8 @@ def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
                 or any(isinstance(x, bool) or not isinstance(x, (int, float)) for x in values)):
             raise InvalidInputError(f"vectors[{pos}]: values must be {d} numbers")
         arr = np.asarray(values, dtype=np.float64)
-        if not np.all(np.isfinite(arr)):
-            raise InvalidInputError(f"vectors[{pos}]: values must be finite")
+        if not np.all(np.isfinite(arr)) or arr.min() < 0.0 or arr.max() > 1.0:
+            raise InvalidInputError(f"vectors[{pos}]: values must be finite and within [0, 1]")
         job = jobs.get(eid, {})
         states = np.where(arr != 0, STATE_STATED, STATE_NOT_STATED).astype(np.int8)
         vectors.append(FeatureVector(
@@ -120,8 +122,11 @@ def project(vectors_path: Path, out_dir: Path, seed: int = 0) -> dict:
         "warnings": atlas["warnings"],
     })
     out_dir.mkdir(parents=True, exist_ok=True)
-    _write(out_dir / "atlas_points.json", points)
-    _write(out_dir / "atlas_diagnostics.json", diag)
+    # serialise both before writing either, so a failure never leaves a half-written stage
+    texts = {name: json.dumps(doc, indent=1, sort_keys=True, ensure_ascii=True, allow_nan=False) + "\n"
+             for name, doc in (("atlas_points.json", points), ("atlas_diagnostics.json", diag))}
+    for name, text in texts.items():
+        (out_dir / name).write_text(text, encoding="utf-8", newline="\n")
     return {"points": len(points), "unplaced": len(atlas["unplaced"]), "trustworthiness": diag["trustworthiness"]}
 
 
@@ -129,6 +134,8 @@ def scenario(artifacts: Path, seed: int = 0, hours_per_week: float = 6.0, horizo
     claims = _read(artifacts / "claims.json")
     jobs = _read(artifacts / "jobs.json")
     pin = _read(artifacts / "pin.json")
+    if not isinstance(jobs, list):
+        raise InvalidInputError("jobs.json must be a list of JobPosting objects")
     if not isinstance(claims, list) or not claims or not isinstance(claims[0], dict):
         raise InvalidInputError("claims.json must be a non-empty list of ProfileClaim objects")
     if not isinstance(pin, dict) or not isinstance(pin.get("job_id"), str):
@@ -182,7 +189,7 @@ def main(argv=None) -> int:
             result = project(Path(args.vectors), Path(args.out_dir), args.seed)
         else:
             result = scenario(Path(args.artifacts), args.seed)
-    except (AtlasError, OSError) as exc:
+    except (AtlasError, OSError, ValueError, TypeError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
     print(json.dumps(result))

@@ -70,7 +70,7 @@ def test_missing_salary_gives_rank_bounds_instead_of_guesses(engine, candidate):
     assert all(1 <= b["best_possible_rank"] <= b["worst_possible_rank"] <= 8 for b in bounds.values())
     assert sorted(res["ordering_with_compensation_dropped"]) == sorted(engine.profiles)
     assert isinstance(res["top_choice_identifiable_without_compensation"], bool)
-    assert "never set to zero or guessed" in res["handling"]
+    assert "never set to zero" in res["handling"] and "rank_bounds_for_roles_with_unknown_compensation" in res
     heavy = missing_salary_sensitivity(engine, candidate, {"compensation": 0.9, "skills": 0.1})
     light = missing_salary_sensitivity(engine, candidate, {"compensation": 0.0, "skills": 1.0})
     spread = lambda r: sum(b["worst_possible_rank"] - b["best_possible_rank"]          # noqa: E731
