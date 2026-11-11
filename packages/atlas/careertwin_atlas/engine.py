@@ -56,17 +56,32 @@ class AtlasEngine:
                 continue
             seen.add(v.entity_id)
             vectors.append(v)
+        return cls.from_vectors(vectors, vocab, standardize=standardize, n_components=n_components,
+                                seed=seed, n_boot=n_boot, skipped=skipped)
+
+    @classmethod
+    def from_vectors(cls, vectors: Sequence[FeatureVector], vocab: Vocabulary, standardize: bool = False,
+                     n_components: int = 2, seed: int = 0, n_boot: int = 50,
+                     skipped: Sequence[Mapping[str, str]] = (),
+                     role_labels: Mapping[str, str] | None = None) -> "AtlasEngine":
+        """Fit from ready-made feature vectors (for example lane A's published skill vectors)."""
+        vectors = list(vectors)
+        skipped = [dict(s) for s in skipped]
         if len(vectors) < 2:
             raise DegenerateInputError(
                 f"need at least two usable postings to fit an atlas; got {len(vectors)} "
                 f"({len(skipped)} skipped)")
+        if any(v.vocab_digest != vocab.digest() or v.feature_names != vocab.feature_names for v in vectors):
+            raise FeatureSpaceMismatchError("vectors were not built with the supplied vocabulary")
         matrix = build_matrix(vectors)
         model = fit_pca(matrix.X, matrix.feature_names, matrix.vocab_digest,
                         n_components=n_components, standardize=standardize)
         rep = model.transform_with_report(matrix.X)
         X = np.where(np.isnan(matrix.X), model.mean[None, :], matrix.X)
         Z = model.standardized(matrix.X)
-        profiles = build_role_profiles(matrix, X, FAMILY_LABELS, seed=seed, n_boot=n_boot)
+        labels = dict(FAMILY_LABELS)
+        labels.update(role_labels or {})
+        profiles = build_role_profiles(matrix, X, labels, seed=seed, n_boot=n_boot)
         warnings = list(model.warnings)
         if skipped:
             warnings.append(f"{len(skipped)} posting(s) skipped as unusable or duplicate")

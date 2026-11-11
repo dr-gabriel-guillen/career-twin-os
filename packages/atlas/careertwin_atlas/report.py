@@ -26,7 +26,7 @@ from .graph import build_transition_graph, plan_paths
 from .roles import centroid_drift, split_by_time
 from .sensitivity import SensitivityInputs, run_sensitivity
 from .simulator import simulate_transition
-from .taxonomy import FAMILY_IDS, FAMILY_LABELS, generate_postings
+from .taxonomy import generate_postings
 from .vocabulary import default_vocabulary
 
 CANDIDATE_REF = "candidate-synthetic-001"
@@ -121,7 +121,8 @@ def render_svg(engine: AtlasEngine, bundle: Mapping[str, Any], width: int = 860,
     def px(x: float, y: float) -> tuple[float, float]:
         return pad + (x - x0) * sx, height - pad - 40 - (y - y0) * sy
 
-    colour = {f: _PALETTE[i % len(_PALETTE)] for i, f in enumerate(FAMILY_IDS)}
+    legend = sorted(engine.profiles)
+    colour = {f: _PALETTE[i % len(_PALETTE)] for i, f in enumerate(legend)}
     evr = engine.model.explained_variance_ratio
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" '
@@ -149,11 +150,11 @@ def render_svg(engine: AtlasEngine, bundle: Mapping[str, Any], width: int = 860,
             parts.append(f'<text x="{cx + 10:.1f}" y="{cy + 4:.1f}" font-family="sans-serif" '
                          f'font-size="11">{label}</text>')
     lx = width - legend_w + 10
-    for i, fam in enumerate(FAMILY_IDS):
+    for i, fam in enumerate(legend[:20]):
         y = 60 + i * 22
         parts.append(f'<circle cx="{lx}" cy="{y}" r="6" fill="{colour[fam]}"/>')
         parts.append(f'<text x="{lx + 14}" y="{y + 4}" font-family="sans-serif" font-size="12">'
-                     f'{html.escape(FAMILY_LABELS[fam])}</text>')
+                     f'{html.escape(engine.profiles[fam].label)}</text>')
     parts.append(f'<text x="{pad}" y="{height - 52}" font-family="sans-serif" font-size="11">'
                  f'Axis 1: {evr[0]:.1%} of variance · Axis 2: {evr[1]:.1%} of variance · '
                  f'{1 - float(evr[:2].sum()):.1%} not shown</text>')

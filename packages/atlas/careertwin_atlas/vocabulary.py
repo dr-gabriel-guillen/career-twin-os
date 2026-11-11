@@ -81,9 +81,14 @@ _ALIASES: dict[str, str] = {
     "llm": "llm-integration", "llms": "llm-integration", "agents": "agent-orchestration",
     "javascript": "typescript", "cloud": "cloud-architecture", "privacy": "privacy-engineering",
     "site-reliability": "sre", "finops": "cost-optimization", "presales": "pre-sales-demos",
+    # canonical ids used by lane A's taxonomy (a-api/0.1) that name the same concept differently
+    "llm-applications": "llm-integration", "solution-demos": "pre-sales-demos",
+    "performance-engineering": "backend-performance", "compliance": "regulatory-compliance",
+    "frontend-architecture": "frontend",
 }
 _LOSSY_ALIASES = frozenset({"javascript", "cloud", "privacy", "postgres", "postgresql", "gdpr",
-                            "devops", "ml", "llm", "llms", "rest", "grpc"})
+                            "devops", "ml", "llm", "llms", "rest", "grpc", "compliance",
+                            "frontend-architecture"})
 
 #: Convenience bundles a user can name in a scenario instead of listing features one by one.
 BUNDLES: dict[str, tuple[str, ...]] = {

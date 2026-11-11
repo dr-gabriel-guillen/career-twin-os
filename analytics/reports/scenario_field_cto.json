@@ -8,7 +8,7 @@
   "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met."
  ],
  "candidate_ref": "candidate-synthetic-001",
- "id": "scn-c1a9f61e3099bd95",
+ "id": "scn-0866a46635c9dded",
  "outputs": {
   "alternatives": {
    "path_ranking_note": "Lower score ranks first. The score orders options under the declared weights; it is not a likelihood of success.",
@@ -468,10 +468,10 @@
     "fit_metric_ref": "gap:field-cto:requirement_shortfall",
     "label": "Candidate (evidence on file)",
     "neighborhood_quality": null,
-    "projection_id": "pca-b17abad8c9efaf97-2d",
+    "projection_id": "pca-8f1246e73ece031e-2d",
     "projection_method": "pca",
     "representation_type": "candidate",
-    "source_vector_ref": "vec:sha256:99b67877c1ed04004b3f424d",
+    "source_vector_ref": "vec:sha256:950b1d46564e36f22edd7e2f",
     "warnings": [
      "map-position-is-not-a-fit-or-hiring-score"
     ]
@@ -481,14 +481,14 @@
      -0.872852,
      0.266126
     ],
-    "entity_id": "candidate-synthetic-001#scn-c1a9f61e3099bd95",
+    "entity_id": "candidate-synthetic-001#scn-0866a46635c9dded",
     "fit_metric_ref": "gap:field-cto:requirement_shortfall",
     "label": "Hypothetical scenario",
     "neighborhood_quality": null,
-    "projection_id": "pca-b17abad8c9efaf97-2d",
+    "projection_id": "pca-8f1246e73ece031e-2d",
     "projection_method": "pca",
     "representation_type": "scenario",
-    "source_vector_ref": "vec:sha256:77c3aa1ec0cc9746921a2673",
+    "source_vector_ref": "vec:sha256:6bf9dabc1ae455d18a60315f",
     "warnings": [
      "map-position-is-not-a-fit-or-hiring-score",
      "hypothetical-scenario"
@@ -497,9 +497,9 @@
   ],
   "metric_semantics": "Outputs are distances, counts, hours and ranks in a synthetic feature space. They are not probabilities of interview, offer or compensation.",
   "model_ref": {
-   "model_id": "b17abad8c9efaf97",
-   "projection_id": "pca-b17abad8c9efaf97-2d",
-   "vocab_digest": "ae8229a4dad29a62"
+   "model_id": "8f1246e73ece031e",
+   "projection_id": "pca-8f1246e73ece031e-2d",
+   "vocab_digest": "2490dd2e0ef8fc25"
   },
   "movement": {
    "features_changed": 5,

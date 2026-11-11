@@ -82,7 +82,7 @@ Target: **Field CTO**. Core requirements by candidate evidence state: {'evidence
 - Weak evidence: none
 - Confidence in the role description: high
 
-Scenario `scn-c1a9f61e3099bd95` (290 planned hours, horizon 12 months):
+Scenario `scn-0866a46635c9dded` (290 planned hours, horizon 12 months):
 
 - Requirement shortfall 2.464 → 2.127 (lower = fewer stated requirements uncovered).
 - Fits the time budget: yes (capacity 313 h).
@@ -114,7 +114,7 @@ Scenario `scn-c1a9f61e3099bd95` (290 planned hours, horizon 12 months):
 
 ## 7. Scale
 
-5000 synthetic vectors × 52 features: fit 1.06 s, bundle with diagnostics 4.55 s on this machine (timings vary by hardware).
+5000 synthetic vectors × 52 features: fit 1.23 s, bundle with diagnostics 4.89 s on this machine (timings vary by hardware).
 
 ## 8. Limits
 

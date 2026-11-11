@@ -48,6 +48,16 @@ _FREE_TEXT_AMBIGUOUS = frozenset({
 })
 
 
+#: ``role_family`` values that mean "no family assigned". They never become a role profile.
+UNLABELLED_FAMILIES = frozenset({"unknown", "other", "none", "unclassified", "unlabelled", "n-a", "na"})
+
+
+def normalize_family(raw: object) -> str | None:
+    """Normalise a ``role_family`` value; placeholders such as "unknown" become ``None``."""
+    token = normalize_token(raw)
+    return None if token is None or token in UNLABELLED_FAMILIES else token
+
+
 def sanitize_label(raw: object, fallback: str = "unlabelled") -> str:
     """Strip control/bidi characters and cap length. Consumers must still escape for HTML/CSV."""
     if not isinstance(raw, str):
@@ -98,7 +108,15 @@ class FeatureVector:
 
     @property
     def vector_ref(self) -> str:
-        """Content-addressed reference used as ``AtlasPoint.source_vector_ref``."""
+        """Reference used as ``AtlasPoint.source_vector_ref``.
+
+        If the producer of the vector supplied its own reference (``meta["source_vector_ref"]``,
+        for example lane A's ``a-skillvec/...``) that reference is preserved; otherwise the
+        reference is a digest of the vector content.
+        """
+        upstream = self.meta.get("source_vector_ref")
+        if isinstance(upstream, str) and upstream.strip():
+            return upstream.strip()[:200]
         payload = {
             "entity_id": self.entity_id, "kind": self.kind, "vocab": self.vocab_digest,
             "values": [None if np.isnan(v) else round(float(v), 6) for v in self.values],
@@ -227,7 +245,7 @@ def job_to_vector(job: Mapping[str, Any], vocab: Vocabulary) -> FeatureVector:
         warnings.append(f"unmapped-skill-terms: {len(unmapped)} preserved, not used in vector")
     if lossy:
         warnings.append("lossy-alias-used: " + ",".join(sorted(set(lossy))))
-    family = normalize_token(job.get("role_family"))
+    family = normalize_family(job.get("role_family"))
     comp = job.get("compensation")
     comp_mid = None
     if isinstance(comp, Mapping):
