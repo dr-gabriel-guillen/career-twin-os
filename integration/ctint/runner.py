@@ -454,8 +454,9 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
             else:
                 providers[stage.id] = None
         stages = e2e.run_pipeline(
-            providers, out / "artifacts", seed=args.seed, count=args.count, probes=not args.no_probes
-        )
+            providers, out / "artifacts", seed=args.seed, count=args.count, probes=not args.no_probes,
+            logs=out / "logs",
+        )  # fmt: skip
     finally:
         if previous_root is None:
             os.environ.pop("CT_REPO_ROOT", None)

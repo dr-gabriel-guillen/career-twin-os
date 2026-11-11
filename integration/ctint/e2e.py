@@ -412,6 +412,19 @@ def v_scenarios(a: Path, count: int) -> list[str]:
         problems.append(f"scenarios.json: candidate_ref must be the claims subject {subject!r}")
     if not any(s.get("planned_actions") for s in scenarios):
         problems.append("scenarios.json: no scenario proposes any action")
+    # Proposed by lane D on #5: a scenario drawn on the run's map must come from the same fitted model.
+    diagnostics_path = a / "atlas_diagnostics.json"
+    if diagnostics_path.is_file():
+        atlas_projection = read_json(diagnostics_path).get("projection_id")
+        for scenario in scenarios:
+            outputs = scenario.get("outputs")
+            model_ref = outputs.get("model_ref") if isinstance(outputs, dict) else None
+            ref = model_ref.get("projection_id") if isinstance(model_ref, dict) else None
+            if ref is not None and atlas_projection is not None and ref != atlas_projection:
+                problems.append(
+                    f"scenarios.json: {scenario.get('id')!r} uses projection {ref!r}, the atlas stage fitted "
+                    f"{atlas_projection!r}; its map points cannot be drawn on this run's atlas"
+                )
     return problems
 
 
@@ -590,8 +603,13 @@ def run_pipeline(
     seed: int = 7,
     count: int = 150,
     probes: bool = True,
+    logs: Path | None = None,
 ) -> list[StageResult]:
-    """Run every stage in order and return one result per stage. Never raises for stage failures."""
+    """Run every stage in order and return one result per stage. Never raises for stage failures.
+
+    With ``logs``, each stage's full output is saved as ``stage-<id>.log`` (the report keeps only a tail;
+    run final4 lost lane D's assertion message to that truncation).
+    """
     artifacts.mkdir(parents=True, exist_ok=True)
     results: list[StageResult] = []
     producer: dict[str, str] = {}  # artifact file name -> lane that created it ("E" for pin.json)
@@ -619,6 +637,9 @@ def run_pipeline(
             outcome = RunOutcome(False, f"provider raised {type(exc).__name__}: {exc}")
         result.duration_s = round(time.perf_counter() - started, 3)
         result.log_tail = outcome.log[-1500:]
+        if logs is not None:
+            logs.mkdir(parents=True, exist_ok=True)
+            (logs / f"stage-{stage.id}.log").write_text(outcome.log, encoding="utf-8", errors="replace")
         result.status = "FAIL"
         if not outcome.ok:
             result.problems.append(f"stage command failed: {outcome.detail}")

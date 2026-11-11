@@ -152,6 +152,7 @@ def test_clean_lane_stage_passes_and_nothing_else_is_pretended(toy: Path, tmp_pa
         (tmp_path / "out" / "report.md").read_text(encoding="utf-8").startswith("# Integration run — BLOCKED")
     )
     assert f"--lane A={sha}" in report["reproduce"]
+    assert (tmp_path / "out" / "logs" / "stage-jobs.import.log").is_file(), "full stage logs are kept"
 
 
 def test_canned_output_is_detected(toy: Path, tmp_path: Path) -> None:

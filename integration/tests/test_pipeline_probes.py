@@ -64,6 +64,23 @@ def test_silently_reusing_persisted_state_is_stale(tmp_path: Path) -> None:
     assert [p.split(":")[0] for p in problems] == ["STALE-STATE"]
 
 
+def test_scenario_must_use_the_atlas_stage_projection(tmp_path: Path) -> None:
+    """D's proposal on #5 after C's two stages fitted different models (fixed in C f76e24c)."""
+    claims = synth.gen_claims(seed=1)
+    scenario = synth.gen_scenarios(1, seed=1)[0]
+    scenario["outputs"]["model_ref"] = {"projection_id": "pca-model-a"}
+    (tmp_path / "claims.json").write_text(json.dumps(claims), encoding="utf-8")
+    (tmp_path / "scenarios.json").write_text(json.dumps([scenario]), encoding="utf-8")
+    (tmp_path / "atlas_diagnostics.json").write_text(
+        json.dumps({"projection_id": "pca-model-a"}), encoding="utf-8"
+    )
+    assert e2e.v_scenarios(tmp_path, 0) == []
+    (tmp_path / "atlas_diagnostics.json").write_text(
+        json.dumps({"projection_id": "pca-model-b"}), encoding="utf-8"
+    )
+    assert any("cannot be drawn" in p for p in e2e.v_scenarios(tmp_path, 0))
+
+
 def test_same_lane_sidecar_update_is_allowed_but_cross_lane_or_contract_changes_are_not() -> None:
     scenario = e2e.STAGE_BY_ID["simulator.scenario"]  # lane C
     producer = {"atlas.pca.json": "C", "jobs_ext.json": "A", "atlas_points.json": "C"}

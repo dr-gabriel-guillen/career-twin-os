@@ -60,6 +60,14 @@ _PHONE = re.compile(r"(?<![\d.-])(?:\+?1[\s.-])?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4
 _FICTIONAL_PHONE = re.compile(r"555[\s.-]01\d{2}$")
 _SSN = re.compile(r"(?<![\d-])\d{3}-\d{2}-\d{4}(?![\d-])")
 _LINKEDIN_PROFILE = re.compile(r"(?i)linkedin\.com/(?:in|pub)/[A-Za-z0-9%_-]{3,}")
+# A machine's home directory names a real account. Lane E nearly committed one (a Windows temp path copied
+# from a stage message into HANDOFF.md); generic placeholders such as <user>, %USERNAME%, $USER pass.
+_LOCAL_HOME_PATH = re.compile(
+    r"(?i)\b[a-z]:[\\/]+users[\\/]+(?!public\b|default\b|all users\b|runneradmin\b)[a-z0-9._-]{2,}"
+    r"|(?<![\w.-])/home/(?!runner\b|user\b|ubuntu\b)[a-z_][a-z0-9_.-]{1,}"
+    r"|(?<![\w.-])/users/(?!shared\b)[a-z0-9._-]{2,}/"
+    r"|(?<![\w.-])/c/users/(?!public\b)[a-z0-9._-]{2,}"
+)
 
 FORBIDDEN_PATHS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("PATH-DOTENV", re.compile(r"(^|/)\.env(\.(?!example$)[^/]+)?$")),
@@ -134,6 +142,7 @@ def scan_text(path: str, text: str) -> list[ScanFinding]:
                 hits.append(("PII-PHONE", match.group(0)))
         hits.extend(("PII-SSN", m.group(0)) for m in _SSN.finditer(line))
         hits.extend(("PII-LINKEDIN-PROFILE", m.group(0)) for m in _LINKEDIN_PROFILE.finditer(line))
+        hits.extend(("PII-LOCAL-PATH", m.group(0)) for m in _LOCAL_HOME_PATH.finditer(line))
         for rule, value in hits:
             if rule not in allowed:
                 findings.append(ScanFinding(rule, path.replace("\\", "/"), number, _redact(value)))

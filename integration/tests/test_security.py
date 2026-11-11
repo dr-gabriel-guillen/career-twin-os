@@ -222,6 +222,7 @@ def _samples() -> dict[str, str]:
         "PII-PHONE": "+1 415-" + "867-5309",
         "PII-SSN": "123-" + "45-" + "6789",
         "PII-LINKEDIN-PROFILE": "https://www.linkedin." + "com/in/" + "some-real-person",
+        "PII-LOCAL-PATH": "C:" + "\\Users\\" + "jdoe42\\AppData\\Local\\Temp\\ct-int\\x.json",
     }
 
 
@@ -249,6 +250,9 @@ def test_secret_and_pii_rules_fire_and_redact(rule: str) -> None:
         "sha c9b810f2016cd09681b21cc7884dd563065159ce",
         "version 4.26.0.20261006 and 2025.9.1",
         "git@github.com:owner/repo.git",
+        r"default path C:\Users\Public\Documents and C:\Users\<user>\AppData",
+        "CI runs in /home/runner/work and $HOME/.cache, not a personal home",
+        "a placeholder %USERPROFILE%\\AppData\\Local",
     ],
 )
 def test_scanner_ignores_synthetic_and_placeholder_text(line: str) -> None:
