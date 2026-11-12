@@ -1,6 +1,7 @@
 import { Component, useEffect, useState, type ErrorInfo, type ReactNode } from "react";
 import { HashRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { AnnouncerProvider, Badge, Banner, Button, ErrorState, LoadingState } from "@careertwin/ui";
+import { AnnouncerProvider, Badge, Banner, Button, ErrorState, Icon, LoadingState, type IconName } from "@careertwin/ui";
+import { formatDate } from "@/lib/format";
 import { totalRejected } from "@/adapters";
 import { Page } from "@/components/common";
 import { AppProvider, artifactMode, useShell } from "@/state/AppContext";
@@ -17,17 +18,19 @@ import SimulatorPage from "@/pages/SimulatorPage";
 import SettingsPage from "@/pages/SettingsPage";
 
 export const NAV = [
-  { to: "/", label: "Overview" },
-  { to: "/jobs", label: "Discover Jobs" },
-  { to: "/matching", label: "Matching" },
-  { to: "/evidence", label: "Profile Evidence" },
-  { to: "/resume", label: "Resume Studio" },
-  { to: "/applications", label: "Applications" },
-  { to: "/experiments", label: "Experiments" },
-  { to: "/atlas", label: "Career Atlas" },
-  { to: "/simulator", label: "Career Simulator" },
-  { to: "/settings", label: "Settings" },
-] as const;
+  { to: "/", label: "Overview", icon: "overview", group: "Work" },
+  { to: "/jobs", label: "Discover Jobs", icon: "discover", group: "Work" },
+  { to: "/matching", label: "Matching", icon: "match", group: "Work" },
+  { to: "/applications", label: "Applications", icon: "applications", group: "Work" },
+  { to: "/evidence", label: "Profile Evidence", icon: "evidence", group: "Profile" },
+  { to: "/resume", label: "Resume Studio", icon: "resume", group: "Profile" },
+  { to: "/experiments", label: "Experiments", icon: "experiments", group: "Insight" },
+  { to: "/atlas", label: "Career Atlas", icon: "atlas", group: "Insight" },
+  { to: "/simulator", label: "Career Simulator", icon: "simulator", group: "Insight" },
+  { to: "/settings", label: "Settings", icon: "settings", group: "System" },
+] as const satisfies readonly { to: string; label: string; icon: IconName; group: string }[];
+
+const NAV_GROUPS = [...new Set(NAV.map((n) => n.group))];
 
 class ErrorBoundary extends Component<{ children: ReactNode; resetKey: string }, { error: Error | null }> {
   override state: { error: Error | null } = { error: null };
@@ -72,39 +75,67 @@ function Shell() {
   const artifacts = artifactMode();
   const provenance = shell.ready?.bundle.provenance ?? null;
 
+  const clock = shell.ready?.bundle.clock ?? null;
+
   return (
     <div className="app" data-source={provenance?.data_source ?? (artifacts ? "artifacts" : "fixtures")}>
       <a className="app-skip" href="#main" onClick={(e) => { e.preventDefault(); document.getElementById("main")?.focus(); }}>
         Skip to main content
       </a>
-      <header className="app-header">
-        <div className="ct-row">
-          <Button className="app-navtoggle" aria-expanded={navOpen} aria-controls="app-nav" onClick={() => setNavOpen((o) => !o)}>
-            Menu
-          </Button>
-          <span className="app-brand">CareerTwin OS</span>
+      <aside className={navOpen ? "app-rail app-rail--open" : "app-rail"}>
+        <div className="app-brand app-brand--rail">
+          <span className="app-mark" aria-hidden="true" />
+          <span className="app-brand__text">CareerTwin <span className="app-brand__os">OS</span></span>
         </div>
-        <div className="ct-row">
-          <Badge tone="synthetic">Synthetic demo</Badge>
-          <span data-testid="connectivity">
-            <Badge tone={shell.online ? "neutral" : "warning"}>{shell.online ? "Works offline" : "You are offline — everything still works"}</Badge>
-          </span>
-        </div>
-      </header>
-      <div className="app-body">
-        <nav id="app-nav" className={navOpen ? "app-nav app-nav--open" : "app-nav"} aria-label="Primary">
-          <ul className="ct-list-plain">
-            {NAV.map((n) => (
-              <li key={n.to}>
-                <NavLink to={n.to} end={n.to === "/"} className={({ isActive }) => (isActive ? "app-navlink app-navlink--active" : "app-navlink")}>
-                  {n.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+        <nav id="app-nav" className="app-nav" aria-label="Primary">
+          {NAV_GROUPS.map((g) => (
+            <div key={g} className="app-navgroup">
+              <p className="app-navgroup__label" aria-hidden="true">{g}</p>
+              <ul className="ct-list-plain">
+                {NAV.filter((n) => n.group === g).map((n) => (
+                  <li key={n.to}>
+                    <NavLink to={n.to} end={n.to === "/"} className={({ isActive }) => (isActive ? "app-navlink app-navlink--active" : "app-navlink")} title={n.label}>
+                      <Icon name={n.icon} size={17} />
+                      <span className="app-navlink__text">{n.label}</span>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </nav>
+        <div className="app-rail__foot ct-small">
+          <span className="app-railnote">Offline · synthetic data only</span>
+        </div>
+      </aside>
+      {navOpen ? <div className="app-scrim" aria-hidden="true" onClick={() => setNavOpen(false)} /> : null}
+      <div className="app-body">
+        <header className="app-header">
+          <div className="app-header__lead">
+            <Button className="app-navtoggle" variant="ghost" aria-expanded={navOpen} aria-controls="app-nav" onClick={() => setNavOpen((o) => !o)}>
+              <Icon name={navOpen ? "cross" : "menu"} size={18} />
+              Menu
+            </Button>
+            <span className="app-brand app-brand--bar">
+              <span className="app-mark" aria-hidden="true" />
+              <span className="app-brand__text">CareerTwin <span className="app-brand__os">OS</span></span>
+            </span>
+            {clock ? (
+              <span className="app-snapshot ct-small" title="Ages are measured against this fixed fixture date, so the demo is reproducible.">
+                <Icon name="clock" size={14} />
+                Snapshot {formatDate(clock)}
+              </span>
+            ) : null}
+          </div>
+          <div className="app-header__status">
+            <Badge tone="synthetic">Synthetic demo</Badge>
+            <span data-testid="connectivity" className="app-connectivity">
+              <Badge tone={shell.online ? "neutral" : "warning"}>{shell.online ? "Works offline" : "You are offline — everything still works"}</Badge>
+            </span>
+          </div>
+        </header>
         <main id="main" className="app-main" tabIndex={-1}>
-          <div className="ct-stack">
+          <div className="app-notices">
             {artifacts ? (
               <Banner tone="synthetic" title="Pipeline artifacts mode (synthetic data only)." data-testid="artifact-banner">
                 These screens show what the data, experiment and analytics lanes produced in an integration run, not lane D's own
@@ -123,7 +154,7 @@ function Shell() {
                 ) : null}
               </Banner>
             ) : (
-              <Banner tone="synthetic" title="Synthetic fixture mode." data-testid="synthetic-banner">
+              <Banner tone="synthetic" className="app-sourcebar" title="Synthetic fixture mode." data-testid="synthetic-banner">
                 Every employer, posting, candidate, event and outcome here is fictional. Nothing is sent anywhere, no application is
                 ever submitted for you, and no live job source is connected.
               </Banner>
@@ -139,7 +170,7 @@ function Shell() {
               </Banner>
             ) : null}
             {rejected > 0 ? (
-              <Banner tone="warning" data-testid="adapter-banner" title={`${rejected} upstream record${rejected === 1 ? " was" : "s were"} rejected by the adapters.`}>
+              <Banner tone="warning" className="app-sourcebar app-sourcebar--warn" data-testid="adapter-banner" title={`${rejected} upstream record${rejected === 1 ? " was" : "s were"} rejected by the adapters.`}>
                 Rejected records are never shown or repaired. See <NavLink to="/settings">Settings &rarr; Data sources</NavLink> for details.
               </Banner>
             ) : null}
@@ -173,8 +204,7 @@ function Shell() {
             )}
           </div>
           <footer className="app-footer ct-small ct-muted">
-            CareerTwin OS &middot; lane D product UI &middot; offline synthetic build. Scores are relative heuristics, not hiring
-            probabilities. Map distances are not fit.
+            Offline synthetic build. Scores are relative heuristics, not hiring probabilities. Map distances are not fit.
           </footer>
         </main>
       </div>

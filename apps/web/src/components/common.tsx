@@ -3,7 +3,7 @@ import { Badge, Banner, Button, Dialog, type Tone } from "@careertwin/ui";
 import type { EvidenceStrength } from "@/adapters/proposed";
 import type { ClaimStatus, JobPosting } from "@/contracts/types";
 import { classifyLink } from "@/lib/safety";
-import { humanise } from "@/lib/format";
+import { humanise, skillLabel } from "@/lib/format";
 
 /**
  * True until the first screen has mounted. On the initial page load focus is left
@@ -73,7 +73,7 @@ export function SkillChips({ skills }: { skills: string[] }) {
     <ul className="ct-list-plain ct-row" aria-label="Skills">
       {skills.map((s) => (
         <li key={s}>
-          <Badge>{humanise(s)}</Badge>
+          <Badge>{skillLabel(s)}</Badge>
         </li>
       ))}
     </ul>

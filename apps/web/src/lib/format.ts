@@ -56,6 +56,16 @@ export function humanise(slug: string): string {
   return text ? text.charAt(0).toUpperCase() + text.slice(1) : slug;
 }
 
+const ACRONYMS: Record<string, string> = { ai: "AI", api: "API", apis: "APIs", aws: "AWS", gcp: "GCP", sql: "SQL", llm: "LLM", llms: "LLMs", ml: "ML", mlops: "MLOps", ci: "CI", cd: "CD", ui: "UI", ux: "UX", etl: "ETL", saas: "SaaS", sre: "SRE", gpu: "GPU", rag: "RAG", nlp: "NLP", k8s: "K8s" };
+
+/** Display label for a skill slug: like humanise, but keeps common acronyms upper-case ("ai-evaluation" -> "AI evaluation"). */
+export function skillLabel(slug: string): string {
+  return humanise(slug)
+    .split(" ")
+    .map((w) => ACRONYMS[w.toLowerCase()] ?? w)
+    .join(" ");
+}
+
 export function percent(value: number | null | undefined, digits = 0): string {
   if (value === null || value === undefined || Number.isNaN(value)) return "Unknown";
   return `${(value * 100).toFixed(digits)}%`;

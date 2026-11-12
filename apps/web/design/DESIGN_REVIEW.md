@@ -1,8 +1,8 @@
 # CareerTwin OS — premium UI overhaul: design review (gate 1 of 2)
 
 Branch `agent/ct-f-premium-ui`, cut from lane D `b6a4340` (draft PR #10 left unchanged).
-Status: **concepts ready for owner review. The ten product screens have not been changed.** Full
-implementation starts only after you choose a direction.
+Status: **owner approved direction A — Instrument on 2026-11-12.** Implemented across all ten
+screens; see [ACCEPTANCE.md](ACCEPTANCE.md) for the QA evidence.
 
 Everything shown renders the product's own synthetic fixture bundle through lane D's validated
 adapters (`loadBundle(createFixtureSource())`). No job, score, outcome or metric was invented for a

@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Badge, Banner, Button, Card, Checkbox, EmptyState, Meter, TableRegion, useAnnounce, type Tone } from "@careertwin/ui";
+import { Badge, Banner, Button, Card, Checkbox, EmptyState, Meter, ScoreBar, ScorePair, TableRegion, useAnnounce, type Tone } from "@careertwin/ui";
 import { Page, SyntheticBadge, TruthBadge } from "@/components/common";
 import type { ConstraintStatus, MatchComponent, MatchExplanation, ScoreGroup } from "@/adapters/proposed";
-import { formatDateTime, humanise } from "@/lib/format";
+import { formatDateTime, humanise, skillLabel } from "@/lib/format";
 import { useApp } from "@/state/AppContext";
 import { blendedScore, useIndexes } from "@/state/selectors";
 
@@ -24,24 +24,25 @@ function explain(group: ScoreGroup): { ranked: boolean; lifts: MatchComponent | 
   return { ranked: true, lifts: byContribution[0] ?? null, limits, unknown };
 }
 
-function ScoreBlock({ title, description, group, testId }: { title: string; description: string; group: ScoreGroup; testId: string }) {
+function ScoreBlock({ title, description, group, testId, kind }: { title: string; description: string; group: ScoreGroup; testId: string; kind: "near" | "strat" }) {
   const e = explain(group);
   return (
-    <Card title={title} headingLevel={3} data-testid={testId}>
-      <div className="ct-row ct-row--between">
-        <p className="ct-muted ct-small">{description}</p>
-        <span className="app-score" data-testid={`${testId}-score`}>
+    <Card title={title} headingLevel={3} data-testid={testId} className={`mt-score mt-score--${kind}`}>
+      <div className="mt-score__head">
+        <span className={group.score === null ? "app-score app-score--unknown" : "app-score"} data-testid={`${testId}-score`}>
           {group.score === null ? "Unknown" : group.score}
           {group.score === null ? null : <span className="ct-small ct-muted"> / 100</span>}
         </span>
+        <p className="ct-muted ct-small">{description}</p>
       </div>
-      <ul className="ct-list-plain ct-stack">
+      <ScoreBar kind={kind} value={group.score} label={title} />
+      <ul className="ct-list-plain mt-components">
         {group.components.map((c) => (
           <li key={c.key}>
             <div className="app-component">
               <span>
                 <strong>{c.label}</strong>
-                <span className="ct-muted ct-small"> — {c.note}</span>
+                <span className="ct-muted ct-small">{c.note}</span>
               </span>
               <Meter value={c.status === "known" ? c.value : null} label={c.label} />
               <span className="ct-small ct-muted">{c.status !== "known" ? "excluded" : c.weight === null ? "weight not published" : `weight ${Math.round(c.weight * 100)}%`}</span>
@@ -105,21 +106,6 @@ export default function MatchingPage() {
         </Banner>
       ) : null}
 
-      <Card title="How to rank">
-        <div className="ct-stack">
-          <label htmlFor="blend" className="ct-field__label">
-            Ranking blend: {100 - blend}% near-term fit, {blend}% strategic value
-          </label>
-          <input id="blend" type="range" min={0} max={100} step={5} value={blend} onChange={(e) => dispatch({ type: "blend/set", value: Number(e.target.value) })} aria-describedby="blend-hint" data-testid="blend" />
-          <p id="blend-hint" className="ct-field__hint">
-            This only changes the order of the list. It does not change either score. Your choice is saved in this browser.
-          </p>
-          <div className="ct-row">
-            <Checkbox label="Hide postings that fail a hard constraint" checked={hideFailed} onChange={(e) => setHideFailed(e.target.checked)} data-testid="hide-failed" />
-            <Checkbox label="Shortlisted only" checked={shortOnly} onChange={(e) => setShortOnly(e.target.checked)} />
-          </div>
-        </div>
-      </Card>
 
       {bundle.matchRefusals.length > 0 ? (
         <Card title={`Refused by the matching engine (${bundle.matchRefusals.length})`}>
@@ -135,7 +121,20 @@ export default function MatchingPage() {
       ) : null}
 
       <div className="app-split">
-        <Card title={`Ranked postings (${ranked.length})`}>
+        <Card title={`Ranked postings (${ranked.length})`} className="mt-list">
+          <div className="mt-rank" role="group" aria-label="How to rank">
+            <label htmlFor="blend" className="ct-field__label">
+              Ranking blend: {100 - blend}% near-term fit, {blend}% strategic value
+            </label>
+            <input id="blend" type="range" min={0} max={100} step={5} value={blend} onChange={(e) => dispatch({ type: "blend/set", value: Number(e.target.value) })} aria-describedby="blend-hint" data-testid="blend" />
+            <p id="blend-hint" className="ct-field__hint">
+              This only changes the order of the list. It does not change either score. Your choice is saved in this browser.
+            </p>
+            <div className="ct-stack mt-rank__checks">
+              <Checkbox label="Hide postings that fail a hard constraint" checked={hideFailed} onChange={(e) => setHideFailed(e.target.checked)} data-testid="hide-failed" />
+              <Checkbox label="Shortlisted only" checked={shortOnly} onChange={(e) => setShortOnly(e.target.checked)} />
+            </div>
+          </div>
           {ranked.length === 0 ? (
             <EmptyState title="No postings match these options." />
           ) : (
@@ -146,21 +145,17 @@ export default function MatchingPage() {
                 return (
                   <li key={match.job_id}>
                     <button type="button" className="app-pick" aria-current={selected?.job_id === match.job_id ? "true" : undefined} onClick={() => setParams({ job: match.job_id })} data-testid={`match-${match.job_id}`}>
-                      <span className="ct-row ct-row--between">
-                        <strong>
-                          {i + 1}. {j?.title ?? match.job_id}
-                        </strong>
-                        <span className="ct-mono">{blended ?? "Unknown"}</span>
+                      <span className="mt-pick__head">
+                        <span className="mt-pick__rank">{i + 1}.</span>
+                        <strong>{j?.title ?? match.job_id}</strong>
+                        <span className="mt-pick__order" title="Position value under your ordering blend. Not a score.">{blended ?? "Unknown"}</span>
                       </span>
-                      <span className="ct-muted ct-small">{j?.organization}</span>
-                      <span className="ct-row ct-small">
+                      <span className="ct-muted ct-small mt-pick__org">{j?.organization}</span>
+                      <span className="mt-pick__scores">
                         {match.near_term_fit.score === null && match.strategic_value.score === null && match.overall ? (
-                          <span>Single score {match.overall.score}</span>
+                          <span className="ct-small">Single score {match.overall.score}</span>
                         ) : (
-                          <>
-                            <span>Near-term {match.near_term_fit.score ?? "unknown"}</span>
-                            <span>Strategic {match.strategic_value.score ?? "unknown"}</span>
-                          </>
+                          <ScorePair near={match.near_term_fit.score} strategic={match.strategic_value.score} />
                         )}
                         {failed > 0 ? <Badge tone="danger">{failed} hard constraint{failed === 1 ? "" : "s"} failed</Badge> : null}
                       </span>
@@ -235,8 +230,10 @@ export default function MatchingPage() {
               <p className="ct-small ct-muted">Hard constraints are shown separately and do not change either score, so a high score can still fail one.</p>
             </Card>
 
-            <ScoreBlock title="Near-term fit" description="How well your current, evidenced skills cover what the posting lists." group={selected.near_term_fit} testId="near-term" />
-            <ScoreBlock title="Strategic value" description="Career utility: how much the role moves you toward your stated target roles." group={selected.strategic_value} testId="strategic" />
+            <div className="mt-scores">
+              <ScoreBlock kind="near" title="Near-term fit" description="How well your current, evidenced skills cover what the posting lists." group={selected.near_term_fit} testId="near-term" />
+              <ScoreBlock kind="strat" title="Strategic value" description="Career utility: how much the role moves you toward your stated target roles." group={selected.strategic_value} testId="strategic" />
+            </div>
 
             <Card title="Skills and the evidence behind them" headingLevel={3}>
               <TableRegion label="Skills and evidence strength">
@@ -251,7 +248,7 @@ export default function MatchingPage() {
                   <tbody>
                     {selected.skills.map((s) => (
                       <tr key={s.skill}>
-                        <th scope="row">{humanise(s.skill)}</th>
+                        <th scope="row">{skillLabel(s.skill)}</th>
                         <td>
                           <TruthBadge status={s.evidence_strength} />
                         </td>
@@ -264,11 +261,11 @@ export default function MatchingPage() {
               <div className="ct-grid ct-grid--2">
                 <div>
                   <h4>Skill gaps</h4>
-                  {missing.length === 0 ? <p className="ct-muted">No listed skill is missing.</p> : <ul data-testid="skill-gaps">{missing.map((s) => <li key={s.skill}>{humanise(s.skill)}{s.evidence_strength === "contradicted" ? " (your claim is contradicted)" : ""}</li>)}</ul>}
+                  {missing.length === 0 ? <p className="ct-muted">No listed skill is missing.</p> : <ul data-testid="skill-gaps">{missing.map((s) => <li key={s.skill}>{skillLabel(s.skill)}{s.evidence_strength === "contradicted" ? " (your claim is contradicted)" : ""}</li>)}</ul>}
                 </div>
                 <div>
                   <h4>Claimed but weakly evidenced</h4>
-                  {weak.length === 0 ? <p className="ct-muted">None.</p> : <ul>{weak.map((s) => <li key={s.skill}>{humanise(s.skill)} — {s.evidence_strength}</li>)}</ul>}
+                  {weak.length === 0 ? <p className="ct-muted">None.</p> : <ul>{weak.map((s) => <li key={s.skill}>{skillLabel(s.skill)} — {s.evidence_strength}</li>)}</ul>}
                 </div>
               </div>
             </Card>

@@ -167,7 +167,7 @@ export default function AtlasPage() {
       ) : null}
 
       <Card title="View and filters">
-        <div className="app-toolbar">
+        <div className="app-toolbar app-atlas-toolbar">
           <SelectField label="Projection" value={projection.projection_id} onChange={(e) => { setProjectionId(e.target.value); setSelectedId(null); }} options={bundle.projections.map((p) => ({ value: p.projection_id, label: p.method === "pca" ? "PCA (principal components)" : p.method === "interpretable-axes" ? "Interpretable axes" : p.method.toUpperCase() }))} data-testid="atlas-projection" />
           <SelectField label="Candidate evidence basis" value={evidenceBasis} onChange={(e) => setEvidenceBasis(e.target.value as "all" | "supported")} options={[{ value: "all", label: "All non-contradicted claims" }, { value: "supported", label: "Supported claims only" }]} hint="Moves the candidate point to where the evidence alone puts it." data-testid="atlas-evidence" />
           <div className="ct-field">
@@ -207,7 +207,12 @@ export default function AtlasPage() {
             <span><i className="app-swatch app-swatch--centroid" /> Role-family centroid</span>
             <span><i className="app-swatch app-swatch--candidate" /> Candidate</span>
             <span><i className="app-swatch app-swatch--scenario" /> Hypothetical scenario</span>
-            <span>Faded = low neighbourhood quality · dashed line = hypothetical plan</span>
+            <span className="ct-muted">Faded: low neighbourhood quality. Dashed line: hypothetical plan.</span>
+          </div>
+          <div className="app-legend app-legend--families" aria-hidden="true">
+            {view.families.map((f, i) => (
+              <span key={f}><i className={`app-swatch app-swatch--fam cat-${(i % 9) + 1}`} /> {familyLabel(f)}</span>
+            ))}
           </div>
           <p className="ct-small ct-muted" id="atlas-help">
             Keyboard: Tab into the plot, arrow keys move between points, Enter selects, Escape clears. Every point is also listed in the table below.
@@ -253,6 +258,8 @@ export default function AtlasPage() {
                   const y = view.sy(p.coords[1]!);
                   const low = p.neighborhood_quality !== null && p.neighborhood_quality !== undefined && p.neighborhood_quality < 0.4;
                   const isSelected = p.entity_id === selectedId;
+                  const fam = view.entityById.get(p.entity_id)?.role_family ?? null;
+                  const famIdx = fam === null || p.representation_type === "scenario" || p.representation_type === "candidate" ? -1 : view.families.indexOf(fam);
                   return (
                     <g
                       key={p.entity_id}
@@ -274,7 +281,7 @@ export default function AtlasPage() {
                     >
                       {/* Larger transparent hit target for touch and pointer users. */}
                       <circle cx={x} cy={y} r={14} fill="transparent" />
-                      <Shape type={p.representation_type} x={x} y={y} className={["pt", TYPE_CLASS[p.representation_type], low ? "pt--low" : "", isSelected ? "pt--selected" : ""].join(" ")} />
+                      <Shape type={p.representation_type} x={x} y={y} className={["pt", TYPE_CLASS[p.representation_type], famIdx >= 0 ? `cat-${(famIdx % 9) + 1}` : "", low ? "pt--low" : "", isSelected ? "pt--selected" : ""].join(" ")} />
                       {showLabels || isSelected ? <text x={x + 10} y={y - 8}>{truncate(p.label, 34)}</text> : null}
                     </g>
                   );
@@ -326,6 +333,8 @@ export default function AtlasPage() {
       </div>
 
       <Card title="All visible points (table view)">
+        <details open className="app-atlas-table">
+        <summary>Show or hide the table ({visible.length} rows)</summary>
         <TableRegion label="Atlas points table">
           <table className="ct-table" data-testid="atlas-table">
             <thead>
@@ -358,6 +367,7 @@ export default function AtlasPage() {
             </tbody>
           </table>
         </TableRegion>
+        </details>
         <p className="ct-small ct-muted">A 3-D view is deliberately not offered: with this little variance captured, a third axis adds visual complexity without making positions more trustworthy.</p>
       </Card>
     </Page>

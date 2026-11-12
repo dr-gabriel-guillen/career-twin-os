@@ -11,9 +11,9 @@ import { useApp } from "@/state/AppContext";
 import { useIndexes } from "@/state/selectors";
 
 function Findings({ findings }: { findings: Finding[] }) {
-  if (findings.length === 0) return <Badge tone="success">Traceable to evidence</Badge>;
+  if (findings.length === 0) return <span className="rs-ok">Traceable to evidence</span>;
   return (
-    <ul className="ct-list-plain ct-stack">
+    <ul className="ct-list-plain ct-stack rs-findings">
       {findings.map((f, i) => (
         <li key={i} className="ct-row">
           <Badge tone={f.severity === "block" ? "danger" : "warning"}>{f.severity === "block" ? "Blocks export" : "Check"}</Badge>
@@ -215,10 +215,10 @@ export default function ResumePage() {
               <TabPanel idBase="rs" id="edit" active={tab}>
                 <div className="ct-stack ct-stack--lg">
                   {selected.sections.map((s) => (
-                    <section key={s.id} className="ct-stack" aria-label={s.heading}>
-                      <h3>{s.heading}</h3>
+                    <section key={s.id} className="rs-section" aria-label={s.heading}>
+                      <h3 className="rs-heading">{s.heading}</h3>
                       {s.bullets.length === 0 ? <p className="ct-muted">No lines in this section.</p> : null}
-                      <ul className="ct-list-plain ct-stack">
+                      <ul className="ct-list-plain rs-lines">
                         {s.bullets.map((b, i) => {
                           const findings = review.byBullet.get(b.id) ?? [];
                           const blocked = findings.some((f) => f.severity === "block");
@@ -237,9 +237,9 @@ export default function ResumePage() {
                                   </div>
                                 </>
                               ) : (
-                                <p>{b.text}</p>
+                                <p className="rs-line">{b.text}</p>
                               )}
-                              <div className="ct-row ct-small">
+                              <div className="rs-meta">
                                 {b.origin === "manual-edit" ? <Badge tone="warning">Edited by hand</Badge> : <Badge>From claims</Badge>}
                                 {b.claim_ids.map((id) => {
                                   const c = claimById.get(id);
@@ -261,7 +261,7 @@ export default function ResumePage() {
                               ) : null}
                               <Findings findings={findings} />
                               {!locked && editing?.bulletId !== b.id ? (
-                                <div className="ct-row">
+                                <div className="rs-actions">
                                   <Button size="sm" onClick={() => setEditing({ bulletId: b.id, text: b.text })} data-testid={`bullet-edit-${b.id}`}>
                                     Edit text
                                   </Button>
@@ -281,8 +281,8 @@ export default function ResumePage() {
                         })}
                       </ul>
                       {!locked ? (
-                        <div className="ct-grid ct-grid--2">
-                          <div className="ct-stack">
+                        <div className="rs-add">
+                          <div className="rs-addrow">
                             <SelectField
                               label={`Add a line to ${s.heading} from a claim`}
                               value={addClaim[s.id] ?? ""}
@@ -294,7 +294,7 @@ export default function ResumePage() {
                               Add line from claim
                             </Button>
                           </div>
-                          <div className="ct-stack">
+                          <div className="rs-addrow">
                             <TextField label={`Add a free-text line to ${s.heading}`} hint="Free text has no evidence link and will block export." value={freeText[s.id] ?? ""} onChange={(e) => setFreeText({ ...freeText, [s.id]: e.target.value })} maxLength={400} data-testid={`free-text-${s.id}`} />
                             <Button size="sm" onClick={() => addFreeText(s.id)} disabled={!(freeText[s.id] ?? "").trim()} data-testid={`free-text-btn-${s.id}`}>
                               Add free-text line

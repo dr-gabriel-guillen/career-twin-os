@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Badge, Banner, Button, Card, Checkbox, EmptyState, Facts, SelectField, TableRegion, TextField, useAnnounce, type Tone } from "@careertwin/ui";
-import { ExternalLinkDialog, Page, SkillChips, SyntheticBadge } from "@/components/common";
+import { Badge, Banner, Button, Checkbox, EmptyState, Facts, ScorePair, SelectField, TableRegion, TextField, useAnnounce, type Tone } from "@careertwin/ui";
+import { ExternalLinkDialog, Page, SkillChips } from "@/components/common";
 import type { JobPosting } from "@/contracts/types";
 import { duplicateKey, formatCompensation, formatDate, freshness, humanise, type Freshness } from "@/lib/format";
 import { newId } from "@/lib/safety";
@@ -120,13 +120,13 @@ export default function JobsPage() {
     const shortlisted = workspace.shortlist.includes(j.id);
     const app = appByJob.get(j.id);
     return (
-      <div className="ct-row">
-        <Button size="sm" aria-pressed={shortlisted} onClick={() => toggleShortlist(j)} data-testid={`shortlist-${j.id}`}>
-          {shortlisted ? "Shortlisted" : "Shortlist"}
-        </Button>
+      <div className="jb-actions">
         <Link className="ct-btn ct-btn--sm ct-btn--secondary" to={`/matching?job=${encodeURIComponent(j.id)}`}>
           Explain match
         </Link>
+        <Button size="sm" aria-pressed={shortlisted} onClick={() => toggleShortlist(j)} data-testid={`shortlist-${j.id}`}>
+          {shortlisted ? "Shortlisted" : "Shortlist"}
+        </Button>
         {app ? (
           <Link className="ct-btn ct-btn--sm ct-btn--secondary" to={`/applications?app=${encodeURIComponent(app.id)}`}>
             Tracked
@@ -148,36 +148,40 @@ export default function JobsPage() {
       title="Discover Jobs"
       lead="A fictional job feed. Each posting shows where it came from, when it was captured, and what is unknown. No posting here is asserted to be open today."
     >
-      <Card title="Search and filter">
-        <div className="app-toolbar">
-          <TextField label="Search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Title, employer, skill…" data-testid="job-search" />
+      <section className="jb-filters" aria-label="Search and filter">
+        <div className="jb-filters__row">
+          <div className="jb-search">
+            <TextField label="Search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Title, employer, skill…" data-testid="job-search" />
+          </div>
           <SelectField label="Role family" value={family} onChange={(e) => setFamily(e.target.value)} options={[{ value: "all", label: "All role families" }, ...families.map((f) => ({ value: f, label: familyLabel(f) }))]} data-testid="job-family" />
           <SelectField label="Work style" value={remote} onChange={(e) => setRemote(e.target.value)} options={[{ value: "all", label: "Any" }, { value: "remote", label: "Remote" }, { value: "hybrid", label: "Hybrid" }, { value: "onsite", label: "On-site" }, { value: "unknown", label: "Unknown" }]} />
           <SelectField label="Status at capture" value={status} onChange={(e) => setStatus(e.target.value)} options={[{ value: "all", label: "Any" }, { value: "active", label: "Marked active" }, { value: "expired", label: "Expired" }, { value: "unknown", label: "Unknown" }]} />
           <SelectField label="Freshness" value={fresh} onChange={(e) => setFresh(e.target.value)} options={[{ value: "all", label: "Any" }, ...(["fresh", "aging", "stale"] as const).map((f) => ({ value: f, label: FRESH_LABEL[f] }))]} />
           <SelectField label="Sort by" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} options={SORTS} data-testid="job-sort" />
         </div>
-        <div className="ct-row">
-          <Checkbox label="Shortlisted only" checked={shortOnly} onChange={(e) => setShortOnly(e.target.checked)} />
-          <Checkbox label="Collapse likely duplicates" hint="Same employer and title; keeps the most recent capture." checked={collapse} onChange={(e) => setCollapse(e.target.checked)} data-testid="job-collapse" />
-        </div>
-        <div className="ct-row ct-row--between">
-          <p role="status" data-testid="job-count">
-            Showing {visible.length} of {bundle.jobs.length} postings
-          </p>
-          <div className="ct-row" role="group" aria-label="View">
-            <Button size="sm" aria-pressed={view === "cards"} onClick={() => setView("cards")}>
-              Cards
-            </Button>
-            <Button size="sm" aria-pressed={view === "table"} onClick={() => setView("table")} data-testid="job-view-table">
-              Table
-            </Button>
+        <div className="jb-filters__row jb-filters__row--meta">
+          <div className="ct-row jb-checks">
+            <Checkbox label="Shortlisted only" checked={shortOnly} onChange={(e) => setShortOnly(e.target.checked)} />
+            <Checkbox label="Collapse likely duplicates" hint="Same employer and title; keeps the most recent capture." checked={collapse} onChange={(e) => setCollapse(e.target.checked)} data-testid="job-collapse" />
+          </div>
+          <div className="ct-row jb-view">
+            <p role="status" data-testid="job-count" className="jb-count">
+              Showing {visible.length} of {bundle.jobs.length} postings
+            </p>
+            <div className="jb-seg" role="group" aria-label="View">
+              <Button size="sm" aria-pressed={view === "cards"} onClick={() => setView("cards")}>
+                List
+              </Button>
+              <Button size="sm" aria-pressed={view === "table"} onClick={() => setView("table")} data-testid="job-view-table">
+                Table
+              </Button>
+            </div>
             <Button size="sm" variant="ghost" onClick={reset}>
               Clear filters
             </Button>
           </div>
         </div>
-      </Card>
+      </section>
 
       {rejected.length > 0 ? (
         <Banner tone="warning" title={`${rejected.length} feed record${rejected.length === 1 ? "" : "s"} did not match the JobPosting contract and are not shown.`} data-testid="jobs-rejected">
@@ -239,68 +243,105 @@ export default function JobsPage() {
           </table>
         </TableRegion>
       ) : (
-        <ul className="ct-list-plain ct-grid" data-testid="jobs-cards">
+        <>
+        <h2 className="ct-sr-only">Postings</h2>
+        <ul className="ct-list-plain jb-list" data-testid="jobs-cards">
           {visible.map((j) => {
             const f = freshness(j.fetched_at, clock);
             const comp = formatCompensation(j.compensation);
             const group = duplicates.get(groupKey(j)) ?? [];
             const facet = facets[j.id];
             const m = matchByJob.get(j.id);
+            const synthetic = j.source === "synthetic" || facet?.synthetic === true;
+            const failed = m ? m.hard_constraints.filter((h) => h.status === "fail") : [];
+            const shortlisted = workspace.shortlist.includes(j.id);
             return (
-              <Card as="li" key={j.id} headingLevel={3} title={j.title} data-testid={`job-${j.id}`}>
-                <div className="ct-row">
-                  {j.source === "synthetic" || facet?.synthetic === true ? <SyntheticBadge /> : <Badge tone="warning">Provenance not verified</Badge>}
-                  <Badge>{familyLabel(j.role_family)}</Badge>
-                  {(facet?.security_flags ?? []).map((flag) => (
-                    <Badge key={flag} tone="danger" title="Flagged by the data lane during ingestion">
-                      {humanise(flag)}
-                    </Badge>
-                  ))}
-                  <Badge tone={STATUS_TEXT[j.status].tone}>{STATUS_TEXT[j.status].label}</Badge>
-                  <Badge tone={FRESH_TONE[f.level]}>{f.label}</Badge>
-                  {group.length > 1 ? (
-                    <Badge tone="warning" title={group.map((g) => g.id).join(", ")}>
-                      {hasFacets ? "Duplicate cluster" : "Possible duplicate"} ({group.length} postings)
-                    </Badge>
-                  ) : null}
+              <li key={j.id} className={shortlisted ? "jb-row jb-row--short" : "jb-row"} data-testid={`job-${j.id}`}>
+                <div className="jb-main">
+                  <h3 className="jb-title">{j.title}</h3>
+                  <p className="jb-org">
+                    <span>{j.organization}</span>
+                    <span>{familyLabel(j.role_family)}</span>
+                    <span>{j.remote_policy && j.remote_policy !== "unknown" ? humanise(j.remote_policy) : "Work style unknown"}</span>
+                    <span>{j.location ?? "Location not stated"}</span>
+                    <span>{`${humanise(j.seniority)}, ${humanise(j.employment_type)}`}</span>
+                  </p>
+                  <div className="jb-tags">
+                    {synthetic ? null : <Badge tone="warning">Provenance not verified</Badge>}
+                    {(facet?.security_flags ?? []).map((flag) => (
+                      <Badge key={flag} tone="danger" title="Flagged by the data lane during ingestion">
+                        {humanise(flag)}
+                      </Badge>
+                    ))}
+                    {failed.map((h) => (
+                      <Badge key={h.key} tone="danger">
+                        Fails {h.label.toLowerCase()}
+                      </Badge>
+                    ))}
+                    {group.length > 1 ? (
+                      <Badge tone="warning" title={group.map((g) => g.id).join(", ")}>
+                        {hasFacets ? "Duplicate cluster" : "Possible duplicate"} ({group.length} postings)
+                      </Badge>
+                    ) : null}
+                    <span className={`jb-state jb-tone--${STATUS_TEXT[j.status].tone}`}>{STATUS_TEXT[j.status].label}</span>
+                    <span className={`jb-state jb-tone--${FRESH_TONE[f.level]}`}>{f.label}</span>
+                  </div>
                 </div>
-                <Facts
-                  items={[
-                    { label: "Employer", value: j.organization },
-                    { label: "Level", value: `${humanise(j.seniority)} · ${humanise(j.employment_type)}` },
-                    { label: "Work style", value: j.remote_policy && j.remote_policy !== "unknown" ? humanise(j.remote_policy) : "Unknown" },
-                    { label: "Location", value: j.location ?? "Not stated" },
-                    { label: "Compensation", value: comp.known ? comp.text : <span data-testid={`comp-${j.id}`}>{comp.text} (unknown — not treated as zero)</span> },
-                    { label: "Scores", value: m ? `Near-term ${m.near_term_fit.score ?? "unknown"} · Strategic ${m.strategic_value.score ?? "unknown"} (relative, not a hiring probability)` : "No match data" },
-                  ]}
-                />
-                <SkillChips skills={j.skills} />
-                {j.requirements && j.requirements.length > 0 ? (
-                  <details>
-                    <summary>Requirements text ({j.requirements.length})</summary>
-                    <ul className="ct-small" data-testid={`req-${j.id}`}>
-                      {j.requirements.map((r, i) => (
-                        <li key={i}>{r}</li>
-                      ))}
-                    </ul>
-                  </details>
-                ) : null}
-                <details>
-                  <summary>Source and provenance</summary>
-                  <Facts
-                    items={[
-                      { label: "Source", value: `${j.source} · id ${j.source_id}` },
-                      { label: "Captured", value: `${formatDate(j.fetched_at)} (${f.days} day${f.days === 1 ? "" : "s"} before the snapshot)` },
-                      { label: "Licence note", value: j.license_note ?? "None" },
-                      { label: "Evidence", value: (j.source_evidence ?? []).join(" ") || "None recorded" },
-                    ]}
-                  />
-                </details>
-                {actions(j)}
-              </Card>
+                <div className="jb-scores">
+                  {m ? (
+                    m.near_term_fit.score === null && m.strategic_value.score === null && m.overall ? (
+                      <span className="ct-small">Single score {m.overall.score}</span>
+                    ) : (
+                      <ScorePair near={m.near_term_fit.score} strategic={m.strategic_value.score} />
+                    )
+                  ) : (
+                    <span className="ct-small ct-muted">No match data</span>
+                  )}
+                </div>
+                <div className="jb-facts">
+                  {comp.known ? (
+                    <span className="jb-pay">{comp.text}</span>
+                  ) : (
+                    <span className="jb-pay jb-pay--unknown" data-testid={`comp-${j.id}`}>
+                      {comp.text} (unknown — not treated as zero)
+                    </span>
+                  )}
+                  <span className="ct-small ct-muted">Captured {formatDate(j.fetched_at)}</span>
+                </div>
+                <div className="jb-foot">
+                  {actions(j)}
+                  <div className="jb-more">
+                    {j.requirements && j.requirements.length > 0 ? (
+                      <details>
+                        <summary>Requirements text ({j.requirements.length})</summary>
+                        <ul className="ct-small" data-testid={`req-${j.id}`}>
+                          {j.requirements.map((r, i) => (
+                            <li key={i}>{r}</li>
+                          ))}
+                        </ul>
+                      </details>
+                    ) : null}
+                    <details>
+                      <summary>Skills and source</summary>
+                      <div className="ct-stack">
+                        <SkillChips skills={j.skills} />
+                        <Facts
+                          items={[
+                            { label: "Source", value: `${j.source} · id ${j.source_id}${synthetic ? " (synthetic)" : ""}` },
+                            { label: "Captured", value: `${formatDate(j.fetched_at)} (${f.days} day${f.days === 1 ? "" : "s"} before the snapshot)` },
+                            { label: "Licence note", value: j.license_note ?? "None" },
+                            { label: "Evidence", value: (j.source_evidence ?? []).join(" ") || "None recorded" },
+                          ]}
+                        />
+                      </div>
+                    </details>
+                  </div>
+                </div>
+              </li>
             );
           })}
         </ul>
+        </>
       )}
       <ExternalLinkDialog job={linkJob} onClose={() => setLinkJob(null)} />
     </Page>

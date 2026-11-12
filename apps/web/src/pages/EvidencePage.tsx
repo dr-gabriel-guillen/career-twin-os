@@ -135,12 +135,14 @@ export default function EvidencePage() {
         ) : visible.length === 0 ? (
           <EmptyState title="No claims match these filters." />
         ) : (
-          <ul className="ct-list-plain ct-stack" data-testid="claim-list">
+          <ul className="ct-list-plain ev-list" data-testid="claim-list">
             {visible.map((c) => {
               const expired = Boolean(c.valid_to && Date.parse(c.valid_to) < Date.parse(clock));
               return (
-                <Card as="li" key={c.id} headingLevel={3} title={c.claim_text} data-testid={`claim-${c.id}`}>
-                  <div className="ct-row">
+                <li key={c.id} className={`ev-claim ev-claim--${c.status}`} data-testid={`claim-${c.id}`}>
+                  <div className="ev-claim__main">
+                  <h3 className="ev-claim__title">{c.claim_text}</h3>
+                  <div className="ct-row ev-claim__tags">
                     <TruthBadge status={c.status} />
                     <Badge>{humanise(c.claim_type)}</Badge>
                     <Badge tone={c.visibility === "private" ? "warning" : "neutral"}>{humanise(c.visibility)}</Badge>
@@ -177,18 +179,21 @@ export default function EvidencePage() {
                       { label: "Updated", value: formatDateTime(c.updated_at) },
                     ]}
                   />
-                  <div className="ct-row">
+                  </div>
+                  <div className="ev-claim__controls">
                     <div className="app-inline-select">
                       <SelectField label="Truth state" value={c.status} onChange={(e) => setStatus(c, e.target.value as ClaimStatus)} options={CLAIM_STATUSES.filter((s) => s === c.status || USER_SETTABLE_STATUSES.includes(s)).map((s) => ({ value: s, label: CLAIM_LABEL[s] }))} disabled={c.status === "contradicted"} hint={c.status === "contradicted" ? "Set by evidence; cannot be changed." : c.status === "supported" ? "Set by evidence. Downgrading cannot be undone here." : undefined} data-testid={`claim-status-${c.id}`} />
                     </div>
+                    <div className="ct-row">
                     <Button size="sm" onClick={() => { setDraft({ id: c.id, claim_type: c.claim_type, claim_text: c.claim_text, skills: (c.skills ?? []).join(", "), visibility: c.visibility, status: c.status }); setDraftError(null); }} data-testid={`claim-edit-${c.id}`}>
                       Edit
                     </Button>
                     <Button size="sm" variant="danger" onClick={() => setRemoving(c)}>
                       Remove
                     </Button>
+                    </div>
                   </div>
-                </Card>
+                </li>
               );
             })}
           </ul>

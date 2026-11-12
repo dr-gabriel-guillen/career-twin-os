@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Badge, Banner, Button, Card, EmptyState, Facts, TableRegion, TextField, useAnnounce, type Tone } from "@careertwin/ui";
 import { Page } from "@/components/common";
 import type { ScenarioView } from "@/adapters";
-import { humanise, percent } from "@/lib/format";
+import { humanise, percent, skillLabel } from "@/lib/format";
 import { compareScenarios, defaultEdits, type ScenarioComputed } from "@/lib/simulator";
 import { useApp } from "@/state/AppContext";
 import type { ScenarioActionEdit } from "@/state/workspace";
@@ -66,6 +66,48 @@ export default function SimulatorPage() {
           The weights only order the scenarios by what you say matters to you. They are saved in this browser. {totalWeight === 0 ? "All weights are zero, so no ordering is shown." : ""}
         </p>
       </Card>
+
+      <section aria-label="Routes">
+        <ul className="ct-list-plain sim-routes">
+          {computed.map((c) => {
+            const id = c.view.scenario.id;
+            const isSel = selected?.view.scenario.id === id;
+            const before = c.coverageBefore;
+            const after = c.coverageAfter;
+            const unc = c.view.outputs?.uncertainty ?? null;
+            return (
+              <li key={id}>
+                <button type="button" className="sim-route" aria-pressed={isSel} onClick={() => setParams({ scenario: id })}>
+                  <span className="sim-route__head">
+                    <strong>{c.view.scenario.target_role}</strong>
+                    <span className={`sim-unc sim-unc--${unc ?? "unknown"}`}>{unc ? `${humanise(unc)} uncertainty` : "Uncertainty unknown"}</span>
+                  </span>
+                  <span className="sim-cov" aria-hidden="true">
+                    {before === null ? (
+                      <span className="sim-cov__track sim-cov__track--unknown" />
+                    ) : (
+                      <span className="sim-cov__track">
+                        {after !== null && after > before ? <span className="sim-cov__after" style={{ width: `${after * 100}%` }} /> : null}
+                        <span className="sim-cov__before" style={{ width: `${before * 100}%` }} />
+                      </span>
+                    )}
+                  </span>
+                  <span className="sim-route__cov">
+                    Target-skill coverage{" "}
+                    <b>{before === null ? "unknown" : after === null ? `${percent(before)} → needs upstream recalculation` : `${percent(before)} → ${percent(after)}`}</b>
+                  </span>
+                  <span className="sim-route__facts">
+                    <span>{c.totalHours} h planned</span>
+                    <span>{c.totalHours === 0 ? "No actions included" : `${c.months.toFixed(1)} months at ${sim.hoursPerWeek} h/week`}</span>
+                    <span className={c.fitsHorizon || c.totalHours === 0 ? "" : "sim-late"}>{c.totalHours === 0 ? "" : c.fitsHorizon ? `Within your ${c.view.scenario.time_horizon_months}-month horizon` : `Beyond your ${c.view.scenario.time_horizon_months}-month horizon`}</span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="ct-small ct-muted sim-routes__note">Each route is a hypothetical plan with placeholder effort. Select one to edit its actions below; the table gives the exact comparison.</p>
+      </section>
 
       <Card title="Side-by-side comparison">
         <TableRegion label="Scenario comparison">
@@ -147,17 +189,17 @@ export default function SimulatorPage() {
                   return (
                     <tr key={`${i}-${a.skill}`}>
                       <td>
-                        <input type="checkbox" checked={a.included} onChange={(e) => editAction(selected.view, i, { included: e.target.checked })} aria-label={`Include ${humanise(a.skill)}`} data-testid={`action-include-${i}`} />
+                        <input type="checkbox" checked={a.included} onChange={(e) => editAction(selected.view, i, { included: e.target.checked })} aria-label={`Include ${skillLabel(a.skill)}`} data-testid={`action-include-${i}`} />
                       </td>
                       <th scope="row">
-                        {humanise(a.skill)}
+                        {skillLabel(a.skill)}
                         {inTarget === false ? <div className="ct-small ct-muted">Not one of the target skills; it does not change coverage.</div> : null}
                       </th>
                       <td>
-                        <input className="ct-input" type="number" min={0} max={5000} step={5} value={a.effort_hours} onChange={(e) => editAction(selected.view, i, { effort_hours: Math.min(5000, Math.max(0, Number(e.target.value) || 0)) })} aria-label={`Effort hours for ${humanise(a.skill)}`} data-testid={`action-hours-${i}`} />
+                        <input className="ct-input" type="number" min={0} max={5000} step={5} value={a.effort_hours} onChange={(e) => editAction(selected.view, i, { effort_hours: Math.min(5000, Math.max(0, Number(e.target.value) || 0)) })} aria-label={`Effort hours for ${skillLabel(a.skill)}`} data-testid={`action-hours-${i}`} />
                       </td>
                       <td>
-                        <input className="ct-input" type="number" min={0} step={50} value={a.cost ?? ""} placeholder="Not entered" onChange={(e) => editAction(selected.view, i, { cost: e.target.value === "" ? null : Math.max(0, Number(e.target.value) || 0) })} aria-label={`Direct cost for ${humanise(a.skill)}`} data-testid={`action-cost-${i}`} />
+                        <input className="ct-input" type="number" min={0} step={50} value={a.cost ?? ""} placeholder="Not entered" onChange={(e) => editAction(selected.view, i, { cost: e.target.value === "" ? null : Math.max(0, Number(e.target.value) || 0) })} aria-label={`Direct cost for ${skillLabel(a.skill)}`} data-testid={`action-cost-${i}`} />
                       </td>
                       <td className="ct-small">{selected.view.scenario.planned_actions[i]?.evidence_goal ?? "Not stated"}</td>
                     </tr>
@@ -169,7 +211,7 @@ export default function SimulatorPage() {
           <div className="ct-grid ct-grid--2">
             <Facts
               items={[
-                { label: "Target skills", value: selected.view.outputs ? selected.view.outputs.target_skills.map(humanise).join(", ") : "Unknown" },
+                { label: "Target skills", value: selected.view.outputs ? selected.view.outputs.target_skills.map(skillLabel).join(", ") : "Unknown" },
                 {
                   label: "Coverage",
                   value:

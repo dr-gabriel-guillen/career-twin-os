@@ -82,6 +82,7 @@ export function Banner({
   children,
   role,
   actions,
+  className,
   ...rest
 }: {
   tone?: Tone;
@@ -89,10 +90,11 @@ export function Banner({
   children?: ReactNode;
   role?: "status" | "alert" | "note";
   actions?: ReactNode;
+  className?: string;
   "data-testid"?: string;
 }) {
   return (
-    <div className={cx("ct-banner", `ct-banner--${tone}`)} role={role ?? "note"} {...rest}>
+    <div className={cx("ct-banner", `ct-banner--${tone}`, className)} role={role ?? "note"} {...rest}>
       <div className="ct-banner__body">
         {title ? <strong className="ct-banner__title">{title}</strong> : null}
         {children ? <div>{children}</div> : null}
@@ -408,5 +410,67 @@ export function Facts({ items }: { items: { label: string; value: ReactNode }[] 
         </div>
       ))}
     </dl>
+  );
+}
+
+// ------------------------------------------------------------------ Score bars
+/**
+ * One engine score on 0..100. `null` renders a hatched track and the word "unknown":
+ * an unknown score is never drawn as zero. Near-term fit and strategic value use
+ * different colours and are always shown as two bars, never merged into one.
+ */
+export function ScoreBar({ kind, value, label, testId }: { kind: "near" | "strat"; value: number | null; label?: string; testId?: string }) {
+  const name = label ?? (kind === "near" ? "Near-term" : "Strategic");
+  const v = value === null ? null : Math.max(0, Math.min(100, value));
+  return (
+    <div className={cx("ct-score", kind === "strat" && "ct-score--strat")} role="img" aria-label={v === null ? `${name}: unknown` : `${name}: ${value} of 100`} data-testid={testId}>
+      <span className="ct-score__label" aria-hidden="true">{name}</span>
+      <span className={cx("ct-score__track", v === null && "ct-score__track--unknown")} aria-hidden="true">
+        {v === null ? null : <span className="ct-score__fill" style={{ display: "block", width: `${Math.max(2, v)}%` }} />}
+      </span>
+      <span className={cx("ct-score__value", v === null && "ct-score__value--unknown")} aria-hidden="true">{v === null ? "?" : Math.round(v)}</span>
+    </div>
+  );
+}
+
+/** The two scores together, stacked. Neither is a probability of being hired. */
+export function ScorePair({ near, strategic }: { near: number | null; strategic: number | null }) {
+  return (
+    <div className="ct-scores">
+      <ScoreBar kind="near" value={near} />
+      <ScoreBar kind="strat" value={strategic} />
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------ Icons
+/** CareerTwin stroke icons on a 24px grid. Always decorative (aria-hidden); pair with visible text. */
+const ICON_PATHS = {
+  overview: "M4 5h16v15H4zM4 9h16M9 3v4M15 3v4",
+  discover: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4",
+  match: "M4 12h4l2-5 4 10 2-5h4",
+  evidence: "M6 3h9l3 3v15H6zM9 11h6M9 15h6M9 7h3",
+  resume: "M5 4h14v16H5zM8 8h8M8 12h8M8 16h5",
+  applications: "M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v6h-4z",
+  experiments: "M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7.5 15h9",
+  atlas: "M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14",
+  simulator: "M4 18c4 0 4-12 8-12s4 12 8 12M4 18h16",
+  settings: "M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2",
+  arrow: "M5 12h14M13 6l6 6-6 6",
+  alert: "M12 4l9 16H3zM12 10v4M12 17v.5",
+  check: "M5 12l4 4 10-10",
+  cross: "M6 6l12 12M18 6L6 18",
+  clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",
+  bookmark: "M7 4h10v17l-5-4-5 4z",
+  menu: "M4 7h16M4 12h16M4 17h16",
+  offline: "M3 3l18 18M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5-2.7M14 10.3a10 10 0 0 1 5 2.7M12 20h.01",
+  online: "M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 9.5a15 15 0 0 1 20 0M12 20h.01",
+} as const;
+export type IconName = keyof typeof ICON_PATHS;
+export function Icon({ name, size = 16, className }: { name: IconName; size?: number; className?: string }) {
+  return (
+    <svg className={cx("ct-icon", className)} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <path d={ICON_PATHS[name]} />
+    </svg>
   );
 }
