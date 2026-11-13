@@ -5,7 +5,7 @@ import { test as base, expect, type Page } from "@playwright/test";
  * CSP, or makes ANY request to an origin other than the local preview server.
  * That is the "no external calls" guarantee, enforced in the browser.
  */
-export const ORIGIN = "http://127.0.0.1:4173";
+export const ORIGIN = `http://127.0.0.1:${Number(process.env.CT_E2E_PORT || 4173)}`;
 
 interface Guard {
   errors: string[];

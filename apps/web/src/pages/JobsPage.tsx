@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Banner, Button, Checkbox, EmptyState, Facts, ScorePair, SelectField, TableRegion, TextField, useAnnounce, type Tone } from "@careertwin/ui";
 import { ExternalLinkDialog, Page, SkillChips } from "@/components/common";
@@ -16,11 +16,12 @@ const STATUS_TEXT: Record<JobPosting["status"], { label: string; tone: Tone }> =
 const FRESH_TONE: Record<Freshness, Tone> = { fresh: "success", aging: "warning", stale: "danger" };
 const FRESH_LABEL: Record<Freshness, string> = { fresh: "Fresh (7 days or less)", aging: "Aging (8–21 days)", stale: "Stale (over 21 days)" };
 
+const PAGE = 30;
 type SortKey = "captured" | "title" | "organization" | "near" | "strategic" | "blend";
 const SORTS: { value: SortKey; label: string }[] = [
+  { value: "near", label: "Best near-term fit" },
   { value: "captured", label: "Most recently captured" },
-  { value: "blend", label: "Your blended ranking" },
-  { value: "near", label: "Near-term fit" },
+  { value: "blend", label: "Your ranking blend (order only)" },
   { value: "strategic", label: "Strategic value" },
   { value: "title", label: "Title (A–Z)" },
   { value: "organization", label: "Employer (A–Z)" },
@@ -37,7 +38,12 @@ export default function JobsPage() {
   const [fresh, setFresh] = useState("all");
   const [shortOnly, setShortOnly] = useState(false);
   const [collapse, setCollapse] = useState(false);
-  const [sort, setSort] = useState<SortKey>("captured");
+  const [sort, setSort] = useState<SortKey>(bundle.matches.length > 0 ? "near" : "captured");
+  // Long feeds are listed in pages of PAGE so the list stays scannable; filters reset the page.
+  const [limit, setLimit] = useState(PAGE);
+  // Phones: secondary filters fold behind one toggle so the postings start on the first screen.
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  useEffect(() => setLimit(PAGE), [query, family, remote, status, fresh, shortOnly, collapse, sort]);
   const [view, setView] = useState<"cards" | "table">("cards");
   const [linkJob, setLinkJob] = useState<JobPosting | null>(null);
 
@@ -113,6 +119,7 @@ export default function JobsPage() {
     setCollapse(false);
   };
 
+  const activeFilters = [family !== "all", remote !== "all", status !== "all", fresh !== "all", shortOnly, collapse].filter(Boolean).length;
   const jobsReport = bundle.reports.find((r) => r.adapter.id === "jobs");
   const rejected = jobsReport?.rejected ?? [];
 
@@ -152,15 +159,20 @@ export default function JobsPage() {
         <div className="jb-filters__row">
           <div className="jb-search">
             <TextField label="Search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Title, employer, skill…" data-testid="job-search" />
+            <Button className="jb-filtertoggle" aria-expanded={filtersOpen} aria-controls="jb-filterset" onClick={() => setFiltersOpen((o) => !o)}>
+              Filters{activeFilters > 0 ? ` (${activeFilters})` : ""}
+            </Button>
           </div>
+          <div className="jb-filterset" id="jb-filterset" data-open={filtersOpen}>
           <SelectField label="Role family" value={family} onChange={(e) => setFamily(e.target.value)} options={[{ value: "all", label: "All role families" }, ...families.map((f) => ({ value: f, label: familyLabel(f) }))]} data-testid="job-family" />
           <SelectField label="Work style" value={remote} onChange={(e) => setRemote(e.target.value)} options={[{ value: "all", label: "Any" }, { value: "remote", label: "Remote" }, { value: "hybrid", label: "Hybrid" }, { value: "onsite", label: "On-site" }, { value: "unknown", label: "Unknown" }]} />
           <SelectField label="Status at capture" value={status} onChange={(e) => setStatus(e.target.value)} options={[{ value: "all", label: "Any" }, { value: "active", label: "Marked active" }, { value: "expired", label: "Expired" }, { value: "unknown", label: "Unknown" }]} />
           <SelectField label="Freshness" value={fresh} onChange={(e) => setFresh(e.target.value)} options={[{ value: "all", label: "Any" }, ...(["fresh", "aging", "stale"] as const).map((f) => ({ value: f, label: FRESH_LABEL[f] }))]} />
           <SelectField label="Sort by" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} options={SORTS} data-testid="job-sort" />
+          </div>
         </div>
         <div className="jb-filters__row jb-filters__row--meta">
-          <div className="ct-row jb-checks">
+          <div className="ct-row jb-checks" data-open={filtersOpen}>
             <Checkbox label="Shortlisted only" checked={shortOnly} onChange={(e) => setShortOnly(e.target.checked)} />
             <Checkbox label="Collapse likely duplicates" hint="Same employer and title; keeps the most recent capture." checked={collapse} onChange={(e) => setCollapse(e.target.checked)} data-testid="job-collapse" />
           </div>
@@ -185,6 +197,8 @@ export default function JobsPage() {
 
       {rejected.length > 0 ? (
         <Banner tone="warning" title={`${rejected.length} feed record${rejected.length === 1 ? "" : "s"} did not match the JobPosting contract and are not shown.`} data-testid="jobs-rejected">
+          <details className="jb-diag">
+          <summary>Show what was wrong with each record</summary>
           <ul className="ct-small">
             {rejected.map((r) => (
               <li key={r.index}>
@@ -194,6 +208,7 @@ export default function JobsPage() {
               </li>
             ))}
           </ul>
+          </details>
         </Banner>
       ) : null}
 
@@ -220,7 +235,7 @@ export default function JobsPage() {
               </tr>
             </thead>
             <tbody>
-              {visible.map((j) => {
+              {visible.slice(0, limit).map((j) => {
                 const m = matchByJob.get(j.id);
                 return (
                   <tr key={j.id}>
@@ -246,7 +261,7 @@ export default function JobsPage() {
         <>
         <h2 className="ct-sr-only">Postings</h2>
         <ul className="ct-list-plain jb-list" data-testid="jobs-cards">
-          {visible.map((j) => {
+          {visible.slice(0, limit).map((j) => {
             const f = freshness(j.fetched_at, clock);
             const comp = formatCompensation(j.compensation);
             const group = duplicates.get(groupKey(j)) ?? [];
@@ -300,7 +315,7 @@ export default function JobsPage() {
                 </div>
                 <div className="jb-facts">
                   {comp.known ? (
-                    <span className="jb-pay">{comp.text}</span>
+                    <span className="jb-pay">{comp.text.split(" · ").join(", ")}</span>
                   ) : (
                     <span className="jb-pay jb-pay--unknown" data-testid={`comp-${j.id}`}>
                       {comp.text} (unknown — not treated as zero)
@@ -343,6 +358,16 @@ export default function JobsPage() {
         </ul>
         </>
       )}
+      {visible.length > limit ? (
+        <div className="jb-more-pager">
+          <span className="ct-small ct-muted">
+            Listing {Math.min(limit, visible.length)} of {visible.length}.
+          </span>
+          <Button onClick={() => setLimit(limit + PAGE)} data-testid="jobs-more">
+            Show {Math.min(PAGE, visible.length - limit)} more
+          </Button>
+        </div>
+      ) : null}
       <ExternalLinkDialog job={linkJob} onClose={() => setLinkJob(null)} />
     </Page>
   );

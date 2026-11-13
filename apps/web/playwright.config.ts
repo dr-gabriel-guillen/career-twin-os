@@ -6,6 +6,12 @@ import { defineConfig, devices } from "@playwright/test";
  * Chrome instead of Playwright's bundled Chromium.
  */
 const channel = process.env.PW_CHANNEL || undefined;
+/**
+ * CT_E2E_PORT moves the preview server off 4173, which lane E's acceptance launcher also uses.
+ * Without it, a running launcher's (older) build would be reused and tested by mistake.
+ */
+const port = Number(process.env.CT_E2E_PORT || 4173);
+const origin = `http://127.0.0.1:${port}`;
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -17,7 +23,7 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 10_000 },
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: origin,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     ...devices["Desktop Chrome"],
@@ -25,8 +31,8 @@ export default defineConfig({
     viewport: { width: 1280, height: 800 },
   },
   webServer: {
-    command: "npm run preview -- --host 127.0.0.1",
-    url: "http://127.0.0.1:4173",
+    command: `npx vite preview --host 127.0.0.1 --port ${port} --strictPort`,
+    url: origin,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

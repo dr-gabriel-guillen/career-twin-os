@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { Badge, Banner, Button, Card, Checkbox, EmptyState, Meter, ScoreBar, ScorePair, TableRegion, useAnnounce, type Tone } from "@careertwin/ui";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Badge, Banner, Button, Card, Checkbox, EmptyState, Icon, Meter, ScoreBar, ScorePair, TableRegion, useAnnounce, type Tone } from "@careertwin/ui";
 import { Page, SyntheticBadge, TruthBadge } from "@/components/common";
 import type { ConstraintStatus, MatchComponent, MatchExplanation, ScoreGroup } from "@/adapters/proposed";
 import { formatDateTime, humanise, skillLabel } from "@/lib/format";
@@ -60,6 +60,32 @@ function ScoreBlock({ title, description, group, testId, kind }: { title: string
   );
 }
 
+/** Plain-language names for the matching engine's refusal codes. The raw code is always shown beside it. */
+const REFUSAL_LABELS: Record<string, string> = {
+  jurisdiction: "Location outside your stated regions",
+  "employment-type": "Employment type",
+  "remote-policy": "Work style",
+  "seniority-band": "Seniority",
+  availability: "Availability",
+  "duplicate-of": "Duplicate posting",
+  "content-integrity": "Failed a content-integrity check",
+  "compensation-floor": "Below your pay floor",
+  "phantom-risk": "May not be a real opening",
+};
+function refusalLabel(reason: string): string {
+  const key = reason.split(":")[0]!.trim();
+  return REFUSAL_LABELS[key] ?? "Other reason";
+}
+function readableRefusal(reason: string, jobById: Map<string, { title: string }>): string {
+  const [key, ...rest] = reason.split(":");
+  const value = rest.join(":").trim();
+  if (key?.trim() === "duplicate-of") {
+    const other = jobById.get(value);
+    return other ? `Duplicate of “${other.title}”` : "Duplicate of another posting";
+  }
+  return value ? `${refusalLabel(reason)}: ${value}` : refusalLabel(reason);
+}
+
 export default function MatchingPage() {
   const { bundle, workspace, dispatch } = useApp();
   const { jobById, familyLabel, matchesStale, appByJob } = useIndexes();
@@ -80,6 +106,26 @@ export default function MatchingPage() {
   const selected: MatchExplanation | null = (selectedId ? bundle.matches.find((m) => m.job_id === selectedId) : null) ?? ranked[0]?.match ?? null;
   const job = selected ? jobById.get(selected.job_id) ?? null : null;
   const blend = workspace.strategicBlend;
+  const lastPicked = useRef<string | null>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia("(max-width: 1000px)").matches) return;
+    if (selectedId) {
+      window.scrollTo(0, 0);
+      // Only a choice the person just made moves focus; a deep link leaves focus alone.
+      if (lastPicked.current === selectedId) {
+        detailRef.current?.focus({ preventScroll: true });
+        announce(`Showing the match explanation for ${jobById.get(selectedId)?.title ?? "the selected posting"}.`);
+      }
+    } else if (lastPicked.current) {
+      const row = document.querySelector<HTMLElement>(`[data-testid="match-${CSS.escape(lastPicked.current)}"]`);
+      row?.scrollIntoView({ block: "center" });
+      row?.focus({ preventScroll: true });
+    }
+  }, [selectedId, jobById, announce]);
 
   if (bundle.matches.length === 0) {
     return (
@@ -91,13 +137,34 @@ export default function MatchingPage() {
     );
   }
 
+  const refusalGroups = [...bundle.matchRefusals.reduce((acc, r) => {
+    for (const reason of r.reasons) {
+      const label = refusalLabel(reason);
+      acc.set(label, (acc.get(label) ?? 0) + 1);
+    }
+    return acc;
+  }, new Map<string, number>())]
+    .map(([label, count]) => ({ label, count }))
+    .sort((a, b) => b.count - a.count);
+
+  // Phone and narrow tablet: list and detail are separate views. Choosing a posting pushes a history
+  // entry (so Back works), moves focus to the explanation and announces it; Back returns focus to the row.
+  const pick = (jobId: string) => {
+    lastPicked.current = jobId;
+    setParams({ job: jobId }, { state: { fromList: true } });
+  };
+  const backToList = () => {
+    if ((location.state as { fromList?: boolean } | null)?.fromList) navigate(-1);
+    else setParams({});
+  };
+
   const missing = selected ? selected.skills.filter((s) => s.evidence_strength === "missing" || s.evidence_strength === "contradicted") : [];
   const weak = selected ? selected.skills.filter((s) => s.evidence_strength === "unverified" || s.evidence_strength === "self-reported") : [];
 
   return (
     <Page
       title="Matching"
-      lead="Why each posting ranks where it does. Near-term fit asks “could you credibly do this role now, on the evidence you hold?”. Strategic value asks “does it move you toward the roles you say you want?”. Neither is a probability of being hired."
+      lead="Why each posting ranks where it does. Near-term fit: could you credibly do this role now, on the evidence you hold? Strategic value: does it move you toward the roles you want? Neither is a probability of being hired."
     >
       {matchesStale ? (
         <Banner tone="warning" title="These scores may be out of date." data-testid="stale-banner">
@@ -108,19 +175,37 @@ export default function MatchingPage() {
 
 
       {bundle.matchRefusals.length > 0 ? (
-        <Card title={`Refused by the matching engine (${bundle.matchRefusals.length})`}>
-          <p className="ct-small ct-muted">These postings failed a hard constraint upstream and were not ranked. They are listed so nothing disappears silently.</p>
-          <ul className="ct-small" data-testid="match-refusals">
+        <details className="mt-refused" data-testid="refusals-disclosure">
+          <summary>
+            <strong>{bundle.matchRefusals.length} postings were not ranked</strong>
+            <span className="ct-muted">
+              {" "}
+              because they failed a hard constraint upstream:{" "}
+              {refusalGroups
+                .slice(0, 4)
+                .map((g) => `${g.label.toLowerCase()} ${g.count}`)
+                .join(", ")}
+              {refusalGroups.length > 4 ? ", and more" : ""}. Listed so nothing disappears silently.
+            </span>
+          </summary>
+          <ul className="ct-list-plain mt-refused__list" data-testid="match-refusals">
             {bundle.matchRefusals.map((r, i) => (
               <li key={`${i}-${r.job_id}`}>
-                {jobById.get(r.job_id)?.title ?? r.job_id}: {r.reasons.join("; ")}
+                <span className="mt-refused__title">{jobById.get(r.job_id)?.title ?? "Posting not in this feed"}</span>
+                <span>
+                  {r.reasons.map((reason, ri) => (
+                    <span key={ri} className="mt-refused__reason">
+                      {readableRefusal(reason, jobById)} <span className="ct-muted">({reason})</span>
+                    </span>
+                  ))}
+                </span>
               </li>
             ))}
           </ul>
-        </Card>
+        </details>
       ) : null}
 
-      <div className="app-split">
+      <div className="app-split mt-layout" data-view={selectedId ? "detail" : "list"}>
         <Card title={`Ranked postings (${ranked.length})`} className="mt-list">
           <div className="mt-rank" role="group" aria-label="How to rank">
             <label htmlFor="blend" className="ct-field__label">
@@ -144,11 +229,10 @@ export default function MatchingPage() {
                 const failed = match.hard_constraints.filter((h) => h.status === "fail").length;
                 return (
                   <li key={match.job_id}>
-                    <button type="button" className="app-pick" aria-current={selected?.job_id === match.job_id ? "true" : undefined} onClick={() => setParams({ job: match.job_id })} data-testid={`match-${match.job_id}`}>
+                    <button type="button" className="app-pick" aria-current={selected?.job_id === match.job_id ? "true" : undefined} onClick={() => pick(match.job_id)} data-testid={`match-${match.job_id}`}>
                       <span className="mt-pick__head">
                         <span className="mt-pick__rank">{i + 1}.</span>
                         <strong>{j?.title ?? match.job_id}</strong>
-                        <span className="mt-pick__order" title="Position value under your ordering blend. Not a score.">{blended ?? "Unknown"}</span>
                       </span>
                       <span className="ct-muted ct-small mt-pick__org">{j?.organization}</span>
                       <span className="mt-pick__scores">
@@ -158,6 +242,9 @@ export default function MatchingPage() {
                           <ScorePair near={match.near_term_fit.score} strategic={match.strategic_value.score} />
                         )}
                         {failed > 0 ? <Badge tone="danger">{failed} hard constraint{failed === 1 ? "" : "s"} failed</Badge> : null}
+                        {(bundle.jobFacets[match.job_id]?.security_flags ?? []).map((flag) => (
+                          <Badge key={flag} tone="danger">{humanise(flag)}</Badge>
+                        ))}
                       </span>
                     </button>
                   </li>
@@ -168,7 +255,13 @@ export default function MatchingPage() {
         </Card>
 
         {selected && job ? (
-          <div className="ct-stack" data-testid="match-detail">
+          <div className="ct-stack mt-detail" data-testid="match-detail" tabIndex={-1} ref={detailRef} aria-label={`Match explanation: ${job.title}`}>
+            <div className="mt-back">
+              <Button variant="ghost" onClick={backToList} data-testid="match-back">
+                <Icon name="back" size={16} />
+                Back to ranked postings
+              </Button>
+            </div>
             <Card
               title={job.title}
               actions={
@@ -195,26 +288,49 @@ export default function MatchingPage() {
                 </>
               }
             >
-              <div className="ct-row">
+              <p className="mt-detail__meta">
+                <span>{job.organization}</span>
+                <span>{familyLabel(job.role_family)}</span>
                 {job.source === "synthetic" || bundle.jobFacets[job.id]?.synthetic === true ? <SyntheticBadge /> : <Badge tone="warning">Provenance not verified</Badge>}
-                <Badge>{familyLabel(job.role_family)}</Badge>
-                <span className="ct-muted">{job.organization}</span>
-              </div>
-              <Banner tone="info" title="Relative heuristic, not a hiring probability.">
-                Score type: <code>{selected.score_type}</code>. {selected.computed_at ? `Computed ${formatDateTime(selected.computed_at)}` : "Compute time not stated"} by {selected.engine.name}{" "}
-                {selected.engine.version}
-                {selected.engine.name === "lane-d-fixture-standin" ? ", a lane-D fixture stand-in for the lane-A matching engine." : "."}
-              </Banner>
-              {selected.overall ? (
-                <p data-testid="overall-score">
-                  <strong>Overall score: {selected.overall.score} / 100</strong>
-                  {selected.overall.interval ? (
-                    <> (range {selected.overall.interval.low} to {selected.overall.interval.high})</>
+                {(bundle.jobFacets[job.id]?.security_flags ?? []).map((flag) => (
+                  <Badge key={flag} tone="danger" title="Flagged by the data lane during ingestion">
+                    {humanise(flag)}
+                  </Badge>
+                ))}
+              </p>
+              <p className="mt-detail__caveat">
+                <Icon name="info" size={15} /> Relative heuristic, not a hiring probability.
+              </p>
+              <details className="mt-how">
+                <summary>How these scores were computed</summary>
+                <div className="mt-how__body">
+                  <p>
+                    Score type: <code translate="no">{selected.score_type}</code>. {selected.computed_at ? `Computed ${formatDateTime(selected.computed_at)}` : "Compute time not stated"} by <code translate="no">{selected.engine.name}</code>{" "}
+                    {selected.engine.version}
+                    {selected.engine.name === "lane-d-fixture-standin" ? ", a lane-D fixture stand-in for the lane-A matching engine." : "."}
+                  </p>
+                  {selected.overall ? (
+                    <p data-testid="overall-score">
+                      The engine also publishes a single combined score. CareerTwin shows the two parts separately instead. Overall score: {selected.overall.score} / 100
+                      {selected.overall.interval ? (
+                        <>
+                          {" "}
+                          (range {selected.overall.interval.low} to {selected.overall.interval.high})
+                        </>
+                      ) : null}
+                      .{" "}
+                      {selected.overall.interval && selected.overall.interval.low === selected.overall.interval.high ? "Equal ends mean the unknown inputs do not move it. " : null}
+                      <span className="ct-muted">{selected.overall.note}</span>
+                    </p>
                   ) : null}
-                  <span className="ct-muted ct-small"> — {selected.overall.note}</span>
-                </p>
-              ) : null}
+                </div>
+              </details>
             </Card>
+
+            <div className="mt-scores">
+              <ScoreBlock kind="near" title="Near-term fit" description="How well your current, evidenced skills cover what the posting lists." group={selected.near_term_fit} testId="near-term" />
+              <ScoreBlock kind="strat" title="Strategic value" description="Career utility: how much the role moves you toward your stated target roles." group={selected.strategic_value} testId="strategic" />
+            </div>
 
             <Card title="Hard constraints" headingLevel={3}>
               <ul className="ct-list-plain ct-stack" data-testid="hard-constraints">
@@ -230,10 +346,6 @@ export default function MatchingPage() {
               <p className="ct-small ct-muted">Hard constraints are shown separately and do not change either score, so a high score can still fail one.</p>
             </Card>
 
-            <div className="mt-scores">
-              <ScoreBlock kind="near" title="Near-term fit" description="How well your current, evidenced skills cover what the posting lists." group={selected.near_term_fit} testId="near-term" />
-              <ScoreBlock kind="strat" title="Strategic value" description="Career utility: how much the role moves you toward your stated target roles." group={selected.strategic_value} testId="strategic" />
-            </div>
 
             <Card title="Skills and the evidence behind them" headingLevel={3}>
               <TableRegion label="Skills and evidence strength">

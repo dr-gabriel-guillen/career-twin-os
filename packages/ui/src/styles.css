@@ -161,7 +161,11 @@ kbd { border: 1px solid var(--ct-border-strong); border-radius: 4px; padding: 0 
 details > summary { cursor: pointer; color: var(--ct-text-2); font-weight: 560; width: fit-content; border-radius: 4px; }
 details > summary:hover { color: var(--ct-text); }
 details[open] > summary { margin-bottom: var(--ct-space-2); }
-::selection { background: var(--ct-accent-soft); }
+::selection { background: color-mix(in srgb, var(--ct-accent) 22%, transparent); }
+html { scrollbar-color: var(--ct-border-strong) transparent; }
+input, textarea { caret-color: var(--ct-accent); }
+button, a, summary, select, input[type="checkbox"], input[type="range"] { touch-action: manipulation; }
+h1, h2, h3 { text-wrap: balance; }
 
 :focus-visible { outline: 2px solid var(--ct-focus); outline-offset: 2px; }
 :focus:not(:focus-visible) { outline: none; }
@@ -224,23 +228,23 @@ details[open] > summary { margin-bottom: var(--ct-space-2); }
 .ct-card__title { min-width: 0; }
 .ct-card--selected { border-color: var(--ct-accent); box-shadow: inset 0 0 0 1px var(--ct-accent); }
 
-/* ------------------------------------------------------------- Banner (quiet: surface + tone rule, not a coloured slab) */
+/* ------------------------------------------------------------- Banner (quiet: a tinted surface in the tone, no side rule) */
 .ct-banner {
   display: flex; flex-wrap: wrap; gap: var(--ct-space-3); justify-content: space-between; align-items: center;
-  padding: 10px 14px 10px 16px; border-radius: var(--ct-radius-sm); border: 1px solid var(--ct-border);
-  background: var(--ct-surface); color: var(--ct-text); position: relative; overflow: hidden;
+  padding: 10px 14px; border-radius: var(--ct-radius-sm);
+  border: 1px solid color-mix(in srgb, var(--ct-banner-tone, var(--ct-border-strong)) 28%, var(--ct-border));
+  background: color-mix(in srgb, var(--ct-banner-bg, var(--ct-surface-2)) 55%, var(--ct-surface)); color: var(--ct-text);
 }
-.ct-banner::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--ct-banner-rule, var(--ct-border-strong)); }
 .ct-banner__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 260px; }
 .ct-banner__body > div { color: var(--ct-text-2); }
-.ct-banner__title { color: var(--ct-banner-title, var(--ct-text)); font-weight: 620; }
+.ct-banner__title { color: var(--ct-banner-tone, var(--ct-text)); font-weight: 620; }
 .ct-banner ul { margin-top: 4px; }
-.ct-banner--info { --ct-banner-rule: var(--ct-info-fg); --ct-banner-title: var(--ct-info-fg); }
-.ct-banner--success { --ct-banner-rule: var(--ct-success-fg); --ct-banner-title: var(--ct-success-fg); }
-.ct-banner--warning { --ct-banner-rule: var(--ct-warning-fg); --ct-banner-title: var(--ct-warning-fg); background: color-mix(in srgb, var(--ct-warning-bg) 45%, var(--ct-surface)); }
-.ct-banner--danger { --ct-banner-rule: var(--ct-danger-fg); --ct-banner-title: var(--ct-danger-fg); background: color-mix(in srgb, var(--ct-danger-bg) 55%, var(--ct-surface)); }
-.ct-banner--synthetic { --ct-banner-rule: var(--ct-synthetic-fg); --ct-banner-title: var(--ct-synthetic-fg); }
-.ct-banner--neutral { --ct-banner-rule: var(--ct-border-strong); }
+.ct-banner--info { --ct-banner-tone: var(--ct-info-fg); --ct-banner-bg: var(--ct-info-bg); }
+.ct-banner--success { --ct-banner-tone: var(--ct-success-fg); --ct-banner-bg: var(--ct-success-bg); }
+.ct-banner--warning { --ct-banner-tone: var(--ct-warning-fg); --ct-banner-bg: var(--ct-warning-bg); }
+.ct-banner--danger { --ct-banner-tone: var(--ct-danger-fg); --ct-banner-bg: var(--ct-danger-bg); }
+.ct-banner--synthetic { --ct-banner-tone: var(--ct-synthetic-fg); --ct-banner-bg: var(--ct-synthetic-bg); }
+.ct-banner--neutral { --ct-banner-bg: var(--ct-surface-2); }
 .ct-banner a { color: var(--ct-accent); }
 
 /* ------------------------------------------------------------- States */

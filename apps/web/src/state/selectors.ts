@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { MatchExplanation } from "@/adapters/proposed";
 import type { ApplicationEvent, JobPosting, ProfileClaim } from "@/contracts/types";
 import { groupApplications, type Application } from "@/lib/applications";
-import { humanise } from "@/lib/format";
+import { humanise, skillLabel } from "@/lib/format";
 import { profileDigest } from "@/lib/profileDigest";
 import { newId } from "@/lib/safety";
 import { useApp } from "./AppContext";
@@ -29,7 +29,7 @@ export function useIndexes(): Indexes {
     const appByJob = new Map<string, Application>();
     for (const a of applications) if (!appByJob.has(a.job_id)) appByJob.set(a.job_id, a);
     const labels = bundle.manifest?.role_family_labels ?? {};
-    const familyLabel = (family: string | null | undefined) => (family ? labels[family] ?? humanise(family) : "Unlabelled role family");
+    const familyLabel = (family: string | null | undefined) => (family ? labels[family] ?? skillLabel(family) : "Unlabelled role family");
     const families = [...new Set(bundle.jobs.map((j) => j.role_family).filter((f): f is string => Boolean(f)))].sort();
     // Scores were computed upstream from the claims the source delivered. If the vault no longer
     // equals that snapshot, scores are flagged stale; they are never recomputed in the browser.

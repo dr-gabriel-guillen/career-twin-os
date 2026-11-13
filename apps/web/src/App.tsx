@@ -2,7 +2,8 @@ import { Component, useEffect, useState, type ErrorInfo, type ReactNode } from "
 import { HashRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { AnnouncerProvider, Badge, Banner, Button, ErrorState, Icon, LoadingState, type IconName } from "@careertwin/ui";
 import { formatDate } from "@/lib/format";
-import { totalRejected } from "@/adapters";
+import { totalRejected, type DataBundle } from "@/adapters";
+import type { ProfileClaim } from "@/contracts/types";
 import { Page } from "@/components/common";
 import { AppProvider, artifactMode, useShell } from "@/state/AppContext";
 
@@ -66,6 +67,92 @@ function NotFound() {
   );
 }
 
+/** Plain-language file names for pipeline notes; the file name itself is kept as secondary text. */
+const ARTIFACT_NAMES: Record<string, string> = {
+  "resume_variant.json": "Résumé variant",
+  "jobs.json": "Job feed",
+  "jobs_ext.json": "Job feed details",
+  "matches.json": "Match explanations",
+  "matches_full.json": "Match explanations",
+  "claims.json": "Evidence vault",
+  "claims_vault.json": "Evidence vault",
+  "events.json": "Application events",
+  "experiment.json": "Experiment",
+  "experiment_events.json": "Experiment outcomes",
+  "analysis.json": "Experiment analysis",
+  "atlas.pca.json": "Career atlas",
+  "atlas_points.json": "Career atlas",
+  "scenarios.json": "Transition scenarios",
+};
+
+/**
+ * Rewrites a pipeline note for people: claim ids become the claim's own words where the vault has
+ * them, and machine codes in capitals are dropped from the front. Nothing is removed: the source
+ * file stays visible beside the note and the raw note is kept in the element's title.
+ */
+function readableNote(note: string, claimText: Map<string, string>): { text: string; file: string | null } {
+  const m = /^([\w.-]+\.json):\s*/.exec(note);
+  const file = m ? m[1]! : null;
+  let text = m ? note.slice(m[0].length) : note;
+  text = text.replace(/^[A-Z][A-Z_]{3,}:\s*/, "");
+  text = text.replace(/\bcl_[0-9a-f]{6,}\b/g, (id) => (claimText.has(id) ? `“${claimText.get(id)}”` : id));
+  return { text: text.charAt(0).toUpperCase() + text.slice(1), file };
+}
+
+/**
+ * The data-source line under the top bar. Always visible and short; the safety facts (fictional data,
+ * stub or mock sources, missing files) stay on screen, and the longer pipeline notes sit behind a
+ * disclosure so they never outweigh the page.
+ */
+function SourceStatus({ artifacts, provenance, notes, claims }: { artifacts: boolean; provenance: DataBundle["provenance"] | null; notes: string[]; claims: ProfileClaim[] }) {
+  const claimText = new Map(claims.map((c) => [c.id, c.claim_text]));
+  if (!artifacts) {
+    return (
+      <section className="app-source" role="note" aria-label="Data source" data-testid="synthetic-banner">
+        <span className="app-source__mode">
+          <strong>Synthetic fixture mode.</strong>
+        </span>
+        <span className="app-source__text">Every employer, posting, candidate, event and outcome here is fictional. Nothing is sent anywhere, no application is ever submitted for you, and no live job source is connected.</span>
+      </section>
+    );
+  }
+  return (
+    <section className="app-source app-source--artifacts" role="note" aria-label="Data source" data-testid="artifact-banner">
+      <span className="app-source__mode">
+        <strong>Pipeline artifacts mode (synthetic data only).</strong> Read-only.
+      </span>
+      {provenance ? (
+        <span className="app-source__facts" data-testid="artifact-provenance">
+          <span data-testid="mock-sources">Sources that label themselves stub or mock: {provenance.mock_sources.length === 0 ? "none" : provenance.mock_sources.join(", ")}</span>
+          <span data-testid="missing-artifacts">Files the pipeline did not provide: {provenance.missing.length === 0 ? "none" : provenance.missing.join(", ")}</span>
+        </span>
+      ) : null}
+      <details className="app-source__more" data-testid="source-details">
+        <summary>About this data{notes.length > 0 ? ` (${notes.length} pipeline note${notes.length === 1 ? "" : "s"})` : ""}</summary>
+        <div className="app-source__panel">
+          <p>
+            These screens show what the data, experiment and analytics lanes produced in an integration run, not lane D’s own fixtures. This build accepts synthetic data only; it cannot verify provenance
+            itself. Nothing is sent anywhere and no application is ever submitted for you. Changes are not saved in this mode.
+          </p>
+          {notes.length > 0 ? (
+            <ul className="app-source__notes" data-testid="source-notes">
+              {notes.map((n) => {
+                const r = readableNote(n, claimText);
+                return (
+                  <li key={n} title={n}>
+                    {r.text}
+                    {r.file ? <span className="ct-muted"> {ARTIFACT_NAMES[r.file] ?? "Pipeline file"} ({r.file})</span> : null}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
+        </div>
+      </details>
+    </section>
+  );
+}
+
 function Shell() {
   const shell = useShell();
   const location = useLocation();
@@ -104,9 +191,6 @@ function Shell() {
             </div>
           ))}
         </nav>
-        <div className="app-rail__foot ct-small">
-          <span className="app-railnote">Offline · synthetic data only</span>
-        </div>
       </aside>
       {navOpen ? <div className="app-scrim" aria-hidden="true" onClick={() => setNavOpen(false)} /> : null}
       <div className="app-body">
@@ -128,7 +212,6 @@ function Shell() {
             ) : null}
           </div>
           <div className="app-header__status">
-            <Badge tone="synthetic">Synthetic demo</Badge>
             <span data-testid="connectivity" className="app-connectivity">
               <Badge tone={shell.online ? "neutral" : "warning"}>{shell.online ? "Works offline" : "You are offline — everything still works"}</Badge>
             </span>
@@ -136,29 +219,7 @@ function Shell() {
         </header>
         <main id="main" className="app-main" tabIndex={-1}>
           <div className="app-notices">
-            {artifacts ? (
-              <Banner tone="synthetic" title="Pipeline artifacts mode (synthetic data only)." data-testid="artifact-banner">
-                These screens show what the data, experiment and analytics lanes produced in an integration run, not lane D's own
-                fixtures. This build accepts synthetic data only; it cannot verify provenance itself. Nothing is sent anywhere and
-                no application is ever submitted for you. Changes are not saved in this mode.
-                {provenance ? (
-                  <ul className="ct-small" data-testid="artifact-provenance">
-                    <li data-testid="mock-sources">
-                      Sources that label themselves stub or mock: {provenance.mock_sources.length === 0 ? "none" : provenance.mock_sources.join(", ")}
-                    </li>
-                    <li data-testid="missing-artifacts">Files the pipeline did not provide: {provenance.missing.length === 0 ? "none" : provenance.missing.join(", ")}</li>
-                    {(shell.ready?.bundle.sourceNotes ?? []).map((n) => (
-                      <li key={n}>{n}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </Banner>
-            ) : (
-              <Banner tone="synthetic" className="app-sourcebar" title="Synthetic fixture mode." data-testid="synthetic-banner">
-                Every employer, posting, candidate, event and outcome here is fictional. Nothing is sent anywhere, no application is
-                ever submitted for you, and no live job source is connected.
-              </Banner>
-            )}
+            <SourceStatus artifacts={artifacts} provenance={provenance} notes={shell.ready?.bundle.sourceNotes ?? []} claims={shell.ready?.bundle.claims ?? []} />
             {shell.settings.simulate !== "none" ? (
               <Banner tone="warning" title={`QA simulation is on: “${shell.settings.simulate}”.`} data-testid="qa-banner">
                 Changes are not saved while a simulation is active. Turn it off in Settings.
