@@ -85,7 +85,7 @@ test("journeys 2 and 3: tailor from your own claims, review the diff, approve, e
   const add = page.getByTestId("pt-suggestions").getByRole("button", { name: "Add line" }).first();
   if (await add.count()) if (await add.isEnabled()) await add.click();
   await page.getByRole("button", { name: "Next: review changes" }).click();
-  await expect(page.getByTestId("pt-diff")).toBeVisible();
+  await expect(page.getByTestId("pt-diff-summary")).toBeVisible();
   await axe(page, "tailor review");
   await expect(page.getByTestId("pt-save-draft")).toBeEnabled();
   await page.getByTestId("pt-save-draft").click();

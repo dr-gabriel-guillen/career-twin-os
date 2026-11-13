@@ -96,7 +96,10 @@ export default function AtlasConcept() {
   const d = projection.diagnostics;
   const families = [...new Set(projection.entities.map((e) => e.role_family).filter((f): f is string => f !== null))].sort();
   const candidate = projection.entities.find((e) => e.entity_id.startsWith("candidate") && !e.entity_id.endsWith(SUPPORTED)) ?? null;
-  const supported = projection.entities.find((e) => e.entity_id.endsWith(SUPPORTED)) ?? null;
+  // Explain what is actually drawn: positions come from projected points, not from the entity list.
+  const candidatePoints = projection.points.filter((x) => x.representation_type === "candidate");
+  const hasAll = candidatePoints.some((x) => !x.entity_id.endsWith(SUPPORTED));
+  const hasSupported = candidatePoints.some((x) => x.entity_id.endsWith(SUPPORTED));
   const hours = workspace.simulator.hoursPerWeek;
 
   return (
@@ -105,7 +108,7 @@ export default function AtlasConcept() {
         <Icon name="info" size={16} />
         <span>
           <strong>Approximate map.</strong>{" "}
-          {d.cumulative_explained_variance !== null ? `It keeps ${percent(d.cumulative_explained_variance)} of the skill information` : "Its axes are hand-defined and discard most skill detail"}
+          {d.cumulative_explained_variance !== null ? `The 2-D projection explains ${percent(d.cumulative_explained_variance)} of the variation in the input skill vectors` : "Its axes are hand-defined, so variance explained does not apply"}
           {d.knn_recall ? `; on average ${percent(d.knn_recall.value)} of a point’s ${d.knn_recall.k} nearest map neighbours are true neighbours` : d.trustworthiness ? `; neighbourhood trustworthiness ${d.trustworthiness.value.toFixed(2)} of 1.00` : ""}. Distance on the map is not fit and not a likelihood.
         </span>
       </p>
@@ -113,15 +116,22 @@ export default function AtlasConcept() {
       <div className="pt-atlas">
         <section className="pt-atlas__where" aria-labelledby="pt-where">
           <h2 id="pt-where">Where you are</h2>
-          <p>Two marks show you: one from every usable claim, one from evidence-backed claims only. The further apart they are, the more your position rests on self-reporting.</p>
+          <p data-testid="pt-position-note">
+            {hasAll && hasSupported
+              ? "Two marks show you: one from every usable claim, one from evidence-backed claims only. The further apart they are, the more your position rests on self-reporting."
+              : hasAll
+                ? "One mark shows you, from every usable claim. An evidence-only position was not provided, so this map cannot show how much of your position rests on self-reporting."
+                : hasSupported
+                  ? "One mark shows you, from evidence-backed claims only. A position from all usable claims was not provided."
+                  : "Your position was not provided for this map."}
+          </p>
           <ul className="ct-list-plain pt-legend">
-            <li><i className="pt-key pt-key--you" aria-hidden="true" /> You, from all usable claims</li>
-            <li><i className="pt-key pt-key--supported" aria-hidden="true" /> You, evidence-backed claims only</li>
+            {hasAll ? <li><i className="pt-key pt-key--you" aria-hidden="true" /> You, from all usable claims</li> : null}
+            {hasSupported ? <li><i className="pt-key pt-key--supported" aria-hidden="true" /> You, evidence-backed claims only</li> : null}
             <li><i className="pt-key pt-key--centroid" aria-hidden="true" /> Centre of a role family</li>
             <li><i className="pt-key pt-key--route" aria-hidden="true" /> Selected transition, hypothetical</li>
           </ul>
           {candidate?.top_skills.length ? <p className="pt-muted">Your strongest skills on the map: {candidate.top_skills.slice(0, 5).map(skillLabel).join(", ")}.</p> : null}
-          {supported ? null : <p className="pt-muted">No evidence-only position was provided.</p>}
           <TransitionMap p={projection} scenarioEntity={selected?.view.outputs?.atlas_entity_id ?? null} families={families} />
           {selected?.view.outputs?.atlas_entity_id ? (
             <p className="pt-muted" data-testid="pt-route-caveat">
@@ -132,7 +142,7 @@ export default function AtlasConcept() {
             <summary>Map diagnostics</summary>
             <ul>
               <li>Method: {projection.method === "pca" ? "principal components (PCA)" : humanise(projection.method)}, from {projection.input.n_dims ?? "many"} dimensions to 2.</li>
-              <li>Variance kept: {d.cumulative_explained_variance === null ? "not applicable" : percent(d.cumulative_explained_variance)}.</li>
+              <li>Variation in the input vectors explained by the two axes: {d.cumulative_explained_variance === null ? "not applicable (hand-defined axes)" : percent(d.cumulative_explained_variance)}. This describes the projection of the vectors, not how much career-relevant information they hold.</li>
               <li>Trustworthiness {d.trustworthiness ? `${d.trustworthiness.value.toFixed(2)} (k=${d.trustworthiness.k})` : "unknown"}; continuity {d.continuity ? `${d.continuity.value.toFixed(2)} (k=${d.continuity.k})` : "unknown"}. 1.00 would mean neighbourhoods are perfectly preserved.</li>
               {[...(d.flags ?? []), ...projection.warnings].map((w) => <li key={w}>{w}</li>)}
             </ul>

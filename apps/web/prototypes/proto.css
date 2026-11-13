@@ -110,9 +110,15 @@
 .pt-line__text { font-family: var(--ct-serif); font-size: 1rem; line-height: 1.5; }
 .pt-line__body { display: flex; flex-direction: column; gap: 2px; }
 .pt-diff { display: flex; flex-direction: column; gap: 4px; }
-.pt-diff li { display: grid; grid-template-columns: 18px 1fr; padding: 8px 10px; border-radius: 6px; font-family: var(--ct-serif); }
+/* A change row has exactly two columns: a fixed marker and the line itself. Nothing else is a grid item. */
+.pt-diff__row { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: baseline; padding: 8px 12px 8px 8px; border-radius: 6px; }
+.pt-diff__mark { font-weight: 700; text-align: center; font-family: var(--ct-font); }
+.pt-diff__text { min-width: 0; font-family: var(--ct-serif); font-size: 1rem; line-height: 1.5; overflow-wrap: break-word; }
 .pt-diff__add { background: var(--ct-success-bg); color: var(--ct-success-fg); }
-.pt-diff__del { background: var(--ct-danger-bg); color: var(--ct-danger-fg); text-decoration: line-through; }
+.pt-diff__del { background: var(--ct-danger-bg); color: var(--ct-danger-fg); }
+.pt-diff__del .pt-diff__text { text-decoration: line-through; }
+.pt-diff-summary { font-size: 0.86rem; color: var(--ct-text-2); }
+.pt-diff-empty { margin: 0; padding: 14px 16px; border: 1px dashed var(--ct-border-strong); border-radius: 8px; color: var(--ct-text-2); max-width: 70ch; }
 .pt-paper { background: var(--ct-surface); border: 1px solid var(--ct-border); border-radius: 4px; box-shadow: 0 8px 24px -12px rgb(16 24 40 / 18%); padding: 32px 40px; }
 .pt-paper__text { margin: 0; font-family: var(--ct-serif); font-size: 0.98rem; line-height: 1.6; white-space: pre-wrap; }
 .pt-tailor__side { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 8px; background: var(--ct-surface); border: 1px solid var(--ct-border); border-radius: var(--ct-radius); padding: 18px; }
@@ -220,3 +226,8 @@
 .pt-row__flag { font-size: 0.78rem; color: var(--ct-danger-fg); }
 .pt-map__label--target { fill: var(--ct-synthetic-fg); font-size: 10.5px; }
 @media (min-width: 1280px) { .pt-reasons[data-testid="pt-why-list"] { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; } }
+@media (max-width: 720px) {
+  /* Only the current step shows its label; the others keep it for screen readers. */
+  .pt-step:not(.pt-step--on) button { gap: 0; padding: 8px 8px 10px; }
+  .pt-step:not(.pt-step--on) .pt-step__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+}

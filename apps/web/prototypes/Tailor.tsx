@@ -22,7 +22,13 @@ const COVERAGE_LABEL: Record<Coverage, string> = {
   missing: "No claim covers it",
 };
 
+/** Each posting gets its own tailoring session: switching jobs never carries a step or draft across. */
 export default function TailorJourney() {
+  const { jobId } = useParams();
+  return <TailorSession key={jobId ?? "none"} />;
+}
+
+function TailorSession() {
   const { bundle, workspace, clock, dispatch } = useApp();
   const { jobById, matchByJob, claimById, applications } = useIndexes();
   const { jobId } = useParams();
@@ -88,7 +94,8 @@ export default function TailorJourney() {
     return "missing";
   };
   const covered = wanted.filter((s) => ["evidence", "self"].includes(coverageOf(s))).length;
-  const usedIds = new Set([...draftClaims.keys()]);
+  // Claims already present through the base lines you kept. Claims you added stay listed so they can be removed again.
+  const usedIds = new Set(base.sections.flatMap((s) => s.bullets.filter((b) => !excluded.has(b.id)).flatMap((b) => b.claim_ids)));
   const suggestions = suggestedClaims(job, match, workspace.claims, usedIds);
   const baseLines = base.sections.flatMap((s) => s.bullets);
   const removed = baseLines.filter((b) => excluded.has(b.id));
@@ -147,7 +154,7 @@ export default function TailorJourney() {
           <li key={s} className={i === step ? "pt-step pt-step--on" : i < step ? "pt-step pt-step--done" : "pt-step"} aria-current={i === step ? "step" : undefined}>
             <button type="button" onClick={() => setStep(i)} disabled={i > step && !(i === 3 && saved)}>
               <span className="pt-step__n">{i < step ? <Icon name="check" size={14} /> : i + 1}</span>
-              {s}
+              <span className="pt-step__label">{s}</span>
             </button>
           </li>
         ))}
@@ -226,11 +233,35 @@ export default function TailorJourney() {
             <section className="pt-panel" aria-labelledby="pt-s3">
               <h2 id="pt-s3">Review the changes</h2>
               <p className="pt-muted">Compared with “{variantTitle(base, base.target_job_id ? jobById.get(base.target_job_id)?.title : null)}”. Unchanged lines: {baseLines.length - removed.length}.</p>
-              <ul className="ct-list-plain pt-diff" data-testid="pt-diff">
-                {addedLines.map((b) => <li key={b.id} className="pt-diff__add"><span aria-hidden="true">+</span><span className="ct-sr-only">Added: </span>{b.text}</li>)}
-                {removed.map((b) => <li key={b.id} className="pt-diff__del"><span aria-hidden="true">−</span><span className="ct-sr-only">Removed: </span>{b.text}</li>)}
-                {addedLines.length + removed.length === 0 ? <li className="pt-muted">No changes yet. The draft is identical to the base.</li> : null}
-              </ul>
+              <p className="pt-diff-summary" data-testid="pt-diff-summary">
+                {addedLines.length} added, {removed.length} removed, {baseLines.length - removed.length} unchanged.
+              </p>
+              {addedLines.length + removed.length === 0 ? (
+                <p className="pt-diff-empty" data-testid="pt-diff-empty">
+                  No changes yet. The draft is identical to the résumé you started from. Go back to switch lines off or add claims from your vault.
+                </p>
+              ) : (
+                <ul className="ct-list-plain pt-diff" data-testid="pt-diff">
+                  {addedLines.map((b) => (
+                    <li key={b.id} className="pt-diff__row pt-diff__add" data-change="added">
+                      <span className="pt-diff__mark" aria-hidden="true">+</span>
+                      <span className="pt-diff__text">
+                        <span className="ct-sr-only">Added: </span>
+                        {b.text}
+                      </span>
+                    </li>
+                  ))}
+                  {removed.map((b) => (
+                    <li key={b.id} className="pt-diff__row pt-diff__del" data-change="removed">
+                      <span className="pt-diff__mark" aria-hidden="true">−</span>
+                      <span className="pt-diff__text">
+                        <span className="ct-sr-only">Removed: </span>
+                        {b.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
               {review.blocking > 0 ? (
                 <Banner tone="warning" title={`${review.blocking} line${review.blocking === 1 ? "" : "s"} would block export.`}>
                   <ul>{review.exportBlockers.slice(0, 4).map((b) => <li key={b}>{b}</li>)}</ul>
