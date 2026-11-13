@@ -1,0 +1,54 @@
+{
+ "ranking": {
+  "benchmark": "ranking-vs-latent-labels",
+  "canonical_jobs": 182,
+  "eligible": 71,
+  "jobs_in_store": 190,
+  "labelled_relevant": 34,
+  "labelled_strong": 19,
+  "latently_inactive_in_shortlist": 0,
+  "limits": "Labels derive from generator latents and lane A's own taxonomy; this is a self-consistency/regression measure on fictional data, not evidence of real-world ranking quality.",
+  "n_base": 180,
+  "ndcg_at_10": 0.9266,
+  "precision_at_10": 0.9,
+  "precision_at_10_strong": 0.9,
+  "recall_at_20": 0.5294,
+  "result_hash": "4f5f46dde11e7db03c890354a0afc4642259b231bc536c2ca58a1b7805c9099c",
+  "seed": 20261110,
+  "top_n": 20
+ },
+ "retrieval": {
+  "benchmark": "retrieval-frozen-queries",
+  "documents": 182,
+  "limits": "12 hand-written queries over fictional postings rendered from the same taxonomy surface forms; the hashed 'embedding' is a lexical-hash stand-in, not a learned semantic model.",
+  "n_base": 180,
+  "queries": 12,
+  "retrievers": {
+   "hashed-embedding-offline": {
+    "mrr": 0.881,
+    "ndcg_at_10": 0.857,
+    "precision_at_5": 0.9,
+    "recall_at_20": 0.9329
+   },
+   "hashed-embedding-offline-no-expansion": {
+    "mrr": 0.8639,
+    "ndcg_at_10": 0.6802,
+    "precision_at_5": 0.7167,
+    "recall_at_20": 0.7252
+   },
+   "hybrid-rrf(lexical-bm25+hashed-embedding-offline)": {
+    "mrr": 0.8254,
+    "ndcg_at_10": 0.7727,
+    "precision_at_5": 0.8333,
+    "recall_at_20": 0.8131
+   },
+   "lexical-bm25": {
+    "mrr": 0.814,
+    "ndcg_at_10": 0.6644,
+    "precision_at_5": 0.6667,
+    "recall_at_20": 0.691
+   }
+  },
+  "seed": 20261110
+ }
+}

@@ -1,0 +1,616 @@
+{
+  "contract": "job-posting",
+  "bases": {
+    "minimal": {
+      "id": "job-syn-000001",
+      "source": "synthetic",
+      "source_id": "syn-feed-1:000001",
+      "title": "Forward Deployed Engineer",
+      "organization": "Fictional Meridian Systems",
+      "url": "https://jobs.fictional-meridian.example/postings/000001",
+      "fetched_at": "2026-01-05T09:00:00Z",
+      "status": "active",
+      "skills": [
+        "python",
+        "api-design"
+      ],
+      "seniority": "senior",
+      "employment_type": "full-time"
+    },
+    "full": {
+      "id": "job-syn-000001",
+      "source": "synthetic",
+      "source_id": "syn-feed-1:000001",
+      "title": "Forward Deployed Engineer",
+      "organization": "Fictional Meridian Systems",
+      "url": "https://jobs.fictional-meridian.example/postings/000001",
+      "fetched_at": "2026-01-05T09:00:00Z",
+      "status": "active",
+      "skills": [
+        "python",
+        "api-design"
+      ],
+      "seniority": "senior",
+      "employment_type": "full-time",
+      "location": "Fictional City, Nowhere",
+      "remote_policy": "remote",
+      "compensation": {
+        "currency": "USD",
+        "min": 150000,
+        "max": 190000,
+        "basis": "base",
+        "verified": false
+      },
+      "license_note": "Synthetic fixture. Fictional employer; not a real opening.",
+      "role_family": "fde",
+      "requirements": [
+        "5+ years building customer-facing systems"
+      ],
+      "source_evidence": [
+        "syn-feed-1#000001"
+      ]
+    }
+  },
+  "valid": [
+    {
+      "name": "minimal",
+      "base": "minimal",
+      "patch": []
+    },
+    {
+      "name": "full",
+      "base": "full",
+      "patch": []
+    },
+    {
+      "name": "unknown-compensation-and-location",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation",
+          "value": null
+        },
+        {
+          "op": "replace",
+          "path": "/location",
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "compensation-bounds-unknown",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation",
+          "value": {
+            "currency": "USD",
+            "min": null,
+            "max": null,
+            "basis": "unknown",
+            "verified": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "fractional-seconds",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "2026-01-05T09:00:00.123Z"
+        }
+      ]
+    },
+    {
+      "name": "empty-skills-list",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/skills",
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "status-unknown-remote-unknown",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "unknown"
+        },
+        {
+          "op": "replace",
+          "path": "/remote_policy",
+          "value": "unknown"
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "missing-id",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/id"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-source",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/source"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-url",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/url"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-fetched-at",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/fetched_at"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-skills",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/skills"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-employment-type",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/employment_type"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "source-not-permitted",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/source",
+          "value": "linkedin-scrape"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "status-open-now",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "open"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "duplicate-skills",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/skills",
+          "value": [
+            "python",
+            "python"
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "skills-not-array",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/skills",
+          "value": "python"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "skill-not-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/skills",
+          "value": [
+            "python",
+            7
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "empty-id",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/id",
+          "value": ""
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "fetched-at-space-separator",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "2026-01-05 09:00:00"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "fetched-at-prose",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "yesterday"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "fetched-at-month-13",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "2026-13-01T00:00:00Z"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "fetched-at-no-offset",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "2026-01-05T09:00:00"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "fetched-at-epoch-number",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": 1767603600
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "baseline-extra-target-trajectory",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/target_trajectory",
+          "value": 0.9
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "compensation-missing-verified",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation",
+          "value": {
+            "currency": "USD",
+            "min": 1,
+            "max": 2,
+            "basis": "base"
+          }
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "compensation-basis-guess",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation/basis",
+          "value": "estimated"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "compensation-min-string",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation/min",
+          "value": "150k"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "compensation-extra-field",
+      "base": "full",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/compensation/inferred",
+          "value": true
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "compensation-string-unknown",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation",
+          "value": "unknown"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "remote-policy-anywhere",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/remote_policy",
+          "value": "anywhere"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "location-number",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/location",
+          "value": 94105
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "root-is-array",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "",
+          "value": [
+            {
+              "id": "job-syn-000001",
+              "source": "synthetic",
+              "source_id": "syn-feed-1:000001",
+              "title": "Forward Deployed Engineer",
+              "organization": "Fictional Meridian Systems",
+              "url": "https://jobs.fictional-meridian.example/postings/000001",
+              "fetched_at": "2026-01-05T09:00:00Z",
+              "status": "active",
+              "skills": [
+                "python",
+                "api-design"
+              ],
+              "seniority": "senior",
+              "employment_type": "full-time"
+            }
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "non-utc-offset",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "2026-01-05T11:00:00+02:00"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "UTC-001"
+    },
+    {
+      "name": "unknown-local-offset",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/fetched_at",
+          "value": "2026-01-05T09:00:00-00:00"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "UTC-001"
+    },
+    {
+      "name": "javascript-url",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/url",
+          "value": "javascript:alert(document.domain)"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-URL-001"
+    },
+    {
+      "name": "relative-url",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/url",
+          "value": "/postings/000001"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-URL-001"
+    },
+    {
+      "name": "file-url",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/url",
+          "value": "file:///etc/passwd"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-URL-001"
+    },
+    {
+      "name": "whitespace-title",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/title",
+          "value": "   "
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "min-greater-than-max",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation/min",
+          "value": 250000
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-COMP-001"
+    },
+    {
+      "name": "negative-min",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/compensation/min",
+          "value": -1
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-COMP-002"
+    },
+    {
+      "name": "synthetic-not-marked-fictional",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/organization",
+          "value": "Meridian Systems"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-SYN-001"
+    },
+    {
+      "name": "synthetic-links-to-real-host",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/url",
+          "value": "https://careers.real-company.com/jobs/1"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "JOB-URL-002"
+    },
+    {
+      "name": "title-claims-offer-probability",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/title",
+          "value": "Engineer (92% offer probability)"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    }
+  ]
+}

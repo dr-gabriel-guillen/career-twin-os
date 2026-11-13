@@ -1,0 +1,181 @@
+{
+ "claims": [
+  {
+   "evidence": [
+    "e-repo"
+   ],
+   "skills": [
+    "python",
+    "api-design"
+   ],
+   "text": "Builds production Python services",
+   "type": "skill",
+   "visibility": "shareable"
+  },
+  {
+   "evidence": [
+    "e-repo",
+    "e-ref"
+   ],
+   "skills": [
+    "distributed-systems"
+   ],
+   "text": "Designs distributed systems",
+   "type": "skill",
+   "visibility": "shareable"
+  },
+  {
+   "evidence": [
+    "e-cert"
+   ],
+   "skills": [
+    "aws",
+    "cloud-architecture"
+   ],
+   "text": "Fictional Cloud Architect Certification",
+   "type": "credential",
+   "visibility": "shareable"
+  },
+  {
+   "evidence": [
+    "e-self"
+   ],
+   "skills": [
+    "typescript"
+   ],
+   "text": "TypeScript front-of-house tooling",
+   "type": "skill",
+   "visibility": "shareable"
+  },
+  {
+   "evidence": [
+    "e-self"
+   ],
+   "skills": [
+    "security"
+   ],
+   "text": "Security reviews for APIs",
+   "type": "skill"
+  },
+  {
+   "evidence": [
+    "e-self"
+   ],
+   "skills": [
+    "ai-evaluation",
+    "llm-applications"
+   ],
+   "text": "Evaluates LLM applications",
+   "type": "skill",
+   "visibility": "shareable"
+  },
+  {
+   "evidence": [
+    "e-ref"
+   ],
+   "skills": [
+    "sql"
+   ],
+   "text": "SQL and data modeling",
+   "type": "skill",
+   "visibility": "shareable"
+  },
+  {
+   "evidence": [],
+   "skills": [
+    "customer-delivery"
+   ],
+   "text": "Led a fictional customer pilot",
+   "type": "achievement"
+  },
+  {
+   "evidence": [
+    "e-self"
+   ],
+   "skills": [
+    "kubernetes"
+   ],
+   "text": "Fictional Kubernetes Administrator Certificate",
+   "type": "credential"
+  },
+  {
+   "conflict": "contradicted by fictional reference check",
+   "evidence": [
+    "e-self"
+   ],
+   "skills": [
+    "deep-learning"
+   ],
+   "text": "Claims deep learning research experience",
+   "type": "skill"
+  },
+  {
+   "evidence": [
+    "e-cert"
+   ],
+   "skills": [
+    "compliance"
+   ],
+   "text": "Fictional Security Certification (lapsed)",
+   "type": "credential",
+   "valid_to": "2025-06-30T00:00:00Z"
+  }
+ ],
+ "evidence": [
+  {
+   "kind": "work-sample",
+   "pointer": "vault://synthetic/work-sample/api-service",
+   "ref": "e-repo",
+   "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  {
+   "kind": "issuer-verification",
+   "pointer": "vault://synthetic/issuer/cloud-cert",
+   "ref": "e-cert",
+   "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  {
+   "kind": "third-party-attestation",
+   "pointer": "vault://synthetic/attestation/manager",
+   "ref": "e-ref",
+   "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  {
+   "kind": "self-statement",
+   "pointer": "vault://synthetic/self/profile-form",
+   "ref": "e-self",
+   "sha256": null
+  }
+ ],
+ "note": "Fictional candidate. No real person's attributes.",
+ "preferences": {
+  "compensation_floor": {
+   "amount": 150000,
+   "currency": "USD"
+  },
+  "employment_types": [
+   "full-time"
+  ],
+  "excluded_employers": [
+   "Fictional Onyx Works"
+  ],
+  "jurisdictions": [
+   "US"
+  ],
+  "remote": [
+   "remote",
+   "hybrid"
+  ],
+  "seniority_max": "director",
+  "seniority_min": "senior",
+  "seniority_target": "staff",
+  "strategy_weight": 0.5,
+  "target_roles": [
+   "Forward Deployed Engineer",
+   "Applied AI Architect",
+   "Field CTO"
+  ]
+ },
+ "subject_id": "candidate-synthetic-001",
+ "synthetic": true
+}

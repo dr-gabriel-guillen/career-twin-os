@@ -1,0 +1,163 @@
+{
+  "batch": "CT-2026-11-10-B01",
+  "maintained_by": "CAREER-TWIN-E",
+  "note": "Open findings on shared baseline code and frozen contracts on main (bc957fd). Lane E cannot fix these (not owned; contracts are frozen). Every evidence key is produced by code and compared exactly in tests/test_baseline_findings.py, so a finding cannot appear or disappear without this file changing.",
+  "findings": [
+    {
+      "id": "E-F001",
+      "severity": "medium",
+      "area": "contracts",
+      "title": "Five of six frozen schemas have no $id, so they carry no machine-readable identity or version",
+      "impact": "Consumers cannot pin 'v0.1'; a future change is indistinguishable from the current schema.",
+      "proposed": "RFC: add $id https://careertwin.local/contracts/<name>.v0.1.schema.json to each schema (non-breaking).",
+      "routed": "#1",
+      "status": "OPEN",
+      "evidence": [
+        "SCHEMA-ID-001:application-event#/$id",
+        "SCHEMA-ID-001:atlas-point#/$id",
+        "SCHEMA-ID-001:experiment#/$id",
+        "SCHEMA-ID-001:profile-claim#/$id",
+        "SCHEMA-ID-001:transition-scenario#/$id"
+      ]
+    },
+    {
+      "id": "E-F002",
+      "severity": "medium",
+      "area": "contracts",
+      "title": "Timestamps are not required to be UTC and are only checked when a format checker is supplied",
+      "impact": "CONTRACTS.md demands UTC; '2026-01-05T11:00:00+02:00' validates. Without a format checker 'yesterday' validates too.",
+      "proposed": "RFC: add pattern 'Z$' (or document that consumers must run a strict checker); lane E enforces UTC-001 meanwhile.",
+      "routed": "#1",
+      "status": "OPEN",
+      "evidence": [
+        "SCHEMA-UTC-001:application-event#/properties/occurred_at",
+        "SCHEMA-UTC-001:application-event#/properties/recorded_at",
+        "SCHEMA-UTC-001:experiment#/properties/design_locked_at",
+        "SCHEMA-UTC-001:job-posting#/properties/fetched_at",
+        "SCHEMA-UTC-001:profile-claim#/properties/updated_at",
+        "SCHEMA-UTC-001:profile-claim#/properties/valid_to"
+      ]
+    },
+    {
+      "id": "E-F003",
+      "severity": "medium",
+      "area": "contracts",
+      "title": "Required identifiers and free-text fields accept the empty string",
+      "impact": "ApplicationEvent.job_id = '' and ExperimentSpec.id = '' are schema-valid; referential checks then pass vacuously or collide.",
+      "proposed": "RFC: minLength 1 on required strings (JobPosting already does this for five fields); lane E enforces ID-001 meanwhile.",
+      "routed": "#1",
+      "status": "OPEN",
+      "evidence": [
+        "SCHEMA-MINLEN-001:application-event#/properties/application_id",
+        "SCHEMA-MINLEN-001:application-event#/properties/id",
+        "SCHEMA-MINLEN-001:application-event#/properties/job_id",
+        "SCHEMA-MINLEN-001:application-event#/properties/source",
+        "SCHEMA-MINLEN-001:atlas-point#/properties/entity_id",
+        "SCHEMA-MINLEN-001:atlas-point#/properties/label",
+        "SCHEMA-MINLEN-001:atlas-point#/properties/projection_id",
+        "SCHEMA-MINLEN-001:atlas-point#/properties/source_vector_ref",
+        "SCHEMA-MINLEN-001:experiment#/properties/hypothesis",
+        "SCHEMA-MINLEN-001:experiment#/properties/id",
+        "SCHEMA-MINLEN-001:experiment#/properties/primary_metric",
+        "SCHEMA-MINLEN-001:experiment#/properties/stopping_rule",
+        "SCHEMA-MINLEN-001:experiment#/properties/title",
+        "SCHEMA-MINLEN-001:job-posting#/properties/employment_type",
+        "SCHEMA-MINLEN-001:job-posting#/properties/seniority",
+        "SCHEMA-MINLEN-001:profile-claim#/properties/claim_text",
+        "SCHEMA-MINLEN-001:transition-scenario#/properties/candidate_ref",
+        "SCHEMA-MINLEN-001:transition-scenario#/properties/id",
+        "SCHEMA-MINLEN-001:transition-scenario#/properties/target_role"
+      ]
+    },
+    {
+      "id": "E-F004",
+      "severity": "high",
+      "area": "contracts / privacy",
+      "title": "ApplicationEvent, ExperimentSpec and AtlasPoint carry no subject or owner field",
+      "impact": "A payload cannot be attributed to a user, so cross-user export isolation cannot be verified from data; it must be enforced entirely by the storage layer. Acceptable for a single-user offline tool, blocking for any multi-user deployment.",
+      "proposed": "Owner decision before Phase 2: either stay single-user by design (documented) or RFC a subject_id on these three contracts.",
+      "routed": "#1",
+      "status": "OPEN",
+      "evidence": [
+        "SCHEMA-OWNER-001:application-event#/properties",
+        "SCHEMA-OWNER-001:atlas-point#/properties",
+        "SCHEMA-OWNER-001:experiment#/properties"
+      ]
+    },
+    {
+      "id": "E-F005",
+      "severity": "medium",
+      "area": "contracts",
+      "title": "TransitionScenario.outputs is an untyped open object",
+      "impact": "Any key is legal, including offer_probability; the simulator's whole result is outside the contract. Lane E's PROB-001 lint is the only guard.",
+      "proposed": "RFC by C once the simulator output stabilises: type outputs (missing evidence, effort alternatives, uncertainty labels).",
+      "routed": "#4",
+      "status": "OPEN",
+      "evidence": ["SCHEMA-OPEN-002:transition-scenario#/properties/outputs"]
+    },
+    {
+      "id": "E-F006",
+      "severity": "high",
+      "area": "baseline fixtures",
+      "title": "Shared fixtures on main do not satisfy the frozen contracts they sit next to",
+      "impact": "All 4 records in fixtures/synthetic_jobs.json fail job-posting.schema.json (6 required fields missing, target_trajectory forbidden); there is no ProfileClaim fixture at all. A lane that develops against the fixtures builds to the wrong shape. Independently reported by A, C and D.",
+      "proposed": "Owner: replace the baseline fixtures with contract-valid ones (lane E's `python -m ctint.stub jobs.import` output is a candidate) or mark them legacy.",
+      "routed": "#1",
+      "status": "OPEN",
+      "evidence": ["REF-FIXTURES-NOT-CONTRACT-VALID", "REF-NO-PROFILE-CLAIM-FIXTURE"]
+    },
+    {
+      "id": "E-F007",
+      "severity": "high",
+      "area": "reference engine",
+      "title": "score_job depends on a field the contract forbids and crashes on a field the contract makes optional",
+      "impact": "45% of the reference score is target_trajectory (not in JobPosting; additionalProperties:false rejects it), and a contract-valid posting without remote_policy raises KeyError. The reference engine cannot rank contract-valid postings.",
+      "proposed": "Treat tools/reference_engine.py as a bootstrap demo only; lane A's matching replaces it. Do not let D or B call it.",
+      "routed": "#1",
+      "status": "OPEN",
+      "evidence": ["REF-SCORE-KEYERROR-OPTIONAL-FIELD", "REF-SCORE-USES-NONCONTRACT-FIELD"]
+    },
+    {
+      "id": "E-F008",
+      "severity": "high",
+      "area": "reference engine / job import injection",
+      "title": "A NaN in an imported posting is scored as the maximum trajectory value",
+      "impact": "json.loads accepts NaN; min(1.0, NaN) is 1.0 in Python, so a poisoned feed can push any posting to the top of the reference ranking. The same number-handling trap applies to every lane that clamps untrusted floats.",
+      "proposed": "All lanes: reject non-finite numbers at import (parse_constant) and never clamp with min/max before checking isfinite.",
+      "routed": "#2",
+      "status": "OPEN",
+      "evidence": ["REF-SCORE-NAN-TRAJECTORY-MAXED"]
+    },
+    {
+      "id": "E-F009",
+      "severity": "low",
+      "area": "reference engine",
+      "title": "score_job and skill_gap disagree about skill case",
+      "impact": "A profile skill 'Python' is covered in the score but listed as a missing skill in the gap analysis.",
+      "proposed": "One normalisation function for skills, used by both (lane A owns the real implementation).",
+      "routed": "#2",
+      "status": "OPEN",
+      "evidence": ["REF-GAP-CASE-INCONSISTENT"]
+    },
+    {
+      "id": "E-F010",
+      "severity": "high",
+      "area": "reference engine / experiment integrity",
+      "title": "assign_variant recomputation is unsafe under any design change and its key encoding is not injective",
+      "impact": "Reordering the variant list flips essentially every assignment; adding a third arm moves about a third of units between the two existing arms; (experiment_id, stratum) pairs containing U+241F collide; blank stratum / whitespace unit, salt, experiment id and variant are accepted. Safe only if assignments are journaled once and never recomputed.",
+      "proposed": "Lane B must journal assignments before exposure and hash a length-prefixed or JSON-encoded key (B's engine is reviewed separately). The reference function should not be used for real assignment.",
+      "routed": "#3",
+      "status": "OPEN",
+      "evidence": [
+        "REF-ASSIGN-VARIANT-ORDER-SENSITIVE",
+        "REF-ASSIGN-RESHUFFLE-ON-DESIGN-CHANGE",
+        "REF-ASSIGN-KEY-COLLISION",
+        "REF-ASSIGN-ACCEPTS-BLANK-STRATUM",
+        "REF-ASSIGN-ACCEPTS-BLANK-UNIT",
+        "REF-ASSIGN-ACCEPTS-BLANK-SALT",
+        "REF-ASSIGN-ACCEPTS-BLANK-EXPERIMENT",
+        "REF-ASSIGN-ACCEPTS-BLANK-VARIANT"
+      ]
+    }
+  ]
+}

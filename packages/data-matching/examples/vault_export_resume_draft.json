@@ -1,0 +1,114 @@
+{
+ "as_of": "2026-11-10T00:00:00Z",
+ "claims": [
+  {
+   "claim_text": "Fictional Cloud Architect Certification",
+   "claim_type": "credential",
+   "evidence_ids": [
+    "ev_c5726a24aa2a508f"
+   ],
+   "id": "cl_1af399e8a0898bf0",
+   "skills": [
+    "aws",
+    "cloud-architecture"
+   ],
+   "status": "supported",
+   "subject_id": "candidate-synthetic-001",
+   "updated_at": "2026-11-10T00:00:00Z",
+   "valid_to": null,
+   "visibility": "shareable"
+  },
+  {
+   "claim_text": "SQL and data modeling",
+   "claim_type": "skill",
+   "evidence_ids": [
+    "ev_e03b009c1f43e58a"
+   ],
+   "id": "cl_27cad5a846106846",
+   "skills": [
+    "sql"
+   ],
+   "status": "supported",
+   "subject_id": "candidate-synthetic-001",
+   "updated_at": "2026-11-10T00:00:00Z",
+   "valid_to": null,
+   "visibility": "shareable"
+  },
+  {
+   "claim_text": "Evaluates LLM applications",
+   "claim_type": "skill",
+   "evidence_ids": [
+    "ev_1a2f96465c0157e2"
+   ],
+   "id": "cl_368483d8b7096322",
+   "skills": [
+    "ai-evaluation",
+    "llm-applications"
+   ],
+   "status": "self-reported",
+   "subject_id": "candidate-synthetic-001",
+   "updated_at": "2026-11-10T00:00:00Z",
+   "valid_to": null,
+   "visibility": "shareable"
+  },
+  {
+   "claim_text": "TypeScript front-of-house tooling",
+   "claim_type": "skill",
+   "evidence_ids": [
+    "ev_1a2f96465c0157e2"
+   ],
+   "id": "cl_715f77ee103057b3",
+   "skills": [
+    "typescript"
+   ],
+   "status": "self-reported",
+   "subject_id": "candidate-synthetic-001",
+   "updated_at": "2026-11-10T00:00:00Z",
+   "valid_to": null,
+   "visibility": "shareable"
+  },
+  {
+   "claim_text": "Builds production Python services",
+   "claim_type": "skill",
+   "evidence_ids": [
+    "ev_66dd9d26044db1cf"
+   ],
+   "id": "cl_bb2fc22231a09465",
+   "skills": [
+    "api-design",
+    "python"
+   ],
+   "status": "supported",
+   "subject_id": "candidate-synthetic-001",
+   "updated_at": "2026-11-10T00:00:00Z",
+   "valid_to": null,
+   "visibility": "shareable"
+  },
+  {
+   "claim_text": "Designs distributed systems",
+   "claim_type": "skill",
+   "evidence_ids": [
+    "ev_66dd9d26044db1cf",
+    "ev_e03b009c1f43e58a"
+   ],
+   "id": "cl_f950048598d7432d",
+   "skills": [
+    "distributed-systems"
+   ],
+   "status": "supported",
+   "subject_id": "candidate-synthetic-001",
+   "updated_at": "2026-11-10T00:00:00Z",
+   "valid_to": null,
+   "visibility": "shareable"
+  }
+ ],
+ "mode": "resume-draft",
+ "notice": "status is derived from evidence pointers; 'self-reported' claims are not verified facts",
+ "subject_id": "candidate-synthetic-001",
+ "withheld": {
+  "contradicted": 1,
+  "expired": 1,
+  "status": 0,
+  "visibility": 3
+ }
+}

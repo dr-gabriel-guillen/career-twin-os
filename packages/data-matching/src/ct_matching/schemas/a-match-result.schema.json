@@ -1,0 +1,937 @@
+{
+  "$id": "https://careertwin.local/lane-a/a-match-result.v0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "api_version": {
+      "const": "a-match/0.1",
+      "type": "string"
+    },
+    "as_of": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "corpus": {
+      "additionalProperties": false,
+      "properties": {
+        "considered": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "eligible": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "refusal_reasons": {
+          "type": "object"
+        },
+        "refused": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "considered",
+        "eligible",
+        "refused",
+        "refusal_reasons"
+      ],
+      "type": "object"
+    },
+    "disclaimers": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "policy": {
+      "type": "object"
+    },
+    "refusals": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "job_id",
+          "reasons"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "result_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "score_type": {
+      "const": "relative_heuristic_not_offer_probability",
+      "type": "string"
+    },
+    "shortlist": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "availability": {
+            "additionalProperties": false,
+            "properties": {
+              "as_of": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "fetched_at": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "active",
+                  "unknown"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "status",
+              "reason",
+              "as_of",
+              "fetched_at"
+            ],
+            "type": "object"
+          },
+          "cautions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "compensation": {
+            "additionalProperties": false,
+            "properties": {
+              "note": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "stated": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "stated",
+              "state",
+              "note"
+            ],
+            "type": "object"
+          },
+          "components": {
+            "additionalProperties": false,
+            "properties": {
+              "customer_proximity": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "enterprise_delivery": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "proof_strength": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "seniority_alignment": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "skill_coverage": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "transition_utility": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "workstyle": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "configured_weight": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "contribution": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "effective_weight": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "group": {
+                    "enum": [
+                      "near_term_fit",
+                      "strategic_utility"
+                    ],
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "known",
+                      "unknown",
+                      "not-applicable"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "group",
+                  "value",
+                  "state",
+                  "configured_weight",
+                  "effective_weight",
+                  "contribution",
+                  "basis"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "skill_coverage",
+              "proof_strength",
+              "seniority_alignment",
+              "workstyle",
+              "transition_utility",
+              "customer_proximity",
+              "enterprise_delivery"
+            ],
+            "type": "object"
+          },
+          "composites": {
+            "additionalProperties": false,
+            "properties": {
+              "near_term_fit": {
+                "maximum": 100,
+                "minimum": 0,
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "rank_by_near_term_fit": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "rank_by_strategic_utility": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "strategic_utility": {
+                "maximum": 100,
+                "minimum": 0,
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "strategy_weight": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "near_term_fit",
+              "strategic_utility",
+              "strategy_weight",
+              "rank_by_near_term_fit",
+              "rank_by_strategic_utility"
+            ],
+            "type": "object"
+          },
+          "constraints": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "constraint": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "enum": [
+                    "pass",
+                    "fail",
+                    "unknown"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "constraint",
+                "outcome",
+                "detail"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "counterfactuals": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "change": {
+                  "type": "string"
+                },
+                "kind": {
+                  "enum": [
+                    "skill-acquired",
+                    "evidence-added"
+                  ],
+                  "type": "string"
+                },
+                "rank": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "score": {
+                  "maximum": 100,
+                  "minimum": 0,
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "score_delta": {
+                  "type": "number"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "change",
+                "score",
+                "score_delta",
+                "rank",
+                "status"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "matched_skills": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "claim_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "proof_status": {
+                  "enum": [
+                    "supported",
+                    "self-reported",
+                    "unverified"
+                  ],
+                  "type": "string"
+                },
+                "requirement": {
+                  "enum": [
+                    "required",
+                    "preferred"
+                  ],
+                  "type": "string"
+                },
+                "skill": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "skill",
+                "requirement",
+                "proof_status",
+                "claim_ids"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "missing_preferred_skills": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "missing_skills": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": false,
+            "properties": {
+              "content_hash": {
+                "type": "string"
+              },
+              "duplicates_collapsed": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "source": {
+                "type": "string"
+              },
+              "source_id": {
+                "type": "string"
+              },
+              "synthetic": {
+                "type": "boolean"
+              },
+              "url": {
+                "type": "string"
+              },
+              "version": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "wire_format": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "wire_format",
+              "source_id",
+              "url",
+              "synthetic",
+              "content_hash",
+              "version",
+              "duplicates_collapsed"
+            ],
+            "type": "object"
+          },
+          "rank": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "role_family": {
+            "type": "string"
+          },
+          "score": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number"
+          },
+          "score_interval": {
+            "additionalProperties": false,
+            "properties": {
+              "high": {
+                "maximum": 100,
+                "minimum": 0,
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "low": {
+                "maximum": 100,
+                "minimum": 0,
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "meaning": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "low",
+              "high",
+              "meaning"
+            ],
+            "type": "object"
+          },
+          "score_type": {
+            "const": "relative_heuristic_not_offer_probability",
+            "type": "string"
+          },
+          "sensitivity": {
+            "additionalProperties": false,
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "rank_best": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "rank_worst": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "rank_best",
+              "rank_worst",
+              "method"
+            ],
+            "type": "object"
+          },
+          "title": {
+            "type": "string"
+          },
+          "unknown_inputs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "unsupported_evidence": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "string"
+                },
+                "skill": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "skill",
+                "reason"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "job_id",
+          "rank",
+          "score",
+          "score_type",
+          "score_interval",
+          "title",
+          "organization",
+          "role_family",
+          "composites",
+          "components",
+          "matched_skills",
+          "missing_skills",
+          "missing_preferred_skills",
+          "unsupported_evidence",
+          "constraints",
+          "unknown_inputs",
+          "availability",
+          "compensation",
+          "provenance",
+          "cautions",
+          "sensitivity",
+          "counterfactuals"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "strategy_comparison": {
+      "type": "object"
+    },
+    "subject_id": {
+      "type": "string"
+    },
+    "taxonomy_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "api_version",
+    "score_type",
+    "as_of",
+    "subject_id",
+    "taxonomy_version",
+    "policy",
+    "corpus",
+    "shortlist",
+    "refusals",
+    "strategy_comparison",
+    "disclaimers",
+    "result_hash"
+  ],
+  "title": "LaneAMatchResult",
+  "type": "object"
+}

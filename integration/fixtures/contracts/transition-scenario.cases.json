@@ -1,0 +1,360 @@
+{
+  "contract": "transition-scenario",
+  "bases": {
+    "minimal": {
+      "id": "scn-syn-0001",
+      "candidate_ref": "candidate-synthetic-001",
+      "target_role": "Field CTO",
+      "planned_actions": [
+        {
+          "skill": "enterprise-sales",
+          "effort_hours": 120
+        }
+      ],
+      "time_horizon_months": 12,
+      "status": "hypothetical",
+      "assumptions": [
+        "Effort estimates are synthetic placeholders."
+      ],
+      "outputs": {
+        "missing_evidence": [
+          "executive-communication"
+        ],
+        "status": "hypothetical_gap_not_probability"
+      }
+    },
+    "full": {
+      "id": "scn-syn-0001",
+      "candidate_ref": "candidate-synthetic-001",
+      "target_role": "Field CTO",
+      "planned_actions": [
+        {
+          "skill": "enterprise-sales",
+          "effort_hours": 120,
+          "evidence_goal": "Run one synthetic discovery call"
+        },
+        {
+          "skill": "ai-strategy",
+          "effort_hours": 0
+        }
+      ],
+      "time_horizon_months": 12,
+      "status": "hypothetical",
+      "assumptions": [
+        "Effort estimates are synthetic placeholders."
+      ],
+      "outputs": {
+        "missing_evidence": [
+          "executive-communication"
+        ],
+        "status": "hypothetical_gap_not_probability"
+      },
+      "risks": [
+        "Effort may be underestimated."
+      ]
+    }
+  },
+  "valid": [
+    {
+      "name": "minimal",
+      "base": "minimal",
+      "patch": []
+    },
+    {
+      "name": "full",
+      "base": "full",
+      "patch": []
+    },
+    {
+      "name": "no-planned-actions",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/planned_actions",
+          "value": []
+        }
+      ]
+    },
+    {
+      "name": "fractional-effort",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/planned_actions/0/effort_hours",
+          "value": 12.5
+        }
+      ]
+    },
+    {
+      "name": "empty-outputs",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outputs",
+          "value": {}
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "missing-assumptions",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/assumptions"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-outputs",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/outputs"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-status",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/status"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-candidate-ref",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/candidate_ref"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "status-predicted",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "predicted"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "status-confirmed",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "confirmed"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "horizon-zero",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/time_horizon_months",
+          "value": 0
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "horizon-fractional",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/time_horizon_months",
+          "value": 1.5
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "negative-effort",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/planned_actions/0/effort_hours",
+          "value": -1
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "action-missing-effort",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/planned_actions",
+          "value": [
+            {
+              "skill": "enterprise-sales"
+            }
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "action-extra-salary-uplift",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/planned_actions/0/salary_uplift",
+          "value": 20000
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "outputs-array",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outputs",
+          "value": []
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "risks-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/risks",
+          "value": "none"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "extra-offer-probability-field",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/offer_probability",
+          "value": 0.4
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "outputs-carry-offer-probability",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outputs",
+          "value": {
+            "offer_probability": 0.4
+          }
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    },
+    {
+      "name": "outputs-nested-p-hire",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outputs",
+          "value": {
+            "summary": {
+              "p_hire": 0.7
+            }
+          }
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    },
+    {
+      "name": "outputs-text-chance-of-getting-hired",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outputs",
+          "value": {
+            "note": "You have an 87% chance of getting hired"
+          }
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    },
+    {
+      "name": "risk-states-interview-probability",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/risks",
+          "value": [
+            "Interview probability drops to 10%"
+          ]
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    },
+    {
+      "name": "no-assumptions-listed",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/assumptions",
+          "value": []
+        }
+      ],
+      "layer": "semantic",
+      "rule": "SCN-ASSUME-001"
+    },
+    {
+      "name": "blank-target-role",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/target_role",
+          "value": ""
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    }
+  ]
+}

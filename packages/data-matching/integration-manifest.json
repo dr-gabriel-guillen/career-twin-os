@@ -1,0 +1,35 @@
+{
+  "manifest_version": "0.1",
+  "session_id": "CAREER-TWIN-A",
+  "description": "Lane A: offline job data normalization, Profile Evidence Vault and explainable matching. Stdlib-only runtime; tests need pytest. No network, no paid APIs. All stages compute from their inputs (no canned output).",
+  "tests": [
+    {"name": "matching", "cmd": ["{python}", "-m", "pytest", "packages/data-matching/tests", "-q", "-p", "no:cacheprovider"], "network": false, "timeout_s": 600},
+    {"name": "connectors", "cmd": ["{python}", "-m", "pytest", "connectors/tests", "-q", "-p", "no:cacheprovider"], "network": false, "timeout_s": 300}
+  ],
+  "stages": {
+    "jobs.import": {
+      "mock": false,
+      "cmd": ["{python}", "packages/data-matching/run.py", "e2e", "jobs", "--seed", "{seed}", "--count", "{count}", "--out", "{artifacts}/jobs.json"],
+      "note": "Generates a seeded fictional corpus in Greenhouse/Lever/Ashby/native wire formats and imports it through the real adapters. jobs.json = bare frozen JobPosting[] (every stored posting, any status); jobs_ext.json = full {posting, ext} records; jobs_import_report.json = classified rejections. count must be >= 80.",
+      "timeout_s": 900
+    },
+    "profile.claims": {
+      "mock": false,
+      "cmd": ["{python}", "packages/data-matching/run.py", "e2e", "claims", "--out", "{artifacts}/claims.json"],
+      "note": "Builds the synthetic candidate's Evidence Vault and exports frozen ProfileClaim[] in internal-matching mode (contradicted and expired claims withheld). claims_vault.json = full vault incl. evidence pointers and ledger.",
+      "timeout_s": 120
+    },
+    "match.rank": {
+      "mock": false,
+      "cmd": ["{python}", "packages/data-matching/run.py", "e2e", "rank", "--jobs", "{artifacts}/jobs.json", "--claims", "{artifacts}/claims.json", "--out", "{artifacts}/matches.json"],
+      "note": "Ranks the postings in jobs.json. A record from jobs_ext.json is used only when its posting is byte-for-byte equal to the one in jobs.json; otherwise the posting is re-normalized from the bare contract object. as_of defaults to the latest fetched_at in jobs.json (never the wall clock). matches.json = shortlist array (job_id, rank, score, score_type, ...); matches_full.json = full a-match/0.1 result incl. refusals.",
+      "timeout_s": 600
+    },
+    "features.vectors": {
+      "mock": false,
+      "cmd": ["{python}", "packages/data-matching/run.py", "e2e", "vectors", "--jobs", "{artifacts}/jobs.json", "--out", "{artifacts}/vectors.json"],
+      "note": "{vocabulary, vocabulary_version, vectors:[{ref, entity_id, values, observed}]}; one vector per posting in jobs.json. ref is what lane C copies into AtlasPoint.source_vector_ref. observed=false means zeros are unknown, not absent.",
+      "timeout_s": 300
+    }
+  }
+}

@@ -1,0 +1,367 @@
+{
+  "contract": "atlas-point",
+  "bases": {
+    "minimal": {
+      "entity_id": "job-syn-000001",
+      "projection_id": "proj-syn-pca-0001",
+      "label": "Forward Deployed Engineer",
+      "coords": [
+        0.25,
+        -1.5
+      ],
+      "source_vector_ref": "vec:job-syn-000001",
+      "representation_type": "job",
+      "projection_method": "pca",
+      "neighborhood_quality": 0.62
+    },
+    "full": {
+      "entity_id": "job-syn-000001",
+      "projection_id": "proj-syn-pca-0001",
+      "label": "Forward Deployed Engineer",
+      "coords": [
+        0.25,
+        -1.5
+      ],
+      "source_vector_ref": "vec:job-syn-000001",
+      "representation_type": "job",
+      "projection_method": "pca",
+      "neighborhood_quality": 0.62,
+      "fit_metric_ref": "diag:proj-syn-pca-0001",
+      "warnings": [
+        "2D projection distorts distances; not a fit score."
+      ]
+    }
+  },
+  "valid": [
+    {
+      "name": "minimal",
+      "base": "minimal",
+      "patch": []
+    },
+    {
+      "name": "full",
+      "base": "full",
+      "patch": []
+    },
+    {
+      "name": "three-dimensional",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/coords",
+          "value": [
+            0.1,
+            0.2,
+            0.3
+          ]
+        }
+      ]
+    },
+    {
+      "name": "interpretable-axes-without-metric",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/projection_method",
+          "value": "interpretable-axes"
+        },
+        {
+          "op": "replace",
+          "path": "/neighborhood_quality",
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "scenario-point",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/representation_type",
+          "value": "scenario"
+        }
+      ]
+    },
+    {
+      "name": "integer-coords",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/coords",
+          "value": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "missing-coords",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/coords"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-projection-method",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/projection_method"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-source-vector-ref",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/source_vector_ref"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-label",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/label"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "one-coordinate",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/coords",
+          "value": [
+            0.1
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "four-coordinates",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/coords",
+          "value": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "coords-strings",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/coords",
+          "value": [
+            "0.1",
+            "0.2"
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "coords-null-entry",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/coords",
+          "value": [
+            0.1,
+            null
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "method-tsne",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/projection_method",
+          "value": "tsne"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "representation-recruiter",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/representation_type",
+          "value": "recruiter"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "quality-above-one",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/neighborhood_quality",
+          "value": 1.2
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "quality-negative",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/neighborhood_quality",
+          "value": -0.1
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "warnings-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/warnings",
+          "value": "distorted"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "extra-hire-score",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/hire_score",
+          "value": 0.9
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "pca-without-any-distortion-info",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/neighborhood_quality",
+          "value": null
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ATLAS-DIST-001"
+    },
+    {
+      "name": "umap-without-any-distortion-info",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/neighborhood_quality",
+          "value": null
+        },
+        {
+          "op": "replace",
+          "path": "/projection_method",
+          "value": "umap"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ATLAS-DIST-001"
+    },
+    {
+      "name": "blank-source-vector-ref",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/source_vector_ref",
+          "value": ""
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "blank-entity-id",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/entity_id",
+          "value": " "
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "label-states-hiring-probability",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/label",
+          "value": "FDE — hiring probability 0.8"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    },
+    {
+      "name": "warning-states-success-likelihood",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/warnings",
+          "value": [
+            "Closer points mean higher success likelihood"
+          ]
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    }
+  ]
+}
