@@ -40,7 +40,16 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from . import BATCH_ID, SESSION_ID, contracts, e2e, outdir, sec_paid, sec_scan
-from .lanes import LANES, MANIFEST_NAME, Lane, changed_paths, git, ownership_violations, resolve_sha
+from .lanes import (
+    LANES,
+    MANIFEST_NAME,
+    Lane,
+    changed_paths,
+    consolidated_violations,
+    git,
+    ownership_violations,
+    resolve_sha,
+)
 from .paths import integration_dir
 from .stub import STUBS, StubProvider
 
@@ -217,7 +226,9 @@ def _ls_tree(repo: Path, sha: str, prefixes: tuple[str, ...]) -> list[str]:
     return [p for p in out.split("\x00") if p]
 
 
-def inspect_lane(repo: Path, worktree: Path, lane: Lane, ref: str, base_sha: str) -> LaneReport:
+def inspect_lane(
+    repo: Path, worktree: Path, lane: Lane, ref: str, base_sha: str, consolidated: bool = False
+) -> LaneReport:
     """Static gates for one lane and overlay of its owned paths into the worktree."""
     report = LaneReport(lane.key, lane.session, ref)
     try:
@@ -232,7 +243,14 @@ def inspect_lane(repo: Path, worktree: Path, lane: Lane, ref: str, base_sha: str
         report.notes.append(f"branch forked from {report.merge_base}, not from the pinned base {base_sha}")
     changed = changed_paths(repo, base_sha, sha)
     report.changed_paths = len(changed)
-    report.ownership_violations = ownership_violations(lane.key, changed)
+    if consolidated:
+        report.notes.append(
+            "consolidated commit: every lane is pinned to the same merged SHA, so ownership is checked "
+            "as 'each changed path belongs to some lane and no frozen contract changed'"
+        )
+        report.ownership_violations = consolidated_violations(changed)
+    else:
+        report.ownership_violations = ownership_violations(lane.key, changed)
     files = _ls_tree(repo, sha, lane.owned)
     for prefix in lane.owned:
         if any(f.startswith(prefix) for f in files):
@@ -418,13 +436,18 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
     previous_root = os.environ.get("CT_REPO_ROOT")
     try:
         git(repo, "worktree", "add", "--detach", str(worktree), base_sha)
+        try:
+            pinned = {resolve_sha(repo, r) for r in lane_refs.values() if r.lower() != "none"}
+        except RuntimeError:
+            pinned = set()  # an unresolvable ref is reported per lane below
+        consolidated = len(pinned) == 1 and sum(1 for r in lane_refs.values() if r.lower() != "none") > 1
         for key, ref in lane_refs.items():
             if ref.lower() == "none":
                 skipped = LaneReport(key, LANES[key].session, ref)
                 skipped.notes.append("UNKNOWN: lane excluded from this run by the operator")
                 lanes.append(skipped)
                 continue
-            lanes.append(inspect_lane(repo, worktree, LANES[key], ref, base_sha))
+            lanes.append(inspect_lane(repo, worktree, LANES[key], ref, base_sha, consolidated))
         os.environ["CT_REPO_ROOT"] = str(worktree)
         contracts._validator.cache_clear()
         hermetic = True

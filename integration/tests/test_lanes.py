@@ -151,8 +151,12 @@ def test_lane_e_branch_only_touches_owned_paths() -> None:
             "UNKNOWN: no main ref in this checkout (CI runs the same check via `python -m ctint.lanes`)"
         )
     changed = lanes.changed_paths(root, base, "HEAD")
-    branch = subprocess.run(["git", "-C", str(root), "rev-parse", "--abbrev-ref", "HEAD"],
-                            capture_output=True, text=True, check=False).stdout.strip()
+    branch = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--abbrev-ref", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=False,
+    ).stdout.strip()
     if branch == CONSOLIDATION_BRANCH:
         # The single-owner consolidation branch merges every lane: each changed path must still belong
         # to a lane, and no frozen contract may change.
@@ -171,3 +175,11 @@ def _ref_exists(root: Path, ref: str) -> bool:
     except RuntimeError:
         return False
     return True
+
+
+def test_consolidated_ownership_accepts_lane_paths_and_rejects_contracts_and_unowned() -> None:
+    ok = ["apps/web/src/App.tsx", "packages/experiments/tools/e2e_stage.py", "integration/ctint/e2e.py"]
+    assert lanes.consolidated_violations(ok) == []
+    problems = lanes.consolidated_violations([*ok, "contracts/application-event.schema.json", "README.md"])
+    assert any("frozen contract" in p for p in problems)
+    assert any("README.md" in p for p in problems)

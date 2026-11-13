@@ -1,0 +1,11 @@
+{
+  "batch": "CT-2026-11-10-B01",
+  "note": "Consolidated acceptance candidate (branch agent/ct-consolidation). Every lane is pinned to one code commit that merges lanes A, B, C, E and F. Use with: python -m ctint.acceptance --pins acceptance-pins.candidate.json. The known-good baseline stays in acceptance-pins.json. Nothing is merged into main.",
+  "base": "bc957fd7ed98ad1bf97eb5abc19d64b146de8dcf",
+  "lanes": {
+    "A": "aaab3ae00da5ad7d6bb63a946f449e408887c051",
+    "B": "aaab3ae00da5ad7d6bb63a946f449e408887c051",
+    "C": "aaab3ae00da5ad7d6bb63a946f449e408887c051",
+    "D": "aaab3ae00da5ad7d6bb63a946f449e408887c051"
+  }
+}

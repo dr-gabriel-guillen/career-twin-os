@@ -419,8 +419,11 @@ def lab_boundary(a: Path, events: list[dict[str, Any]]) -> list[str]:
             f"experiment_events.json: {len(shared)} simulated application ids also occur in events.json, "
             f"e.g. {shared[0]!r}; the simulated stream must not write into the application log"
         )
-    unlabelled = [e.get("id") for e in events
-                  if e.get("event_type") in SIMULATED_TYPES and not str(e.get("source", "")).startswith("simulation:")]
+    unlabelled = [
+        e.get("id")
+        for e in events
+        if e.get("event_type") in SIMULATED_TYPES and not str(e.get("source", "")).startswith("simulation:")
+    ]
     if unlabelled:
         problems.append(
             f"experiment_events.json: {len(unlabelled)} simulated approvals/submissions do not carry a "
@@ -506,30 +509,50 @@ def scenario_geometry(a: Path, scenarios: list[dict[str, Any]], tol: float = 1e-
     """
     problems: list[str] = []
     view = read_json(a / "atlas.pca.json") if (a / "atlas.pca.json").is_file() else None
-    points = {p.get("entity_id"): p for p in view.get("points", [])} if isinstance(view, dict) else {}
+    points: dict[Any, dict[str, Any]] = {}
+    if isinstance(view, dict):
+        points = {p.get("entity_id"): p for p in view.get("points", []) if isinstance(p, dict)}
     for sc in scenarios:
-        o = sc.get("outputs") if isinstance(sc.get("outputs"), dict) else {}
-        mv, ref = o.get("movement"), (o.get("model_ref") or {}).get("projection_id")
+        raw = sc.get("outputs")
+        o: dict[str, Any] = raw if isinstance(raw, dict) else {}
+        model_ref = o.get("model_ref")
+        mv, ref = o.get("movement"), (model_ref.get("projection_id") if isinstance(model_ref, dict) else None)
         if not isinstance(mv, dict) or not isinstance(mv.get("map_shift"), list):
             continue
         name = sc.get("id")
-        per = [f.get("map_shift") for f in mv.get("per_feature") or [] if isinstance(f, dict)]
+        shift: list[float] = mv["map_shift"]
+        per: list[list[float]] = [
+            f["map_shift"]
+            for f in mv.get("per_feature") or []
+            if isinstance(f, dict)
+            and isinstance(f.get("map_shift"), list)
+            and len(f["map_shift"]) == len(shift)
+        ]
         if per:
-            total = [sum(x[i] for x in per) for i in range(len(mv["map_shift"]))]
-            if any(abs(t - r) > tol * 10 for t, r in zip(total, mv["map_shift"])):
-                problems.append(f"scenarios.json: {name!r} per-feature map shifts sum to {total}, reported {mv['map_shift']}")
+            total = [sum(x[i] for x in per) for i in range(len(shift))]
+            if any(abs(t - r) > tol * 10 for t, r in zip(total, shift, strict=True)):
+                problems.append(
+                    f"scenarios.json: {name!r} per-feature map shifts sum to {total}, reported {mv['map_shift']}"
+                )
         cand, after = points.get(sc.get("candidate_ref")), points.get(o.get("atlas_entity_id"))
         if not points:
             continue
         if cand is None or after is None:
-            problems.append(f"scenarios.json: {name!r} candidate or scenario point missing from atlas.pca.json")
+            problems.append(
+                f"scenarios.json: {name!r} candidate or scenario point missing from atlas.pca.json"
+            )
             continue
         for pt in (cand, after):
             if ref is not None and pt.get("projection_id") != ref:
-                problems.append(f"atlas.pca.json: {pt.get('entity_id')!r} is on {pt.get('projection_id')!r}, the scenario on {ref!r}")
-        drawn = [y - x for x, y in zip(cand.get("coords", []), after.get("coords", []))]
-        if len(drawn) != len(mv["map_shift"]) or any(abs(d - r) > tol * 10 for d, r in zip(drawn, mv["map_shift"])):
-            problems.append(f"scenarios.json: {name!r} drawn route {drawn} differs from the computed shift {mv['map_shift']}")
+                problems.append(
+                    f"atlas.pca.json: {pt.get('entity_id')!r} is on {pt.get('projection_id')!r}, the scenario on {ref!r}"
+                )
+        a_xy, b_xy = cand.get("coords", []), after.get("coords", [])
+        drawn = [y - x for x, y in zip(a_xy, b_xy, strict=False)] if len(a_xy) == len(b_xy) else []
+        if len(drawn) != len(shift) or any(abs(d - r) > tol * 10 for d, r in zip(drawn, shift, strict=True)):
+            problems.append(
+                f"scenarios.json: {name!r} drawn route {drawn} differs from the computed shift {mv['map_shift']}"
+            )
     return problems
 
 
@@ -561,7 +584,9 @@ def crm_boundary(a: Path, report: dict[str, Any]) -> list[str]:
     """The browser-measured application count must equal the log's, with no simulated unit shown."""
     measured = (report.get("detail") or {}).get("crm_boundary")
     if not isinstance(measured, dict):
-        return ["ui_report.json: detail.crm_boundary missing; the UI stage must measure the applications it shows"]
+        return [
+            "ui_report.json: detail.crm_boundary missing; the UI stage must measure the applications it shows"
+        ]
     log = read_json(a / "events.json") if (a / "events.json").exists() else []
     expected = len({e.get("application_id") for e in log}) if _is_list_of_dicts(log) else 0
     problems = []

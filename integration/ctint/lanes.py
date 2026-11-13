@@ -72,6 +72,23 @@ def ownership_violations(lane_key: str, changed: list[str]) -> list[str]:
     return problems
 
 
+def consolidated_violations(changed: list[str]) -> list[str]:
+    """Ownership rule for one commit that merges every lane (single-owner consolidation).
+
+    Per-lane ownership cannot hold when every lane is pinned to the same merged commit, so the
+    equivalent rule is applied: every changed path must belong to some lane, and no frozen
+    contract may change.
+    """
+    problems: list[str] = []
+    for path in sorted(set(changed)):
+        posix = path.replace("\\", "/")
+        if posix.startswith(FROZEN_SHARED):
+            problems.append(f"{posix}: frozen contract changed without an RFC")
+        elif owner_of(posix) is None:
+            problems.append(f"{posix}: shared baseline path outside every lane's ownership")
+    return problems
+
+
 def git(repo: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", "-C", str(repo), *args], capture_output=True, text=True, encoding="utf-8", errors="replace"
