@@ -101,8 +101,8 @@ export default function CompareJourney() {
       lead="The postings you are weighing, side by side. Near-term fit and strategic value are two separate measures and are never merged. Neither is a chance of being hired."
     >
       {matchesStale ? (
-        <Banner tone="warning" title="Your evidence changed after these scores were computed." data-testid="stale-banner">
-          The scores reflect the claims the engine saw, not your edits since. They are never recomputed in the browser.
+        <Banner tone="warning" title="These scores may be out of date." data-testid="stale-banner">
+          Your evidence changed after the engine computed them. They reflect the claims it saw, not your edits since, and are never recomputed in the browser.
         </Banner>
       ) : null}
 
@@ -234,7 +234,15 @@ export default function CompareJourney() {
             />
           </div>
         </div>
-        {sort === "blend" ? <p className="pt-muted">The blend only changes the order of this table. It is not shown as a score anywhere. Change it in Settings.</p> : null}
+        {sort === "blend" ? (
+          <div className="cmp-blend">
+            <label htmlFor="cmp-blend-range">
+              Ranking blend: {100 - workspace.strategicBlend}% near-term fit, {workspace.strategicBlend}% strategic value
+            </label>
+            <input id="cmp-blend-range" type="range" min={0} max={100} step={5} value={workspace.strategicBlend} onChange={(e) => dispatch({ type: "blend/set", value: Number(e.target.value) })} data-testid="blend" />
+            <p className="pt-muted">The blend only changes the order of this table. It is never shown as a score.</p>
+          </div>
+        ) : null}
         <p className="pt-muted" role="status" data-testid="compare-count">
           {ranked.length} posting{ranked.length === 1 ? "" : "s"}. {chosen.length} of {MAX} chosen for comparison.
         </p>

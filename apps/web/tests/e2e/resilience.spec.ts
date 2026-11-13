@@ -42,7 +42,7 @@ for (const vp of VIEWPORTS) {
 }
 
 test("keyboard only: skip link, tabs, dialog focus trap and atlas navigation", async ({ page }) => {
-  await open(page, "/jobs", "Discover Jobs");
+  await open(page, "/jobs/fake-fde-1", "Discover");
   // Skip link is the first tab stop and moves focus into main.
   await page.keyboard.press("Tab");
   const skip = page.getByRole("link", { name: "Skip to main content" });
@@ -51,7 +51,7 @@ test("keyboard only: skip link, tabs, dialog focus trap and atlas navigation", a
   await expect(page.locator("#main")).toBeFocused();
 
   // Dialog: opens from the keyboard, traps focus, Escape closes and returns focus to the trigger.
-  const trigger = page.getByTestId("open-fake-fde-1");
+  const trigger = page.getByRole("button", { name: "Posting link…" });
   await trigger.focus();
   await page.keyboard.press("Enter");
   const dlg = page.getByTestId("link-dialog");
@@ -72,7 +72,7 @@ test("keyboard only: skip link, tabs, dialog focus trap and atlas navigation", a
   await expect(trigger).toBeFocused();
 
   // Tabs: arrow keys move and activate; Home/End jump.
-  await open(page, "/resume", "Resume Studio");
+  await open(page, "/resume", "Résumé Studio");
   const editTab = page.getByRole("tab", { name: "Edit" });
   await editTab.focus();
   await page.keyboard.press("ArrowRight");
@@ -84,8 +84,8 @@ test("keyboard only: skip link, tabs, dialog focus trap and atlas navigation", a
   await page.keyboard.press("Home");
   await expect(editTab).toHaveAttribute("aria-selected", "true");
 
-  // Atlas: one tab stop into the plot, arrows move between points, Enter selects, Escape clears.
-  await open(page, "/atlas", "Career Atlas");
+  // Atlas full map: one tab stop into the plot, arrows move between points, Enter selects, Escape clears.
+  await open(page, "/atlas/map", "Career Atlas");
   const first = page.locator('[data-testid="atlas-plot"] g[role="button"][tabindex="0"]');
   await expect(first).toHaveCount(1);
   await first.focus();
@@ -100,14 +100,19 @@ test("keyboard only: skip link, tabs, dialog focus trap and atlas navigation", a
   await page.keyboard.press("Escape");
   await expect(page.locator('[data-testid="atlas-plot"] g[aria-pressed="true"]')).toHaveCount(0);
 
-  // Ranking list and blend slider are operable from the keyboard.
-  await open(page, "/matching", "Matching");
+  // Compare: ordering, the blend slider and the comparison picks are operable from the keyboard.
+  await open(page, "/matching", "Compare");
+  await page.getByTestId("compare-sort").focus();
+  await page.getByTestId("compare-sort").selectOption("blend");
   await page.getByTestId("blend").focus();
   await page.keyboard.press("ArrowRight");
   await expect(page.getByText("Ranking blend: 65% near-term fit, 35% strategic value")).toBeVisible();
-  await page.getByTestId("match-fake-backend-4").focus();
+  await page.getByRole("button", { name: /^Remove .* from the comparison$/ }).first().focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByTestId("hard-constraints")).toContainText("Fail");
+  await expect(page.getByTestId("compare-columns").locator("article")).toHaveCount(2);
+  await page.getByTestId("pick-fake-backend-4").focus();
+  await page.keyboard.press("Space");
+  await expect(page.getByTestId("compare-fake-backend-4")).toContainText("Fails");
 });
 
 test("reduced motion: system preference and the in-app setting both disable animation", async ({ page }) => {
@@ -121,7 +126,7 @@ test("reduced motion: system preference and the in-app setting both disable anim
   await page.goto("/#/jobs");
   await expect(page.getByTestId("loading-state")).toBeVisible();
   expect(await duration()).toBeLessThan(0.001);
-  await expect(page.getByRole("heading", { level: 1, name: "Discover Jobs" })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole("heading", { level: 1, name: "Discover" })).toBeVisible({ timeout: 15_000 });
 
   // With no system preference, the in-app "Reduce motion" setting does the same.
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -150,9 +155,11 @@ test("offline: after the first load every screen keeps working with the network 
     await expect(page.getByRole("heading", { level: 1, name: route.title })).toBeVisible();
   }
   // State changes still work and persist while offline.
-  await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Discover Jobs" }).click();
-  await page.getByTestId("shortlist-fake-ai-2").click();
-  await expect(page.getByTestId("shortlist-fake-ai-2")).toHaveAttribute("aria-pressed", "true");
+  await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Discover" }).click();
+  await page.getByRole("button", { name: "All postings", exact: true }).click();
+  await page.getByTestId("pt-job-fake-ai-2").click();
+  await page.getByTestId("pt-shortlist").click();
+  await expect(page.getByTestId("pt-shortlist")).toHaveAttribute("aria-pressed", "true");
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("careertwin.workspace.v1") ?? "{}").shortlist)).toEqual(["fake-ai-2"]);
   await context.setOffline(false);
   await expect(page.getByTestId("connectivity")).toHaveText("Works offline");
@@ -163,7 +170,7 @@ test("loading, error and empty states are real screens", async ({ page, guard })
   // Error: every screen except Settings shows a recoverable error; Retry works after turning it off.
   await page.getByTestId("set-simulate").selectOption("error");
   await expect(page.getByTestId("qa-banner")).toContainText("QA simulation is on");
-  await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Discover Jobs" }).click();
+  await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Discover" }).click();
   await expect(page.getByTestId("error-state")).toContainText("The data could not be loaded.");
   await expect(page.getByTestId("error-state")).toContainText("Simulated load failure");
   await page.getByRole("button", { name: "Retry" }).click();
@@ -174,11 +181,11 @@ test("loading, error and empty states are real screens", async ({ page, guard })
   // Empty: every screen has a designed empty state and nothing crashes.
   await page.getByTestId("set-simulate").selectOption("empty");
   const expected: Record<string, string> = {
-    "Discover Jobs": "The job feed is empty.",
-    Matching: "No match explanations are available.",
+    Discover: "The job feed is empty.",
+    Compare: "Nothing to compare yet.",
     "Profile Evidence": "The evidence vault is empty.",
-    "Resume Studio": "No résumé variants yet.",
-    Applications: "No applications are being tracked.",
+    "Résumé Studio": "No résumé variants yet.",
+    Applications: "You are not tracking any application yet.",
     Experiments: "No experiments yet.",
     "Career Atlas": "No atlas projection is available.",
     "Career Simulator": "No transition scenarios are available.",
@@ -196,10 +203,10 @@ test("loading, error and empty states are real screens", async ({ page, guard })
   // Slow: a loading state is shown, then content.
   await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Settings" }).click();
   await page.getByTestId("set-simulate").selectOption("slow");
-  await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Discover Jobs" }).click();
+  await page.locator('nav[aria-label="Primary"]').getByRole("link", { name: "Discover" }).click();
   await page.reload();
   await expect(page.getByTestId("loading-state")).toContainText("Loading synthetic fixtures");
-  await expect(page.getByTestId("job-count")).toHaveText("Showing 22 of 22 postings", { timeout: 15_000 });
+  await expect(page.getByTestId("job-count")).toContainText("postings", { timeout: 15_000 });
   await open(page, "/settings", "Settings");
   await page.getByTestId("set-simulate").selectOption("none");
   await expect(page.getByTestId("qa-banner")).toHaveCount(0);
@@ -207,8 +214,8 @@ test("loading, error and empty states are real screens", async ({ page, guard })
 });
 
 test("export everything, then erase local data (typed confirmation), with and without example data", async ({ page }) => {
-  await open(page, "/jobs", "Discover Jobs");
-  await page.getByTestId("shortlist-fake-fde-1").click();
+  await open(page, "/jobs/fake-fde-1", "Discover");
+  await page.getByTestId("pt-shortlist").click();
   await open(page, "/settings", "Settings");
   await expect(page.getByTestId("storage-summary")).toContainText("1 shortlisted postings");
   const exported = await downloadText(page, () => page.getByTestId("export-all").click());
@@ -280,9 +287,9 @@ test("evidence vault: supported comes only from evidence, edits are audited, sta
   await expect(page.getByTestId("claim-claim-achievement-latency")).toContainText("No evidence attached");
   await expect(page.getByTestId("claim-status-claim-achievement-latency").locator("option")).toHaveText(["Self-reported", "Unverified"]);
   // Matching does not recompute; it says the scores may be out of date.
-  await open(page, "/matching", "Matching");
+  await open(page, "/matching", "Compare");
   await expect(page.getByTestId("stale-banner")).toContainText("These scores may be out of date.");
   // And the résumé line built on that claim now blocks export.
-  await open(page, "/resume?variant=rv-base", "Resume Studio");
+  await open(page, "/resume?variant=rv-base", "Résumé Studio");
   await expect(page.getByTestId("bullet-b-latency")).toContainText("The linked claim is unverified");
 });

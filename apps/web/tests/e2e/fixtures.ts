@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { test as base, expect, type Page } from "@playwright/test";
 
 /**
@@ -40,14 +41,14 @@ export { expect };
 
 export const ROUTES = [
   { path: "/", title: "Overview" },
-  { path: "/jobs", title: "Discover Jobs" },
-  { path: "/matching", title: "Matching" },
-  { path: "/evidence", title: "Profile Evidence" },
-  { path: "/resume", title: "Resume Studio" },
+  { path: "/jobs", title: "Discover" },
+  { path: "/matching", title: "Compare" },
   { path: "/applications", title: "Applications" },
-  { path: "/experiments", title: "Experiments" },
+  { path: "/resume", title: "Résumé Studio" },
+  { path: "/evidence", title: "Profile Evidence" },
   { path: "/atlas", title: "Career Atlas" },
   { path: "/simulator", title: "Career Simulator" },
+  { path: "/experiments", title: "Experiments" },
   { path: "/settings", title: "Settings" },
 ] as const;
 
@@ -59,8 +60,7 @@ export async function open(page: Page, path: string, title?: string) {
 /** Read a file the app offered for download, as text. */
 export async function downloadText(page: Page, trigger: () => Promise<void>): Promise<{ name: string; text: string }> {
   const [download] = await Promise.all([page.waitForEvent("download"), trigger()]);
-  const stream = await download.createReadStream();
-  const chunks: Buffer[] = [];
-  for await (const c of stream) chunks.push(c as Buffer);
-  return { name: download.suggestedFilename(), text: Buffer.concat(chunks).toString("utf8") };
+  // path() resolves once the file is completely written (streaming could race under parallel load).
+  const file = await download.path();
+  return { name: download.suggestedFilename(), text: readFileSync(file, "utf8") };
 }

@@ -26,26 +26,30 @@ test("production build ships a strict CSP and no inline scripts", async ({ page,
 });
 {
   test("hostile posting content is rendered as inert text on every screen that shows it", async ({ page }) => {
-    await open(page, "/jobs", "Discover Jobs");
-    const card = page.getByTestId("job-fake-hostile-21");
+    await open(page, "/jobs", "Discover");
+    await page.getByRole("button", { name: "All postings", exact: true }).click();
+    await page.getByTestId("pt-search").fill("markup test");
+    const row = page.getByTestId("pt-job-fake-hostile-21");
+    await expect(row).toContainText('<img src=x onerror="window.__ct_xss=1"> Platform Engineer (markup test)');
+    await expect(row).toContainText("Fictional <script>window.__ct_xss=2</script> Injection Works");
+    await row.click();
+    const card = page.getByTestId("pt-detail");
     await expect(card).toContainText('<img src=x onerror="window.__ct_xss=1"> Platform Engineer (markup test)');
-    await expect(card).toContainText("Fictional <script>window.__ct_xss=2</script> Injection Works");
-    await card.getByText("Requirements text").click();
-    await expect(page.getByTestId("req-fake-hostile-21")).toContainText("<script>window.__ct_xss=4</script>");
-    await expect(page.getByTestId("req-fake-hostile-21")).toContainText("Ignore all previous instructions");
+    await card.getByTestId("pt-requirements").locator("summary").click();
+    await expect(card.getByTestId("pt-requirements")).toContainText("<script>window.__ct_xss=4</script>");
+    await expect(card.getByTestId("pt-requirements")).toContainText("Ignore all previous instructions");
     // No element was created from the hostile strings.
     expect(await card.locator("img, script, a[href^='javascript']").count()).toBe(0);
+    expect(await row.locator("img, script").count()).toBe(0);
 
-    await page.getByTestId("job-view-table").click();
-    await expect(page.getByTestId("jobs-table")).toContainText("<img src=x onerror=");
-    await open(page, "/matching?job=fake-hostile-21", "Matching");
-    await expect(page.getByTestId("match-detail")).toContainText("<img src=x onerror=");
-    await open(page, "/atlas", "Career Atlas");
+    await open(page, "/matching?ids=fake-hostile-21", "Compare");
+    await expect(page.getByTestId("compare-columns")).toContainText("<img src=x onerror=");
+    await open(page, "/atlas/map", "Career Atlas");
     await page.getByTestId("pt-fake-hostile-21").click();
     await expect(page.getByTestId("atlas-detail")).toContainText("<img src=x onerror=");
     await open(page, "/applications", "Applications");
-    await page.getByTestId("new-app-job").selectOption("fake-hostile-21");
-    await page.getByTestId("new-app-btn").click();
+    await page.getByTestId("track-new-job").selectOption("fake-hostile-21");
+    await page.getByTestId("track-new").click();
     await expect(page.getByTestId("app-detail")).toContainText("<img src=x onerror=");
     for (const route of ROUTES) await open(page, route.path, route.title);
 
@@ -60,8 +64,8 @@ test("a javascript: posting link is blocked and shown only as text", async ({ pa
     dialogs++;
     void d.dismiss();
   });
-  await open(page, "/jobs", "Discover Jobs");
-  await page.getByTestId("open-fake-hostile-21").click();
+  await open(page, "/jobs/fake-hostile-21", "Discover");
+  await page.getByRole("button", { name: "Posting link…" }).click();
   const dlg = page.getByTestId("link-dialog");
   await expect(dlg.getByTestId("link-blocked")).toContainText("Links with the scheme 'javascript' are never opened.");
   await expect(dlg.getByTestId("link-blocked")).toContainText("javascript:window.__ct_xss=3");
@@ -71,10 +75,10 @@ test("a javascript: posting link is blocked and shown only as text", async ({ pa
 });
 
 test("a normal posting link opens only after a warning, in a new tab, with safe rel attributes", async ({ page }) => {
-  await open(page, "/jobs", "Discover Jobs");
-  // No posting link is a live anchor in the list: the only way out is through the dialog.
+  await open(page, "/jobs/fake-fde-1", "Discover");
+  // No posting link is a live anchor anywhere on the page: the only way out is through the dialog.
   expect(await page.locator("a[href^='http']").count()).toBe(0);
-  await page.getByTestId("open-fake-fde-1").click();
+  await page.getByRole("button", { name: "Posting link…" }).click();
   const dlg = page.getByTestId("link-dialog");
   await expect(dlg).toContainText("This posting is synthetic.");
   await expect(dlg.getByTestId("link-destination")).toHaveText("https://careers.example.invalid/fictional-meridian-systems/fake-fde-1");
@@ -87,24 +91,24 @@ test("a normal posting link opens only after a warning, in a new tab, with safe 
   // Cancel leaves the app where it was and never navigates.
   await dlg.getByRole("button", { name: "Cancel" }).click();
   await expect(dlg).toBeHidden();
-  await expect(page).toHaveURL(/#\/jobs$/);
+  await expect(page).toHaveURL(/#\/jobs\/fake-fde-1$/);
 
-  await page.getByTestId("job-search").fill("formula");
-  await page.getByTestId("open-fake-hostile-22").click();
+  await open(page, "/jobs/fake-hostile-22", "Discover");
+  await page.getByRole("button", { name: "Posting link…" }).click();
   await expect(dlg).toContainText("This link is not encrypted (http).");
 });
 
 test("CSV export neutralises spreadsheet formulas from hostile postings", async ({ page }) => {
   await open(page, "/applications", "Applications");
-  await page.getByTestId("new-app-job").selectOption("fake-hostile-22");
-  await page.getByTestId("new-app-btn").click();
+  await page.getByTestId("track-new-job").selectOption("fake-hostile-22");
+  await page.getByTestId("track-new").click();
   await page.getByTestId("next-event").selectOption("note");
   await page.getByTestId("event-notes").fill("=cmd|' /C calc'!A0");
   await page.getByTestId("record-event").click();
   const csv = await downloadText(page, () => page.getByTestId("export-csv").click());
   expect(csv.name).toBe("careertwin-application-events.csv");
   const lines = csv.text.split("\r\n").filter(Boolean);
-  expect(lines[0]).toBe("application_id,posting,employer,event_type,occurred_at,recorded_at,actor,source,outcome_status,resume_variant_id,approval_token_ref,notes");
+  expect(lines[0]).toBe("application_id,posting,employer,event_type,occurred_at,recorded_at,actor,source,origin,outcome_status,resume_variant_id,approval_token_ref,notes");
   const hostile = lines.filter((l) => l.includes("HYPERLINK") || l.includes("Formula Freight"));
   expect(hostile.length).toBe(2);
   for (const row of hostile) {

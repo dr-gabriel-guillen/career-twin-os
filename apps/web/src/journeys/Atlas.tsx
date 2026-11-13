@@ -68,7 +68,7 @@ function TransitionMap({ p, scenarioEntity, targetFamily, families }: { p: Atlas
     [
       ...(candidate ? [{ key: "you", text: "You", x: sx(candidate.coords[0]!), y: sy(candidate.coords[1]!), r: 8, size: size + 1 }] : []),
       ...(target ? [{ key: "target", text: narrow ? "After plan (hypothetical)" : "After this plan (hypothetical)", x: sx(target.coords[0]!), y: sy(target.coords[1]!), r: 8, size }] : []),
-      ...orderedCentroids.map((c) => ({ key: c.entity_id, text: centroidName(c.label), x: sx(c.coords[0]!), y: sy(c.coords[1]!), r: 6, size })),
+      ...orderedCentroids.map((c) => ({ key: c.entity_id, text: centroidName(c.label), short: fam(c.entity_id) ? words(fam(c.entity_id)!) : undefined, x: sx(c.coords[0]!), y: sy(c.coords[1]!), r: 6, size })),
     ],
     markers,
     W,
@@ -159,7 +159,7 @@ function Transitions() {
 
   if (!projection) {
     return (
-      <EmptyState title="No career map is available for this data.">
+      <EmptyState title="No atlas projection is available.">
         <p>The analytics lane did not provide a projection.</p>
       </EmptyState>
     );

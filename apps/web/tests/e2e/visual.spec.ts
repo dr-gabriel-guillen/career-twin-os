@@ -2,17 +2,19 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Page } from "@playwright/test";
-import { expect, test } from "./fixtures";
+import { expect, ROUTES, test } from "./fixtures";
 
 /**
- * Visual QA for the journey prototypes. Accessibility and type checks do not catch layout failures
- * such as text squeezed into a narrow grid track (the step-3 empty state at 39675b3). These tests
- * measure rendered boxes and attach a screenshot of every case to the test output.
+ * Visual QA for the product screens. Accessibility and type checks do not catch layout failures
+ * such as text squeezed into a narrow grid track (the Tailor step-3 empty state at 39675b3) or map
+ * labels running off the drawing. These tests measure rendered boxes at desktop, tablet and phone
+ * widths and attach a screenshot of every case to the test output. They are layout assertions, not
+ * pixel comparisons against committed baselines.
  */
 const PIPELINE = join(dirname(fileURLToPath(import.meta.url)), "..", "upstream-samples", "pipeline");
 
 async function go(page: Page, hash: string, heading: string, query = "") {
-  await page.goto(`/prototypes.html${query}#${hash}`);
+  await page.goto(`/${query}#${hash}`);
   // Six heavy tests load fixtures in parallel; give the first render more time than the 10 s default.
   await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible({ timeout: 30_000 });
 }
@@ -50,14 +52,14 @@ async function squeezedText(page: Page): Promise<string[]> {
 }
 
 async function jobIds(page: Page): Promise<string[]> {
-  await go(page, "/discover", "Discover");
+  await go(page, "/jobs", "Discover");
   const ids = await page.locator('[data-testid^="pt-job-"]').evaluateAll((els) => els.map((e) => (e.getAttribute("data-testid") ?? "").replace("pt-job-", "")));
   return ids.slice(0, 10);
 }
 
 /** Opens step 2 for a posting, starting from the given base variant (by option index). */
 async function openTailorContent(page: Page, jobId: string, baseIndex = 0): Promise<number> {
-  await page.goto(`/prototypes.html#/tailor/${encodeURIComponent(jobId)}`);
+  await page.goto(`/#/resume/tailor/${encodeURIComponent(jobId)}`);
   await expect(page.getByRole("heading", { level: 1, name: "Tailor résumé" })).toBeVisible({ timeout: 30_000 });
   // Same URL does not remount; return to step 1 through the step tabs.
   if (!(await page.getByLabel("Start from").isVisible())) await page.locator(".pt-step button").first().click();
@@ -141,38 +143,62 @@ for (const scheme of ["light", "dark"] as const) {
   }
 }
 
-test("no squeezed text on any prototype screen at 1440 and 375", async ({ page }) => {
-  for (const w of [1440, 375]) {
-    await page.setViewportSize({ width: w, height: w < 600 ? 812 : 1000 });
-    for (const [hash, heading] of [["/discover", "Discover"], ["/tailor", "Tailor résumé"], ["/track", "Track"], ["/atlas", "Career paths"]] as const) {
+for (const w of [1440, 768, 375]) {
+  test(`no squeezed text and no horizontal scroll on every screen at ${w}px`, async ({ page }) => {
+    test.setTimeout(120_000);
+    await page.setViewportSize({ width: w, height: w < 600 ? 812 : w < 1000 ? 1024 : 1000 });
+    for (const r of ROUTES) {
+      await go(page, r.path, r.title);
+      expect(await squeezedText(page), `${r.path} at ${w}px`).toEqual([]);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(overflow, `${r.path} overflows at ${w}px`).toBeLessThanOrEqual(0);
+      await page.screenshot({ path: test.info().outputPath(`screen-${r.path.replace(/\W+/g, "_") || "overview"}-${w}.png`), fullPage: true });
+    }
+    for (const [hash, heading] of [["/resume/tailor", "Tailor résumé"], ["/atlas/map", "Career Atlas"], ["/experiments?view=simulated", "Experiments"]] as const) {
       await go(page, hash, heading);
       expect(await squeezedText(page), `${hash} at ${w}px`).toEqual([]);
     }
     const ids = await jobIds(page);
-    await page.goto(`/prototypes.html#/discover/${encodeURIComponent(ids[1]!)}`);
+    await page.goto(`/#/jobs/${encodeURIComponent(ids[1]!)}`);
     await expect(page.getByTestId("pt-detail")).toBeVisible();
     expect(await squeezedText(page), `discover detail at ${w}px`).toEqual([]);
-  }
-});
+  });
+}
 
-test("atlas map labels stay inside the drawing at 1440 and 375", async ({ page }) => {
-  for (const w of [1440, 375]) {
-    await page.setViewportSize({ width: w, height: w < 600 ? 812 : 1000 });
-    await go(page, "/atlas", "Career paths");
-    const outside = await page.locator("svg.pt-map").evaluate((svg) => {
-      const box = svg.getBoundingClientRect();
-      return [...svg.querySelectorAll("text")]
-        .map((t) => ({ t: t.textContent ?? "", r: t.getBoundingClientRect() }))
-        .filter(({ r }) => r.left < box.left - 1 || r.right > box.right + 1)
-        .map(({ t, r }) => `${t} ${Math.round(r.left - box.left)}..${Math.round(r.right - box.left)} of ${Math.round(box.width)}`);
-    });
-    expect(outside, `labels clipped at ${w}px`).toEqual([]);
-  }
-});
+for (const source of ["fixtures", "pipeline"] as const) {
+  test(`atlas map labels stay inside the drawing, never overlap, and stay legible at 1440, 768 and 375 (${source})`, async ({ page }) => {
+    if (source === "pipeline") {
+      test.skip(!existsSync(join(PIPELINE, "atlas.pca.json")), "pipeline sample not present");
+      await routeArtifacts(page);
+    }
+    for (const w of [1440, 768, 375]) {
+      await page.setViewportSize({ width: w, height: w < 600 ? 812 : 1000 });
+      await go(page, "/atlas", "Career Atlas", source === "pipeline" ? "?source=artifacts" : "");
+      const report = await page.locator("svg.pt-map").evaluate((svg) => {
+        const box = svg.getBoundingClientRect();
+        const labels = [...svg.querySelectorAll("text")].map((t) => ({ t: t.textContent ?? "", r: t.getBoundingClientRect(), size: parseFloat(getComputedStyle(t).fontSize) * (box.width / (svg as SVGSVGElement).viewBox.baseVal.width) }));
+        const outside = labels.filter(({ r }) => r.left < box.left - 1 || r.right > box.right + 1 || r.top < box.top - 1 || r.bottom > box.bottom + 1).map(({ t }) => t);
+        const overlaps: string[] = [];
+        for (let i = 0; i < labels.length; i++)
+          for (let j = i + 1; j < labels.length; j++) {
+            const a = labels[i]!.r, b = labels[j]!.r;
+            if (a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1) overlaps.push(`${labels[i]!.t} / ${labels[j]!.t}`);
+          }
+        const tiny = labels.filter((l) => l.size < 10.5).map((l) => `${l.t} ${l.size.toFixed(1)}px`);
+        return { outside, overlaps, tiny, count: labels.length };
+      });
+      expect(report.outside, `labels clipped at ${w}px`).toEqual([]);
+      expect(report.overlaps, `labels overlapping at ${w}px`).toEqual([]);
+      expect(report.tiny, `labels rendered below 10.5px at ${w}px`).toEqual([]);
+      expect(report.count).toBeGreaterThan(1);
+      await page.screenshot({ path: test.info().outputPath(`atlas-${source}-${w}.png`), fullPage: true });
+    }
+  });
+}
 
 test("atlas copy describes projection variance and explains only the positions actually drawn", async ({ page }) => {
   // Fixture data: both candidate positions are projected.
-  await go(page, "/atlas", "Career paths");
+  await go(page, "/atlas", "Career Atlas");
   const u = page.getByTestId("pt-uncertainty");
   await expect(u).toContainText("variation in the input skill vectors");
   await expect(u).not.toContainText("skill information");
@@ -186,7 +212,7 @@ test("atlas copy describes projection variance and explains only the positions a
   const hasAll = cands.some((p) => !p.entity_id.endsWith("#supported-only"));
   const hasSupported = cands.some((p) => p.entity_id.endsWith("#supported-only"));
   await routeArtifacts(page);
-  await go(page, "/atlas", "Career paths", "?source=artifacts");
+  await go(page, "/atlas", "Career Atlas", "?source=artifacts");
   const note = page.getByTestId("pt-position-note");
   if (hasAll && hasSupported) await expect(note).toContainText("Two marks show you");
   else if (hasAll) {
@@ -195,4 +221,6 @@ test("atlas copy describes projection variance and explains only the positions a
   } else if (hasSupported) await expect(note).toContainText("One mark shows you, from evidence-backed claims only");
   else await expect(note).toContainText("was not provided");
   await expect(page.getByTestId("pt-uncertainty")).not.toContainText("skill information");
+  // The plan's movement in the full space is stated, so a 2-D endpoint near another role is not misread.
+  if (hasAll) await expect(page.getByTestId("pt-fullspace")).toContainText("In the full skill space");
 });

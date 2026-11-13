@@ -17,15 +17,15 @@ test("capture screenshots of the main screens", async ({ page }) => {
   mkdirSync(OUT, { recursive: true });
   const shot = async (name: string) => page.screenshot({ path: join(OUT, `${name}.png`), animations: "disabled" });
 
-  await open(page, "/jobs", "Discover Jobs");
+  await open(page, "/jobs", "Discover");
   await page.getByTestId("job-search").fill("engineer");
   await shot("01-discover-jobs");
 
-  await open(page, "/matching?job=fake-ai-2", "Matching");
+  await open(page, "/matching?ids=fake-ai-2,fake-fde-1", "Compare");
   await page.getByTestId("match-detail").scrollIntoViewIfNeeded();
   await shot("02-matching");
 
-  await open(page, "/resume?variant=rv-base", "Resume Studio");
+  await open(page, "/resume?variant=rv-base", "Résumé Studio");
   await page.getByTestId("bullet-edit-b-latency").click();
   await page.getByTestId("bullet-text").fill("Certified engineer who reduced p95 latency of the fictional order API by 83%");
   await page.getByTestId("bullet-save").click();

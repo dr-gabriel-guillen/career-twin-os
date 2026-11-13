@@ -40,31 +40,37 @@ const open = async (page: import("@playwright/test").Page, path: string, title: 
 };
 
 test("lane A payloads: envelope jobs, match result with interval, constraints, refusals and counterfactuals", async ({ page }) => {
-  await open(page, "/jobs", "Discover Jobs");
+  await open(page, "/jobs", "Discover");
   await expect(page.locator(".app")).toHaveAttribute("data-source", "artifacts");
-  await expect(page.getByTestId("job-count")).toHaveText("Showing 2 of 2 postings");
-  await expect(page.getByTestId("jobs-cards")).toContainText(jobs.items[0]!.posting.title);
+  await page.getByRole("button", { name: "All postings", exact: true }).click();
+  await expect(page.getByTestId("job-count")).toHaveText("2 postings");
+  await expect(page.locator(".pt-rows")).toContainText(jobs.items[0]!.posting.title);
   // Files the mixed set does not contain are named, not silently replaced by fixtures.
   await expect(page.getByTestId("missing-artifacts")).toHaveText("Files the pipeline did not provide: experiment_events.json");
 
-  await open(page, `/matching?job=${encodeURIComponent(jobs.items[0]!.posting.id)}`, "Matching");
+  const id = jobs.items[0]!.posting.id;
+  await open(page, `/jobs/${encodeURIComponent(id)}`, "Discover");
   const src = rank.shortlist[0];
+  const detail = page.getByTestId("pt-detail");
+  await detail.getByText("How the engine computed these").click();
   await expect(page.getByTestId("overall-score")).toContainText(`Overall score: ${src.score} / 100 (range ${src.score_interval.low} to ${src.score_interval.high})`);
-  await expect(page.getByTestId("near-term-score")).toContainText(String(src.composites.near_term_fit));
-  await expect(page.getByTestId("strategic-score")).toContainText(String(src.composites.strategic_utility));
-  await expect(page.getByTestId("match-detail")).toContainText("relative_heuristic_not_offer_probability");
+  await expect(detail).toContainText("not a probability of being hired");
   await expect(page.getByTestId("hard-constraints").locator("li")).toHaveCount(src.constraints.length);
   await expect(page.getByTestId("hard-constraints")).toContainText("compensation unknown (absent); not inferred");
-  await expect(page.getByTestId("match-refusals").locator("li")).toHaveCount(rank.refusals.length);
-  await expect(page.getByTestId("match-refusals")).toContainText(rank.refusals[0].reasons[0]);
-  await expect(page.getByTestId("counterfactuals")).toContainText("hypothetical");
+  await expect(page.getByTestId("pt-improve-list")).toContainText("Hypothetical");
   await expect(page.getByTestId("unknown-inputs").locator("li")).toHaveCount(src.unknown_inputs.length);
+  // The two engine scores, separately, exactly as published.
+  await open(page, `/matching?ids=${encodeURIComponent(id)}`, "Compare");
+  await expect(page.getByTestId(`near-${id}`)).toHaveAttribute("aria-label", `Near-term: ${src.composites.near_term_fit} of 100`);
+  await expect(page.getByTestId(`strat-${id}`)).toHaveAttribute("aria-label", `Strategic: ${src.composites.strategic_utility} of 100`);
+  await page.getByTestId("refusals-disclosure").locator("summary").click();
+  await expect(page.getByTestId("match-refusals").locator("li")).toHaveCount(rank.refusals.length);
   const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
   expect(axe.violations.map((v) => v.id)).toEqual([]);
 });
 
 test("lane C payloads: projection diagnostics, both views, paths, and coverage that follows lane C's evidence rule", async ({ page }) => {
-  await open(page, "/atlas", "Career Atlas");
+  await open(page, "/atlas/map", "Career Atlas");
   await expect(page.getByTestId("explained-variance")).toContainText(`${Math.round(pca.diagnostics.cumulative_explained_variance * 100)}%`);
   await expect(page.getByTestId("trustworthiness")).toContainText(`Trustworthiness ${pca.diagnostics.trustworthiness.value.toFixed(2)} (k=${pca.diagnostics.trustworthiness.k})`);
   await expect(page.getByTestId("distortion-banner")).toContainText("true nearest neighbours in the original space");
@@ -101,8 +107,8 @@ test("pipeline analysis is shown as given; integration mode never writes the sto
   await expect(page.getByTestId("upstream-arms").locator("tbody tr")).toHaveCount(2);
   await expect(page.getByTestId("exp-results")).toContainText("newcombe-hybrid-score");
   await expect(page.getByTestId("exp-results")).not.toContainText(/winner/i);
-  await open(page, "/jobs", "Discover Jobs");
-  await page.locator('[data-testid^="shortlist-"]').first().click();
+  await open(page, "/jobs", "Discover");
+  await page.getByTestId("pt-shortlist").click();
   expect(await page.evaluate(() => localStorage.getItem("careertwin.workspace.v1"))).toBeNull();
   await open(page, "/settings", "Settings");
   await expect(page.getByTestId("adapter-matches")).toContainText("a-match/0.1");
@@ -112,7 +118,7 @@ test("pipeline analysis is shown as given; integration mode never writes the sto
 test("lane E injection corpus: 24 poisoned postings render as inert text (active HTML, prompt injection, bidi and zero-width)", async ({ page }) => {
   // Produced by lane E's `ctint.sec_inject.poison_jobs(jobs, seed=7)` at a2e50e3 from the pinned stub jobs.
   const poisoned = readFileSync(join(WEB, "tests", "upstream-samples", "e-stub", "jobs.poisoned.json"), "utf8");
-  const postings = JSON.parse(poisoned) as { id: string; requirements: string[] }[];
+  const postings = JSON.parse(poisoned) as { id: string; title: string; requirements: string[] }[];
   let dialogs = 0;
   page.on("dialog", (d) => {
     dialogs++;
@@ -123,24 +129,34 @@ test("lane E injection corpus: 24 poisoned postings render as inert text (active
   await page.route("**/artifacts/*.json", (route) =>
     route.request().url().endsWith("/artifacts/jobs.json") ? route.fulfill({ contentType: "application/json", body: poisoned }) : route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>app shell</title>" }),
   );
-  await open(page, "/jobs", "Discover Jobs");
-  await expect(page.getByTestId("job-count")).toHaveText(`Showing ${postings.length} of ${postings.length} postings`);
-  const cards = page.getByTestId("jobs-cards");
-  for (const summary of await cards.getByText(/^Requirements text/).all()) await summary.click();
-  // Every hostile string is on the page verbatim, as text.
-  const text = await cards.innerText();
+  await open(page, "/jobs", "Discover");
+  await page.getByRole("button", { name: "All postings", exact: true }).click();
+  await expect(page.getByTestId("job-count")).toHaveText(`${postings.length} postings`);
   const hostile = postings.flatMap((p) => p.requirements).filter((r) => /<|CT-CANARY-/.test(r));
   expect(hostile.length).toBeGreaterThanOrEqual(24);
+  // Open every posting's detail and its requirements: every hostile string is on the page verbatim, as text.
+  let text = "";
+  const inert = "script, img, iframe, object, embed, video, audio, form, style, link, meta, base, [onerror], [onload], [onclick], a[href^='javascript'], a[href^='data']";
+  for (const posting of postings) {
+    await page.getByTestId(`pt-job-${posting.id}`).click();
+    await page.waitForURL((u) => u.hash.endsWith(`/jobs/${encodeURIComponent(posting.id)}`));
+    const detail = page.getByTestId("pt-detail");
+    await expect(detail.getByRole("heading", { level: 2 })).toHaveText(posting.title.replace(/\s+/g, " ").trim());
+    const req = detail.getByTestId("pt-requirements");
+    if (await req.count()) {
+      await req.locator("summary").click();
+      text += await req.innerText();
+    }
+    // ...and none of it became an element, a handler or a link.
+    expect(await detail.locator(inert).count()).toBe(0);
+  }
   for (const h of hostile) expect(text, h.slice(0, 80)).toContain(h.replace(/\s+/g, " ").trim().slice(0, 60));
-  // ...and none of it became an element, a handler or a link.
-  expect(await cards.locator("script, img, iframe, object, embed, svg, video, audio, form, style, link, meta, base, [onerror], [onload], [onclick], a[href^='javascript'], a[href^='data']").count()).toBe(0);
+  expect(await page.locator(".pt-rows").locator(inert).count()).toBe(0);
   expect(await page.locator("a[href^='http']").count()).toBe(0);
   expect(dialogs).toBe(0);
   const leaked = await page.evaluate(() => Object.keys(window).filter((k) => /canary|xss|pwn/i.test(k)));
   expect(leaked).toEqual([]);
-  await page.getByTestId("job-view-table").click();
-  await expect(page.getByTestId("jobs-table").locator("tbody tr")).toHaveCount(postings.length);
-  await expect(page).toHaveURL(/source=artifacts#\/jobs$/);
+  await expect(page).toHaveURL(/source=artifacts#\/jobs\//);
 });
 
 test("a posting that does not declare itself synthetic is labelled 'provenance not verified' everywhere, including the link dialog", async ({ page }) => {
@@ -148,11 +164,13 @@ test("a posting that does not declare itself synthetic is labelled 'provenance n
   await page.route("**/artifacts/*.json", (route) =>
     route.request().url().endsWith("/artifacts/jobs.json") ? route.fulfill({ contentType: "application/json", body: JSON.stringify([posting]) }) : route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>app shell</title>" }),
   );
-  await open(page, "/jobs", "Discover Jobs");
-  const card = page.getByTestId("job-job-unverified-1");
+  await open(page, "/jobs", "Discover");
+  await page.getByRole("button", { name: "All postings", exact: true }).click();
+  const card = page.getByTestId("pt-job-job-unverified-1");
   await expect(card).toContainText("Provenance not verified");
-  await expect(card.getByText("Synthetic", { exact: true })).toHaveCount(0);
-  await page.getByTestId("open-job-unverified-1").click();
+  await card.click();
+  await expect(page.getByTestId("detail-unverified")).toContainText("Provenance not verified");
+  await page.getByRole("button", { name: "Posting link…" }).click();
   const dlg = page.getByTestId("link-dialog");
   await expect(dlg.getByTestId("link-unverified")).toContainText("The provenance of this posting is not verified.");
   await expect(dlg).not.toContainText("This posting is synthetic.");

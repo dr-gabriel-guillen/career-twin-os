@@ -31,3 +31,12 @@ describe("map label placement", () => {
     expect(words("data-engineer")).toMatch(/^Data engineer$/i);
   });
 });
+
+describe("short label fallback", () => {
+  it("uses the short form when the full name fits nowhere, and still never overlaps", () => {
+    const wide = { key: "c", text: "Forward Deployed Engineer", short: "FDE", x: 40, y: 20, r: 6, size: 11.5 };
+    const { placed, hidden } = placeLabels([wide], [], 120, 40);
+    expect(hidden).toEqual([]);
+    expect(placed[0]!.text).toBe("FDE");
+  });
+});

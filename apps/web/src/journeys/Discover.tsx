@@ -39,7 +39,7 @@ function ReasonList({ items, empty, testId }: { items: Reason[]; empty: string; 
 
 export default function DiscoverJourney() {
   const { bundle, workspace, clock, dispatch } = useApp();
-  const { matchByJob, applications, familyLabel, families } = useIndexes();
+  const { matchByJob, applications, familyLabel, families, matchesStale } = useIndexes();
   const { jobId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -162,12 +162,21 @@ export default function DiscoverJourney() {
                 </Button>
               ) : null}
             </details>
+            {(bundle.reports.find((r) => r.adapter.id === "jobs")?.rejected.length ?? 0) > 0 ? (
+              <p className="pt-muted" data-testid="jobs-rejected">
+                {bundle.reports.find((r) => r.adapter.id === "jobs")!.rejected.length} feed records did not match the job-posting contract and are not shown. Details are in Settings.
+              </p>
+            ) : null}
             <p className="pt-muted pt-count" role="status" data-testid="job-count">
               {list.length} posting{list.length === 1 ? "" : "s"}
               {view === "best" ? ", closest first" : view === "strategic" ? ", most strategic first" : ""}
             </p>
           </div>
-          {list.length === 0 ? (
+          {bundle.jobs.length === 0 ? (
+            <EmptyState title="The job feed is empty.">
+              <p>No postings were provided. No live job source is connected in this build.</p>
+            </EmptyState>
+          ) : list.length === 0 ? (
             <EmptyState title={view === "shortlist" ? "Nothing shortlisted yet." : "No postings match."}>
               <p>{view === "shortlist" ? "Shortlist a posting from its detail to keep it here." : "Try another view or clear the search."}</p>
             </EmptyState>
@@ -193,6 +202,7 @@ export default function DiscoverJourney() {
                         {j.title}
                         {workspace.shortlist.includes(j.id) ? <Icon name="bookmark" size={14} className="pt-row__saved" /> : null}
                       </span>
+                      {j.source !== "synthetic" && bundle.jobFacets[j.id]?.synthetic !== true ? <span className="pt-row__flag" data-testid={`unverified-${j.id}`}>Provenance not verified</span> : null}
                       <span className="pt-row__meta">
                         {j.organization}, {j.location ?? "location not stated"}
                         {comp.known ? "" : ", pay not disclosed"}
@@ -214,7 +224,7 @@ export default function DiscoverJourney() {
         </section>
 
         {shown ? (
-          <article className="pt-detail" aria-labelledby="pt-detail-title" tabIndex={-1} ref={detailRef} data-testid="pt-detail">
+          <article key={shown.id} className="pt-detail" aria-labelledby="pt-detail-title" tabIndex={-1} ref={detailRef} data-testid="pt-detail">
             <Button variant="ghost" className="pt-back" onClick={back}>
               <Icon name="back" size={16} /> Back to postings
             </Button>
@@ -223,6 +233,11 @@ export default function DiscoverJourney() {
               <h2 id="pt-detail-title">{shown.title}</h2>
               {(bundle.jobFacets[shown.id]?.security_flags ?? []).length > 0 ? (
                 <p className="pt-row__flag">Flagged by the data lane at ingestion: {(bundle.jobFacets[shown.id]?.security_flags ?? []).map(humanise).join(", ").toLowerCase()}. The text is shown as plain text only.</p>
+              ) : null}
+              {shown.source !== "synthetic" && bundle.jobFacets[shown.id]?.synthetic !== true ? (
+                <p className="pt-row__flag" data-testid="detail-unverified">
+                  Provenance not verified: this posting does not declare itself synthetic. It is shown as plain text, and its link opens only after a warning.
+                </p>
               ) : null}
               <p className="pt-detail__org">
                 {shown.organization}. {shown.location ?? "Location not stated"}. {shown.remote_policy && shown.remote_policy !== "unknown" ? humanise(shown.remote_policy) : "Work style unknown"}. {shown.seniority === "unknown" ? "Seniority unknown" : humanise(shown.seniority)}, {shown.employment_type === "unknown" ? "employment type unknown" : humanise(shown.employment_type).toLowerCase()}.
@@ -270,6 +285,7 @@ export default function DiscoverJourney() {
                 </section>
                 <section className="pt-block pt-block--scores" aria-labelledby="pt-scores">
                   <h3 id="pt-scores">Engine scores</h3>
+                  {matchesStale ? <p className="pt-tone--weak" data-testid="stale-note">These scores may be out of date: your evidence changed after the engine computed them.</p> : null}
                   <ScorePair near={match.near_term_fit.score} strategic={match.strategic_value.score} />
                   <p className="pt-muted">Relative heuristics within this feed, not a probability of being hired. Near-term fit and strategic value are never combined here.</p>
                   <details className="pt-tech">
@@ -285,6 +301,40 @@ export default function DiscoverJourney() {
                     <p className="pt-muted">
                       Engine {match.engine.name} {match.engine.version}. Unknown inputs: {match.unknown_inputs.map(humanise).join(", ") || "none"}.
                     </p>
+                    {match.overall ? (
+                      <p data-testid="overall-score">
+                        The engine also publishes a single combined score; CareerTwin shows the two parts separately instead. Overall score: {match.overall.score} / 100
+                        {match.overall.interval ? ` (range ${match.overall.interval.low} to ${match.overall.interval.high})` : ""}. <span className="pt-muted">{match.overall.note}</span>
+                      </p>
+                    ) : null}
+                    <h4 className="pt-tech__h">Your constraints</h4>
+                    <ul className="ct-list-plain" data-testid="hard-constraints">
+                      {match.hard_constraints.map((h) => (
+                        <li key={h.key}>
+                          <strong>{h.status === "pass" ? "Pass" : h.status === "fail" ? "Fail" : "Unknown"}: {h.label}.</strong> {h.detail}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="pt-muted">Constraints never change either score, so a high score can still fail one.</p>
+                    {match.unknown_inputs.length > 0 ? (
+                      <>
+                        <h4 className="pt-tech__h">What the engine does not know</h4>
+                        <ul data-testid="unknown-inputs">
+                          {match.unknown_inputs.map((u) => (
+                            <li key={u}>{humanise(u)}</li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : null}
+                    <h4 className="pt-tech__h">Skills and the evidence behind them</h4>
+                    <ul className="ct-list-plain" data-testid="skill-evidence">
+                      {match.skills.map((sk) => (
+                        <li key={sk.skill}>
+                          {skillLabel(sk.skill)}: {sk.evidence_strength === "supported" ? "backed by evidence" : sk.evidence_strength === "missing" ? "no claim" : sk.evidence_strength}
+                          {sk.claim_ids.length ? ` (${sk.claim_ids.length} claim${sk.claim_ids.length === 1 ? "" : "s"})` : ""}
+                        </li>
+                      ))}
+                    </ul>
                   </details>
                 </section>
               </>
@@ -292,7 +342,7 @@ export default function DiscoverJourney() {
               <p className="pt-muted">The matching engine did not rank this posting, so CareerTwin cannot explain its fit.</p>
             )}
             {shown.requirements && shown.requirements.length > 0 ? (
-              <details className="pt-tech">
+              <details className="pt-tech" data-testid="pt-requirements">
                 <summary>Requirements text from the posting ({shown.requirements.length})</summary>
                 <ul>{shown.requirements.map((r, i) => <li key={i}>{r}</li>)}</ul>
               </details>

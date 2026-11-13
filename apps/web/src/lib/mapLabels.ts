@@ -28,6 +28,8 @@ export interface LabelRequest {
   r: number;
   /** Font size in pixels. */
   size: number;
+  /** A shorter form to try when the full text fits nowhere (e.g. the role family code). */
+  short?: string;
 }
 
 export interface PlacedLabel {
@@ -51,7 +53,23 @@ export const textWidth = (text: string, size: number): number => text.length * s
 export function placeLabels(items: LabelRequest[], markers: Box[], width: number, height: number): { placed: PlacedLabel[]; hidden: string[] } {
   const placed: PlacedLabel[] = [];
   const hidden: string[] = [];
-  for (const it of items) {
+  for (const req of items) {
+    const tries = req.short && req.short !== req.text ? [req.text, req.short] : [req.text];
+    let done = false;
+    for (const text of tries) {
+      const it = { ...req, text };
+      if (tryPlace(it, placed, markers, width, height)) {
+        done = true;
+        break;
+      }
+    }
+    if (!done) hidden.push(req.text);
+  }
+  return { placed, hidden };
+}
+
+function tryPlace(it: LabelRequest, placed: PlacedLabel[], markers: Box[], width: number, height: number): boolean {
+  {
     const w = textWidth(it.text, it.size);
     const h = it.size + 3;
     const g = it.r + 4;
@@ -74,8 +92,8 @@ export function placeLabels(items: LabelRequest[], markers: Box[], width: number
         !markers.some((m) => overlaps(m, o.box)) &&
         !placed.some((p) => overlaps(p.box, o.box)),
     );
-    if (fit) placed.push({ key: it.key, text: it.text, ...fit });
-    else hidden.push(it.text);
+    if (!fit) return false;
+    placed.push({ key: it.key, text: it.text, ...fit });
+    return true;
   }
-  return { placed, hidden };
 }

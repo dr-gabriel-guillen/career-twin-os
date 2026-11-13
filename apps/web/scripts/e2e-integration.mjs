@@ -116,6 +116,8 @@ const report = {
     missing_artifacts: facts?.missing ?? [],
     // Defects in the pipeline's own data that the UI caught and refused to act on.
     upstream_findings: facts?.upstream_findings ?? [],
+    // Measured in the browser: applications listed vs the application log, simulated units kept out.
+    crm_boundary: facts?.crm_boundary ?? null,
     dialects: facts?.dialects ?? {},
     artifacts_rendered: files.sort(),
     steps: facts?.steps ?? [],

@@ -63,7 +63,7 @@ async function goto(page: Page, title: string) {
   await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
 }
 
-test("feed → match → résumé → application → experiment → atlas → simulation", async ({ page }) => {
+test("discover → explain → résumé → applications (log only) → experiment (simulated run) → atlas → simulation", async ({ page }) => {
   test.skip(!ARTIFACTS, "CT_ARTIFACTS is not set; run through scripts/e2e-integration.mjs");
   const steps: string[] = [];
   /** Defects in the pipeline's data that the UI caught. Reported, never hidden. */
@@ -92,7 +92,7 @@ test("feed → match → résumé → application → experiment → atlas → s
 
   // ---- 0. The app is rendering the pipeline output, not its own fixtures
   await page.goto("/?source=artifacts#/jobs");
-  await expect(page.getByRole("heading", { level: 1, name: "Discover Jobs" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Discover" })).toBeVisible();
   await expect(page.locator(".app")).toHaveAttribute("data-source", "artifacts");
   await expect(page.getByTestId("artifact-banner")).toBeVisible();
   await expect(page.getByTestId("synthetic-banner")).toHaveCount(0);
@@ -107,36 +107,37 @@ test("feed → match → résumé → application → experiment → atlas → s
   tabPresses++;
   await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
 
-  // ---- 1. Feed: every contract-valid posting is listed; find and shortlist the pinned one
+  // ---- 1. Discover: every contract-valid posting is listed; find, open and shortlist the pinned one
+  await press(page, page.getByRole("button", { name: "All postings", exact: true }), "All postings view");
   const countText = await page.getByTestId("job-count").innerText();
-  const shown = Number(/of (\d+) postings/.exec(countText)?.[1]);
-  const rejectedBanner = page.getByTestId("jobs-rejected");
-  const rejected = (await rejectedBanner.count()) > 0 ? Number(/^(\d+)/.exec(await rejectedBanner.innerText())?.[1] ?? 0) : 0;
+  const shown = Number(/^(\d+) postings?/.exec(countText)?.[1]);
+  const rejectedNote = page.getByTestId("jobs-rejected");
+  const rejected = (await rejectedNote.count()) > 0 ? Number(/^(\d+)/.exec(await rejectedNote.innerText())?.[1] ?? 0) : 0;
   expect(shown, "postings shown").toBeGreaterThan(0);
   expect(shown + rejected, "every record in jobs.json is either shown or reported as rejected").toBe(jobList.length);
-  await typeInto(page, page.getByTestId("job-search"), "job search field", pinned!.title);
-  const card = page.getByTestId(`job-${pin}`);
-  await expect(card).toContainText(pinned!.title);
-  await expect(card).toContainText(pinned!.organization);
-  await press(page, page.getByTestId(`shortlist-${pin}`), "shortlist button of the pinned posting");
-  await expect(page.getByTestId(`shortlist-${pin}`)).toHaveAttribute("aria-pressed", "true");
-  steps.push(`feed: ${shown} postings shown, ${rejected} rejected by the adapter, pinned posting shortlisted`);
+  await typeInto(page, page.getByTestId("pt-search"), "job search field", pinned!.title);
+  const row = page.getByTestId(`pt-job-${pin}`);
+  await expect(row).toContainText(pinned!.title);
+  await expect(row).toContainText(pinned!.organization);
+  await press(page, row, "the pinned posting in the list");
+  const detail = page.getByTestId("pt-detail");
+  await expect(detail.getByRole("heading", { level: 2 })).toHaveText(pinned!.title);
+  await press(page, page.getByTestId("pt-shortlist"), "shortlist button of the pinned posting");
+  await expect(page.getByTestId("pt-shortlist")).toHaveAttribute("aria-pressed", "true");
+  steps.push(`discover: ${shown} postings shown, ${rejected} rejected by the adapter, pinned posting opened and shortlisted`);
 
-  // ---- 2. Match: the pipeline's explanation for the pinned posting, with its own score
-  await press(page, card.getByRole("link", { name: "Explain match" }), "Explain match link");
-  await expect(page.getByRole("heading", { level: 1, name: "Matching" })).toBeVisible();
-  const detail = page.getByTestId("match-detail");
-  await expect(detail).toContainText(pinned!.title);
-  await expect(detail).toContainText("not a hiring probability");
+  // ---- 2. Explain: the pipeline's explanation for the pinned posting, with its own score
+  await expect(detail).toContainText("not a probability of being hired");
+  await press(page, detail.locator("summary", { hasText: "How the engine computed these" }), "engine details disclosure");
   const matches = art<unknown>("matches.json");
   const mine = (Array.isArray(matches) ? matches : ((matches as { shortlist?: unknown[] }).shortlist ?? [])).find((m) => (m as { job_id?: string }).job_id === pin) as { score?: number } | undefined;
   if (mine?.score !== undefined) await expect(page.getByTestId("overall-score")).toContainText(`Overall score: ${mine.score} / 100`);
-  await expect(page.getByTestId("unknown-inputs")).toBeVisible();
+  await expect(page.getByTestId("hard-constraints")).toBeVisible();
   await expect(detail).not.toContainText(/chance of|likelihood of|probability of (an offer|being hired)(?!\.)/i);
-  steps.push("match: explanation for the pinned posting rendered with the pipeline's own score and unknown inputs");
+  steps.push("explain: why it fits, what stands in the way and the engine's own score and constraints rendered for the pinned posting");
 
   // ---- 3. Résumé: the pipeline's variant is traceable; approve the exact text
-  await goto(page, "Resume Studio");
+  await goto(page, "Résumé Studio");
   const variant = art<{ id: string; bullets: { text: string }[] }>("resume_variant.json");
   await press(page, page.getByTestId(`variant-${variant.id}`), "the pipeline's résumé variant");
   const editor = page.getByTestId("variant-editor");
@@ -176,11 +177,23 @@ test("feed → match → résumé → application → experiment → atlas → s
   const events = art<{ application_id: string; job_id: string; event_type: string; approval_token_ref?: string | null }[]>("events.json");
   const submitted = events.find((e) => e.job_id === pin && e.event_type === "submitted");
   expect(submitted, "events.json has a user-recorded submission for the pinned posting").toBeDefined();
-  await press(page, page.getByTestId(`app-${submitted!.application_id}`).first(), "board card of the pinned application");
+  // The CRM boundary, measured in the browser: the list holds the application log (events.json) only.
+  const logApps = new Set(events.map((e) => e.application_id));
+  const labApps = has("experiment_events.json") ? new Set(art<{ application_id: string }[]>("experiment_events.json").map((e) => e.application_id)) : new Set<string>();
+  const appCount = Number(/^(\d+)/.exec(await page.getByTestId("app-count").innerText())?.[1]);
+  const listed = await page.locator('[data-testid^="app-"]').evaluateAll((els) => els.map((e) => (e.getAttribute("data-testid") ?? "").slice(4)));
+  const simulatedListed = listed.filter((id) => labApps.has(id)).length;
+  expect(appCount, "applications shown = application ids in events.json").toBe(logApps.size);
+  expect(simulatedListed, "simulated experiment units listed as applications").toBe(0);
+  if (labApps.size > 0) await expect(page.getByTestId("lab-note")).toContainText(`simulated ${labApps.size} applications`);
+  await press(page, page.getByTestId(`app-${submitted!.application_id}`).first(), "the pinned application in the list");
   const timeline = page.getByTestId("app-detail").getByTestId("timeline");
   await expect(timeline).toContainText("Marked as submitted (manual)");
   await expect(timeline.locator("li")).toHaveCount(events.filter((e) => e.application_id === submitted!.application_id).length);
   if (submitted!.approval_token_ref) await expect(page.getByTestId("app-detail")).toContainText(submitted!.approval_token_ref);
+  // Sample data is never presented as something the person did here.
+  await expect(timeline).toContainText("Pipeline sample data");
+  await expect(timeline).not.toContainText("You recorded this here");
   await choose(page, page.getByTestId("next-event"), "'What happened?' select", "note");
   await typeInto(page, page.getByTestId("event-notes"), "note field", "Integration run: note recorded from the keyboard.");
   await press(page, page.getByTestId("record-event"), "Record event button");
@@ -188,7 +201,10 @@ test("feed → match → résumé → application → experiment → atlas → s
   // The only next steps offered after a submission are responses, withdrawal or a note: no "submit" action exists.
   const offered = await page.getByTestId("next-event").locator("option").allInnerTexts();
   expect(offered.join("|")).not.toMatch(/apply|send|submit/i);
-  steps.push("application: pipeline event log rendered as a timeline; a note was appended; no submit action exists");
+  await expect(timeline).toContainText("You recorded this here");
+  // Overview counts the same applications.
+  const crmBoundary = { applications_shown: appCount, log_applications: logApps.size, simulated_units: labApps.size, simulated_shown_as_applications: simulatedListed };
+  steps.push(`application: ${appCount} application(s) from events.json listed, ${labApps.size} simulated unit(s) kept out; timeline labelled as pipeline sample data; a note was appended; no submit action exists`);
 
   // ---- 5. Experiment: the pipeline's analysis is shown as given
   await goto(page, "Experiments");
@@ -221,10 +237,16 @@ test("feed → match → résumé → application → experiment → atlas → s
     if (verdict !== "EVIDENCE_FOR_DIFFERENCE") await expect(page.getByTestId("upstream-verdict")).toContainText("No variant is declared better.");
   }
   await expect(results).not.toContainText(/winner/i);
+  if (labApps.size > 0) {
+    await expect(page.getByTestId("lab-activity")).toContainText("They are not your applications");
+    await expect(page.getByTestId("lab-units")).toHaveText(String(labApps.size));
+  }
   steps.push("experiment: locked design, pipeline assignments and the pipeline's analysis verdict rendered without recomputation");
 
   // ---- 6. Atlas: distortion stated with the pipeline's numbers; select a point from the keyboard
   await goto(page, "Career Atlas");
+  await expect(page.getByTestId("pt-uncertainty")).toContainText("Distance on the map is not fit");
+  await press(page, page.getByRole("link", { name: "Full map" }), "Full map view");
   await expect(page.getByTestId("distortion-banner")).toBeVisible();
   let atlasNote = "postings only (the run has no projection view)";
   if (has("atlas.pca.json")) {
@@ -278,7 +300,7 @@ test("feed → match → résumé → application → experiment → atlas → s
   }
   if (FACTS) {
     mkdirSync(dirname(FACTS), { recursive: true });
-    writeFileSync(FACTS, JSON.stringify({ data_source: dataSource, mock_sources: list(mockText), missing: list(missingText), pointer_events: pointerEvents, external_requests: external.length, focus_method: "tab-traversal", tab_presses: tabPresses, dialects, steps, upstream_findings: upstreamFindings }, null, 2));
+    writeFileSync(FACTS, JSON.stringify({ crm_boundary: crmBoundary, data_source: dataSource, mock_sources: list(mockText), missing: list(missingText), pointer_events: pointerEvents, external_requests: external.length, focus_method: "tab-traversal", tab_presses: tabPresses, dialects, steps, upstream_findings: upstreamFindings }, null, 2));
   }
   expect(external, "requests to other origins").toEqual([]);
   expect(errors, "console or page errors").toEqual([]);

@@ -2,46 +2,49 @@ import { downloadText, expect, open, test } from "./fixtures";
 
 /**
  * The synthetic vertical slice, driven end to end in a real browser:
- * feed -> match -> résumé -> application -> experiment -> atlas -> simulation.
+ * discover -> compare -> résumé (editor and tailoring) -> applications -> experiment -> atlas -> simulation.
  */
 test("full synthetic journey", async ({ page }) => {
   test.setTimeout(120_000);
 
-  // ---- 1. Discover: search, filter, shortlist
-  await open(page, "/jobs", "Discover Jobs");
-  await expect(page.getByTestId("job-count")).toHaveText("Showing 22 of 22 postings");
-  await expect(page.getByTestId("jobs-rejected")).toContainText("3 feed records did not match the JobPosting contract");
-  await page.getByTestId("job-search").fill("forward deployed");
-  await expect(page.getByTestId("job-count")).toHaveText("Showing 3 of 22 postings");
-  await page.getByTestId("job-collapse").check();
-  await expect(page.getByTestId("job-count")).toHaveText("Showing 2 of 22 postings");
-  await expect(page.getByTestId("job-fake-fde-1")).toContainText("Possible duplicate (2 postings)");
-  await expect(page.getByTestId("job-fake-fde-1")).toContainText("Marked active at capture");
-  await expect(page.getByTestId("comp-fake-fde-1")).toContainText("Not disclosed (unknown — not treated as zero)");
-  await page.getByTestId("shortlist-fake-fde-1").click();
-  await expect(page.getByTestId("shortlist-fake-fde-1")).toHaveAttribute("aria-pressed", "true");
+  // ---- 1. Discover: search, filter, decide, shortlist
+  await open(page, "/jobs", "Discover");
+  // Malformed feed records are rejected by the adapters and reported, never shown or repaired.
+  await expect(page.getByTestId("adapter-banner")).toContainText("3 upstream records were rejected");
+  await page.getByRole("button", { name: "All postings", exact: true }).click();
+  await expect(page.getByTestId("job-count")).toHaveText("22 postings");
+  await page.getByTestId("pt-search").fill("forward deployed");
+  await expect(page.getByTestId("job-count")).toHaveText("3 postings");
+  await page.getByTestId("filters").locator("summary").click();
+  await page.getByTestId("filter-dupes").check();
+  await expect(page.getByTestId("job-count")).toHaveText("2 postings");
+  await page.getByTestId("pt-job-fake-fde-1").click();
+  const detail = page.getByTestId("pt-detail");
+  await expect(detail.getByRole("heading", { level: 2 })).toHaveText("Forward Deployed Engineer");
+  await expect(detail).toContainText("Pay not disclosed (unknown, not zero)");
+  await expect(page.getByTestId("pt-why-list")).toBeVisible();
+  await expect(page.getByTestId("pt-blockers")).toContainText("Customer delivery");
+  await expect(detail).toContainText("not a probability of being hired");
+  await expect(detail.locator(".ct-scores")).toContainText("86");
+  await detail.getByText("How the engine computed these").click();
+  await expect(detail).toContainText("Unknown inputs: Compensation verified");
+  await page.getByTestId("pt-shortlist").click();
+  await expect(page.getByTestId("pt-shortlist")).toHaveAttribute("aria-pressed", "true");
 
-  // ---- 2. Matching: explanation, constraints, unknowns, blend
-  await page.getByTestId("job-fake-fde-1").getByRole("link", { name: "Explain match" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Matching" })).toBeVisible();
-  const detail = page.getByTestId("match-detail");
-  await expect(detail).toContainText("Relative heuristic, not a hiring probability");
-  await expect(page.getByTestId("near-term-score")).toContainText("86");
-  await expect(page.getByTestId("strategic-score")).toContainText("60.5");
-  await expect(page.getByTestId("hard-constraints")).toContainText("Pass");
-  await expect(page.getByTestId("skill-gaps")).toContainText("Customer delivery");
-  await expect(page.getByTestId("unknown-inputs")).toContainText("Compensation verified");
-  await expect(page.getByTestId("strategic")).toContainText("Unknown and excluded (not counted as zero): Compensation");
-  const firstBefore = await page.getByTestId("match-list").locator("li").first().innerText();
-  await page.getByTestId("blend").fill("100");
-  const firstAfter = await page.getByTestId("match-list").locator("li").first().innerText();
-  expect(firstAfter).not.toBe(firstBefore);
-  expect(firstAfter).toContain("Field CTO");
-  // Scores themselves did not change, only the order.
-  await expect(page.getByTestId("near-term-score")).toContainText("86");
+  // ---- 2. Compare: two separate scores, side by side; ordering never changes a score
+  await open(page, "/matching?ids=fake-fde-1,fake-cto-3", "Compare");
+  await expect(page.getByTestId("compare-columns").locator("article")).toHaveCount(2);
+  await expect(page.getByTestId("near-fake-fde-1")).toHaveAttribute("aria-label", "Near-term: 86 of 100");
+  await expect(page.getByTestId("strat-fake-fde-1")).toHaveAttribute("aria-label", "Strategic: 60.5 of 100");
+  const firstNear = await page.getByTestId("compare-table").locator("tbody tr").first().innerText();
+  await page.getByTestId("compare-sort").selectOption("strategic");
+  const firstStrategic = await page.getByTestId("compare-table").locator("tbody tr").first().innerText();
+  expect(firstStrategic).not.toBe(firstNear);
+  expect(firstStrategic).toContain("Field CTO");
+  await expect(page.getByTestId("near-fake-fde-1")).toHaveAttribute("aria-label", "Near-term: 86 of 100");
 
-  // ---- 3. Résumé: tailor, inflate (blocked), repair, approve, export
-  await page.getByTestId("detail-tailor").click();
+  // ---- 3. Résumé Studio: tailor in the editor, inflate (blocked), repair, approve, export
+  await open(page, "/resume?job=fake-fde-1", "Résumé Studio");
   await expect(page.getByTestId("tailor-banner")).toContainText("Forward Deployed Engineer");
   await page.getByTestId("tailor-create").click();
   const editor = page.getByTestId("variant-editor");
@@ -87,53 +90,66 @@ test("full synthetic journey", async ({ page }) => {
   expect(exported.text).not.toContain("83%");
   expect(exported.text).toContain("Synthetic demo export");
 
-  // ---- 4. Applications: save, draft, approve, record manual submission
+  // ---- 4. Applications: the approval gate cannot be skipped
   await open(page, "/applications", "Applications");
-  await page.getByTestId("new-app-job").selectOption("fake-fde-8");
-  await page.getByTestId("new-app-btn").click();
+  await page.getByTestId("track-new-job").selectOption("fake-fde-8");
+  await page.getByTestId("track-new").click();
   const appDetail = page.getByTestId("app-detail");
   await expect(appDetail.getByTestId("timeline")).toContainText("Saved");
-  // Approval cannot be skipped: from "saved" the only next steps are drafted / withdrawn / note.
+  await expect(appDetail.getByTestId("timeline")).toContainText("You recorded this here");
+  // From "saved" the only next steps are drafted / withdrawn / note.
   await expect(page.getByTestId("next-event").locator("option")).toHaveText(["Choose…", "Résumé variant drafted", "Withdrawn", "Note"]);
   await page.getByTestId("next-event").selectOption("drafted");
-  await page.getByTestId("draft-variant").selectOption({ label: "Base résumé (from claims) (v1) — not approved" });
+  await page.getByTestId("event-variant").selectOption("rv-base");
   await page.getByTestId("record-event").click();
-  // Approving with an unapproved variant is refused.
+  await expect(appDetail.getByTestId("timeline")).toContainText("Résumé variant drafted");
+  // Approving with an unapproved résumé is refused.
   await page.getByTestId("next-event").selectOption("approved");
-  await expect(page.getByTestId("approval-state")).toContainText("not approved yet");
   await page.getByTestId("record-event").click();
-  await expect(page.getByTestId("app-error")).toContainText("not ready");
-  // Withdraw this one and use a properly approved variant on a fresh application.
+  await expect(page.getByTestId("event-error")).toContainText("not approved for export yet");
   await page.getByTestId("next-event").selectOption("withdrawn");
   await page.getByTestId("record-event").click();
-  await expect(page.getByTestId("col-closed")).toContainText("Withdrawn");
+  await expect(appDetail).toContainText("Closed: withdrawn.");
 
-  await page.getByTestId("new-app-job").selectOption("fake-fde-7");
-  await page.getByTestId("new-app-btn").click();
-  await page.getByTestId("next-event").selectOption("drafted");
-  await page.getByTestId("draft-variant").selectOption({ label: "For Forward Deployed Engineer (v2) — approved" });
-  await page.getByTestId("record-event").click();
-  await page.getByTestId("next-event").selectOption("approved");
-  await expect(page.getByTestId("approval-state")).toContainText("is approved");
-  await page.getByTestId("record-event").click();
-  await page.getByTestId("next-event").selectOption("submitted");
-  await page.getByTestId("event-notes").fill("Applied on the fictional employer site.");
-  await page.getByTestId("record-event").click();
-  await expect(page.getByTestId("submit-dialog")).toContainText("CareerTwin does not submit anything.");
-  await expect(page.getByTestId("submit-dialog-confirm")).toBeDisabled();
+  // ---- 4b. Tailor journey: choose your own lines, review the diff, approve the exact text, track it
+  await open(page, "/jobs/fake-fde-7", "Discover");
+  await page.getByTestId("pt-tailor").click();
+  await expect(page.getByRole("heading", { level: 1, name: "Tailor résumé" })).toBeVisible();
+  await expect(page.getByTestId("pt-coverage")).toBeVisible();
+  await page.getByRole("button", { name: "Next: choose content" }).click();
+  for (const line of await page.locator(".pt-line").filter({ has: page.locator('input[type="checkbox"]') }).all()) {
+    if (/unverified|contradicted|no claim linked|missing claim/.test((await line.innerText()).toLowerCase())) await line.locator('input[type="checkbox"]').uncheck();
+  }
+  await page.getByRole("button", { name: "Next: review changes" }).click();
+  await expect(page.getByTestId("pt-diff-summary")).toBeVisible();
+  await page.getByTestId("pt-save-draft").click();
+  await expect(page.getByTestId("pt-document")).toBeVisible();
+  await expect(page.getByTestId("pt-approve")).toBeDisabled();
+  await expect(page.getByTestId("pt-export")).toHaveCount(0); // nothing is exportable before approval
+  await page.getByTestId("pt-confirm").check();
+  await page.getByTestId("pt-approve").click();
+  await expect(page.getByTestId("pt-approved")).toBeVisible();
+  const tailored = await downloadText(page, () => page.getByTestId("pt-export").click());
+  expect(tailored.text).toContain("Synthetic demo export");
+  await page.getByTestId("pt-record").click();
+  await expect(page.getByRole("heading", { level: 1, name: "Applications" })).toBeVisible();
+  await expect(appDetail.getByRole("heading", { level: 2 })).toHaveText("Forward Deployed Engineer, Public Sector");
+  await expect(page.getByTestId("next-action")).toContainText("Apply on the employer’s site yourself, then record it");
+  await expect(page.getByTestId("approval-ref")).toBeVisible();
+  await page.getByTestId("record-applied").click();
+  await expect(page.getByTestId("submit-confirm")).toBeDisabled();
   await page.getByTestId("submit-check").check();
-  await page.getByTestId("submit-dialog-confirm").click();
+  await page.getByTestId("submit-confirm").click();
   await expect(appDetail.getByTestId("timeline")).toContainText("Marked as submitted (manual)");
-  await expect(appDetail.getByTestId("timeline")).toContainText("Applied on the fictional employer site.");
-  await expect(page.getByTestId("col-submitted")).toContainText("Forward Deployed Engineer, Public Sector");
-  // Reminder
+  await expect(page.getByTestId("next-action")).toContainText("Wait for a reply");
+  await page.getByTestId("followup-template").click();
+  await expect(page.getByTestId("followup-text")).toContainText("CareerTwin does not write with AI and cannot send email");
   await page.getByTestId("rem-date").fill("2026-12-01");
-  await page.getByTestId("rem-text").fill("Check for a reply");
   await page.getByTestId("rem-add").click();
-  await expect(page.getByTestId("reminders")).toContainText("Check for a reply");
-  // Missing feedback tab lists the fixture application waiting 28 days.
-  await page.getByRole("tab", { name: /Missing feedback/ }).click();
-  await expect(page.getByTestId("missing-feedback")).toContainText("No reply recorded · 28 days");
+  await expect(appDetail).toContainText("Follow up: Forward Deployed Engineer, Public Sector");
+  // Silence is surfaced as an unknown outcome on Overview, never as a rejection.
+  await open(page, "/", "Overview");
+  await expect(page.getByText("No reply recorded for 28 days")).toBeVisible();
 
   // ---- 5. Experiment: design, lock, assign, simulate, read results
   await open(page, "/experiments", "Experiments");
@@ -172,8 +188,12 @@ test("full synthetic journey", async ({ page }) => {
   await expect(page.getByTestId("power-needed")).toContainText("About 199 units per variant (398 in total).");
   await expect(page.getByTestId("power-mde")).toContainText("With 10 units per variant");
 
-  // ---- 6. Atlas: distortion banner, select a point, switch projection
+  // ---- 6. Atlas: transitions with stated uncertainty, then the full map
   await open(page, "/atlas", "Career Atlas");
+  await expect(page.getByTestId("pt-uncertainty")).toContainText("explains 36% of the variation in the input skill vectors");
+  await expect(page.getByTestId("pt-uncertainty")).toContainText("Distance on the map is not fit");
+  await expect(page.getByTestId("transition-map")).toBeVisible();
+  await page.getByRole("link", { name: "Full map" }).click();
   await expect(page.getByTestId("explained-variance")).toContainText("36%");
   await expect(page.getByTestId("trustworthiness")).toContainText("Trustworthiness 0.87");
   await page.getByTestId("pt-fake-cto-3").click();
@@ -200,9 +220,9 @@ test("full synthetic journey", async ({ page }) => {
   await page.reload();
   await expect(page.getByTestId("hours-scenario-field-cto")).toHaveText("490 h");
   await open(page, "/", "Overview");
-  await expect(page.getByTestId("overview-stats")).toContainText("2 approved by you");
+  await expect(page.getByTestId("overview-stats")).toContainText("3 approved");
   await open(page, "/experiments", "Experiments");
   await expect(page.getByTestId("exp-list")).toContainText("Synthetic: summary line first or last");
-  await open(page, "/jobs", "Discover Jobs");
-  await expect(page.getByTestId("shortlist-fake-fde-1")).toHaveAttribute("aria-pressed", "true");
+  await open(page, "/jobs/fake-fde-1", "Discover");
+  await expect(page.getByTestId("pt-shortlist")).toHaveAttribute("aria-pressed", "true");
 });

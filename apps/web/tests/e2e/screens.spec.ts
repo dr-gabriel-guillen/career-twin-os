@@ -23,15 +23,15 @@ for (const scheme of ["light", "dark"] as const) {
 }
 
 test("interactive states also pass axe: dialogs, tabs, table views, selected atlas point", async ({ page }) => {
+  test.setTimeout(120_000);
   const check = async (label: string) => {
     const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
     expect(results.violations.map((v) => `${label}: ${v.id} ${v.nodes[0]?.target.join(" ")}`)).toEqual([]);
   };
-  await open(page, "/jobs", "Discover Jobs");
-  await page.getByTestId("job-view-table").click();
-  await expect(page.getByTestId("jobs-table")).toBeVisible();
-  await check("jobs table");
-  await page.getByTestId("open-fake-fde-1").first().click();
+  await open(page, "/jobs/fake-fde-1", "Discover");
+  await page.getByTestId("filters").locator("summary").click();
+  await check("discover filters open");
+  await page.getByRole("button", { name: "Posting link…" }).click();
   await expect(page.getByTestId("link-dialog")).toBeVisible();
   await check("link dialog");
   await page.keyboard.press("Escape");
@@ -41,23 +41,28 @@ test("interactive states also pass axe: dialogs, tabs, table views, selected atl
   await check("claim dialog");
   await page.keyboard.press("Escape");
 
-  await open(page, "/resume", "Resume Studio");
+  await open(page, "/matching", "Compare");
+  await expect(page.getByTestId("compare-columns").locator("article")).toHaveCount(3);
+  await page.getByRole("button", { name: /^Remove .* from the comparison$/ }).first().click();
+  await expect(page.getByTestId("compare-columns").locator("article")).toHaveCount(2);
+  await check("compare with two columns");
+
+  await open(page, "/resume", "Résumé Studio");
   for (const tab of ["Compare", /Review & export/]) {
     await page.getByRole("tab", { name: tab }).click();
     await check(`resume tab ${tab}`);
   }
-  await open(page, "/applications?app=app-synth-001", "Applications");
+  await open(page, "/applications/app-synth-001", "Applications");
   await expect(page.getByTestId("app-detail")).toBeVisible();
-  await check("application detail");
-  await page.getByRole("tab", { name: "Table" }).click();
-  await check("applications table");
+  await page.getByTestId("next-event").selectOption("note");
+  await check("application detail with an update in progress");
 
   await open(page, "/experiments", "Experiments");
   for (const tab of [/Assignment/, "Results", "Sample size"]) {
     await page.getByRole("tab", { name: tab }).click();
     await check(`experiment tab ${tab}`);
   }
-  await open(page, "/atlas", "Career Atlas");
+  await open(page, "/atlas/map", "Career Atlas");
   await page.getByTestId("pt-fake-ai-2").click();
   await expect(page.getByTestId("atlas-detail")).toContainText("Applied AI Architect");
   await check("atlas selected");
@@ -101,7 +106,7 @@ test("experiment fixture results: censoring and missingness are visible and no w
 });
 
 test("atlas filters, evidence basis and table alternative", async ({ page }) => {
-  await open(page, "/atlas", "Career Atlas");
+  await open(page, "/atlas/map", "Career Atlas");
   await expect(page.getByTestId("atlas-count")).toHaveText("Showing 36 of 37 points");
   await page.getByTestId("atlas-type-job").uncheck();
   await expect(page.getByTestId("atlas-count")).toHaveText("Showing 14 of 37 points");

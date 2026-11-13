@@ -289,3 +289,7 @@
 .pt-filters__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; margin: 6px 0 8px; align-items: end; }
 @media (max-width: 420px) { .pt-filters__grid { grid-template-columns: minmax(0, 1fr); } }
 .pt-fullspace { font-size: 0.88rem; color: var(--ct-text-2); padding: 10px 12px; border-left: 3px solid var(--ct-synthetic-fg); background: var(--ct-surface-2); border-radius: 0 8px 8px 0; }
+.cmp-blend { display: flex; flex-direction: column; gap: 4px; max-width: 480px; }
+.cmp-blend label { font-weight: 560; font-size: 0.9rem; }
+.cmp-blend input[type="range"] { accent-color: var(--ct-accent); width: 100%; min-height: 28px; }
+.pt-tech__h { font-size: 0.86rem; font-weight: 620; color: var(--ct-text); margin: 10px 0 4px; }
