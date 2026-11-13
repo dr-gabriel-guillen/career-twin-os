@@ -1,0 +1,911 @@
+{
+ "arms": {
+  "control": {
+   "application_rate_interval_95": [
+    0.1382500273809034,
+    0.39343336222575687
+   ],
+   "mean_unit_success_rate": 0.24390243902439024,
+   "units": 41
+  },
+  "relabelled": {
+   "application_rate_interval_95": [
+    0.15253996056669092,
+    0.4705928843329571
+   ],
+   "mean_unit_success_rate": 0.2857142857142857,
+   "units": 28
+  }
+ },
+ "as_of": "2026-04-12T14:45:00Z",
+ "by_stratum_descriptive_only": [
+  {
+   "arm": "control",
+   "mean_unit_success_rate": 0.0,
+   "stratum": "seniority=director",
+   "units": 4
+  },
+  {
+   "arm": "relabelled",
+   "mean_unit_success_rate": 1.0,
+   "stratum": "seniority=director",
+   "units": 2
+  },
+  {
+   "arm": "control",
+   "mean_unit_success_rate": 0.14285714285714285,
+   "stratum": "seniority=junior",
+   "units": 7
+  },
+  {
+   "arm": "control",
+   "mean_unit_success_rate": 0.0,
+   "stratum": "seniority=principal",
+   "units": 3
+  },
+  {
+   "arm": "relabelled",
+   "mean_unit_success_rate": 0.0,
+   "stratum": "seniority=principal",
+   "units": 1
+  },
+  {
+   "arm": "control",
+   "mean_unit_success_rate": 0.375,
+   "stratum": "seniority=senior",
+   "units": 16
+  },
+  {
+   "arm": "relabelled",
+   "mean_unit_success_rate": 0.21428571428571427,
+   "stratum": "seniority=senior",
+   "units": 14
+  },
+  {
+   "arm": "control",
+   "mean_unit_success_rate": 0.3333333333333333,
+   "stratum": "seniority=staff",
+   "units": 6
+  },
+  {
+   "arm": "relabelled",
+   "mean_unit_success_rate": 0.14285714285714285,
+   "stratum": "seniority=staff",
+   "units": 7
+  },
+  {
+   "arm": "control",
+   "mean_unit_success_rate": 0.2,
+   "stratum": "seniority=unknown",
+   "units": 5
+  },
+  {
+   "arm": "relabelled",
+   "mean_unit_success_rate": 0.5,
+   "stratum": "seniority=unknown",
+   "units": 4
+  }
+ ],
+ "claim": null,
+ "comparisons": [],
+ "counted_outcomes": [
+  {
+   "application_id": "app-exp-7-jp_021323feeaf331e6f84b",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_021323feeaf331e6f84b"
+  },
+  {
+   "application_id": "app-exp-7-jp_07f1b3d92806d964c525",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000289",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_07f1b3d92806d964c525"
+  },
+  {
+   "application_id": "app-exp-7-jp_12d0c10a885898ddd73c",
+   "arm": "control",
+   "counted_event_id": "evt-0000290",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_12d0c10a885898ddd73c"
+  },
+  {
+   "application_id": "app-exp-7-jp_1b885cf5f1e735f588dd",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_1b885cf5f1e735f588dd"
+  },
+  {
+   "application_id": "app-exp-7-jp_26b534c63da8bf27e6a6",
+   "arm": "control",
+   "counted_event_id": "evt-0000291",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_26b534c63da8bf27e6a6"
+  },
+  {
+   "application_id": "app-exp-7-jp_2fc937eb1186b1cae451",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000292",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_2fc937eb1186b1cae451"
+  },
+  {
+   "application_id": "app-exp-7-jp_309f989f04eda0dda2b2",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000293",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_309f989f04eda0dda2b2"
+  },
+  {
+   "application_id": "app-exp-7-jp_33e82e5280cfde47cd8c",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_33e82e5280cfde47cd8c"
+  },
+  {
+   "application_id": "app-exp-7-jp_391608999dde8dafc918",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_391608999dde8dafc918"
+  },
+  {
+   "application_id": "app-exp-7-jp_3cda28242bf1d2c6470a",
+   "arm": "control",
+   "counted_event_id": "evt-0000294",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_3cda28242bf1d2c6470a"
+  },
+  {
+   "application_id": "app-exp-7-jp_3e6d8112b1cfbb0018ce",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_3e6d8112b1cfbb0018ce"
+  },
+  {
+   "application_id": "app-exp-7-jp_3f9626d70fea40dde8e7",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_3f9626d70fea40dde8e7"
+  },
+  {
+   "application_id": "app-exp-7-jp_45efe0e7c384ab078422",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_45efe0e7c384ab078422"
+  },
+  {
+   "application_id": "app-exp-7-jp_47709947dc0c073946b5",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_47709947dc0c073946b5"
+  },
+  {
+   "application_id": "app-exp-7-jp_48a9c0ec48d8950335ad",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_48a9c0ec48d8950335ad"
+  },
+  {
+   "application_id": "app-exp-7-jp_49ea3fc4d7c7b4b53507",
+   "arm": "control",
+   "counted_event_id": "evt-0000295",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_49ea3fc4d7c7b4b53507"
+  },
+  {
+   "application_id": "app-exp-7-jp_4a99c25afd13ca1282fa",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_4a99c25afd13ca1282fa"
+  },
+  {
+   "application_id": "app-exp-7-jp_4c483780a82e6e9abff3",
+   "arm": "control",
+   "counted_event_id": "evt-0000296",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_4c483780a82e6e9abff3"
+  },
+  {
+   "application_id": "app-exp-7-jp_4e4e844703a31bb93234",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_4e4e844703a31bb93234"
+  },
+  {
+   "application_id": "app-exp-7-jp_514f585292aeaf36a398",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_514f585292aeaf36a398"
+  },
+  {
+   "application_id": "app-exp-7-jp_5150a4525c98a3d208e0",
+   "arm": "control",
+   "counted_event_id": "evt-0000297",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_5150a4525c98a3d208e0"
+  },
+  {
+   "application_id": "app-exp-7-jp_51b5051c298c8577e9ca",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_51b5051c298c8577e9ca"
+  },
+  {
+   "application_id": "app-exp-7-jp_550640e39c3ba517423f",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_550640e39c3ba517423f"
+  },
+  {
+   "application_id": "app-exp-7-jp_5672fefbf01ad86dc8e9",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_5672fefbf01ad86dc8e9"
+  },
+  {
+   "application_id": "app-exp-7-jp_5b6cda89bed49bc97f2b",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000298",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_5b6cda89bed49bc97f2b"
+  },
+  {
+   "application_id": "app-exp-7-jp_617121e1c1b178787813",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_617121e1c1b178787813"
+  },
+  {
+   "application_id": "app-exp-7-jp_6c9069f2345dbd99ec05",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_6c9069f2345dbd99ec05"
+  },
+  {
+   "application_id": "app-exp-7-jp_736e13cc8cd6b0cb2506",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_736e13cc8cd6b0cb2506"
+  },
+  {
+   "application_id": "app-exp-7-jp_773a8ac7c7444f8c14ae",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_773a8ac7c7444f8c14ae"
+  },
+  {
+   "application_id": "app-exp-7-jp_786250d89df084166bf3",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_786250d89df084166bf3"
+  },
+  {
+   "application_id": "app-exp-7-jp_7b66062f70026158cde9",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_7b66062f70026158cde9"
+  },
+  {
+   "application_id": "app-exp-7-jp_80ba8ffcb44e6d5cf255",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_80ba8ffcb44e6d5cf255"
+  },
+  {
+   "application_id": "app-exp-7-jp_8a47e07636d17d90877e",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_8a47e07636d17d90877e"
+  },
+  {
+   "application_id": "app-exp-7-jp_8f8dcb710a3ba7504b2a",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_8f8dcb710a3ba7504b2a"
+  },
+  {
+   "application_id": "app-exp-7-jp_938874c91c06c065902d",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_938874c91c06c065902d"
+  },
+  {
+   "application_id": "app-exp-7-jp_a17eb339f583d830f754",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_a17eb339f583d830f754"
+  },
+  {
+   "application_id": "app-exp-7-jp_a22f316073d87c7d7c7b",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_a22f316073d87c7d7c7b"
+  },
+  {
+   "application_id": "app-exp-7-jp_a2d5326b6e3231992d63",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_a2d5326b6e3231992d63"
+  },
+  {
+   "application_id": "app-exp-7-jp_a6f319ad6970d1be7056",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_a6f319ad6970d1be7056"
+  },
+  {
+   "application_id": "app-exp-7-jp_ab78ed99062919c5e1b3",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_ab78ed99062919c5e1b3"
+  },
+  {
+   "application_id": "app-exp-7-jp_acb2527d8b8f38ac49f8",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_acb2527d8b8f38ac49f8"
+  },
+  {
+   "application_id": "app-exp-7-jp_aed069c7b4158b5a395d",
+   "arm": "control",
+   "counted_event_id": "evt-0000299",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_aed069c7b4158b5a395d"
+  },
+  {
+   "application_id": "app-exp-7-jp_af2c3fff42e8d1af5126",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_af2c3fff42e8d1af5126"
+  },
+  {
+   "application_id": "app-exp-7-jp_b499f6969d2167b9a463",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000300",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_b499f6969d2167b9a463"
+  },
+  {
+   "application_id": "app-exp-7-jp_b611287640c74905ffee",
+   "arm": "control",
+   "counted_event_id": "evt-0000301",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_b611287640c74905ffee"
+  },
+  {
+   "application_id": "app-exp-7-jp_b7157c2f19efa12f0cbb",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_b7157c2f19efa12f0cbb"
+  },
+  {
+   "application_id": "app-exp-7-jp_b78989bf475f77b9cd22",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_b78989bf475f77b9cd22"
+  },
+  {
+   "application_id": "app-exp-7-jp_b81768c4fe6d61298e24",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_b81768c4fe6d61298e24"
+  },
+  {
+   "application_id": "app-exp-7-jp_bc7a81d23da36bb569ff",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_bc7a81d23da36bb569ff"
+  },
+  {
+   "application_id": "app-exp-7-jp_bd8395a1c894ddd11c8d",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_bd8395a1c894ddd11c8d"
+  },
+  {
+   "application_id": "app-exp-7-jp_bdf7b3a6de2b1cd29e9f",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_bdf7b3a6de2b1cd29e9f"
+  },
+  {
+   "application_id": "app-exp-7-jp_bee4adfc6597dcbfc469",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_bee4adfc6597dcbfc469"
+  },
+  {
+   "application_id": "app-exp-7-jp_c35cfd4a9fe6d926777b",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_c35cfd4a9fe6d926777b"
+  },
+  {
+   "application_id": "app-exp-7-jp_c3e735db0265d0594ed9",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_c3e735db0265d0594ed9"
+  },
+  {
+   "application_id": "app-exp-7-jp_c92d47927ee85c7920bb",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_c92d47927ee85c7920bb"
+  },
+  {
+   "application_id": "app-exp-7-jp_c959d26fdf754610a08d",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_c959d26fdf754610a08d"
+  },
+  {
+   "application_id": "app-exp-7-jp_c9ae32653da1c5515df6",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_c9ae32653da1c5515df6"
+  },
+  {
+   "application_id": "app-exp-7-jp_d1d2068567245ce94c7f",
+   "arm": "control",
+   "counted_event_id": "evt-0000302",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_d1d2068567245ce94c7f"
+  },
+  {
+   "application_id": "app-exp-7-jp_ddc4a4378be458a9be47",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_ddc4a4378be458a9be47"
+  },
+  {
+   "application_id": "app-exp-7-jp_e2e088a82bbb9e3fa74b",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_e2e088a82bbb9e3fa74b"
+  },
+  {
+   "application_id": "app-exp-7-jp_e2fd59a95386adf7a520",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_e2fd59a95386adf7a520"
+  },
+  {
+   "application_id": "app-exp-7-jp_e3d40b21ae54d5afc3a5",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_e3d40b21ae54d5afc3a5"
+  },
+  {
+   "application_id": "app-exp-7-jp_e8813ce6c50141457427",
+   "arm": "relabelled",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_e8813ce6c50141457427"
+  },
+  {
+   "application_id": "app-exp-7-jp_e99669bc1a7409b6f4b7",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_e99669bc1a7409b6f4b7"
+  },
+  {
+   "application_id": "app-exp-7-jp_e9fc314efd45116eab2b",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000303",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_e9fc314efd45116eab2b"
+  },
+  {
+   "application_id": "app-exp-7-jp_ea0957aa9593533499d9",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000304",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_ea0957aa9593533499d9"
+  },
+  {
+   "application_id": "app-exp-7-jp_f389ca2596c4215552dc",
+   "arm": "control",
+   "counted_event_id": "evt-0000305",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_f389ca2596c4215552dc"
+  },
+  {
+   "application_id": "app-exp-7-jp_fb68f04c03c33f8f208a",
+   "arm": "relabelled",
+   "counted_event_id": "evt-0000306",
+   "flags": [
+    "exposure_time_from_recorded_at"
+   ],
+   "status": "success",
+   "unit_id": "jp_fb68f04c03c33f8f208a"
+  },
+  {
+   "application_id": "app-exp-7-jp_fd5e0534aa1dd5d762b0",
+   "arm": "control",
+   "counted_event_id": null,
+   "flags": [
+    "exposure_time_from_recorded_at",
+    "no_response_within_window"
+   ],
+   "status": "no_success",
+   "unit_id": "jp_fd5e0534aa1dd5d762b0"
+  }
+ ],
+ "design_hash": "1ad7f6f536d4699176b3a1d5e936fbe15b7f37790e7c19863f1da17f8c7add9f",
+ "evidence_type": "randomized_controlled",
+ "experiment_id": "exp-e2e-7",
+ "flow": {
+  "assigned_applications": 69,
+  "assigned_units": 69,
+  "by_arm": {
+   "control": {
+    "applications": 41,
+    "censored": 0,
+    "deviations": 0,
+    "missing": 0,
+    "no_success": 31,
+    "success": 10,
+    "units": 41,
+    "withdrawn": 0
+   },
+   "relabelled": {
+    "applications": 28,
+    "censored": 0,
+    "deviations": 0,
+    "missing": 0,
+    "no_success": 20,
+    "success": 8,
+    "units": 28,
+    "withdrawn": 0
+   }
+  },
+  "corrected_events": 0,
+  "planned_units": 78,
+  "screened_out_applications": 0
+ },
+ "interpretation_limits": [
+  "An effect estimate is a difference in response rates inside this experiment's eligibility universe; it is not a probability of being hired and does not transfer to other roles or employers.",
+  "Outcomes are self-reported or imported by the user; they are not verified with employers.",
+  "One candidate, one job market period: results describe this candidate's applications only."
+ ],
+ "outcome_data_flags": [
+  "exposure_time_from_recorded_at",
+  "no_response_within_window"
+ ],
+ "phase": "STOPPED_EARLY",
+ "preregistered": {
+  "alpha": 0.05,
+  "assignment_unit": "job",
+  "control": "control",
+  "minimum_units_per_arm": 29,
+  "outcome_window_days": 30,
+  "planned_units_per_arm": 39,
+  "primary_metric": "recruiter_screen",
+  "strata": [
+   "seniority"
+  ]
+ },
+ "reasons_withheld": [
+  "STOPPED_BEFORE_PLANNED_SAMPLE: the experiment was closed early; with a fixed-horizon design a test at a data-dependent stopping point is not valid, so none is reported"
+ ],
+ "result_of_record": {
+  "as_of": "2026-04-12T14:45:00Z",
+  "claim": null,
+  "recorded_at": "2026-04-12T14:45:00Z",
+  "report_hash": "796a9132bcb88647443f7c3f02097553b98068e23ca6960cb5045bc5b2a2ecaf",
+  "unchanged": true,
+  "verdict": "INCONCLUSIVE"
+ },
+ "schema": "careertwin.b.analysis-report.v1",
+ "secondary_descriptive_only": {
+  "interview": {
+   "control": 0.0,
+   "relabelled": 0.0
+  }
+ },
+ "title": "Integration A/A: two labels, identical résumé selection",
+ "verdict": "INCONCLUSIVE",
+ "warnings": [
+  "NOT_EMPLOYER_CLUSTERED: several applications to one employer may be correlated; crossover within a posting is blocked, but employer-level contamination is possible"
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "capture": {
+  "source": "synthetic",
+  "board": "fictionalnebula",
+  "captured_at": "2026-11-08T00:00:00Z",
+  "organization": "Fictional Nebula Software",
+  "org_uid": "org-fix-0004",
+  "license_note": "Synthetic recorded-shape fixture (CC0). Fictional employer; not a real vacancy; never fetched from any ATS.",
+  "synthetic": true,
+  "full_snapshot": true
+ },
+ "payload": {
+  "postings": [
+   {
+    "id": "nat-0001",
+    "title": "Senior Backend Engineer",
+    "organization": "Fictional Nebula Software",
+    "url": "https://jobs.fictional-nebula.example/nat-0001",
+    "posted_at": "2026-10-20T00:00:00Z",
+    "expires_at": "2026-12-01T00:00:00Z",
+    "location": "Chicago, IL",
+    "country": "US",
+    "remote": "On-site",
+    "employment_type": "Full-time",
+    "seniority": "senior",
+    "skills": [
+     "python",
+     "sql"
+    ],
+    "description": "This is a fictional posting generated for software testing.\nRequirements\n- Distributed systems\n- API design",
+    "compensation": [
+     {
+      "min": 140000,
+      "max": 165000,
+      "currency": "USD",
+      "period": "year",
+      "basis": "base"
+     }
+    ]
+   },
+   {
+    "id": "nat-0002",
+    "title": "Frontend Engineer",
+    "url": "https://jobs.fictional-nebula.example/nat-0002",
+    "posted_at": "2026-10-01T00:00:00Z",
+    "revoked": true,
+    "location": null,
+    "remote": null,
+    "skills": [
+     "typescript",
+     "react"
+    ],
+    "description": "This is a fictional posting generated for software testing."
+   }
+  ]
+ }
+}

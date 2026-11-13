@@ -1,0 +1,45 @@
+{
+  "name": "@careertwin/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CareerTwin OS product UI (lane CAREER-TWIN-D). Offline, synthetic fixture mode only.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "fixtures": "node scripts/generate-fixtures.ts",
+    "fixtures:check": "node scripts/generate-fixtures.ts --check",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "verify": "npm run fixtures:check && npm run typecheck && npm run test && npm run build && npm run test:e2e && npm run test:integration",
+    "e2e:integration": "node scripts/e2e-integration.mjs",
+    "test:integration": "node scripts/e2e-integration.mjs --artifacts tests/upstream-samples/pipeline --report test-results/ui_report.pipeline.json"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router-dom": "7.18.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@fontsource-variable/bricolage-grotesque": "5.3.0",
+    "@fontsource-variable/instrument-sans": "5.3.0",
+    "@fontsource-variable/public-sans": "5.3.0",
+    "@fontsource-variable/source-serif-4": "5.3.1",
+    "@playwright/test": "1.65.0",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  }
+}

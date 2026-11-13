@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "$id": "https://careertwin.local/contracts/job-posting.v0.1.schema.json",
+  "title": "JobPosting",
+  "required": [
+    "id",
+    "source",
+    "source_id",
+    "title",
+    "organization",
+    "url",
+    "fetched_at",
+    "status",
+    "skills",
+    "seniority",
+    "employment_type"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "synthetic",
+        "greenhouse",
+        "lever",
+        "ashby",
+        "user-import",
+        "other-permitted"
+      ]
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "organization": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fetched_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "expired",
+        "unknown"
+      ]
+    },
+    "skills": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "seniority": {
+      "type": "string"
+    },
+    "employment_type": {
+      "type": "string"
+    },
+    "location": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "remote_policy": {
+      "type": "string",
+      "enum": [
+        "remote",
+        "hybrid",
+        "onsite",
+        "unknown"
+      ]
+    },
+    "compensation": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "min",
+        "max",
+        "basis",
+        "verified"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "min": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "base",
+            "total",
+            "unknown"
+          ]
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "license_note": {
+      "type": "string"
+    },
+    "role_family": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+ "id": "rv-stub-s7-job-syn-s7-000020",
+ "job_id": "job-syn-s7-000020",
+ "claim_ids": [
+  "claim-syn-s7-0003",
+  "claim-syn-s7-0005",
+  "claim-syn-s7-0006"
+ ],
+ "bullets": [
+  {
+   "text": "Synthetic claim: practical experience with kubernetes.",
+   "claim_ids": [
+    "claim-syn-s7-0003"
+   ]
+  },
+  {
+   "text": "Synthetic claim: practical experience with observability.",
+   "claim_ids": [
+    "claim-syn-s7-0005"
+   ]
+  },
+  {
+   "text": "Synthetic claim: practical experience with security.",
+   "claim_ids": [
+    "claim-syn-s7-0006"
+   ]
+  }
+ ],
+ "truth_note": "Every bullet is a verbatim supported or self-reported claim; nothing is generated.",
+ "generated_by": "E-REFERENCE-STUB"
+}

@@ -1,0 +1,137 @@
+{
+ "bullets": [
+  {
+   "claim_id": "cl_bb2fc22231a09465",
+   "claim_status": "supported",
+   "claim_text_hash": "f65211801c82e87a7bcba862666130ee08b79a0f7e73605cc281a031d09f9e01",
+   "contains_markup_like_text": false,
+   "evidence_hash": "fd475cb6563d5f721e68a2355cd0a6711323027e2c0feb9f5d62abbf52e1ace2",
+   "evidence_ids": [
+    "ev_66dd9d26044db1cf"
+   ],
+   "manual_override": false,
+   "skills": [
+    "api-design",
+    "python"
+   ],
+   "text": "Builds production Python services"
+  },
+  {
+   "claim_id": "cl_368483d8b7096322",
+   "claim_status": "self-reported",
+   "claim_text_hash": "d72279b54f1d55c243f8c1aca3b467c983e67759cedf1fad75c88605beca5dd4",
+   "contains_markup_like_text": false,
+   "evidence_hash": "1fa2cc9c3d41ff453002861c50d71b1bb604a54b5d02cae485e8bf6e17de3310",
+   "evidence_ids": [
+    "ev_1a2f96465c0157e2"
+   ],
+   "manual_override": false,
+   "skills": [
+    "ai-evaluation",
+    "llm-applications"
+   ],
+   "text": "Evaluates LLM applications"
+  },
+  {
+   "claim_id": "cl_27cad5a846106846",
+   "claim_status": "supported",
+   "claim_text_hash": "1b6d92fc0a247de362b85f030610de3bc6db29d40a086cc16c206d617f191139",
+   "contains_markup_like_text": false,
+   "evidence_hash": "19b1d9549a015540e8fe9a5babe63c52057383a7b6cb28a2735ce1eb524c6358",
+   "evidence_ids": [
+    "ev_e03b009c1f43e58a"
+   ],
+   "manual_override": false,
+   "skills": [
+    "sql"
+   ],
+   "text": "SQL and data modeling"
+  },
+  {
+   "claim_id": "cl_1af399e8a0898bf0",
+   "claim_status": "supported",
+   "claim_text_hash": "42007fad25f601c92d6adf906a361e90d6b8ac198e4785582325c2889b891682",
+   "contains_markup_like_text": false,
+   "evidence_hash": "af7020b02ea002a6039e3068ba54a93513ef00b9cbd825df74f1f8e178b41f4f",
+   "evidence_ids": [
+    "ev_c5726a24aa2a508f"
+   ],
+   "manual_override": false,
+   "skills": [
+    "aws",
+    "cloud-architecture"
+   ],
+   "text": "Fictional Cloud Architect Certification"
+  },
+  {
+   "claim_id": "cl_f950048598d7432d",
+   "claim_status": "supported",
+   "claim_text_hash": "8cabb8d26b3c363fd0eb9d6d6e79c936ed909cb66c83362aea9097aa35f03593",
+   "contains_markup_like_text": false,
+   "evidence_hash": "3a8ffb4ade8ef4a6b78d4dd998cc618db04ca82a9eb678e40a69d8e3034ff122",
+   "evidence_ids": [
+    "ev_66dd9d26044db1cf",
+    "ev_e03b009c1f43e58a"
+   ],
+   "manual_override": false,
+   "skills": [
+    "distributed-systems"
+   ],
+   "text": "Designs distributed systems"
+  },
+  {
+   "claim_id": "cl_715f77ee103057b3",
+   "claim_status": "self-reported",
+   "claim_text_hash": "d7697720ae2a04b6a0b2865879d68c63d0e7b7144b785b904fdf3b1b16239ed1",
+   "contains_markup_like_text": false,
+   "evidence_hash": "8c833dfe1b5e9bfb5ac319595a412ab0a0c7fee3033b75bab5b2841d6bb61375",
+   "evidence_ids": [
+    "ev_1a2f96465c0157e2"
+   ],
+   "manual_override": false,
+   "skills": [
+    "typescript"
+   ],
+   "text": "TypeScript front-of-house tooling"
+  }
+ ],
+ "change_note": "initial selection",
+ "content_hash": "a985ea36c583ca8613923dc349c014060f5b360dd4b1d8bfa3b18f7a5ecd767d",
+ "created_at": "2026-03-02T09:00:00Z",
+ "created_by": "system",
+ "id": "rv-a985ea36c583ca861392",
+ "job_id": "jp_47ba7eb37f34fea44e98",
+ "label": "pinned:jp_47ba7eb37f34fea44e98",
+ "lineage_id": "rv-a985ea36c583ca861392",
+ "parent_id": null,
+ "refused_claims": [
+  {
+   "claim_id": "cl_140e6c0fce83b2e3",
+   "reason": "private_visibility"
+  },
+  {
+   "claim_id": "cl_4aede06a358adacb",
+   "reason": "private_visibility"
+  },
+  {
+   "claim_id": "cl_be61fda73a90ae82",
+   "reason": "unverified"
+  }
+ ],
+ "schema": "careertwin.b.resume-variant.v1",
+ "subject_id": "candidate-synthetic-001",
+ "unproven_requirements": [
+  "customer-delivery",
+  "enterprise-sales",
+  "executive-communication",
+  "security",
+  "spark",
+  "systems-integration",
+  "technical-discovery"
+ ],
+ "version": 1,
+ "warnings": [
+  "SELF_REPORTED: this bullet rests on the user's own statement, not on evidence",
+  "UNPROVEN_REQUIREMENTS: no evidence-backed claim covers: customer-delivery, enterprise-sales, executive-communication, security, spark, systems-integration, technical-discovery"
+ ]
+}

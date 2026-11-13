@@ -1,0 +1,13 @@
+{
+  "schema_version": "candidate-preferences/0.1-proposed",
+  "candidate_ref": "candidate-synthetic-001",
+  "display_name": "Synthetic Candidate",
+  "note": "Fictional. No real user attributes. Mirrors fixtures/synthetic_profile.json on main.",
+  "remote": "remote",
+  "seniority": "senior",
+  "target_roles": [
+    "Forward Deployed Engineer",
+    "Applied AI Architect",
+    "Field CTO"
+  ]
+}

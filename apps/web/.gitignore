@@ -1,0 +1,9 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.vite/
+*.tsbuildinfo
+
+# Local pipeline output copied in for manual review; never committed.
+public/artifacts/

@@ -1,0 +1,53 @@
+{
+ "api_version": "b.v1",
+ "cohort_seed": 20261110,
+ "files": {
+  "adapter_methods.json": {
+   "bytes": 414,
+   "sha256": "720d7695f44c499b5b1663c80245603823dd0779e2af306f8b9e879e32cff9f2"
+  },
+  "applications_sample.json": {
+   "bytes": 30691,
+   "sha256": "60d6dc5d136549f6a0600674965395bb9ddda942eef19b3e8cdfdbf7fa8b7fcd"
+  },
+  "calibration.json": {
+   "bytes": 4261,
+   "sha256": "41a11940925b4f1685730e90eb5aaa01663e3a71b0904a645f3ede425dc2509d"
+  },
+  "experiment_reports.json": {
+   "bytes": 836680,
+   "sha256": "3675e98bb6cbac133e27ada96be7741607fd51e0c98041167004bac87470256e"
+  },
+  "experiments.json": {
+   "bytes": 57478,
+   "sha256": "0691133bf7bd5444d5ffcee454d59b293a2a853a45492eb3dae28067e5cc4d40"
+  },
+  "full_pipeline_replication.json": {
+   "bytes": 5957,
+   "sha256": "475cccdf46a7b7db86599826400ebae229da1ac6d6537246d211e1ebec272e85"
+  },
+  "heldout_cohort.json": {
+   "bytes": 5521,
+   "sha256": "ba30d5348b94366eeebf7130f74623fc3e9ac9e9f171ed277d0968f49184f7ea"
+  },
+  "observational.json": {
+   "bytes": 1939,
+   "sha256": "d0147539bb82a8f42423085e24e89717628a8abd16aaacffb4c6f12505663a85"
+  },
+  "portfolio.json": {
+   "bytes": 5449,
+   "sha256": "ba6c606d1475a64d73752a3d8f60391e9b72a5634811afad4c2c2cbe560b664f"
+  },
+  "roundtrip.json": {
+   "bytes": 22010,
+   "sha256": "ed9cad43d389f458e95ec31b3fa004262746cbd044c3c4f4c706842141a68760"
+  },
+  "scorecard.json": {
+   "bytes": 5082,
+   "sha256": "cbb17e119e88133ac6865644fc61f06ba51849ec4e09bdb6acf7eb45b5139e48"
+  }
+ },
+ "generator": "packages/experiments/tools/build_fixtures.py",
+ "schema": "careertwin.b.fixtures-manifest.v1",
+ "synthetic_only": true
+}

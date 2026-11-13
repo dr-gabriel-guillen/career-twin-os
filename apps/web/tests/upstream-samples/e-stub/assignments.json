@@ -1,0 +1,290 @@
+[
+ {
+  "id": "asg-s7-0000",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0000",
+  "stratum": "fde",
+  "variant": "A",
+  "assigned_at": "2026-01-05T12:20:00Z",
+  "application_ids": [
+   "app-exp-s7-0000"
+  ]
+ },
+ {
+  "id": "asg-s7-0001",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0001",
+  "stratum": "ai-architect",
+  "variant": "B",
+  "assigned_at": "2026-01-05T13:10:00Z",
+  "application_ids": [
+   "app-exp-s7-0001"
+  ]
+ },
+ {
+  "id": "asg-s7-0002",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0002",
+  "stratum": "field-cto",
+  "variant": "A",
+  "assigned_at": "2026-01-05T14:00:00Z",
+  "application_ids": [
+   "app-exp-s7-0002"
+  ]
+ },
+ {
+  "id": "asg-s7-0003",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0003",
+  "stratum": "ai-director",
+  "variant": "B",
+  "assigned_at": "2026-01-05T14:50:00Z",
+  "application_ids": [
+   "app-exp-s7-0003"
+  ]
+ },
+ {
+  "id": "asg-s7-0004",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0004",
+  "stratum": "ai-eng-lead",
+  "variant": "B",
+  "assigned_at": "2026-01-05T15:40:00Z",
+  "application_ids": [
+   "app-exp-s7-0004"
+  ]
+ },
+ {
+  "id": "asg-s7-0005",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0005",
+  "stratum": "backend",
+  "variant": "B",
+  "assigned_at": "2026-01-05T16:30:00Z",
+  "application_ids": [
+   "app-exp-s7-0005"
+  ]
+ },
+ {
+  "id": "asg-s7-0006",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0006",
+  "stratum": "platform",
+  "variant": "A",
+  "assigned_at": "2026-01-05T17:20:00Z",
+  "application_ids": [
+   "app-exp-s7-0006"
+  ]
+ },
+ {
+  "id": "asg-s7-0007",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0007",
+  "stratum": "privacy-legal-ai",
+  "variant": "A",
+  "assigned_at": "2026-01-05T18:10:00Z",
+  "application_ids": [
+   "app-exp-s7-0007"
+  ]
+ },
+ {
+  "id": "asg-s7-0008",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0008",
+  "stratum": "fde",
+  "variant": "B",
+  "assigned_at": "2026-01-05T19:00:00Z",
+  "application_ids": [
+   "app-exp-s7-0008"
+  ]
+ },
+ {
+  "id": "asg-s7-0009",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0009",
+  "stratum": "ai-architect",
+  "variant": "A",
+  "assigned_at": "2026-01-05T19:50:00Z",
+  "application_ids": [
+   "app-exp-s7-0009"
+  ]
+ },
+ {
+  "id": "asg-s7-0010",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0010",
+  "stratum": "field-cto",
+  "variant": "B",
+  "assigned_at": "2026-01-05T20:40:00Z",
+  "application_ids": [
+   "app-exp-s7-0010"
+  ]
+ },
+ {
+  "id": "asg-s7-0011",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0011",
+  "stratum": "ai-director",
+  "variant": "B",
+  "assigned_at": "2026-01-05T21:30:00Z",
+  "application_ids": [
+   "app-exp-s7-0011"
+  ]
+ },
+ {
+  "id": "asg-s7-0012",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0012",
+  "stratum": "ai-eng-lead",
+  "variant": "B",
+  "assigned_at": "2026-01-05T22:20:00Z",
+  "application_ids": [
+   "app-exp-s7-0012"
+  ]
+ },
+ {
+  "id": "asg-s7-0013",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0013",
+  "stratum": "backend",
+  "variant": "A",
+  "assigned_at": "2026-01-05T23:10:00Z",
+  "application_ids": [
+   "app-exp-s7-0013"
+  ]
+ },
+ {
+  "id": "asg-s7-0014",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0014",
+  "stratum": "platform",
+  "variant": "A",
+  "assigned_at": "2026-01-06T00:00:00Z",
+  "application_ids": [
+   "app-exp-s7-0014"
+  ]
+ },
+ {
+  "id": "asg-s7-0015",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0015",
+  "stratum": "privacy-legal-ai",
+  "variant": "A",
+  "assigned_at": "2026-01-06T00:50:00Z",
+  "application_ids": [
+   "app-exp-s7-0015"
+  ]
+ },
+ {
+  "id": "asg-s7-0016",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0016",
+  "stratum": "fde",
+  "variant": "A",
+  "assigned_at": "2026-01-06T01:40:00Z",
+  "application_ids": [
+   "app-exp-s7-0016"
+  ]
+ },
+ {
+  "id": "asg-s7-0017",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0017",
+  "stratum": "ai-architect",
+  "variant": "B",
+  "assigned_at": "2026-01-06T02:30:00Z",
+  "application_ids": [
+   "app-exp-s7-0017"
+  ]
+ },
+ {
+  "id": "asg-s7-0018",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0018",
+  "stratum": "field-cto",
+  "variant": "A",
+  "assigned_at": "2026-01-06T03:20:00Z",
+  "application_ids": [
+   "app-exp-s7-0018"
+  ]
+ },
+ {
+  "id": "asg-s7-0019",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0019",
+  "stratum": "ai-director",
+  "variant": "A",
+  "assigned_at": "2026-01-06T04:10:00Z",
+  "application_ids": [
+   "app-exp-s7-0019"
+  ]
+ },
+ {
+  "id": "asg-s7-0020",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0020",
+  "stratum": "ai-eng-lead",
+  "variant": "A",
+  "assigned_at": "2026-01-06T05:00:00Z",
+  "application_ids": [
+   "app-exp-s7-0020"
+  ]
+ },
+ {
+  "id": "asg-s7-0021",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0021",
+  "stratum": "backend",
+  "variant": "B",
+  "assigned_at": "2026-01-06T05:50:00Z",
+  "application_ids": [
+   "app-exp-s7-0021"
+  ]
+ },
+ {
+  "id": "asg-s7-0022",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0022",
+  "stratum": "platform",
+  "variant": "A",
+  "assigned_at": "2026-01-06T06:40:00Z",
+  "application_ids": [
+   "app-exp-s7-0022"
+  ]
+ },
+ {
+  "id": "asg-s7-0023",
+  "experiment_id": "exp-syn-s7-0002",
+  "spec_digest": "sha256:86cc3c442053e7238726a5aa61fe00c84a711d63288c274d7986bc768c1130e0",
+  "unit_id": "app-exp-s7-0023",
+  "stratum": "privacy-legal-ai",
+  "variant": "B",
+  "assigned_at": "2026-01-06T07:30:00Z",
+  "application_ids": [
+   "app-exp-s7-0023"
+  ]
+ }
+]

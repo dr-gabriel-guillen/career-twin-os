@@ -1,0 +1,10 @@
+{
+  "manifest_version": "0.1",
+  "session_id": "CAREER-TWIN-B",
+  "tests": [{"name": "lane-b", "cmd": ["{python}", "packages/experiments/run_tests.py"]}],
+  "stages": {
+    "resume.variant":     {"mock": false, "cmd": ["{python}", "packages/experiments/tools/e2e_stage.py", "resume",      "--artifacts", "{artifacts}"]},
+    "application.record": {"mock": false, "cmd": ["{python}", "packages/experiments/tools/e2e_stage.py", "application", "--artifacts", "{artifacts}"]},
+    "experiment.run":     {"mock": false, "cmd": ["{python}", "packages/experiments/tools/e2e_stage.py", "experiment",  "--artifacts", "{artifacts}", "--seed", "{seed}"]}
+  }
+}

@@ -1,0 +1,205 @@
+# CareerTwin OS — CI (owned by CAREER-TWIN-E)
+#
+# Design rules:
+#   * read-only token, no repository secrets are referenced anywhere in this file;
+#   * every test job is offline after dependency installation: tests marked `network`
+#     are never selected and the in-process socket guard blocks any outbound connection,
+#     so no test can reach a paid API;
+#   * nothing here merges, deploys or publishes.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main, "agent/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHON_VERSION: "3.14"
+
+jobs:
+  baseline:
+    name: Baseline reference engine
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Reference engine unit tests (stdlib only, no install)
+        run: python -m unittest discover -s tests -v
+
+  guards:
+    name: Secrets, PII, paid-API and ownership guards
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: No secrets, personal data or private fixtures in tracked files
+        run: PYTHONPATH=integration python -m ctint.sec_scan --tracked
+      - name: No paid APIs, outbound contact or LinkedIn automation in code
+        run: PYTHONPATH=integration python -m ctint.sec_paid --tracked
+      # Fail-closed: the policy comes from the pull request's declared head ref (the checkout is a
+      # detached merge commit). Unregistered branches and forks claiming the consolidation branch fail.
+      - name: Lane ownership (every pull request, explicit branch policy)
+        if: github.event_name == 'pull_request'
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
+        run: >-
+          PYTHONPATH=integration python -m ctint.lanes check --base "origin/${BASE_REF}" --head HEAD
+          --branch "${HEAD_REF}" --head-repo "${HEAD_REPO}" --base-repo "${BASE_REPO}"
+      - name: Workflow hygiene (no secrets, no write tokens, no untrusted interpolation)
+        run: PYTHONPATH=integration python -m ctint.sec_ci --root .
+
+  integration:
+    name: Lane E — format, lint, types, isolated tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: integration/requirements.txt
+      - name: Install pinned tooling (the only step that uses the network)
+        run: python -m pip install -r integration/requirements.txt
+      - name: Format
+        working-directory: integration
+        run: python -m ruff format --check .
+      - name: Lint (includes bandit-style security rules)
+        working-directory: integration
+        run: python -m ruff check .
+      - name: Typecheck (mypy --strict)
+        working-directory: integration
+        run: python -m mypy
+      - name: Isolated tests (network blocked in-process; `network` tests never selected)
+        working-directory: integration
+        run: python -m pytest -m "not network" --junitxml=.work/junit.xml
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lane-e-junit
+          path: integration/.work/junit.xml
+          if-no-files-found: warn
+
+  candidate:
+    # Gating when the ref carries integration/acceptance-pins.candidate.json; a no-op otherwise.
+    # Offline after dependency installation; no browser is downloaded or launched, nothing is
+    # served, deployed or published, and no paid API or external service is contacted.
+    name: Acceptance candidate — provenance, pinned pipeline, web build and unit tests (no browser)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Is a candidate committed on this ref?
+        id: has
+        run: |
+          if [ -f integration/acceptance-pins.candidate.json ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Candidate::no integration/acceptance-pins.candidate.json on this ref"
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.has.outputs.present == 'true'
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: integration/requirements.txt
+      - uses: actions/setup-node@v4
+        if: steps.has.outputs.present == 'true'
+        with:
+          node-version: "22"
+      - name: Install pinned tooling
+        if: steps.has.outputs.present == 'true'
+        run: python -m pip install -r integration/requirements.txt
+      - name: Provenance (pins are full SHAs in this history; pinned lane code equals the checkout)
+        if: steps.has.outputs.present == 'true'
+        working-directory: integration
+        run: python -m ctint.candidate verify --repo .. --pins acceptance-pins.candidate.json
+      - name: Pinned pipeline, every integrity gate, production build (browser stage not run)
+        if: steps.has.outputs.present == 'true'
+        working-directory: integration
+        run: python -m ctint.acceptance --pins acceptance-pins.candidate.json --install --no-serve --pass-env PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+      - name: Web dependencies from the lockfile (no browser download)
+        if: steps.has.outputs.present == 'true'
+        run: npm ci --prefix apps/web
+      - name: Web fixtures, typecheck and unit tests (includes the CRM/simulated-stream boundary)
+        if: steps.has.outputs.present == 'true'
+        working-directory: apps/web
+        run: |
+          npm run fixtures:check
+          npm run typecheck
+          npm test
+      - name: Upload candidate provenance
+        if: always() && steps.has.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-provenance
+          path: integration/.work/acceptance/runs/*/provenance.json
+          if-no-files-found: warn
+
+  integration-run:
+    name: Disposable integration run on pinned lane heads (report, non-gating)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch every lane branch (read-only)
+        run: git fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: integration/requirements.txt
+      - run: python -m pip install -r integration/requirements.txt
+      - name: Run pipeline in a temporary detached worktree
+        working-directory: integration
+        run: |
+          set +e
+          python -m ctint.runner --repo .. --base origin/main --allow-stub --out .work/ci-run > /dev/null
+          code=$?
+          set -e
+          cat .work/ci-run/report.md >> "$GITHUB_STEP_SUMMARY"
+          verdict=$(python -c "import json; print(json.load(open('.work/ci-run/report.json'))['verdict'])")
+          echo "::notice title=Integration verdict::${verdict} (exit ${code}; 0=PASS 1=FAIL 2=BLOCKED/NOT-INTEGRATED)"
+          # Non-gating while lanes are still delivering: only a harness crash fails this job.
+          if [ "$code" -gt 2 ]; then exit "$code"; fi
+      - name: Upload integration report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-report
+          path: |
+            integration/.work/ci-run/report.md
+            integration/.work/ci-run/report.json
+            integration/.work/ci-run/logs
+          if-no-files-found: warn

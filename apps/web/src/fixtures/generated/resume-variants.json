@@ -1,0 +1,198 @@
+[
+  {
+    "schema_version": "resume-variant/0.1-proposed",
+    "id": "rv-base",
+    "candidate_ref": "candidate-synthetic-001",
+    "label": "Base résumé (from claims)",
+    "target_job_id": null,
+    "parent_variant_id": null,
+    "version": 1,
+    "created_at": "2026-10-01T09:00:00Z",
+    "updated_at": "2026-10-01T09:00:00Z",
+    "sections": [
+      {
+        "id": "sec-experience",
+        "heading": "Experience",
+        "bullets": [
+          {
+            "id": "b-emp",
+            "text": "Senior Software Engineer at Fictional Halcyon Robotics (2021–2025)",
+            "claim_ids": [
+              "claim-employment-halcyon"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-latency",
+            "text": "Reduced p95 latency of the fictional order API by 38%",
+            "claim_ids": [
+              "claim-achievement-latency"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-evals",
+            "text": "Built an offline evaluation suite for a fictional support-assistant feature",
+            "claim_ids": [
+              "claim-project-evals"
+            ],
+            "origin": "from-claims"
+          }
+        ]
+      },
+      {
+        "id": "sec-skills",
+        "heading": "Skills",
+        "bullets": [
+          {
+            "id": "b-skill-python",
+            "text": "Python for backend services and evaluation tooling",
+            "claim_ids": [
+              "claim-skill-python"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-skill-ts",
+            "text": "TypeScript for API clients and internal tools",
+            "claim_ids": [
+              "claim-skill-typescript"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-skill-api",
+            "text": "API design for partner integrations",
+            "claim_ids": [
+              "claim-skill-api"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-skill-aieval",
+            "text": "Evaluation harnesses for AI features",
+            "claim_ids": [
+              "claim-skill-aieval"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-skill-aws",
+            "text": "AWS (compute, queues, IAM) in day-to-day work",
+            "claim_ids": [
+              "claim-skill-aws"
+            ],
+            "origin": "from-claims"
+          }
+        ]
+      },
+      {
+        "id": "sec-education",
+        "heading": "Education",
+        "bullets": [
+          {
+            "id": "b-edu",
+            "text": "B.S. Computer Science, Fictional Northfield University",
+            "claim_ids": [
+              "claim-education-bsc"
+            ],
+            "origin": "from-claims"
+          }
+        ]
+      }
+    ],
+    "approval": null
+  },
+  {
+    "schema_version": "resume-variant/0.1-proposed",
+    "id": "rv-ai-architect",
+    "candidate_ref": "candidate-synthetic-001",
+    "label": "AI architect emphasis",
+    "target_job_id": "fake-ai-9",
+    "parent_variant_id": "rv-base",
+    "version": 1,
+    "created_at": "2026-10-22T09:00:00Z",
+    "updated_at": "2026-10-23T09:00:00Z",
+    "sections": [
+      {
+        "id": "sec-experience",
+        "heading": "Experience",
+        "bullets": [
+          {
+            "id": "b-evals",
+            "text": "Built an offline evaluation suite for a fictional support-assistant feature",
+            "claim_ids": [
+              "claim-project-evals"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-emp",
+            "text": "Senior Software Engineer at Fictional Halcyon Robotics (2021–2025)",
+            "claim_ids": [
+              "claim-employment-halcyon"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-latency",
+            "text": "Reduced p95 latency of the fictional order API by 38%",
+            "claim_ids": [
+              "claim-achievement-latency"
+            ],
+            "origin": "from-claims"
+          }
+        ]
+      },
+      {
+        "id": "sec-skills",
+        "heading": "Skills",
+        "bullets": [
+          {
+            "id": "b-skill-aieval",
+            "text": "Evaluation harnesses for AI features",
+            "claim_ids": [
+              "claim-skill-aieval"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-skill-python",
+            "text": "Python for backend services and evaluation tooling",
+            "claim_ids": [
+              "claim-skill-python"
+            ],
+            "origin": "from-claims"
+          },
+          {
+            "id": "b-skill-api",
+            "text": "API design for partner integrations",
+            "claim_ids": [
+              "claim-skill-api"
+            ],
+            "origin": "from-claims"
+          }
+        ]
+      },
+      {
+        "id": "sec-education",
+        "heading": "Education",
+        "bullets": [
+          {
+            "id": "b-edu",
+            "text": "B.S. Computer Science, Fictional Northfield University",
+            "claim_ids": [
+              "claim-education-bsc"
+            ],
+            "origin": "from-claims"
+          }
+        ]
+      }
+    ],
+    "approval": {
+      "approved_at": "2026-10-24T09:00:00Z",
+      "approval_token_ref": "approval-synth-001",
+      "content_digest": "66d5a2b1f67b137aa686e8466f77e57dacb2cf81dbae65b1b26f86e7364a8db7"
+    }
+  }
+]

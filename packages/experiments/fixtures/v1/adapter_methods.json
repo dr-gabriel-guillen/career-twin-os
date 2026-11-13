@@ -1,0 +1,23 @@
+{
+ "api_version": "b.v1",
+ "methods": [
+  "approval_request",
+  "approve_package",
+  "correct_event",
+  "experiment_report",
+  "export_resume",
+  "get_application",
+  "get_experiment",
+  "get_resume_variant",
+  "grant_approval",
+  "integrity",
+  "list_applications",
+  "list_experiments",
+  "portfolio",
+  "record_response",
+  "record_user_submission",
+  "resume_diff",
+  "resume_lineage",
+  "resume_preview"
+ ]
+}

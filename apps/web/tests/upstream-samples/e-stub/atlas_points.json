@@ -1,0 +1,410 @@
+[
+ {
+  "entity_id": "job-syn-s7-000000",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Forward Deployed Engineer",
+  "coords": [
+   0.3520817145589537,
+   -0.42571189420150934
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000000",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.6,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000001",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Senior Applied AI Architect",
+  "coords": [
+   1.0266717066775919,
+   1.000564216101917
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000001",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000002",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Field CTO",
+  "coords": [
+   -0.7355141800933387,
+   -1.595274555748417
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000002",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000003",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "AI Director",
+  "coords": [
+   -0.5913374375320258,
+   -0.5281407625106025
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000003",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000004",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "AI Engineering Lead",
+  "coords": [
+   0.6904448195475216,
+   0.4400086605783503
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000004",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000005",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Backend Engineer",
+  "coords": [
+   0.3065699618982857,
+   0.471324419839038
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000005",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.7,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000006",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Platform Engineer",
+  "coords": [
+   -1.5064020826106888,
+   0.6340418904537706
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000006",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.7,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000007",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Principal Privacy & Legal AI Specialist",
+  "coords": [
+   -0.3104823555053374,
+   -0.07558714880161295
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000007",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000008",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Backend Engineer",
+  "coords": [
+   0.24146732273250707,
+   0.6591132557552208
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000008",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.7,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000009",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Lead Forward Deployed Engineer",
+  "coords": [
+   0.465193884534286,
+   0.04336324937054622
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000009",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000010",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Senior AI Engineering Lead",
+  "coords": [
+   0.6242949476708084,
+   0.5676960770611034
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000010",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000011",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Senior Applied AI Architect",
+  "coords": [
+   0.9534538844358242,
+   0.4738688261702898
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000011",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000012",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Field CTO",
+  "coords": [
+   -0.6307672826884796,
+   -1.7874769691617804
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000012",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000013",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Senior Forward Deployed Engineer",
+  "coords": [
+   1.3383046886499828,
+   -0.10128100081794827
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000013",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000014",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "AI Engineering Lead",
+  "coords": [
+   0.20305168884191221,
+   0.35640048474061553
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000014",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000015",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Platform Engineer",
+  "coords": [
+   -1.6715014649666875,
+   1.291809590522809
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000015",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000016",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Senior Forward Deployed Engineer",
+  "coords": [
+   0.3787637686768203,
+   -0.42349254420782606
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000016",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.6,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000017",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Lead Field CTO",
+  "coords": [
+   -0.604085228570613,
+   -1.785257619168097
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000017",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000018",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Senior Forward Deployed Engineer",
+  "coords": [
+   1.132388597018825,
+   -0.19565954237111238
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000018",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000019",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Field CTO",
+  "coords": [
+   -0.6034752628636848,
+   -1.8878302775693918
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000019",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000020",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Platform Engineer",
+  "coords": [
+   -1.7227845482094866,
+   1.1253802577639254
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000020",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.7,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000021",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Forward Deployed Engineer",
+  "coords": [
+   1.4914666377523356,
+   -0.11391381765344531
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000021",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000022",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Applied AI Architect",
+  "coords": [
+   1.1228603777011263,
+   0.6908129355311675
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000022",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.9,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ },
+ {
+  "entity_id": "job-syn-s7-000023",
+  "projection_id": "proj-stub-pca-s7",
+  "label": "Platform Engineer",
+  "coords": [
+   -1.950664157656438,
+   1.1652422683229902
+  ],
+  "source_vector_ref": "vec:job-syn-s7-000023",
+  "representation_type": "job",
+  "projection_method": "pca",
+  "neighborhood_quality": 0.8,
+  "fit_metric_ref": "diag:proj-stub-pca-s7",
+  "warnings": [
+   "2D PCA projection: distances are distorted and are not a fit or hiring score."
+  ]
+ }
+]

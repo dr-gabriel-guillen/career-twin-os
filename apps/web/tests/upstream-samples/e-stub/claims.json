@@ -1,0 +1,210 @@
+[
+ {
+  "id": "claim-syn-s7-0000",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "project",
+  "claim_text": "Synthetic claim: practical experience with people-management.",
+  "status": "supported",
+  "evidence_ids": [
+   "evidence-syn-s7-0000"
+  ],
+  "visibility": "shareable",
+  "updated_at": "2026-01-05T09:00:00Z",
+  "skills": [
+   "people-management"
+  ],
+  "valid_to": null
+ },
+ {
+  "id": "claim-syn-s7-0001",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with python.",
+  "status": "supported",
+  "evidence_ids": [
+   "evidence-syn-s7-0001"
+  ],
+  "visibility": "private",
+  "updated_at": "2026-01-05T09:07:00Z",
+  "skills": [
+   "python"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0002",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with budgeting.",
+  "status": "supported",
+  "evidence_ids": [
+   "evidence-syn-s7-0002"
+  ],
+  "visibility": "private",
+  "updated_at": "2026-01-05T09:14:00Z",
+  "skills": [
+   "budgeting"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0003",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "project",
+  "claim_text": "Synthetic claim: practical experience with kubernetes.",
+  "status": "supported",
+  "evidence_ids": [
+   "evidence-syn-s7-0003"
+  ],
+  "visibility": "private",
+  "updated_at": "2026-01-05T09:21:00Z",
+  "skills": [
+   "kubernetes"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0004",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with enterprise-sales.",
+  "status": "self-reported",
+  "evidence_ids": [],
+  "visibility": "private",
+  "updated_at": "2026-01-05T09:28:00Z",
+  "skills": [
+   "enterprise-sales"
+  ],
+  "valid_to": "2027-01-05T09:04:00Z"
+ },
+ {
+  "id": "claim-syn-s7-0005",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with observability.",
+  "status": "self-reported",
+  "evidence_ids": [],
+  "visibility": "shareable",
+  "updated_at": "2026-01-05T09:35:00Z",
+  "skills": [
+   "observability"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0006",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "project",
+  "claim_text": "Synthetic claim: practical experience with security.",
+  "status": "supported",
+  "evidence_ids": [
+   "evidence-syn-s7-0006"
+  ],
+  "visibility": "shareable",
+  "updated_at": "2026-01-05T09:42:00Z",
+  "skills": [
+   "security"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0007",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with executive-communication.",
+  "status": "contradicted",
+  "evidence_ids": [
+   "evidence-syn-s7-0007"
+  ],
+  "visibility": "shareable",
+  "updated_at": "2026-01-05T09:49:00Z",
+  "skills": [
+   "executive-communication"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0008",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with api-design.",
+  "status": "contradicted",
+  "evidence_ids": [
+   "evidence-syn-s7-0008"
+  ],
+  "visibility": "shareable",
+  "updated_at": "2026-01-05T09:56:00Z",
+  "skills": [
+   "api-design"
+  ],
+  "valid_to": null
+ },
+ {
+  "id": "claim-syn-s7-0009",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "project",
+  "claim_text": "Synthetic claim: practical experience with documentation.",
+  "status": "unverified",
+  "evidence_ids": [],
+  "visibility": "private",
+  "updated_at": "2026-01-05T10:03:00Z",
+  "skills": [
+   "documentation"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0010",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with customer-delivery.",
+  "status": "contradicted",
+  "evidence_ids": [
+   "evidence-syn-s7-0010"
+  ],
+  "visibility": "private",
+  "updated_at": "2026-01-05T10:10:00Z",
+  "skills": [
+   "customer-delivery"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0011",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with code-review.",
+  "status": "contradicted",
+  "evidence_ids": [
+   "evidence-syn-s7-0011"
+  ],
+  "visibility": "private",
+  "updated_at": "2026-01-05T10:17:00Z",
+  "skills": [
+   "code-review"
+  ]
+ },
+ {
+  "id": "claim-syn-s7-0012",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "project",
+  "claim_text": "Synthetic claim: practical experience with solution-scoping.",
+  "status": "contradicted",
+  "evidence_ids": [
+   "evidence-syn-s7-0012"
+  ],
+  "visibility": "private",
+  "updated_at": "2026-01-05T10:24:00Z",
+  "skills": [
+   "solution-scoping"
+  ],
+  "valid_to": "2027-01-05T09:12:00Z"
+ },
+ {
+  "id": "claim-syn-s7-0013",
+  "subject_id": "candidate-synthetic-001",
+  "claim_type": "skill",
+  "claim_text": "Synthetic claim: practical experience with retrieval-systems.",
+  "status": "contradicted",
+  "evidence_ids": [
+   "evidence-syn-s7-0013"
+  ],
+  "visibility": "shareable",
+  "updated_at": "2026-01-05T10:31:00Z",
+  "skills": [
+   "retrieval-systems"
+  ]
+ }
+]

@@ -1,0 +1,92 @@
+{
+ "k": 10,
+ "methods": {
+  "interpretable-axes": {
+   "axis_cosines": [
+    [
+     1.0,
+     0.150064
+    ],
+    [
+     0.150064,
+     1.0
+    ]
+   ],
+   "continuity": 0.9273284832154485,
+   "distance_spearman": 0.5283332869106039,
+   "explained_variance_cumulative": null,
+   "flags": [
+    "weak-local-structure: on average fewer than 40% of a point's map neighbours are true neighbours",
+    "distance-order-distorted: map distances rank pairs differently from full-space distances"
+   ],
+   "knn_recall_mean": 0.1116,
+   "normalized_stress": 0.41887419769410916,
+   "seed_variation": {
+    "deterministic": true
+   },
+   "status": "executed",
+   "trustworthiness": 0.864934860222297
+  },
+  "pca": {
+   "continuity": 0.9366148871673965,
+   "distance_spearman": 0.6982146728514443,
+   "explained_variance_cumulative": 0.24882838723136663,
+   "flags": [
+    "low-explained-variance: the map shows 24.9% of total variance; 75.1% of the variation between points is not visible",
+    "weak-local-structure: on average fewer than 40% of a point's map neighbours are true neighbours",
+    "distance-order-distorted: map distances rank pairs differently from full-space distances"
+   ],
+   "knn_recall_mean": 0.11173333333333335,
+   "normalized_stress": 0.358000853108714,
+   "resampling_stability": {
+    "meaning": "smallest cosine of principal angles between the fitted plane and planes refitted on bootstrap resamples (1 = same plane)",
+    "n_boot": 20,
+    "plane_agreement_mean": 0.977095,
+    "plane_agreement_min": 0.950536
+   },
+   "seed_variation": {
+    "deterministic": true,
+    "note": "PCA has no random seed"
+   },
+   "status": "executed",
+   "trustworthiness": 0.8964373638711126
+  },
+  "random-projection-baseline": {
+   "continuity": 0.8156277085438419,
+   "distance_spearman": 0.30179139635717667,
+   "explained_variance_cumulative": null,
+   "flags": [
+    "false-neighbours: points that look close on the map are often not close in the full feature space",
+    "torn-neighbourhoods: points that are close in the full space are often drawn far apart",
+    "weak-local-structure: on average fewer than 40% of a point's map neighbours are true neighbours",
+    "distance-order-distorted: map distances rank pairs differently from full-space distances"
+   ],
+   "knn_recall_mean": 0.05473333333333333,
+   "normalized_stress": 0.4311712945120581,
+   "role": "diagnostic baseline only; never emitted as AtlasPoint",
+   "seed_variation": {
+    "deterministic": false,
+    "knn_overlap_mean": 0.00605667927989908,
+    "knn_overlap_min": 0.004592592592592585,
+    "n_pairs": 10,
+    "procrustes_disparity_max": 0.9859959242180033,
+    "procrustes_disparity_mean": 0.9369289826837447,
+    "seeds": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "status": "executed",
+   "trustworthiness": 0.6805862355450769
+  },
+  "umap": {
+   "reason": "optional package umap-learn is not installed in this environment; no UMAP metrics are reported",
+   "status": "not-executed"
+  }
+ },
+ "n_points": 1500,
+ "note": "All methods are scored against the same full-space Euclidean distances. Higher trustworthiness/continuity/recall and lower stress mean a more faithful picture; none of these is a match or hiring metric."
+}

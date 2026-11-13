@@ -1,0 +1,188 @@
+{
+ "abandonment_caution": "Experiments closed early or never finished are part of the family of questions asked. A habit of abandoning unpromising experiments makes the remaining 'differences' less trustworthy than their p-values suggest.",
+ "caution": "Each experiment controls its own error rate. Across many experiments some 'differences' are expected by chance; prefer claims that survive the portfolio adjustment.",
+ "expected_false_alarms_if_all_null": 1.05,
+ "experiments": 24,
+ "experiments_without_final_test": [
+  "exp-interim-01",
+  "exp-interim-02",
+  "exp-early-01"
+ ],
+ "final_tests": 21,
+ "rows": [
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-aa-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.2245,
+   "q_benjamini_hochberg": 0.3241,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-aa-02",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.96,
+   "q_benjamini_hochberg": 0.96,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-aa-03",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.636,
+   "q_benjamini_hochberg": 0.7606666666666667,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-aa-04",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.769,
+   "q_benjamini_hochberg": 0.80745,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": true,
+   "experiment_id": "exp-big-01",
+   "p_holm_across_experiments": 0.0105,
+   "p_primary": 0.0005,
+   "q_benjamini_hochberg": 0.0035,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-big-02",
+   "p_holm_across_experiments": 0.1575,
+   "p_primary": 0.0105,
+   "q_benjamini_hochberg": 0.0315,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  },
+  {
+   "claim_survives_portfolio_holm": true,
+   "experiment_id": "exp-big-03",
+   "p_holm_across_experiments": 0.0105,
+   "p_primary": 0.0005,
+   "q_benjamini_hochberg": 0.0035,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-small-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.7225,
+   "q_benjamini_hochberg": 0.7985526315789474,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-small-02",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.1,
+   "q_benjamini_hochberg": 0.21000000000000002,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-small-03",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.122,
+   "q_benjamini_hochberg": 0.2329090909090909,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-cl-null-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.0885,
+   "q_benjamini_hochberg": 0.21000000000000002,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-cl-null-02",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.3845,
+   "q_benjamini_hochberg": 0.50465625,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": true,
+   "experiment_id": "exp-cl-big-01",
+   "p_holm_across_experiments": 0.018000000000000002,
+   "p_primary": 0.001,
+   "q_benjamini_hochberg": 0.004200000000000001,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-attr-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.652,
+   "q_benjamini_hochberg": 0.7606666666666667,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-attr-02",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.202,
+   "q_benjamini_hochberg": 0.3241,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": true,
+   "experiment_id": "exp-three-01",
+   "p_holm_across_experiments": 0.018000000000000002,
+   "p_primary": 0.001,
+   "q_benjamini_hochberg": 0.004200000000000001,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-tiny-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.229,
+   "q_benjamini_hochberg": 0.3241,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": true,
+   "experiment_id": "exp-consent-01",
+   "p_holm_across_experiments": 0.0105,
+   "p_primary": 0.0005,
+   "q_benjamini_hochberg": 0.0035,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-strat-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.2315,
+   "q_benjamini_hochberg": 0.3241,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-noisy-01",
+   "p_holm_across_experiments": 1.0,
+   "p_primary": 0.0955,
+   "q_benjamini_hochberg": 0.21000000000000002,
+   "verdict": "INCONCLUSIVE"
+  },
+  {
+   "claim_survives_portfolio_holm": false,
+   "experiment_id": "exp-mid-01",
+   "p_holm_across_experiments": 0.096,
+   "p_primary": 0.006,
+   "q_benjamini_hochberg": 0.021,
+   "verdict": "EVIDENCE_FOR_DIFFERENCE"
+  }
+ ],
+ "schema": "careertwin.b.portfolio-summary.v1",
+ "verdict_counts": {
+  "EVIDENCE_FOR_DIFFERENCE": 7,
+  "INCONCLUSIVE": 15,
+  "INTERIM_NO_CLAIM": 2
+ }
+}

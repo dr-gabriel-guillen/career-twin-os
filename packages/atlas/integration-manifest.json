@@ -1,0 +1,22 @@
+{
+  "manifest_version": "0.1",
+  "session_id": "CAREER-TWIN-C",
+  "description": "Lane C career atlas and transition simulator. numpy is the only runtime dependency; tests also need pytest and jsonschema. Offline and synthetic.",
+  "tests": [
+    {"name": "atlas", "cmd": ["{python}", "-m", "pytest", "packages/atlas/tests", "-q", "-o", "addopts=", "-p", "no:cacheprovider"], "network": false, "timeout_s": 600}
+  ],
+  "stages": {
+    "atlas.project": {
+      "mock": false,
+      "cmd": ["{python}", "packages/atlas/e2e_stage.py", "project", "--vectors", "{artifacts}/vectors.json", "--out-dir", "{artifacts}"],
+      "note": "PCA fitted on every input vector (fit_refs = all refs); neighbor_claims come from the full feature space. Also writes atlas.pca.json (atlas-projection/0.1) for lane D.",
+      "timeout_s": 300
+    },
+    "simulator.scenario": {
+      "mock": false,
+      "cmd": ["{python}", "packages/atlas/e2e_stage.py", "scenario", "--artifacts", "{artifacts}"],
+      "note": "Target role = pinned job's role_family. Refits the SAME model as atlas.project from vectors.json (deterministic), so scenario points share its projection_id; rewrites atlas.pca.json with the candidate-to-scenario path. Plan is a labelled demonstration plan derived from the gap analysis.",
+      "timeout_s": 300
+    }
+  }
+}

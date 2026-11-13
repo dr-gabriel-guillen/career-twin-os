@@ -1,0 +1,1558 @@
+{
+ "assumptions": [
+  "effort hours are vocabulary placeholders, not measured learning times",
+  "role-exposure evidence cannot be produced by study alone",
+  "holding a role is assumed to evidence features stated in at least 25% of its postings",
+  "edges describe differences between what synthetic postings state"
+ ],
+ "core_threshold": 0.5,
+ "edges": [
+  {
+   "client_exposure_delta": 0.1015,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership"
+   ],
+   "effort_hours_range": [
+    352.0,
+    1408.0
+   ],
+   "leadership_exposure_delta": 0.6554,
+   "required_evidence": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.2199,
+   "source": "ai-architect",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": -0.0708,
+   "constraints": [],
+   "effort_hours_range": [
+    320.0,
+    1280.0
+   ],
+   "leadership_exposure_delta": 0.4136,
+   "required_evidence": [
+    "technical-leadership",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.0142,
+   "source": "ai-architect",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": -0.064,
+   "constraints": [],
+   "effort_hours_range": [
+    192.0,
+    640.0
+   ],
+   "leadership_exposure_delta": 0.0031,
+   "required_evidence": [
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.1628,
+   "source": "ai-architect",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": 0.3211,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery"
+   ],
+   "effort_hours_range": [
+    240.0,
+    800.0
+   ],
+   "leadership_exposure_delta": -0.0008,
+   "required_evidence": [
+    "api-design",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [
+    "customer-delivery"
+   ],
+   "seniority_delta": -0.1504,
+   "source": "ai-architect",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": 0.6234,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management"
+   ],
+   "effort_hours_range": [
+    288.0,
+    1088.0
+   ],
+   "leadership_exposure_delta": 0.13,
+   "required_evidence": [
+    "ai-strategy",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management",
+    "technical-leadership"
+   ],
+   "role_exposure_features": [
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "seniority_delta": 0.1949,
+   "source": "ai-architect",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": -0.0681,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": 0.0071,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.1488,
+   "source": "ai-architect",
+   "target": "platform"
+  },
+  {
+   "client_exposure_delta": -0.0072,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": 0.016,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.0307,
+   "source": "ai-architect",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": -0.1015,
+   "constraints": [],
+   "effort_hours_range": [
+    272.0,
+    992.0
+   ],
+   "leadership_exposure_delta": -0.6554,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.2199,
+   "source": "ai-director",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": -0.1723,
+   "constraints": [],
+   "effort_hours_range": [
+    352.0,
+    1344.0
+   ],
+   "leadership_exposure_delta": -0.2418,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.2057,
+   "source": "ai-director",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": -0.1655,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.6523,
+   "required_evidence": [
+    "python",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.3827,
+   "source": "ai-director",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": 0.2196,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery"
+   ],
+   "effort_hours_range": [
+    320.0,
+    1088.0
+   ],
+   "leadership_exposure_delta": -0.6562,
+   "required_evidence": [
+    "python",
+    "api-design",
+    "llm-integration",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [
+    "customer-delivery"
+   ],
+   "seniority_delta": -0.3703,
+   "source": "ai-director",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": 0.5219,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication"
+   ],
+   "effort_hours_range": [
+    144.0,
+    480.0
+   ],
+   "leadership_exposure_delta": -0.5254,
+   "required_evidence": [
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication"
+   ],
+   "role_exposure_features": [
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ],
+   "seniority_delta": -0.025,
+   "source": "ai-director",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": -0.1696,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.6483,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.3687,
+   "source": "ai-director",
+   "target": "platform"
+  },
+  {
+   "client_exposure_delta": -0.1087,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": -0.6394,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.2506,
+   "source": "ai-director",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": 0.0708,
+   "constraints": [],
+   "effort_hours_range": [
+    80.0,
+    288.0
+   ],
+   "leadership_exposure_delta": -0.4136,
+   "required_evidence": [
+    "rag",
+    "cloud-architecture"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.0142,
+   "source": "ai-eng-lead",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": 0.1723,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership"
+   ],
+   "effort_hours_range": [
+    192.0,
+    768.0
+   ],
+   "leadership_exposure_delta": 0.2418,
+   "required_evidence": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.2057,
+   "source": "ai-eng-lead",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": 0.0068,
+   "constraints": [],
+   "effort_hours_range": [
+    192.0,
+    640.0
+   ],
+   "leadership_exposure_delta": -0.4105,
+   "required_evidence": [
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.177,
+   "source": "ai-eng-lead",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": 0.3919,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery"
+   ],
+   "effort_hours_range": [
+    240.0,
+    800.0
+   ],
+   "leadership_exposure_delta": -0.4144,
+   "required_evidence": [
+    "api-design",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [
+    "customer-delivery"
+   ],
+   "seniority_delta": -0.1646,
+   "source": "ai-eng-lead",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": 0.6942,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management"
+   ],
+   "effort_hours_range": [
+    176.0,
+    608.0
+   ],
+   "leadership_exposure_delta": -0.2836,
+   "required_evidence": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "role_exposure_features": [
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "seniority_delta": 0.1807,
+   "source": "ai-eng-lead",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": 0.0027,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.4065,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.163,
+   "source": "ai-eng-lead",
+   "target": "platform"
+  },
+  {
+   "client_exposure_delta": 0.0636,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": -0.3976,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.0449,
+   "source": "ai-eng-lead",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": 0.064,
+   "constraints": [],
+   "effort_hours_range": [
+    176.0,
+    672.0
+   ],
+   "leadership_exposure_delta": -0.0031,
+   "required_evidence": [
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1628,
+   "source": "backend",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": 0.1655,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    352.0,
+    1408.0
+   ],
+   "leadership_exposure_delta": 0.6523,
+   "required_evidence": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.3827,
+   "source": "backend",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": -0.0068,
+   "constraints": [],
+   "effort_hours_range": [
+    416.0,
+    1664.0
+   ],
+   "leadership_exposure_delta": 0.4105,
+   "required_evidence": [
+    "ai-evaluation",
+    "llm-integration",
+    "mlops",
+    "technical-leadership",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.177,
+   "source": "backend",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": 0.3851,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery"
+   ],
+   "effort_hours_range": [
+    224.0,
+    768.0
+   ],
+   "leadership_exposure_delta": -0.0039,
+   "required_evidence": [
+    "llm-integration",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [
+    "customer-delivery"
+   ],
+   "seniority_delta": 0.0124,
+   "source": "backend",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": 0.6874,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    336.0,
+    1248.0
+   ],
+   "leadership_exposure_delta": 0.1269,
+   "required_evidence": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management",
+    "technical-leadership"
+   ],
+   "role_exposure_features": [
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "seniority_delta": 0.3577,
+   "source": "backend",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": -0.0041,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": 0.004,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.014,
+   "source": "backend",
+   "target": "platform"
+  },
+  {
+   "client_exposure_delta": 0.0568,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": 0.0129,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1321,
+   "source": "backend",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": -0.3211,
+   "constraints": [],
+   "effort_hours_range": [
+    192.0,
+    704.0
+   ],
+   "leadership_exposure_delta": 0.0008,
+   "required_evidence": [
+    "system-design",
+    "ai-evaluation",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1504,
+   "source": "fde",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": -0.2196,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    352.0,
+    1408.0
+   ],
+   "leadership_exposure_delta": 0.6562,
+   "required_evidence": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.3703,
+   "source": "fde",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": -0.3919,
+   "constraints": [],
+   "effort_hours_range": [
+    432.0,
+    1696.0
+   ],
+   "leadership_exposure_delta": 0.4144,
+   "required_evidence": [
+    "system-design",
+    "ai-evaluation",
+    "mlops",
+    "technical-leadership",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1646,
+   "source": "fde",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": -0.3851,
+   "constraints": [],
+   "effort_hours_range": [
+    192.0,
+    640.0
+   ],
+   "leadership_exposure_delta": 0.0039,
+   "required_evidence": [
+    "sql",
+    "distributed-systems",
+    "system-design",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.0124,
+   "source": "fde",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": 0.3023,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: enterprise-sales, executive-communication, stakeholder-management",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    240.0,
+    928.0
+   ],
+   "leadership_exposure_delta": 0.1308,
+   "required_evidence": [
+    "ai-strategy",
+    "cloud-architecture",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management",
+    "technical-leadership"
+   ],
+   "role_exposure_features": [
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "seniority_delta": 0.3453,
+   "source": "fde",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": -0.3892,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": 0.0079,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.0016,
+   "source": "fde",
+   "target": "platform"
+  },
+  {
+   "client_exposure_delta": -0.3283,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": 0.0168,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1197,
+   "source": "fde",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": -0.6234,
+   "constraints": [],
+   "effort_hours_range": [
+    224.0,
+    832.0
+   ],
+   "leadership_exposure_delta": -0.13,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.1949,
+   "source": "field-cto",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": -0.5219,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: people-management, hiring, budget-ownership"
+   ],
+   "effort_hours_range": [
+    160.0,
+    640.0
+   ],
+   "leadership_exposure_delta": 0.5254,
+   "required_evidence": [
+    "people-management",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.025,
+   "source": "field-cto",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": -0.6942,
+   "constraints": [],
+   "effort_hours_range": [
+    352.0,
+    1344.0
+   ],
+   "leadership_exposure_delta": 0.2836,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.1807,
+   "source": "field-cto",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": -0.6874,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.1269,
+   "required_evidence": [
+    "python",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.3577,
+   "source": "field-cto",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": -0.3023,
+   "constraints": [],
+   "effort_hours_range": [
+    224.0,
+    768.0
+   ],
+   "leadership_exposure_delta": -0.1308,
+   "required_evidence": [
+    "python",
+    "api-design",
+    "llm-integration",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.3453,
+   "source": "field-cto",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": -0.6915,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.1229,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.3437,
+   "source": "field-cto",
+   "target": "platform"
+  },
+  {
+   "client_exposure_delta": -0.6306,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": -0.114,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.2256,
+   "source": "field-cto",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": 0.0681,
+   "constraints": [],
+   "effort_hours_range": [
+    272.0,
+    992.0
+   ],
+   "leadership_exposure_delta": -0.0071,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1488,
+   "source": "platform",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": 0.1696,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    352.0,
+    1408.0
+   ],
+   "leadership_exposure_delta": 0.6483,
+   "required_evidence": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.3687,
+   "source": "platform",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": -0.0027,
+   "constraints": [],
+   "effort_hours_range": [
+    512.0,
+    1984.0
+   ],
+   "leadership_exposure_delta": 0.4065,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops",
+    "technical-leadership",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.163,
+   "source": "platform",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": 0.0041,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.004,
+   "required_evidence": [
+    "python",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.014,
+   "source": "platform",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": 0.3892,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery"
+   ],
+   "effort_hours_range": [
+    320.0,
+    1088.0
+   ],
+   "leadership_exposure_delta": -0.0079,
+   "required_evidence": [
+    "python",
+    "api-design",
+    "llm-integration",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [
+    "customer-delivery"
+   ],
+   "seniority_delta": -0.0016,
+   "source": "platform",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": 0.6915,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    336.0,
+    1248.0
+   ],
+   "leadership_exposure_delta": 0.1229,
+   "required_evidence": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management",
+    "technical-leadership"
+   ],
+   "role_exposure_features": [
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "seniority_delta": 0.3437,
+   "source": "platform",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": 0.0609,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    1152.0
+   ],
+   "leadership_exposure_delta": 0.0089,
+   "required_evidence": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.1181,
+   "source": "platform",
+   "target": "privacy-legal-ai"
+  },
+  {
+   "client_exposure_delta": 0.0072,
+   "constraints": [],
+   "effort_hours_range": [
+    272.0,
+    992.0
+   ],
+   "leadership_exposure_delta": -0.016,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.0307,
+   "source": "privacy-legal-ai",
+   "target": "ai-architect"
+  },
+  {
+   "client_exposure_delta": 0.1087,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: stakeholder-management, people-management, hiring, budget-ownership",
+    "target postings state a much higher seniority level; an intermediate scope step is usually needed (assumption)"
+   ],
+   "effort_hours_range": [
+    352.0,
+    1408.0
+   ],
+   "leadership_exposure_delta": 0.6394,
+   "required_evidence": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "role_exposure_features": [
+    "stakeholder-management",
+    "people-management",
+    "hiring",
+    "budget-ownership"
+   ],
+   "seniority_delta": 0.2506,
+   "source": "privacy-legal-ai",
+   "target": "ai-director"
+  },
+  {
+   "client_exposure_delta": -0.0636,
+   "constraints": [],
+   "effort_hours_range": [
+    512.0,
+    1984.0
+   ],
+   "leadership_exposure_delta": 0.3976,
+   "required_evidence": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops",
+    "technical-leadership",
+    "mentoring"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": 0.0449,
+   "source": "privacy-legal-ai",
+   "target": "ai-eng-lead"
+  },
+  {
+   "client_exposure_delta": -0.0568,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.0129,
+   "required_evidence": [
+    "python",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design",
+    "testing"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.1321,
+   "source": "privacy-legal-ai",
+   "target": "backend"
+  },
+  {
+   "client_exposure_delta": 0.3283,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery"
+   ],
+   "effort_hours_range": [
+    320.0,
+    1088.0
+   ],
+   "leadership_exposure_delta": -0.0168,
+   "required_evidence": [
+    "python",
+    "api-design",
+    "llm-integration",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "role_exposure_features": [
+    "customer-delivery"
+   ],
+   "seniority_delta": -0.1197,
+   "source": "privacy-legal-ai",
+   "target": "fde"
+  },
+  {
+   "client_exposure_delta": 0.6306,
+   "constraints": [
+    "requires evidence normally gained in-role, not from study alone: customer-delivery, enterprise-sales, executive-communication, stakeholder-management"
+   ],
+   "effort_hours_range": [
+    336.0,
+    1248.0
+   ],
+   "leadership_exposure_delta": 0.114,
+   "required_evidence": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management",
+    "technical-leadership"
+   ],
+   "role_exposure_features": [
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management"
+   ],
+   "seniority_delta": 0.2256,
+   "source": "privacy-legal-ai",
+   "target": "field-cto"
+  },
+  {
+   "client_exposure_delta": -0.0609,
+   "constraints": [],
+   "effort_hours_range": [
+    288.0,
+    960.0
+   ],
+   "leadership_exposure_delta": -0.0089,
+   "required_evidence": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "role_exposure_features": [],
+   "seniority_delta": -0.1181,
+   "source": "privacy-legal-ai",
+   "target": "platform"
+  }
+ ],
+ "eligibility_note": "No path guarantees eligibility, an interview or an offer. A title, degree or certificate does not by itself establish that requirements are met.",
+ "nodes": {
+  "ai-architect": {
+   "centroid_unstable": false,
+   "client_exposure": 0.1036,
+   "conferred_features": [
+    "python",
+    "api-design",
+    "system-design",
+    "data-modeling",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "agent-orchestration",
+    "ai-strategy",
+    "aws",
+    "cloud-architecture",
+    "security",
+    "solution-design"
+   ],
+   "core_features": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "cloud-architecture"
+   ],
+   "label": "Applied AI Architect",
+   "leadership_exposure": 0.0348,
+   "n_postings": 160,
+   "seniority_level_mean": 0.6845
+  },
+  "ai-director": {
+   "centroid_unstable": false,
+   "client_exposure": 0.2051,
+   "conferred_features": [
+    "ai-evaluation",
+    "ml-modeling",
+    "mlops",
+    "ai-strategy",
+    "executive-communication",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership",
+    "org-design",
+    "ai-governance"
+   ],
+   "core_features": [
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "budget-ownership"
+   ],
+   "label": "AI Director",
+   "leadership_exposure": 0.6902,
+   "n_postings": 202,
+   "seniority_level_mean": 0.9044
+  },
+  "ai-eng-lead": {
+   "centroid_unstable": false,
+   "client_exposure": 0.0328,
+   "conferred_features": [
+    "python",
+    "system-design",
+    "testing",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "mlops",
+    "agent-orchestration",
+    "ci-cd",
+    "people-management",
+    "technical-leadership",
+    "hiring",
+    "roadmap-planning",
+    "mentoring"
+   ],
+   "core_features": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops",
+    "technical-leadership",
+    "mentoring"
+   ],
+   "label": "AI Engineering Lead",
+   "leadership_exposure": 0.4484,
+   "n_postings": 187,
+   "seniority_level_mean": 0.6987
+  },
+  "backend": {
+   "centroid_unstable": false,
+   "client_exposure": 0.0396,
+   "conferred_features": [
+    "python",
+    "typescript",
+    "go",
+    "java",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design",
+    "testing",
+    "data-modeling",
+    "backend-performance",
+    "aws",
+    "ci-cd",
+    "observability"
+   ],
+   "core_features": [
+    "python",
+    "sql",
+    "api-design",
+    "distributed-systems",
+    "system-design",
+    "testing"
+   ],
+   "label": "Backend Engineer",
+   "leadership_exposure": 0.0379,
+   "n_postings": 166,
+   "seniority_level_mean": 0.5217
+  },
+  "fde": {
+   "centroid_unstable": false,
+   "client_exposure": 0.4247,
+   "conferred_features": [
+    "python",
+    "typescript",
+    "sql",
+    "api-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag",
+    "prompt-engineering",
+    "aws",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery",
+    "stakeholder-management"
+   ],
+   "core_features": [
+    "python",
+    "api-design",
+    "llm-integration",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery"
+   ],
+   "label": "Forward Deployed Engineer",
+   "leadership_exposure": 0.034,
+   "n_postings": 185,
+   "seniority_level_mean": 0.5341
+  },
+  "field-cto": {
+   "centroid_unstable": false,
+   "client_exposure": 0.727,
+   "conferred_features": [
+    "system-design",
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "technical-discovery",
+    "enterprise-sales",
+    "executive-communication",
+    "pre-sales-demos",
+    "stakeholder-management",
+    "technical-leadership",
+    "roadmap-planning"
+   ],
+   "core_features": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales",
+    "executive-communication",
+    "stakeholder-management",
+    "technical-leadership"
+   ],
+   "label": "Field CTO",
+   "leadership_exposure": 0.1648,
+   "n_postings": 202,
+   "seniority_level_mean": 0.8794
+  },
+  "platform": {
+   "centroid_unstable": false,
+   "client_exposure": 0.0355,
+   "conferred_features": [
+    "python",
+    "go",
+    "distributed-systems",
+    "aws",
+    "cloud-architecture",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre",
+    "security",
+    "cost-optimization"
+   ],
+   "core_features": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability",
+    "sre"
+   ],
+   "label": "Platform Engineer",
+   "leadership_exposure": 0.0419,
+   "n_postings": 201,
+   "seniority_level_mean": 0.5357
+  },
+  "privacy-legal-ai": {
+   "centroid_unstable": false,
+   "client_exposure": 0.0964,
+   "conferred_features": [
+    "python",
+    "ai-evaluation",
+    "ai-safety",
+    "security",
+    "stakeholder-management",
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "contract-analysis",
+    "risk-assessment"
+   ],
+   "core_features": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance",
+    "risk-assessment"
+   ],
+   "label": "Privacy / Legal AI Specialist",
+   "leadership_exposure": 0.0508,
+   "n_postings": 197,
+   "seniority_level_mean": 0.6538
+  }
+ }
+}

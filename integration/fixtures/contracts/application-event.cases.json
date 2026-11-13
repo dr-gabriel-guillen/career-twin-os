@@ -1,0 +1,381 @@
+{
+  "contract": "application-event",
+  "bases": {
+    "minimal": {
+      "id": "evt-syn-000001",
+      "application_id": "app-syn-0001",
+      "job_id": "job-syn-000001",
+      "event_type": "saved",
+      "recorded_at": "2026-01-05T09:00:00Z",
+      "actor": "user",
+      "source": "synthetic-ui",
+      "outcome_status": "observed"
+    },
+    "full": {
+      "id": "evt-syn-000001",
+      "application_id": "app-syn-0001",
+      "job_id": "job-syn-000001",
+      "event_type": "submitted",
+      "recorded_at": "2026-01-05T09:00:00Z",
+      "actor": "user",
+      "source": "synthetic-ui",
+      "outcome_status": "observed",
+      "resume_variant_id": "rv-syn-0001",
+      "occurred_at": "2026-01-05T09:00:00Z",
+      "experiment_id": "exp-syn-0001",
+      "approval_token_ref": "approval-syn-0001",
+      "notes": "Synthetic note."
+    }
+  },
+  "valid": [
+    {
+      "name": "minimal-saved",
+      "base": "minimal",
+      "patch": []
+    },
+    {
+      "name": "full-submitted-with-approval",
+      "base": "full",
+      "patch": []
+    },
+    {
+      "name": "nullable-refs-null",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/resume_variant_id",
+          "value": null
+        },
+        {
+          "op": "replace",
+          "path": "/experiment_id",
+          "value": null
+        },
+        {
+          "op": "replace",
+          "path": "/event_type",
+          "value": "note"
+        },
+        {
+          "op": "replace",
+          "path": "/approval_token_ref",
+          "value": null
+        },
+        {
+          "op": "replace",
+          "path": "/occurred_at",
+          "value": null
+        }
+      ]
+    },
+    {
+      "name": "imported-historical-submission",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/event_type",
+          "value": "submitted"
+        },
+        {
+          "op": "replace",
+          "path": "/actor",
+          "value": "import"
+        },
+        {
+          "op": "replace",
+          "path": "/outcome_status",
+          "value": "self-reported"
+        }
+      ]
+    },
+    {
+      "name": "outcome-unknown",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outcome_status",
+          "value": "unknown"
+        },
+        {
+          "op": "replace",
+          "path": "/event_type",
+          "value": "rejected"
+        }
+      ]
+    }
+  ],
+  "invalid": [
+    {
+      "name": "missing-id",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/id"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-job-id",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/job_id"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-actor",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/actor"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-recorded-at",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/recorded_at"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "missing-outcome-status",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/outcome_status"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "event-type-auto-applied",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/event_type",
+          "value": "auto_applied"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "event-type-message-sent",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/event_type",
+          "value": "recruiter_message_sent"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "actor-bot",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/actor",
+          "value": "bot"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "outcome-status-inferred",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/outcome_status",
+          "value": "inferred"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "recorded-at-local-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/recorded_at",
+          "value": "01/05/2026 9:00"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "occurred-at-number",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/occurred_at",
+          "value": 0
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "notes-not-string",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/notes",
+          "value": [
+            "a"
+          ]
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "extra-recruiter-email",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/recruiter_email",
+          "value": "recruiter@fictional.example"
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "job-id-null",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/job_id",
+          "value": null
+        }
+      ],
+      "layer": "schema"
+    },
+    {
+      "name": "submitted-without-approval",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/event_type",
+          "value": "submitted"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "APP-APPROVAL-001"
+    },
+    {
+      "name": "submitted-with-blank-approval",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/approval_token_ref",
+          "value": " "
+        }
+      ],
+      "layer": "semantic",
+      "rule": "APP-APPROVAL-001"
+    },
+    {
+      "name": "submitted-by-system",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/actor",
+          "value": "system"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "APP-APPROVAL-002"
+    },
+    {
+      "name": "occurred-after-recorded",
+      "base": "full",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/occurred_at",
+          "value": "2026-01-06T09:00:00Z"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "APP-TIME-001"
+    },
+    {
+      "name": "non-utc-recorded-at",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/recorded_at",
+          "value": "2026-01-05T04:00:00-05:00"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "UTC-001"
+    },
+    {
+      "name": "empty-id-accepted-by-schema",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/id",
+          "value": ""
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "empty-job-id-accepted-by-schema",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/job_id",
+          "value": ""
+        }
+      ],
+      "layer": "semantic",
+      "rule": "ID-001"
+    },
+    {
+      "name": "notes-claim-interview-odds",
+      "base": "minimal",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/notes",
+          "value": "Interview odds: 70%"
+        }
+      ],
+      "layer": "semantic",
+      "rule": "PROB-001"
+    }
+  ]
+}
