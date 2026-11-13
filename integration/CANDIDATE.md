@@ -4,10 +4,10 @@
 |---|---|
 | **Branch** | `agent/ct-consolidation` (one branch that merges lanes A, B, C, E and F) |
 | **Code commit under test** | `aaab3ae00da5ad7d6bb63a946f449e408887c051` |
-| **Report commit** | the commit that adds this file. After `aaab3ae` it changes only `integration/` (this report, the candidate pins, lint fixes and the runner's consolidated mode) and `apps/web/design/consolidation/` (screenshots). No product code |
+| **Later commits** | After `aaab3ae` the branch changes only `integration/`, `.github/`, `docs/coordination/` (lane E: this report, candidate pins, the ownership policy fix, the candidate CI job, proposals) and `apps/web/design/consolidation/` (screenshots). No product code. `ctint.candidate verify` proves this on every CI run |
 | **Base** | `main` @ `bc957fd7ed98ad1bf97eb5abc19d64b146de8dcf` |
 | **Merged lane heads** | A `0b331ea6`, B `755ccae1`, C `f76e24c8`, E `9f7219e0`, F `f165286d` (which contains D `b6a4340`). No lane branch moved; no PR merged |
-| **Status** | Ready for **one owner acceptance review**. Not approved, not merged, not deployed. Synthetic data only |
+| **Status** | Owner-authorized for **synthetic-only local acceptance testing** (2026-11-13). Not product-approved, not merge-approved, not merged, not deployed. PR #14 stays draft |
 
 ## 1. Launch it (one command, one address)
 
@@ -96,7 +96,7 @@ Observation: the FDE plan's hypothetical point lands next to the Frontend centre
 | Full-space movement | Distance to the **FDE** profile goes 2.253 → **2.071** (closer). Distance to **Frontend** goes 3.090 → **3.315** (further) |
 | Why it looks near Frontend | About 90% of the scenario vector's variation lies outside the two drawn axes (residual share 0.896). The plan moves the point left on axis 1 (technical discovery, systems integration) but barely on axis 2. Most of what separates the candidate from the FDE centre is untouched: strong cloud architecture, distributed systems, AWS, Kubernetes and SQL, which FDE postings rarely list, and FDE's customer delivery and enterprise sales, which the plan doesn't include. Distributed systems alone accounts for −0.41 on axis 2 |
 | Verdict | **No model or projection defect.** The 2-D proximity is a projection effect. Model outputs were not altered |
-| Finding for the owner | Two of the four auto-generated demonstration actions, security and TypeScript (both to 0.8), overshoot the FDE profile (0.38 and 0.56) and slightly *increase* full-space distance. Lane C's demo plan picks gaps by requirement shortfall, not by profile distance. See decision 3 |
+| Finding for the owner | Three of the four auto-generated demonstration actions end above the FDE profile. Two of them, security and TypeScript (both to 0.8 against 0.38 and 0.56), also slightly *increase* full-space distance; technical-discovery (0.8 against 0.53) still reduces it. Lane C's demo plan picks gaps by requirement shortfall, not by profile distance. Proposal: [`docs/coordination/PROPOSAL-atlas-demo-plan-objective.md`](../docs/coordination/PROPOSAL-atlas-demo-plan-objective.md) (capping at the profile gives 2.008 instead of 2.071). Not implemented |
 
 UI changes:
 - The route card states the full-space movement ("closer to the FDE role profile: distance 2.25 now, 2.07 after; lower is closer; not fit").
@@ -107,7 +107,7 @@ New lane E gate `scenario_geometry`: the drawn route must equal the model's line
 
 ## 5. Verified test matrix
 
-All runs below are **local runs by this agent** on Windows 11 with Chrome 157, on the code commit `aaab3ae`. They are **not CI**. GitHub CI has not run on this branch yet.
+All runs below are **local runs by this agent** on Windows 11 with Chrome 157, on the code commit `aaab3ae`. They are **not CI**. GitHub Actions results are reported separately (section 5b) and on PR #14.
 
 | Area | Command | Result |
 |---|---|---|
@@ -121,7 +121,8 @@ All runs below are **local runs by this agent** on Windows 11 with Chrome 157, o
 | UI integration (lane E `ui.e2e` script) | `PW_CHANNEL=chrome npm run test:integration` | 1 / 1. Keyboard only, 339 Tab presses, 0 pointer events; CRM boundary 1 of 1, 0 of 69 simulated shown (committed sample) |
 | Ten-stage pipeline with browser stage | launcher (section 1), `run-20261113T082245Z` | **10 / 10 PASS** |
 | Full integration gate | `python -m ctint.runner … --lane A..D=aaab3ae --allow-setup` | **PASS** in consolidated mode (section 5a) |
-| Lane E harness | `ruff format --check`, `ruff check`, `mypy --strict`, `pytest -m "not network"` | clean, clean, clean, **589 passed** |
+| Lane E harness | `ruff format --check`, `ruff check`, `mypy --strict`, `pytest -m "not network"` | clean, clean, clean, **600 passed** (1 network test deselected; after the ownership fix) |
+| CI-equivalent candidate run | `ctint.candidate verify`, then `ctint.acceptance --pins acceptance-pins.candidate.json --install --no-serve` | provenance OK; 9 stages PASS, browser stage SKIP (not requested), build OK |
 | Lane B suites | `pytest` in `packages/experiments`, `packages/applications` | **99 passed**, **32 passed** |
 | Secrets, paid APIs, CI hygiene | `ctint.sec_scan --tracked`, `ctint.sec_paid --tracked`, `ctint.sec_ci` | 0, 0, 0 findings (651 files) |
 | Served build is the candidate | provenance plus bundle strings on port 4196 | provenance names `aaab3ae` for every lane; the bundle contains the new screens' strings; old servers stopped |
@@ -129,6 +130,20 @@ All runs below are **local runs by this agent** on Windows 11 with Chrome 157, o
 ### 5a. Full integration gate (`ctint.runner`)
 
 First run (per-lane ownership rules): 10/10 stages PASS, every lane's own test suite PASS (A: matching, connectors; B; C; D unit), secrets 0, paid/outreach 0, manifests OK. It **failed only on ownership**, because "lane D's commit" is the merged commit and so touches A/B/C paths. The runner now detects when every lane is pinned to one merged SHA, says so in the report, and applies the equivalent rule: every changed path belongs to some lane, and no frozen contract changed. Rerun result: **Integration run: PASS**. 10/10 stages; lanes A, B, C and D each PASS with 0 ownership violations, manifests OK, 0 secrets, 0 paid/outreach findings, and all lane test suites passing (A 2/2, B 1/1, C 1/1, D 1/1). The report carries the "consolidated commit" note for each lane.
+
+### 5b. GitHub Actions (CI) and the ownership fix
+
+The first pull-request run on `c8ff838` failed (`test_lane_e_branch_only_touches_owned_paths`, 610 violations). GitHub checks a pull request out as a detached merge commit, so the test's branch-name switch never saw `agent/ct-consolidation` and applied lane E's rule to the whole consolidation. The `ctint.lanes` CI step also printed "not applicable" and passed for any branch it did not know, including this one.
+
+Fixed in lane E, without weakening either protection:
+
+- **Explicit, fail-closed branch policy** (`ctint.lanes.policy_for_branch`), shared by the CLI and the test. Lane branches keep the per-lane rule. `agent/ct-consolidation` gets the consolidated rule: every path belongs to a lane, and no frozen contract changes. `agent/ct-f-premium-ui` is registered as lane D's alias. Any other branch, an empty or `HEAD` branch, or a fork naming itself `agent/ct-consolidation` is a policy error (exit 2), never a pass.
+- **Declared, not inferred.** CI passes the pull request's head ref, head repository and base repository. The test reads `GITHUB_HEAD_REF` (or `CT_LANE_BRANCH`) and otherwise the symbolic branch. A detached checkout with nothing declared is reported as UNKNOWN; the CI step remains the authoritative check.
+- **Negative regression tests:** named branch, detached merge checkout, empty/`HEAD`/forged/unknown branches, fork head, frozen-contract edit, contract deletion, unowned path, lane-alias overreach.
+- **Candidate CI job (new, gating when `acceptance-pins.candidate.json` exists):** provenance check (`ctint.candidate verify`), the pinned nine-stage pipeline with every integrity gate and the production build, then web fixtures, typecheck and unit tests. It downloads no browser (`PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`, browser stage not run), serves and deploys nothing, and contacts no external service beyond pip and npm package installs. The browser-measured CRM gate (`crm_boundary`) is therefore local-only; in CI the same boundary is covered by the web unit tests and lane E's `lab_boundary`.
+- The old `integration-run` job is unchanged and stays non-gating; it is not evidence about this candidate.
+
+GitHub run ids and results for the current head are posted on PR #14; they are not copied here, so this file never claims a CI result it cannot know.
 
 ## 6. Security and truthful state
 
@@ -141,25 +156,25 @@ First run (per-lane ownership rules): 10/10 stages PASS, every lane's own test s
   - Silence is never recorded as rejection.
 - **Experiment integrity:** design locked before assignment; no winner declared without evidence; simulated runs labelled.
 - **Projection identity:** one projection id end to end, now gated (`scenario_geometry`).
-- **Frozen contracts:** unchanged, and the ownership test on this branch asserts it.
+- **Frozen contracts:** unchanged. The consolidated ownership policy fails on any change to `contracts/`, in CI and locally.
 
 ## 7. Known limitations and defects, ranked
 
-1. **MEDIUM: not owner-accepted, and not independently reviewed.** These are agent-run results; ChatGPT hasn't reviewed `aaab3ae` yet.
-2. **MEDIUM: simulated events still say `actor: "user"`.** The contract's actor enum has no "simulation" value, and the approval gate requires `user`. The stream plus `simulation:` source make them distinguishable, and the UI never relies on the actor. A contract RFC would make each record self-describing (decision 2).
-3. **MEDIUM: Lane C's demonstration plan** includes two actions that overshoot the FDE profile (section 4, decision 3).
+1. **MEDIUM: not product-accepted or merge-approved.** Authorized for synthetic-only local acceptance testing only. ChatGPT's first review of #14 found the CI ownership blocker (section 5b).
+2. **MEDIUM: simulated events still say `actor: "user"`.** The contract's actor enum has no "simulation" value, and the approval gate requires `user`. The stream plus `simulation:` source make them distinguishable, and the UI never relies on the actor. Owner decision: no contract change now. Draft: [`docs/coordination/RFC-DRAFT-simulation-actor.md`](../docs/coordination/RFC-DRAFT-simulation-actor.md).
+3. **MEDIUM: Lane C's demonstration plan** ends three of four actions above the FDE profile (section 4). Owner decision: engine unchanged; proposal in `docs/coordination/PROPOSAL-atlas-demo-plan-objective.md`.
 4. **LOW:** on phones the transitions map leaves unlabelled any centre it can't fit (listed under the map; the full map has every point). There is no pan or zoom.
 5. **LOW:** the visual checks are layout assertions; there are no committed pixel baselines.
 6. **LOW:** no ESLint in `apps/web` (typecheck only). The main JS chunk is 567 kB uncompressed (Vite's size warning).
 7. **LOW:** two download tests failed once under parallel load. The helper now waits for the finished file, and the next two full runs were clean.
 8. **LOW:** the committed pipeline sample (`apps/web/tests/upstream-samples/pipeline`) predates lane B's `simulation:` labels. It is kept on purpose: it proves the UI separates the streams without relying on labels.
 
-## 8. Decisions requested from the owner
+## 8. Owner decisions (2026-11-13) and what remains
 
-1. **Visual and product acceptance** of the integrated product: the four journeys plus the six other screens, at the address in section 1.
-2. **Optional contract RFC:** add `"simulation"` to the application-event `actor` enum. The current fix needs no contract change.
-3. **Lane C demonstration plan:** keep gap-by-shortfall selection, or prefer actions that reduce full-space distance to the target profile.
-4. **Merge approach** (section 9).
+1. Authorized for synthetic-only local acceptance testing; **final functional and visual acceptance is still the owner's**, at the address in section 1.
+2. No frozen-contract change now; simulated and user activity stay structurally separate. RFC drafted, not filed.
+3. Atlas projection mathematics preserved; demo-plan objective proposed for lane C, not implemented.
+4. PR #14 stays draft. A single consolidated merge needs passing CI, independent review and explicit owner approval.
 
 ## 9. Proposed merge and rollback (pending approval; nothing done)
 
