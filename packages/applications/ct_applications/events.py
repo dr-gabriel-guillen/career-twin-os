@@ -262,15 +262,19 @@ class ApplicationStore:
             raise WorkflowError("a submission cannot be dated before the approval that authorised it")
 
     def record_user_submission(self, *, application_id: str, occurred_at: str | None = None,
-                               notes: str = "") -> dict[str, Any]:
-        """The user tells CareerTwin they submitted the approved package themselves."""
+                               notes: str = "", source: str = "user:manual-submission-report") -> dict[str, Any]:
+        """The user tells CareerTwin they submitted the approved package themselves.
+
+        ``source`` names who produced the report. Simulations that drive this gate on the user's behalf
+        (the experiment stage) must say so with a ``simulation:`` source; the gate itself is unchanged.
+        """
         history = self._effective(application_id)
         if replay(history) != "approved":
             raise WorkflowError("the application package has not been approved by the user")
         last = [e for e in history if e["event_type"] != "note"][-1]
         return self.append_event(
             application_id=application_id, job_id=last["job_id"], event_type="submitted",
-            actor="user", source="user:manual-submission-report", outcome_status="self-reported",
+            actor="user", source=source, outcome_status="self-reported",
             occurred_at=occurred_at, resume_variant_id=last["resume_variant_id"],
             experiment_id=last.get("experiment_id"), approval_token_ref=last["approval_token_ref"],
             notes=notes)

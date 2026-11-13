@@ -4,12 +4,12 @@
  *
  * `simulate` exists for QA of loading / error / empty states (Settings page).
  */
-import type { PayloadName, PayloadSource } from "./index";
+import { ABSENT, type PayloadName, type PayloadSource } from "./index";
 
 export const SIMULATE_MODES = ["none", "slow", "error", "empty"] as const;
 export type SimulateMode = (typeof SIMULATE_MODES)[number];
 
-const LOADERS: Record<PayloadName, () => Promise<{ default: unknown }>> = {
+const LOADERS: Record<Exclude<PayloadName, "lab-events">, () => Promise<{ default: unknown }>> = {
   "jobs.feed": () => import("@/fixtures/generated/jobs.feed.json"),
   claims: () => import("@/fixtures/generated/claims.json"),
   evidence: () => import("@/fixtures/generated/evidence.json"),
@@ -35,6 +35,8 @@ export function createFixtureSource(simulate: SimulateMode = "none"): PayloadSou
     id: "fixture",
     label: "Offline synthetic fixtures",
     async load(name) {
+      // Fixtures have no simulated experiment-run stream.
+      if (name === "lab-events") return ABSENT;
       if (simulate === "slow") await new Promise((r) => setTimeout(r, 1500));
       if (simulate === "error") throw new Error("Simulated load failure (QA setting)");
       if (simulate === "empty" && EMPTY_LISTS.includes(name)) return [];

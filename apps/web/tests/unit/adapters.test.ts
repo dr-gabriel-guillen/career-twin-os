@@ -5,7 +5,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { ADAPTERS, loadBundle, totalRejected, type PayloadName, type PayloadSource } from "@/adapters";
+import { ABSENT, ADAPTERS, loadBundle, totalRejected, type PayloadName, type PayloadSource } from "@/adapters";
 import { isAtlasProjection, isExperimentOutcome, isMatchExplanation, isResumeVariant, isScenarioOutputs } from "@/adapters/proposedValidators";
 import { Checker } from "@/adapters/validate";
 
@@ -23,7 +23,8 @@ function source(overrides: Partial<Record<PayloadName, unknown | (() => never)>>
         if (typeof o === "function") return (o as () => never)();
         return o;
       }
-      return read(name);
+      // The fixtures have no simulated experiment-run stream.
+      return name === "lab-events" ? ABSENT : read(name);
     },
   };
 }

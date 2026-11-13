@@ -44,6 +44,10 @@ WINDOW = 30
 SUBJECT_FALLBACK = "candidate-synthetic-001"
 
 
+
+SIMULATED_NOTE = ("Simulated by the pipeline's experiment stage. No application was submitted and no "
+                  "employer was contacted.")
+
 class BadInput(Exception):
     pass
 
@@ -295,10 +299,16 @@ class Stage:
                                             outcome_status="observed", **common)
                 token = simulated_user_grant(self.lab.ledger, ap.SUBMIT_APPLICATION, app_id,
                                              self.lab.package_hash(app_id, variant["id"]))
-                self.lab.store.append_event(event_type="approved", actor="user", source="user:approval-dialog",
-                                            outcome_status="observed", approval_token_ref=token, **common)
+                # Simulated: the experiment stage stands in for the user under a simulated grant to
+                # exercise the approval gate. The `simulation:` sources and notes say so inside the
+                # record; the stream (experiment_events.json) is the provenance consumers rely on.
+                self.lab.store.append_event(event_type="approved", actor="user",
+                                            source="simulation:experiment-approval",
+                                            outcome_status="observed", approval_token_ref=token,
+                                            notes=SIMULATED_NOTE, **common)
                 self.clock.advance(minutes=10)
-                self.lab.store.record_user_submission(application_id=app_id)
+                self.lab.store.record_user_submission(application_id=app_id, notes=SIMULATED_NOTE,
+                                                      source="simulation:experiment-submission")
                 if rng.random() < 0.2:  # true effect 0: the arm is never consulted
                     pending.append((app_id, post["id"], self.clock.now() + timedelta(days=1 + rng.random() * 25)))
             _dump(self.state, "refused_enrolments.json", refused)

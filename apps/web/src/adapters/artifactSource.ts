@@ -151,19 +151,13 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
           return t.payload;
         }
         case "application-events": {
-          const [a, b] = await Promise.all([need("events.json"), need("experiment_events.json")]);
-          if (a === undefined && b === undefined) return ABSENT;
-          // A file that is present but is not a list is handed on as it is, so the adapter reports it.
-          const bad = [a, b].find((x) => x !== undefined && !Array.isArray(x));
-          if (bad !== undefined) return bad;
-          const seen = new Set<string>();
-          return [...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].filter((e) => {
-            const id = isObj(e) && typeof e.id === "string" ? e.id : null;
-            if (id === null) return true;
-            if (seen.has(id)) return false;
-            seen.add(id);
-            return true;
-          });
+          // The application log only. experiment_events.json is a separate stream ("lab-events").
+          const raw = await need("events.json");
+          return raw === undefined ? ABSENT : raw;
+        }
+        case "lab-events": {
+          const raw = await need("experiment_events.json");
+          return raw === undefined ? ABSENT : raw;
         }
         case "experiments": {
           const raw = await need("experiment.json");
@@ -238,12 +232,7 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
       }
       const provenance: BundleProvenance = { data_source: "artifacts", dialects: { ...dialects }, mock_sources: [...mock].sort(), missing: [...missing].sort() };
       const jobFacets: Record<string, JobFacet> = facetsFromJobsExt(await peek("jobs_ext.json"));
-      // Records in experiment_events.json are the experiment run's units, not the person's own log.
-      const expEvents = await peek("experiment_events.json").catch(() => undefined);
-      const experimentUnitApplicationIds = Array.isArray(expEvents)
-        ? [...new Set(expEvents.flatMap((e) => (isObj(e) && typeof e.application_id === "string" ? [e.application_id] : [])))]
-        : [];
-      return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes], jobFacets, experimentUnitApplicationIds };
+      return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes], jobFacets };
     },
   };
 }

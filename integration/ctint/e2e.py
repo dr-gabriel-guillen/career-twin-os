@@ -395,6 +395,37 @@ def v_experiment(a: Path, count: int) -> list[str]:
     for finding in ei.check_experiment_bundle(spec, assignments, events, analysis):
         if finding.severity != "low":
             problems.append(f"experiment.run: {finding}")
+    problems.extend(lab_boundary(a, events))
+    return problems
+
+
+SIMULATED_TYPES = ("approved", "submitted")
+
+
+def lab_boundary(a: Path, events: list[dict[str, Any]]) -> list[str]:
+    """The experiment stage's events are a simulated stream, kept apart from the application log.
+
+    Two producer rules (issue #6, [CHATGPT-REVIEW] HIGH): its application ids never reuse an id from
+    events.json, and every approval or submission it simulates says so in its source. Consumers rely on
+    the file, not on these labels, to tell the streams apart; the labels keep the record honest when
+    read on its own.
+    """
+    problems: list[str] = []
+    log = read_json(a / "events.json") if (a / "events.json").exists() else []
+    log_apps = {e.get("application_id") for e in log} if _is_list_of_dicts(log) else set()
+    shared = sorted({str(e.get("application_id")) for e in events} & {str(x) for x in log_apps})
+    if shared:
+        problems.append(
+            f"experiment_events.json: {len(shared)} simulated application ids also occur in events.json, "
+            f"e.g. {shared[0]!r}; the simulated stream must not write into the application log"
+        )
+    unlabelled = [e.get("id") for e in events
+                  if e.get("event_type") in SIMULATED_TYPES and not str(e.get("source", "")).startswith("simulation:")]
+    if unlabelled:
+        problems.append(
+            f"experiment_events.json: {len(unlabelled)} simulated approvals/submissions do not carry a "
+            f"'simulation:' source, e.g. {unlabelled[0]!r}; they would read as the user's own actions"
+        )
     return problems
 
 
@@ -483,6 +514,28 @@ def v_ui(a: Path, count: int) -> list[str]:
         )
     if report.get("mock_sources"):
         problems.append(f"ui_report.json: screens still backed by mocks: {report.get('mock_sources')}")
+    problems.extend(crm_boundary(a, report))
+    return problems
+
+
+def crm_boundary(a: Path, report: dict[str, Any]) -> list[str]:
+    """The browser-measured application count must equal the log's, with no simulated unit shown."""
+    measured = (report.get("detail") or {}).get("crm_boundary")
+    if not isinstance(measured, dict):
+        return ["ui_report.json: detail.crm_boundary missing; the UI stage must measure the applications it shows"]
+    log = read_json(a / "events.json") if (a / "events.json").exists() else []
+    expected = len({e.get("application_id") for e in log}) if _is_list_of_dicts(log) else 0
+    problems = []
+    if measured.get("applications_shown") != expected:
+        problems.append(
+            f"ui_report.json: the Applications screen showed {measured.get('applications_shown')!r} applications; "
+            f"events.json has {expected}"
+        )
+    if measured.get("simulated_shown_as_applications") != 0:
+        problems.append(
+            f"ui_report.json: {measured.get('simulated_shown_as_applications')!r} simulated experiment units "
+            "were shown as applications or tracked postings"
+        )
     return problems
 
 

@@ -151,7 +151,18 @@ def test_lane_e_branch_only_touches_owned_paths() -> None:
             "UNKNOWN: no main ref in this checkout (CI runs the same check via `python -m ctint.lanes`)"
         )
     changed = lanes.changed_paths(root, base, "HEAD")
+    branch = subprocess.run(["git", "-C", str(root), "rev-parse", "--abbrev-ref", "HEAD"],
+                            capture_output=True, text=True, check=False).stdout.strip()
+    if branch == CONSOLIDATION_BRANCH:
+        # The single-owner consolidation branch merges every lane: each changed path must still belong
+        # to a lane, and no frozen contract may change.
+        assert [p for p in changed if lanes.owner_of(p) is None] == []
+        assert [p for p in changed if p.startswith(lanes.FROZEN_SHARED)] == []
+        return
     assert lanes.ownership_violations("E", changed) == []
+
+
+CONSOLIDATION_BRANCH = "agent/ct-consolidation"
 
 
 def _ref_exists(root: Path, ref: str) -> bool:
