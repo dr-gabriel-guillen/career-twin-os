@@ -155,6 +155,21 @@ test("no squeezed text on any prototype screen at 1440 and 375", async ({ page }
   }
 });
 
+test("atlas map labels stay inside the drawing at 1440 and 375", async ({ page }) => {
+  for (const w of [1440, 375]) {
+    await page.setViewportSize({ width: w, height: w < 600 ? 812 : 1000 });
+    await go(page, "/atlas", "Career paths");
+    const outside = await page.locator("svg.pt-map").evaluate((svg) => {
+      const box = svg.getBoundingClientRect();
+      return [...svg.querySelectorAll("text")]
+        .map((t) => ({ t: t.textContent ?? "", r: t.getBoundingClientRect() }))
+        .filter(({ r }) => r.left < box.left - 1 || r.right > box.right + 1)
+        .map(({ t, r }) => `${t} ${Math.round(r.left - box.left)}..${Math.round(r.right - box.left)} of ${Math.round(box.width)}`);
+    });
+    expect(outside, `labels clipped at ${w}px`).toEqual([]);
+  }
+});
+
 test("atlas copy describes projection variance and explains only the positions actually drawn", async ({ page }) => {
   // Fixture data: both candidate positions are projected.
   await go(page, "/atlas", "Career paths");

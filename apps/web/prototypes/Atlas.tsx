@@ -60,7 +60,12 @@ function TransitionMap({ p, scenarioEntity, families }: { p: AtlasProjection; sc
       {target ? (
         <g>
           <circle cx={sx(target.coords[0]!)} cy={sy(target.coords[1]!)} r={7} className="pt-map__target" />
-          <text x={sx(target.coords[0]!)} y={sy(target.coords[1]!) + 22} textAnchor="middle" className="pt-map__label pt-map__label--target">
+          <text
+            x={sx(target.coords[0]!) > W - 110 ? sx(target.coords[0]!) + 8 : sx(target.coords[0]!) < 110 ? sx(target.coords[0]!) - 8 : sx(target.coords[0]!)}
+            y={sy(target.coords[1]!) + 22}
+            textAnchor={sx(target.coords[0]!) > W - 110 ? "end" : sx(target.coords[0]!) < 110 ? "start" : "middle"}
+            className="pt-map__label pt-map__label--target"
+          >
             After this plan (hypothetical)
           </text>
         </g>
