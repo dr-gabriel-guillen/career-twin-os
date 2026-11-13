@@ -1,0 +1,1225 @@
+{
+  "schema_version": "atlas-projection/0.1-proposed",
+  "projection_id": "interpretable-axes-v1",
+  "method": "interpretable-axes",
+  "generated_at": "2026-11-10T12:00:00Z",
+  "input": {
+    "representation": "skill-one-hot (role centroids are means)",
+    "n_points": 37,
+    "n_dims": 28
+  },
+  "axes": [
+    {
+      "label": "Technical depth ↔ customer-facing",
+      "explained_variance_ratio": null,
+      "description": "Share of listed skills tagged customer-facing, rescaled to -1 (all technical) .. +1 (all customer-facing). Tags are authored."
+    },
+    {
+      "label": "Individual scope ↔ leadership scope",
+      "explained_variance_ratio": null,
+      "description": "Half seniority-implied scope, half share of leadership-tagged skills (0..1). Tags are authored."
+    }
+  ],
+  "diagnostics": {
+    "cumulative_explained_variance": null,
+    "trustworthiness": {
+      "k": 5,
+      "value": 0.7732
+    },
+    "continuity": {
+      "k": 5,
+      "value": 0.7961
+    }
+  },
+  "warnings": [
+    "2-D positions are a visualisation. Distance on this map is not fit, not similarity you can rely on, and not a hiring likelihood.",
+    "One-hot skill vectors produce many tied distances; neighbour ranks break ties by record order.",
+    "Axes are hand-defined from authored skill tags; they are easier to read but discard most of the skill information."
+  ],
+  "points": [
+    {
+      "entity_id": "fake-fde-1",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Forward Deployed Engineer",
+      "coords": [
+        -0.6,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-fde-1",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-fde-1",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-ai-2",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Applied AI Architect",
+      "coords": [
+        -1,
+        0.3
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-ai-2",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-ai-2",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-cto-3",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Field CTO",
+      "coords": [
+        0.6,
+        0.8
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-cto-3",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-cto-3",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-backend-4",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Backend Engineer",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-backend-4",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-backend-4",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-se-5",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Solutions Engineer, AI Platform",
+      "coords": [
+        0.2,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-se-5",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-se-5",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-se-6",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Senior Solutions Engineer",
+      "coords": [
+        0.2,
+        0.25
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-se-6",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-se-6",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-fde-7",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Forward Deployed Engineer, Public Sector",
+      "coords": [
+        -0.6,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-fde-7",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-fde-7",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-fde-8",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Forward Deployed Engineer",
+      "coords": [
+        -0.6,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-fde-8",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-fde-8",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-ai-9",
+      "projection_id": "interpretable-axes-v1",
+      "label": "AI Solutions Architect",
+      "coords": [
+        -0.6,
+        0.3
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-ai-9",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-ai-9",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-ai-10",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Principal AI Architect",
+      "coords": [
+        -0.2,
+        0.6
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-ai-10",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-ai-10",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-cto-11",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Field CTO, Financial Services",
+      "coords": [
+        0.6,
+        0.9
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-cto-11",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-cto-11",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-backend-12",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Staff Backend Engineer",
+      "coords": [
+        -1,
+        0.3
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-backend-12",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-backend-12",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-backend-13",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Backend Engineer, Payments",
+      "coords": [
+        -1,
+        0.05
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-backend-13",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-backend-13",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-platform-14",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Platform Engineer",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-platform-14",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-platform-14",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-platform-15",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Senior Platform Engineer",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-platform-15",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-platform-15",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-sec-16",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Security Engineer, Application Security",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-sec-16",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-sec-16",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-em-17",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Engineering Manager, Integrations",
+      "coords": [
+        0.6,
+        0.675
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-em-17",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-em-17",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-em-18",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Engineering Manager, AI Platform",
+      "coords": [
+        0.2,
+        0.675
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-em-18",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-em-18",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-pm-19",
+      "projection_id": "interpretable-axes-v1",
+      "label": "AI Product Lead",
+      "coords": [
+        0.6,
+        0.675
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-pm-19",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-pm-19",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-pm-20",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Technical Product Manager, Developer Platform",
+      "coords": [
+        0.6,
+        0.45
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-pm-20",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.8,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-pm-20",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-hostile-21",
+      "projection_id": "interpretable-axes-v1",
+      "label": "<img src=x onerror=\"window.__ct_xss=1\"> Platform Engineer (markup test)",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-hostile-21",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-hostile-21",
+      "warnings": []
+    },
+    {
+      "entity_id": "fake-hostile-22",
+      "projection_id": "interpretable-axes-v1",
+      "label": "=HYPERLINK(\"https://evil.example.invalid\",\"Data Engineer\")",
+      "coords": [
+        -1,
+        0.05
+      ],
+      "source_vector_ref": "skill-onehot-v1#fake-hostile-22",
+      "representation_type": "job",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": "match-explanation/0.1-proposed#fake-hostile-22",
+      "warnings": []
+    },
+    {
+      "entity_id": "centroid-ai-architect",
+      "projection_id": "interpretable-axes-v1",
+      "label": "AI Architecture (centroid)",
+      "coords": [
+        -0.6,
+        0.4
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-ai-architect",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": null,
+      "warnings": []
+    },
+    {
+      "entity_id": "centroid-backend",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Backend Engineering (centroid)",
+      "coords": [
+        -1,
+        0.1375
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-backend",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": null,
+      "warnings": []
+    },
+    {
+      "entity_id": "centroid-eng-manager",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Engineering Management (centroid)",
+      "coords": [
+        0.4,
+        0.675
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-eng-manager",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Centroid of only 2 posting(s); unstable."
+      ]
+    },
+    {
+      "entity_id": "centroid-fde",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Forward Deployed Engineering (centroid)",
+      "coords": [
+        -0.6,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-fde",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": null,
+      "warnings": []
+    },
+    {
+      "entity_id": "centroid-field-cto",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Field CTO (centroid)",
+      "coords": [
+        0.6,
+        0.85
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-field-cto",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Centroid of only 2 posting(s); unstable."
+      ]
+    },
+    {
+      "entity_id": "centroid-platform",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Platform Engineering (centroid)",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-platform",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": null,
+      "warnings": []
+    },
+    {
+      "entity_id": "centroid-product-ai",
+      "projection_id": "interpretable-axes-v1",
+      "label": "AI Product (centroid)",
+      "coords": [
+        0.6,
+        0.5625
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-product-ai",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.8,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Centroid of only 2 posting(s); unstable."
+      ]
+    },
+    {
+      "entity_id": "centroid-security-eng",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Security Engineering (centroid)",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-security-eng",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Centroid of only 1 posting(s); unstable."
+      ]
+    },
+    {
+      "entity_id": "centroid-solutions-engineer",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Solutions Engineering (centroid)",
+      "coords": [
+        0.2,
+        0.2
+      ],
+      "source_vector_ref": "skill-onehot-v1#centroid-solutions-engineer",
+      "representation_type": "role-centroid",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.4,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Centroid of only 2 posting(s); unstable."
+      ]
+    },
+    {
+      "entity_id": "candidate-synthetic-001",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Synthetic Candidate (all non-contradicted claims)",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#candidate-synthetic-001",
+      "representation_type": "candidate",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Includes self-reported and unverified claims."
+      ]
+    },
+    {
+      "entity_id": "candidate-synthetic-001#supported-only",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Synthetic Candidate (supported claims only)",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#candidate-synthetic-001#supported-only",
+      "representation_type": "candidate",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": null,
+      "warnings": []
+    },
+    {
+      "entity_id": "scenario-fde#point",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Hypothetical: after 'Forward Deployed Engineer' plan",
+      "coords": [
+        -0.7778,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#scenario-fde#point",
+      "representation_type": "scenario",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.6,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Hypothetical point. Not evidence and not a forecast."
+      ]
+    },
+    {
+      "entity_id": "scenario-ai-architect#point",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Hypothetical: after 'Applied AI Architect' plan",
+      "coords": [
+        -1,
+        0.15
+      ],
+      "source_vector_ref": "skill-onehot-v1#scenario-ai-architect#point",
+      "representation_type": "scenario",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Hypothetical point. Not evidence and not a forecast."
+      ]
+    },
+    {
+      "entity_id": "scenario-field-cto#point",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Hypothetical: after 'Field CTO' plan",
+      "coords": [
+        -0.3333,
+        0.275
+      ],
+      "source_vector_ref": "skill-onehot-v1#scenario-field-cto#point",
+      "representation_type": "scenario",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0.2,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Hypothetical point. Not evidence and not a forecast."
+      ]
+    },
+    {
+      "entity_id": "scenario-eng-manager#point",
+      "projection_id": "interpretable-axes-v1",
+      "label": "Hypothetical: after 'Engineering Manager' plan",
+      "coords": [
+        -0.4,
+        0.3
+      ],
+      "source_vector_ref": "skill-onehot-v1#scenario-eng-manager#point",
+      "representation_type": "scenario",
+      "projection_method": "interpretable-axes",
+      "neighborhood_quality": 0,
+      "fit_metric_ref": null,
+      "warnings": [
+        "Hypothetical point. Not evidence and not a forecast."
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "entity_id": "fake-fde-1",
+      "role_family": "fde",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-fde-1",
+      "scenario_id": null,
+      "detail": "Fictional Meridian Systems · senior",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "customer-delivery",
+        "python",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "fake-ai-2",
+      "role_family": "ai-architect",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-ai-2",
+      "scenario_id": null,
+      "detail": "Fictional Quartz Labs · staff",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "aws",
+        "mlops",
+        "python"
+      ]
+    },
+    {
+      "entity_id": "fake-cto-3",
+      "role_family": "field-cto",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-cto-3",
+      "scenario_id": null,
+      "detail": "Fictional Aurora Enterprises · director",
+      "top_skills": [
+        "ai-strategy",
+        "cloud-architecture",
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication"
+      ]
+    },
+    {
+      "entity_id": "fake-backend-4",
+      "role_family": "backend",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-backend-4",
+      "scenario_id": null,
+      "detail": "Fictional Nebula Software · senior",
+      "top_skills": [
+        "api-design",
+        "distributed-systems",
+        "python"
+      ]
+    },
+    {
+      "entity_id": "fake-se-5",
+      "role_family": "solutions-engineer",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-se-5",
+      "scenario_id": null,
+      "detail": "Fictional Tessellate Cloud · senior",
+      "top_skills": [
+        "api-design",
+        "customer-delivery",
+        "python",
+        "solution-design",
+        "technical-writing"
+      ]
+    },
+    {
+      "entity_id": "fake-se-6",
+      "role_family": "solutions-engineer",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-se-6",
+      "scenario_id": null,
+      "detail": "Fictional Lumen Harbor · senior",
+      "top_skills": [
+        "api-design",
+        "customer-delivery",
+        "solution-design",
+        "stakeholder-management",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "fake-fde-7",
+      "role_family": "fde",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-fde-7",
+      "scenario_id": null,
+      "detail": "Fictional Granite Peak Analytics · senior",
+      "top_skills": [
+        "customer-delivery",
+        "data-modeling",
+        "python",
+        "security",
+        "sql"
+      ]
+    },
+    {
+      "entity_id": "fake-fde-8",
+      "role_family": "fde",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-fde-8",
+      "scenario_id": null,
+      "detail": "Fictional Meridian Systems · senior",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "customer-delivery",
+        "python",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "fake-ai-9",
+      "role_family": "ai-architect",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-ai-9",
+      "scenario_id": null,
+      "detail": "Fictional Corvid Intelligence · staff",
+      "top_skills": [
+        "ai-evaluation",
+        "cloud-architecture",
+        "llm-apps",
+        "python",
+        "solution-design"
+      ]
+    },
+    {
+      "entity_id": "fake-ai-10",
+      "role_family": "ai-architect",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-ai-10",
+      "scenario_id": null,
+      "detail": "Fictional Halberd Dynamics · principal",
+      "top_skills": [
+        "ai-strategy",
+        "aws",
+        "cloud-architecture",
+        "executive-communication",
+        "mlops"
+      ]
+    },
+    {
+      "entity_id": "fake-cto-11",
+      "role_family": "field-cto",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-cto-11",
+      "scenario_id": null,
+      "detail": "Fictional Obsidian Ledger · director",
+      "top_skills": [
+        "ai-strategy",
+        "compliance",
+        "enterprise-sales",
+        "executive-communication",
+        "stakeholder-management"
+      ]
+    },
+    {
+      "entity_id": "fake-backend-12",
+      "role_family": "backend",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-backend-12",
+      "scenario_id": null,
+      "detail": "Fictional Kestrel Freight · staff",
+      "top_skills": [
+        "distributed-systems",
+        "go",
+        "kubernetes",
+        "observability",
+        "sql"
+      ]
+    },
+    {
+      "entity_id": "fake-backend-13",
+      "role_family": "backend",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-backend-13",
+      "scenario_id": null,
+      "detail": "Fictional Nebula Software · mid",
+      "top_skills": [
+        "api-design",
+        "compliance",
+        "python",
+        "security",
+        "sql"
+      ]
+    },
+    {
+      "entity_id": "fake-platform-14",
+      "role_family": "platform",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-platform-14",
+      "scenario_id": null,
+      "detail": "Fictional Stratus Forge · senior",
+      "top_skills": [
+        "aws",
+        "go",
+        "incident-response",
+        "kubernetes",
+        "observability"
+      ]
+    },
+    {
+      "entity_id": "fake-platform-15",
+      "role_family": "platform",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-platform-15",
+      "scenario_id": null,
+      "detail": "Fictional Ironwood Compute · senior",
+      "top_skills": [
+        "distributed-systems",
+        "kubernetes",
+        "observability",
+        "python",
+        "security"
+      ]
+    },
+    {
+      "entity_id": "fake-sec-16",
+      "role_family": "security-eng",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-sec-16",
+      "scenario_id": null,
+      "detail": "Fictional Palisade Trust · senior",
+      "top_skills": [
+        "compliance",
+        "incident-response",
+        "privacy-engineering",
+        "python",
+        "security"
+      ]
+    },
+    {
+      "entity_id": "fake-em-17",
+      "role_family": "eng-manager",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-em-17",
+      "scenario_id": null,
+      "detail": "Fictional Tessellate Cloud · manager",
+      "top_skills": [
+        "api-design",
+        "customer-delivery",
+        "people-management",
+        "roadmapping",
+        "stakeholder-management"
+      ]
+    },
+    {
+      "entity_id": "fake-em-18",
+      "role_family": "eng-manager",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-em-18",
+      "scenario_id": null,
+      "detail": "Fictional Corvid Intelligence · manager",
+      "top_skills": [
+        "ai-evaluation",
+        "executive-communication",
+        "mlops",
+        "people-management",
+        "roadmapping"
+      ]
+    },
+    {
+      "entity_id": "fake-pm-19",
+      "role_family": "product-ai",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-pm-19",
+      "scenario_id": null,
+      "detail": "Fictional Lumen Harbor · lead",
+      "top_skills": [
+        "ai-strategy",
+        "llm-apps",
+        "pricing",
+        "roadmapping",
+        "stakeholder-management"
+      ]
+    },
+    {
+      "entity_id": "fake-pm-20",
+      "role_family": "product-ai",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-pm-20",
+      "scenario_id": null,
+      "detail": "Fictional Stratus Forge · senior",
+      "top_skills": [
+        "api-design",
+        "pricing",
+        "roadmapping",
+        "stakeholder-management",
+        "technical-writing"
+      ]
+    },
+    {
+      "entity_id": "fake-hostile-21",
+      "role_family": "platform",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-hostile-21",
+      "scenario_id": null,
+      "detail": "Fictional <script>window.__ct_xss=2</script> Injection Works · senior",
+      "top_skills": [
+        "kubernetes",
+        "security"
+      ]
+    },
+    {
+      "entity_id": "fake-hostile-22",
+      "role_family": "backend",
+      "evidence_basis": "not-applicable",
+      "job_id": "fake-hostile-22",
+      "scenario_id": null,
+      "detail": "@SUM(1+1) Fictional Formula Freight · mid",
+      "top_skills": [
+        "data-modeling",
+        "python",
+        "sql"
+      ]
+    },
+    {
+      "entity_id": "centroid-ai-architect",
+      "role_family": "ai-architect",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 3 synthetic posting(s).",
+      "top_skills": [
+        "ai-evaluation",
+        "aws",
+        "cloud-architecture",
+        "mlops",
+        "python"
+      ]
+    },
+    {
+      "entity_id": "centroid-backend",
+      "role_family": "backend",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 4 synthetic posting(s).",
+      "top_skills": [
+        "api-design",
+        "distributed-systems",
+        "python",
+        "sql"
+      ]
+    },
+    {
+      "entity_id": "centroid-eng-manager",
+      "role_family": "eng-manager",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 2 synthetic posting(s).",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "customer-delivery",
+        "executive-communication",
+        "mlops",
+        "people-management",
+        "roadmapping",
+        "stakeholder-management"
+      ]
+    },
+    {
+      "entity_id": "centroid-fde",
+      "role_family": "fde",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 3 synthetic posting(s).",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "customer-delivery",
+        "python",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "centroid-field-cto",
+      "role_family": "field-cto",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 2 synthetic posting(s).",
+      "top_skills": [
+        "ai-strategy",
+        "cloud-architecture",
+        "compliance",
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication",
+        "stakeholder-management"
+      ]
+    },
+    {
+      "entity_id": "centroid-platform",
+      "role_family": "platform",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 3 synthetic posting(s).",
+      "top_skills": [
+        "kubernetes",
+        "observability",
+        "security"
+      ]
+    },
+    {
+      "entity_id": "centroid-product-ai",
+      "role_family": "product-ai",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 2 synthetic posting(s).",
+      "top_skills": [
+        "ai-strategy",
+        "api-design",
+        "llm-apps",
+        "pricing",
+        "roadmapping",
+        "stakeholder-management",
+        "technical-writing"
+      ]
+    },
+    {
+      "entity_id": "centroid-security-eng",
+      "role_family": "security-eng",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 1 synthetic posting(s).",
+      "top_skills": [
+        "compliance",
+        "incident-response",
+        "privacy-engineering",
+        "python",
+        "security"
+      ]
+    },
+    {
+      "entity_id": "centroid-solutions-engineer",
+      "role_family": "solutions-engineer",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Mean skill vector of 2 synthetic posting(s).",
+      "top_skills": [
+        "api-design",
+        "customer-delivery",
+        "python",
+        "solution-design",
+        "stakeholder-management",
+        "technical-writing",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "candidate-synthetic-001",
+      "role_family": null,
+      "evidence_basis": "mixed",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Skills from supported, self-reported and unverified claims.",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "aws",
+        "distributed-systems",
+        "python",
+        "security",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "candidate-synthetic-001#supported-only",
+      "role_family": null,
+      "evidence_basis": "supported",
+      "job_id": null,
+      "scenario_id": null,
+      "detail": "Skills from claims with supporting evidence only.",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "distributed-systems",
+        "python",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "scenario-fde#point",
+      "role_family": "fde",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": "scenario-fde",
+      "detail": "Hypothetical skill set if every planned action were completed and evidenced.",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "aws",
+        "customer-delivery",
+        "distributed-systems",
+        "python",
+        "security",
+        "sql",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "scenario-ai-architect#point",
+      "role_family": "ai-architect",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": "scenario-ai-architect",
+      "detail": "Hypothetical skill set if every planned action were completed and evidenced.",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "aws",
+        "cloud-architecture",
+        "distributed-systems",
+        "llm-apps",
+        "mlops",
+        "python",
+        "security",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "scenario-field-cto#point",
+      "role_family": "field-cto",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": "scenario-field-cto",
+      "detail": "Hypothetical skill set if every planned action were completed and evidenced.",
+      "top_skills": [
+        "ai-evaluation",
+        "ai-strategy",
+        "api-design",
+        "aws",
+        "cloud-architecture",
+        "customer-delivery",
+        "distributed-systems",
+        "enterprise-sales",
+        "executive-communication",
+        "python",
+        "security",
+        "typescript"
+      ]
+    },
+    {
+      "entity_id": "scenario-eng-manager#point",
+      "role_family": "eng-manager",
+      "evidence_basis": "not-applicable",
+      "job_id": null,
+      "scenario_id": "scenario-eng-manager",
+      "detail": "Hypothetical skill set if every planned action were completed and evidenced.",
+      "top_skills": [
+        "ai-evaluation",
+        "api-design",
+        "aws",
+        "distributed-systems",
+        "people-management",
+        "python",
+        "roadmapping",
+        "security",
+        "stakeholder-management",
+        "typescript"
+      ]
+    }
+  ],
+  "paths": [
+    {
+      "id": "path-scenario-fde",
+      "from_entity_id": "candidate-synthetic-001",
+      "to_entity_id": "scenario-fde#point",
+      "scenario_id": "scenario-fde",
+      "label": "Plan: Forward Deployed Engineer"
+    },
+    {
+      "id": "path-scenario-ai-architect",
+      "from_entity_id": "candidate-synthetic-001",
+      "to_entity_id": "scenario-ai-architect#point",
+      "scenario_id": "scenario-ai-architect",
+      "label": "Plan: Applied AI Architect"
+    },
+    {
+      "id": "path-scenario-field-cto",
+      "from_entity_id": "candidate-synthetic-001",
+      "to_entity_id": "scenario-field-cto#point",
+      "scenario_id": "scenario-field-cto",
+      "label": "Plan: Field CTO"
+    },
+    {
+      "id": "path-scenario-eng-manager",
+      "from_entity_id": "candidate-synthetic-001",
+      "to_entity_id": "scenario-eng-manager#point",
+      "scenario_id": "scenario-eng-manager",
+      "label": "Plan: Engineering Manager"
+    }
+  ]
+}

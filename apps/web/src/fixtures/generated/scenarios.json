@@ -1,0 +1,209 @@
+[
+  {
+    "id": "scenario-fde",
+    "candidate_ref": "candidate-synthetic-001",
+    "target_role": "Forward Deployed Engineer",
+    "planned_actions": [
+      {
+        "skill": "customer-delivery",
+        "effort_hours": 80,
+        "evidence_goal": "Lead one fictional customer integration end to end and write it up."
+      },
+      {
+        "skill": "sql",
+        "effort_hours": 30,
+        "evidence_goal": "Publish a small data-modeling exercise with tests."
+      }
+    ],
+    "time_horizon_months": 6,
+    "status": "hypothetical",
+    "assumptions": [
+      "Effort hours are placeholders for a fictional candidate.",
+      "Target skills are the skills that appear in at least half of the synthetic postings of this role family."
+    ],
+    "outputs": {
+      "schema_version": "scenario-outputs/0.1-proposed",
+      "target_role_family": "fde",
+      "target_skills": [
+        "ai-evaluation",
+        "api-design",
+        "customer-delivery",
+        "python",
+        "typescript"
+      ],
+      "coverage_before": 0.8,
+      "coverage_after": 1,
+      "leadership_exposure": "medium",
+      "uncertainty": "medium",
+      "uncertainty_note": "Only three synthetic postings define this role family; the target skill set is unstable.",
+      "atlas_entity_id": "scenario-fde#point"
+    },
+    "risks": [
+      "Customer-facing evidence is hard to produce without a customer-facing assignment.",
+      "Onsite/travel expectations are unknown in the synthetic postings."
+    ]
+  },
+  {
+    "id": "scenario-ai-architect",
+    "candidate_ref": "candidate-synthetic-001",
+    "target_role": "Applied AI Architect",
+    "planned_actions": [
+      {
+        "skill": "mlops",
+        "effort_hours": 120,
+        "evidence_goal": "Deploy and monitor one model-serving pipeline in a sandbox."
+      },
+      {
+        "skill": "cloud-architecture",
+        "effort_hours": 90,
+        "evidence_goal": "Author two reviewed reference architectures."
+      },
+      {
+        "skill": "llm-apps",
+        "effort_hours": 60,
+        "evidence_goal": "Ship an evaluated LLM feature in a sandbox project."
+      }
+    ],
+    "time_horizon_months": 9,
+    "status": "hypothetical",
+    "assumptions": [
+      "Effort hours are placeholders for a fictional candidate.",
+      "AWS is self-reported; the plan assumes that claim becomes supported."
+    ],
+    "outputs": {
+      "schema_version": "scenario-outputs/0.1-proposed",
+      "target_role_family": "ai-architect",
+      "target_skills": [
+        "ai-evaluation",
+        "aws",
+        "cloud-architecture",
+        "mlops",
+        "python"
+      ],
+      "coverage_before": 0.6,
+      "coverage_after": 1,
+      "leadership_exposure": "medium",
+      "uncertainty": "medium",
+      "uncertainty_note": "Three synthetic postings; one is expired.",
+      "atlas_entity_id": "scenario-ai-architect#point"
+    },
+    "risks": [
+      "Architecture evidence usually needs peer review, which this plan does not guarantee.",
+      "Compensation for these synthetic postings is unknown or unverified."
+    ]
+  },
+  {
+    "id": "scenario-field-cto",
+    "candidate_ref": "candidate-synthetic-001",
+    "target_role": "Field CTO",
+    "planned_actions": [
+      {
+        "skill": "enterprise-sales",
+        "effort_hours": 200,
+        "evidence_goal": "Shadow and then co-own a fictional enterprise deal cycle."
+      },
+      {
+        "skill": "executive-communication",
+        "effort_hours": 120,
+        "evidence_goal": "Deliver recorded executive briefings with feedback."
+      },
+      {
+        "skill": "ai-strategy",
+        "effort_hours": 100,
+        "evidence_goal": "Write a reviewed AI adoption strategy memo."
+      },
+      {
+        "skill": "customer-delivery",
+        "effort_hours": 80,
+        "evidence_goal": "Lead one fictional customer integration end to end."
+      },
+      {
+        "skill": "cloud-architecture",
+        "effort_hours": 90,
+        "evidence_goal": "Author two reviewed reference architectures."
+      }
+    ],
+    "time_horizon_months": 24,
+    "status": "hypothetical",
+    "assumptions": [
+      "Effort hours are placeholders for a fictional candidate.",
+      "Assumes an intermediate customer-facing role is available first."
+    ],
+    "outputs": {
+      "schema_version": "scenario-outputs/0.1-proposed",
+      "target_role_family": "field-cto",
+      "target_skills": [
+        "ai-strategy",
+        "cloud-architecture",
+        "compliance",
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication",
+        "stakeholder-management"
+      ],
+      "coverage_before": 0,
+      "coverage_after": 0.714,
+      "leadership_exposure": "high",
+      "uncertainty": "high",
+      "uncertainty_note": "Two synthetic postings; almost no current evidence overlaps the target skills.",
+      "atlas_entity_id": "scenario-field-cto#point"
+    },
+    "risks": [
+      "Largest distance from current evidence; most target skills are missing.",
+      "Director-level scope cannot be evidenced by self-study alone.",
+      "Only two synthetic postings define this role family."
+    ]
+  },
+  {
+    "id": "scenario-eng-manager",
+    "candidate_ref": "candidate-synthetic-001",
+    "target_role": "Engineering Manager",
+    "planned_actions": [
+      {
+        "skill": "people-management",
+        "effort_hours": 150,
+        "evidence_goal": "Formally manage at least two people for two review cycles."
+      },
+      {
+        "skill": "roadmapping",
+        "effort_hours": 60,
+        "evidence_goal": "Own and publish a two-quarter roadmap with outcomes."
+      },
+      {
+        "skill": "stakeholder-management",
+        "effort_hours": 40,
+        "evidence_goal": "Run a cross-team initiative with a written retrospective."
+      }
+    ],
+    "time_horizon_months": 12,
+    "status": "hypothetical",
+    "assumptions": [
+      "Effort hours are placeholders for a fictional candidate.",
+      "The tech-lead claim is self-reported and the 'team of 12' achievement is unverified."
+    ],
+    "outputs": {
+      "schema_version": "scenario-outputs/0.1-proposed",
+      "target_role_family": "eng-manager",
+      "target_skills": [
+        "ai-evaluation",
+        "api-design",
+        "customer-delivery",
+        "executive-communication",
+        "mlops",
+        "people-management",
+        "roadmapping",
+        "stakeholder-management"
+      ],
+      "coverage_before": 0.25,
+      "coverage_after": 0.625,
+      "leadership_exposure": "high",
+      "uncertainty": "high",
+      "uncertainty_note": "Two synthetic postings; leadership claims in the vault are not yet supported.",
+      "atlas_entity_id": "scenario-eng-manager#point"
+    },
+    "risks": [
+      "Management evidence depends on an employer granting the scope.",
+      "Moves away from hands-on AI evaluation work."
+    ]
+  }
+]

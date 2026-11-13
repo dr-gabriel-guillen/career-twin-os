@@ -1,0 +1,5613 @@
+{
+ "axes": [
+  {
+   "description": "Explains 13.8% of total variance. Increases with: ai-strategy, stakeholder-management, technical-leadership. Decreases with: python.",
+   "explained_variance_ratio": 0.13811020975184837,
+   "label": "PCA axis 1"
+  },
+  {
+   "description": "Explains 10.8% of total variance. Increases with: llm-integration, system-design, mlops. Decreases with: nothing prominent.",
+   "explained_variance_ratio": 0.10757239894561574,
+   "label": "PCA axis 2"
+  }
+ ],
+ "diagnostics": {
+  "continuity": {
+   "k": 10,
+   "value": 0.935268
+  },
+  "cumulative_explained_variance": 0.2456826086974641,
+  "distance_spearman": 0.693207719046809,
+  "flags": [
+   "low-explained-variance: the map shows 24.6% of total variance; 75.4% of the variation between points is not visible",
+   "weak-local-structure: on average fewer than 40% of a point's map neighbours are true neighbours",
+   "distance-order-distorted: map distances rank pairs differently from full-space distances"
+  ],
+  "knn_recall": {
+   "k": 10,
+   "value": 0.1935
+  },
+  "normalized_stress": 0.36558403217997526,
+  "trustworthiness": {
+   "k": 10,
+   "value": 0.904204
+  }
+ },
+ "entities": [
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00000",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00000",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "cloud-architecture",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00004",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00004",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00008",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00008",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "distributed-systems",
+    "kubernetes"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00012",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00012",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "cloud-architecture",
+    "llm-integration",
+    "mlops",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00016",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00016",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "executive-communication",
+    "llm-integration",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00020",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00020",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00024",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00024",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "enterprise-sales",
+    "executive-communication",
+    "mentoring",
+    "pre-sales-demos"
+   ]
+  },
+  {
+   "detail": "active posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00028",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00028",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00032",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00032",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "hiring",
+    "legal-reasoning",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00036",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00036",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "data-modeling",
+    "distributed-systems",
+    "go",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00040",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00040",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-safety",
+    "aws",
+    "infrastructure-as-code",
+    "observability",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00044",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00044",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "customer-delivery",
+    "llm-integration",
+    "privacy-engineering",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00048",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00048",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "cloud-architecture",
+    "contract-analysis",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00052",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00052",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "aws",
+    "budget-ownership"
+   ]
+  },
+  {
+   "detail": "active posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00056",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00056",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "contract-analysis",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00060",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00060",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00064",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00064",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "contract-analysis",
+    "legal-reasoning",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00068",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00068",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "budget-ownership",
+    "hiring",
+    "ml-modeling",
+    "people-management",
+    "pre-sales-demos"
+   ]
+  },
+  {
+   "detail": "expired posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00072",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00072",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "ml-modeling",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "unknown posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00076",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00076",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "distributed-systems",
+    "java",
+    "org-design",
+    "python"
+   ]
+  },
+  {
+   "detail": "expired posting; 5 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00080",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00080",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "python",
+    "solution-design",
+    "technical-discovery"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00084",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00084",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "cloud-architecture",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00088",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00088",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00092",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00092",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "cloud-architecture",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00096",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00096",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "solution-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00100",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00100",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "aws",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00104",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00104",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "backend-performance",
+    "infrastructure-as-code",
+    "kubernetes",
+    "security"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00108",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00108",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ci-cd",
+    "hiring",
+    "llm-integration",
+    "mlops",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00112",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00112",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "data-modeling",
+    "distributed-systems",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00116",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00116",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "hiring",
+    "mlops",
+    "observability",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00120",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00120",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "aws",
+    "customer-delivery",
+    "llm-integration",
+    "python"
+   ]
+  },
+  {
+   "detail": "expired posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00124",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00124",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ci-cd",
+    "cloud-architecture",
+    "data-governance",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00128",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00128",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "pre-sales-demos"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00132",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00132",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00136",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00136",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "aws",
+    "ci-cd",
+    "distributed-systems",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00140",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00140",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ci-cd",
+    "hiring",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00144",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00144",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-safety",
+    "ai-strategy",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "unknown posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00148",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00148",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "customer-delivery",
+    "executive-communication",
+    "ml-modeling",
+    "roadmap-planning"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00152",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00152",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "ci-cd",
+    "cloud-architecture",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00156",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00156",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "llm-integration",
+    "mentoring",
+    "mlops",
+    "observability",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00160",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00160",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "llm-integration",
+    "prompt-engineering",
+    "rag"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00164",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00164",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "ml-modeling",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00168",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00168",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "backend-performance",
+    "contract-analysis"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00172",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00172",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "pre-sales-demos"
+   ]
+  },
+  {
+   "detail": "unknown posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00176",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00176",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00180",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00180",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "frontend",
+    "go"
+   ]
+  },
+  {
+   "detail": "expired posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00184",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00184",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "api-design",
+    "aws",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00188",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00188",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "cost-optimization",
+    "customer-delivery"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00192",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00192",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "api-design",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00196",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00196",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "backend-performance",
+    "ci-cd",
+    "distributed-systems",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00200",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00200",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "data-governance",
+    "pre-sales-demos",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00204",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00204",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "cost-optimization"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00208",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00208",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "frontend"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00212",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00212",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00216",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00216",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "customer-delivery",
+    "data-modeling",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00220",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00220",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 5 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00224",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00224",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ci-cd",
+    "observability",
+    "python",
+    "sre"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00228",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00228",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "infrastructure-as-code",
+    "observability"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00232",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00232",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00236",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00236",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "data-governance",
+    "legal-reasoning",
+    "mlops",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00240",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00240",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00244",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00244",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-strategy",
+    "aws",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00248",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00248",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "cloud-architecture",
+    "data-modeling",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00252",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00252",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "data-modeling",
+    "enterprise-sales",
+    "executive-communication",
+    "kubernetes",
+    "observability"
+   ]
+  },
+  {
+   "detail": "active posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00256",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00256",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "distributed-systems",
+    "observability",
+    "risk-assessment"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00260",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00260",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00264",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00264",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00268",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00268",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "distributed-systems",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00272",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00272",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ci-cd",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00276",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00276",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "backend-performance",
+    "enterprise-sales",
+    "llm-integration",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00280",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00280",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "hiring",
+    "mentoring",
+    "org-design",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00284",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00284",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "cloud-architecture",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00288",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00288",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "cloud-architecture",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "expired posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00292",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00292",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "distributed-systems",
+    "infrastructure-as-code",
+    "kubernetes",
+    "observability"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00296",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00296",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "ci-cd",
+    "contract-analysis",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00300",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00300",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "aws",
+    "cloud-architecture",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "unknown posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00304",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00304",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ci-cd",
+    "llm-integration",
+    "mlops",
+    "python",
+    "rag"
+   ]
+  },
+  {
+   "detail": "expired posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00308",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00308",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "backend-performance",
+    "hiring",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00312",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00312",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00316",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00316",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00320",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00320",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "cloud-architecture",
+    "contract-analysis",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00324",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00324",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00328",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00328",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "expired posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00332",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00332",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "budget-ownership",
+    "hiring",
+    "kubernetes",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00336",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00336",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "hiring",
+    "llm-integration",
+    "mlops",
+    "roadmap-planning"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00340",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00340",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "ci-cd",
+    "cloud-architecture",
+    "frontend"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00344",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00344",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "distributed-systems",
+    "go",
+    "legal-reasoning"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00348",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00348",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "distributed-systems",
+    "observability",
+    "python"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00352",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00352",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "cloud-architecture",
+    "customer-delivery",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00356",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00356",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "cost-optimization",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00360",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00360",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00364",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00364",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "api-design",
+    "aws",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "active posting; 13 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00368",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00368",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "customer-delivery",
+    "distributed-systems",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00372",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00372",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "ci-cd",
+    "go",
+    "python",
+    "sql"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00376",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00376",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "budget-ownership",
+    "hiring",
+    "ml-modeling",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00380",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00380",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "customer-delivery",
+    "llm-integration",
+    "python",
+    "rag"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00384",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00384",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication"
+   ]
+  },
+  {
+   "detail": "active posting; 5 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00388",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00388",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "go",
+    "observability",
+    "testing"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00392",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00392",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "llm-integration",
+    "mentoring",
+    "mlops",
+    "python"
+   ]
+  },
+  {
+   "detail": "expired posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00396",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00396",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "hiring",
+    "ml-modeling",
+    "roadmap-planning"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00400",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00400",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "budget-ownership",
+    "contract-analysis"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00404",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00404",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "cost-optimization",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "unknown posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00408",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00408",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-strategy",
+    "ci-cd",
+    "cloud-architecture"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00412",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00412",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "data-modeling",
+    "go",
+    "observability"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00416",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00416",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "llm-integration",
+    "mentoring",
+    "mlops",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00420",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00420",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "data-governance",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00424",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00424",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "api-design",
+    "aws",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00428",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00428",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "cost-optimization",
+    "customer-delivery",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00432",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00432",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00436",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00436",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "expired posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00440",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00440",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "contract-analysis",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00444",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00444",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "llm-integration",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00448",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00448",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00452",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00452",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-safety",
+    "aws",
+    "data-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00456",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00456",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-safety",
+    "data-governance",
+    "legal-reasoning",
+    "mentoring"
+   ]
+  },
+  {
+   "detail": "expired posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00460",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00460",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "cloud-architecture",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00464",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00464",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "customer-delivery",
+    "enterprise-sales",
+    "executive-communication",
+    "ml-modeling"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00468",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00468",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 16 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00472",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00472",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00476",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00476",
+   "representation_type": "job",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00480",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00480",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00484",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00484",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-safety",
+    "ci-cd",
+    "data-governance"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00488",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00488",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "budget-ownership",
+    "frontend",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00492",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00492",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "api-design",
+    "distributed-systems",
+    "go",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00496",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00496",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00500",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00500",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cloud-architecture",
+    "distributed-systems",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 1 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00504",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00504",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "java",
+    "llm-integration",
+    "mentoring",
+    "org-design"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00508",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00508",
+   "representation_type": "job",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "contract-analysis",
+    "data-governance",
+    "legal-reasoning",
+    "privacy-engineering"
+   ]
+  },
+  {
+   "detail": "expired posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00512",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00512",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-governance",
+    "ai-strategy",
+    "executive-communication",
+    "hiring",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00516",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00516",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ai-safety",
+    "data-governance",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00520",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00520",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "aws",
+    "mentoring",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 14 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00524",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00524",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "backend-performance",
+    "ci-cd",
+    "data-modeling",
+    "distributed-systems"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00528",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00528",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "frontend",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "active posting; 12 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00532",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00532",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "hiring",
+    "llm-integration",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00536",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00536",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "cloud-architecture",
+    "data-modeling",
+    "mlops",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00540",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00540",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "backend-performance",
+    "distributed-systems",
+    "go"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00544",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00544",
+   "representation_type": "job",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "cost-optimization",
+    "go",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "detail": "unknown posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00548",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00548",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "ci-cd",
+    "distributed-systems",
+    "hiring",
+    "java",
+    "python"
+   ]
+  },
+  {
+   "detail": "expired posting; 6 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00552",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00552",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "customer-delivery",
+    "privacy-engineering",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00556",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00556",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "ci-cd",
+    "contract-analysis",
+    "hiring",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00560",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00560",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "customer-delivery",
+    "hiring",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00564",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00564",
+   "representation_type": "job",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "data-modeling",
+    "distributed-systems",
+    "java",
+    "pre-sales-demos",
+    "python"
+   ]
+  },
+  {
+   "detail": "active posting; 8 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00568",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00568",
+   "representation_type": "job",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "cloud-architecture",
+    "hiring",
+    "llm-integration",
+    "mlops",
+    "python"
+   ]
+  },
+  {
+   "detail": "unknown posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00572",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00572",
+   "representation_type": "job",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "agent-orchestration",
+    "ai-evaluation",
+    "ci-cd",
+    "mentoring",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "unknown posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00576",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00576",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "hiring",
+    "ml-modeling",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "active posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00580",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00580",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "aws",
+    "contract-analysis",
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "active posting; 10 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00584",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00584",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "api-design",
+    "cost-optimization",
+    "customer-delivery",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "active posting; 11 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00588",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00588",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "budget-ownership",
+    "executive-communication",
+    "hiring"
+   ]
+  },
+  {
+   "detail": "unknown posting; 9 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00592",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00592",
+   "representation_type": "job",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "customer-delivery",
+    "python",
+    "rag",
+    "solution-design"
+   ]
+  },
+  {
+   "detail": "active posting; 7 stated skill(s); 0 unknown feature(s)",
+   "entity_id": "synthetic-job-7-00596",
+   "evidence_basis": "not-applicable",
+   "job_id": "synthetic-job-7-00596",
+   "representation_type": "job",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-governance",
+    "ai-strategy",
+    "hiring",
+    "people-management"
+   ]
+  },
+  {
+   "detail": "centroid of 69 posting(s)",
+   "entity_id": "role:ai-architect",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "ai-architect",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "rag"
+   ]
+  },
+  {
+   "detail": "centroid of 87 posting(s)",
+   "entity_id": "role:ai-director",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "ai-director",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-evaluation",
+    "ai-strategy",
+    "stakeholder-management",
+    "people-management",
+    "technical-leadership"
+   ]
+  },
+  {
+   "detail": "centroid of 74 posting(s)",
+   "entity_id": "role:ai-eng-lead",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "ai-eng-lead",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "system-design",
+    "ai-evaluation",
+    "llm-integration",
+    "mlops"
+   ]
+  },
+  {
+   "detail": "centroid of 69 posting(s)",
+   "entity_id": "role:backend",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "backend",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "typescript",
+    "go",
+    "sql",
+    "api-design"
+   ]
+  },
+  {
+   "detail": "centroid of 78 posting(s)",
+   "entity_id": "role:fde",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "fde",
+   "scenario_id": null,
+   "top_skills": [
+    "python",
+    "typescript",
+    "api-design",
+    "llm-integration",
+    "rag"
+   ]
+  },
+  {
+   "detail": "centroid of 74 posting(s)",
+   "entity_id": "role:field-cto",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "field-cto",
+   "scenario_id": null,
+   "top_skills": [
+    "ai-strategy",
+    "cloud-architecture",
+    "customer-delivery",
+    "solution-design",
+    "enterprise-sales"
+   ]
+  },
+  {
+   "detail": "centroid of 80 posting(s)",
+   "entity_id": "role:platform",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "platform",
+   "scenario_id": null,
+   "top_skills": [
+    "aws",
+    "kubernetes",
+    "infrastructure-as-code",
+    "ci-cd",
+    "observability"
+   ]
+  },
+  {
+   "detail": "centroid of 69 posting(s)",
+   "entity_id": "role:privacy-legal-ai",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "role-centroid",
+   "role_family": "privacy-legal-ai",
+   "scenario_id": null,
+   "top_skills": [
+    "privacy-engineering",
+    "data-governance",
+    "regulatory-compliance",
+    "legal-reasoning",
+    "ai-governance"
+   ]
+  },
+  {
+   "detail": "evidence on file (claims), held-out point",
+   "entity_id": "candidate-synthetic-001",
+   "evidence_basis": "mixed",
+   "job_id": null,
+   "representation_type": "candidate",
+   "role_family": null,
+   "scenario_id": null,
+   "top_skills": [
+    "api-design",
+    "distributed-systems",
+    "python",
+    "testing",
+    "ai-evaluation"
+   ]
+  },
+  {
+   "detail": "hypothetical evidence after planned actions",
+   "entity_id": "candidate-synthetic-001#scn-dce37724084e54cf",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "scenario",
+   "role_family": null,
+   "scenario_id": "scn-dce37724084e54cf",
+   "top_skills": [
+    "customer-delivery",
+    "llm-integration"
+   ]
+  },
+  {
+   "detail": "hypothetical evidence after planned actions",
+   "entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "scenario",
+   "role_family": null,
+   "scenario_id": "scn-181e458d8dfaa7d1",
+   "top_skills": [
+    "mlops",
+    "rag"
+   ]
+  },
+  {
+   "detail": "hypothetical evidence after planned actions",
+   "entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692",
+   "evidence_basis": "not-applicable",
+   "job_id": null,
+   "representation_type": "scenario",
+   "role_family": null,
+   "scenario_id": "scn-ff882c3ef2882692",
+   "top_skills": [
+    "cloud-architecture",
+    "ai-strategy",
+    "customer-delivery",
+    "stakeholder-management",
+    "technical-discovery"
+   ]
+  }
+ ],
+ "flags": {
+  "map_distortion_flagged": true,
+  "not_hiring_probability": true,
+  "two_d_geometry_is_not_match_metric": true
+ },
+ "generated_at": "2026-11-10T12:00:00Z",
+ "input": {
+  "n_dims": 52,
+  "n_points": 600,
+  "representation": "skill-evidence vectors, vocabulary atlas-vocab-0.1.0 (2490dd2e0ef8fc25)"
+ },
+ "method": "pca",
+ "paths": [
+  {
+   "from_entity_id": "candidate-synthetic-001",
+   "id": "path:scn-dce37724084e54cf",
+   "label": "Hypothetical move toward Forward Deployed Engineer (0.2708 of it visible on the map)",
+   "scenario_id": "scn-dce37724084e54cf",
+   "to_entity_id": "candidate-synthetic-001#scn-dce37724084e54cf"
+  },
+  {
+   "from_entity_id": "candidate-synthetic-001",
+   "id": "path:scn-181e458d8dfaa7d1",
+   "label": "Hypothetical move toward Applied AI Architect (0.381957 of it visible on the map)",
+   "scenario_id": "scn-181e458d8dfaa7d1",
+   "to_entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1"
+  },
+  {
+   "from_entity_id": "candidate-synthetic-001",
+   "id": "path:scn-ff882c3ef2882692",
+   "label": "Hypothetical move toward Field CTO (0.210636 of it visible on the map)",
+   "scenario_id": "scn-ff882c3ef2882692",
+   "to_entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692"
+  }
+ ],
+ "points": [
+  {
+   "coords": [
+    -1.557414,
+    0.246135
+   ],
+   "entity_id": "synthetic-job-7-00000",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:39af49ce9e8388efc7601119",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    2.07767,
+    -0.105871
+   ],
+   "entity_id": "synthetic-job-7-00004",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c50c87a2be370d42fd817f11",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.093834,
+    -1.564089
+   ],
+   "entity_id": "synthetic-job-7-00008",
+   "fit_metric_ref": null,
+   "label": "Platform Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e4daeb6a450951865ca223aa",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    -0.984484,
+    1.195901
+   ],
+   "entity_id": "synthetic-job-7-00012",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:823b0b0501f58390fe1c87d4",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.467636,
+    1.789854
+   ],
+   "entity_id": "synthetic-job-7-00016",
+   "fit_metric_ref": null,
+   "label": "Lead AI Engineer",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e04bbbae0bf8d1a4e48745cc",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.268143,
+    0.923187
+   ],
+   "entity_id": "synthetic-job-7-00020",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:dfe0f32950c796be9b5b7287",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.083602,
+    -0.006467
+   ],
+   "entity_id": "synthetic-job-7-00024",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c71e663c8e29e8976a6c14a7",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.407221,
+    1.477431
+   ],
+   "entity_id": "synthetic-job-7-00028",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:461f64b13c6a9f3b5a4d0817",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.306997,
+    0.530565
+   ],
+   "entity_id": "synthetic-job-7-00032",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e930510bee6451daa4851c1c",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.50115,
+    0.085707
+   ],
+   "entity_id": "synthetic-job-7-00036",
+   "fit_metric_ref": null,
+   "label": "Backend Software Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2a0f42df34d5189b98dbb87c",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.732956,
+    -0.698743
+   ],
+   "entity_id": "synthetic-job-7-00040",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:4a490b4e6f09ed9de7d0a3dd",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.451517,
+    0.430197
+   ],
+   "entity_id": "synthetic-job-7-00044",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed AI Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f519b3a38421dd3188f32294",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.003174,
+    0.942234
+   ],
+   "entity_id": "synthetic-job-7-00048",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2fdd77fa1e28dad716b965f0",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.289375,
+    -0.199203
+   ],
+   "entity_id": "synthetic-job-7-00052",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:11099929fe35b76f786de370",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.591176,
+    -1.329707
+   ],
+   "entity_id": "synthetic-job-7-00056",
+   "fit_metric_ref": null,
+   "label": "AI Governance Counsel-Engineer",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d006777ca805723cd7b61835",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.160218,
+    1.566267
+   ],
+   "entity_id": "synthetic-job-7-00060",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5bed85b06bef2e4a0f166d54",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.463594,
+    0.895447
+   ],
+   "entity_id": "synthetic-job-7-00064",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Lead",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:bceef4ffee1bb8d7be703c19",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.680119,
+    -0.36416
+   ],
+   "entity_id": "synthetic-job-7-00068",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:508fdd19da2f6ec5a9d67407",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.327871,
+    -0.36668
+   ],
+   "entity_id": "synthetic-job-7-00072",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d016268c810d148a06868321",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.894879,
+    -0.078764
+   ],
+   "entity_id": "synthetic-job-7-00076",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f520729a60ed0a041819a5ed",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.741151,
+    0.075965
+   ],
+   "entity_id": "synthetic-job-7-00080",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed AI Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5842d86d580512e48b2b0b75",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.528731,
+    0.797962
+   ],
+   "entity_id": "synthetic-job-7-00084",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f41d56433aa9684d2b938bee",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.955286,
+    1.389024
+   ],
+   "entity_id": "synthetic-job-7-00088",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c3d199b053ba4f2a55d6a192",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.232261,
+    1.271924
+   ],
+   "entity_id": "synthetic-job-7-00092",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:859f8c3c3857dc608a0b7b93",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.618621,
+    0.014939
+   ],
+   "entity_id": "synthetic-job-7-00096",
+   "fit_metric_ref": null,
+   "label": "Field Chief Technology Officer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:454f489cca7d2741b119ab87",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.498434,
+    1.244952
+   ],
+   "entity_id": "synthetic-job-7-00100",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f76eabbb3ac70e4650e2fefa",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.480918,
+    -1.34961
+   ],
+   "entity_id": "synthetic-job-7-00104",
+   "fit_metric_ref": null,
+   "label": "Platform Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:43590ba58304b496be64dffb",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.005108,
+    0.768069
+   ],
+   "entity_id": "synthetic-job-7-00108",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e4706c891b157ed710938b9f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.251494,
+    0.497398
+   ],
+   "entity_id": "synthetic-job-7-00112",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c05a0dff262cff0ff409c0ec",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    0.226907,
+    0.878234
+   ],
+   "entity_id": "synthetic-job-7-00116",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Lead",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:703d53269f41fdbbcd66dc47",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.333686,
+    0.571448
+   ],
+   "entity_id": "synthetic-job-7-00120",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed AI Engineer",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:58e224237eaeda69db92d852",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.262883,
+    1.444939
+   ],
+   "entity_id": "synthetic-job-7-00124",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:0671d12b984fa462f8096971",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.913887,
+    -0.204913
+   ],
+   "entity_id": "synthetic-job-7-00128",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:493a19cddc0becd4057b86d0",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.59746,
+    -0.44819
+   ],
+   "entity_id": "synthetic-job-7-00132",
+   "fit_metric_ref": null,
+   "label": "Director of AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:bee8dce203676d3aec9a6529",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.350143,
+    -1.32693
+   ],
+   "entity_id": "synthetic-job-7-00136",
+   "fit_metric_ref": null,
+   "label": "Platform Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:ade2072ec5053a781f1d65af",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.058746,
+    0.816325
+   ],
+   "entity_id": "synthetic-job-7-00140",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Lead",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f063c99a62b0b31440e616f3",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.304263,
+    -1.347532
+   ],
+   "entity_id": "synthetic-job-7-00144",
+   "fit_metric_ref": null,
+   "label": "Legal AI Specialist",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5563a95c361cf4a0b3d5c31f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.212515,
+    -0.47771
+   ],
+   "entity_id": "synthetic-job-7-00148",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:09ddbfa68344534b1267dc73",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.217289,
+    -0.127462
+   ],
+   "entity_id": "synthetic-job-7-00152",
+   "fit_metric_ref": null,
+   "label": "Field Chief Technology Officer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:da87100c77d9a93cfadf3e86",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.258004,
+    0.259406
+   ],
+   "entity_id": "synthetic-job-7-00156",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c90c5cc0a2cab9fc7d24505b",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.695171,
+    0.531272
+   ],
+   "entity_id": "synthetic-job-7-00160",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c45d7cd4850cf0d41a77dc35",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    2.037478,
+    -0.162038
+   ],
+   "entity_id": "synthetic-job-7-00164",
+   "fit_metric_ref": null,
+   "label": "Director of AI",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:3231d33a50b66b74d528ea70",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.192042,
+    -0.641272
+   ],
+   "entity_id": "synthetic-job-7-00168",
+   "fit_metric_ref": null,
+   "label": "Privacy Engineer, AI",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:af90308f055cbb7f959c9f4a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.929438,
+    -0.029241
+   ],
+   "entity_id": "synthetic-job-7-00172",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:38acdb3e87ee0b0b6a54808c",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.534492,
+    1.413687
+   ],
+   "entity_id": "synthetic-job-7-00176",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d9d83e700c1254eb5614eaa6",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.027927,
+    -1.5103
+   ],
+   "entity_id": "synthetic-job-7-00180",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:8155d1379fbc4d2e41d22411",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.540259,
+    0.787209
+   ],
+   "entity_id": "synthetic-job-7-00184",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:b7ecf221e839952b51bfd67c",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.822666,
+    -0.103829
+   ],
+   "entity_id": "synthetic-job-7-00188",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d505900750c59827fcf9b82f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.162487,
+    0.582029
+   ],
+   "entity_id": "synthetic-job-7-00192",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:7060270a20ecb7a4737e02e6",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.093562,
+    -0.562304
+   ],
+   "entity_id": "synthetic-job-7-00196",
+   "fit_metric_ref": null,
+   "label": "Backend Software Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:82fb883be4c8246131c00d16",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.821843,
+    -1.301006
+   ],
+   "entity_id": "synthetic-job-7-00200",
+   "fit_metric_ref": null,
+   "label": "Privacy Engineer, AI",
+   "neighborhood_quality": 0.6,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c027f6bfea03326ca58ad9a5",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.78895,
+    -0.111414
+   ],
+   "entity_id": "synthetic-job-7-00204",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:26b8a5ee38b78e6c26a1f753",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.648339,
+    0.97728
+   ],
+   "entity_id": "synthetic-job-7-00208",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:17579f54a5210d675a540005",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.807681,
+    -0.153608
+   ],
+   "entity_id": "synthetic-job-7-00212",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e7dd4d67cfc3273801ac1f7e",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.864788,
+    -0.118564
+   ],
+   "entity_id": "synthetic-job-7-00216",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:382ba0322e5c2ddaacd80f41",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.066275,
+    0.144013
+   ],
+   "entity_id": "synthetic-job-7-00220",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:be02603f04712a17c5009ef8",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.750875,
+    -0.596521
+   ],
+   "entity_id": "synthetic-job-7-00224",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:3cb18c03f35547d8c5a989cd",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.229752,
+    -1.254089
+   ],
+   "entity_id": "synthetic-job-7-00228",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:36f06f1883a62796d3f63a9d",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.471002,
+    -1.381393
+   ],
+   "entity_id": "synthetic-job-7-00232",
+   "fit_metric_ref": null,
+   "label": "Privacy Engineer, AI",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:dc34eb51757ed9020fa1757b",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.215747,
+    -0.397217
+   ],
+   "entity_id": "synthetic-job-7-00236",
+   "fit_metric_ref": null,
+   "label": "Legal AI Specialist",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:72121ed9f5e461d13bfbbd3f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.832327,
+    1.174758
+   ],
+   "entity_id": "synthetic-job-7-00240",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:bc49cf015b06ed1b6d86d0db",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.018567,
+    1.175057
+   ],
+   "entity_id": "synthetic-job-7-00244",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:4a592a9414870f92117bdb32",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.470698,
+    1.055119
+   ],
+   "entity_id": "synthetic-job-7-00248",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:b32c4fecab05f44690d178ef",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.404684,
+    -0.460624
+   ],
+   "entity_id": "synthetic-job-7-00252",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:53d0e1ac24034e645b75a21d",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    -0.814175,
+    -1.279346
+   ],
+   "entity_id": "synthetic-job-7-00256",
+   "fit_metric_ref": null,
+   "label": "Site Reliability Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2417feaf073c52d24e04900a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.093159,
+    -1.722436
+   ],
+   "entity_id": "synthetic-job-7-00260",
+   "fit_metric_ref": null,
+   "label": "Platform Engineer",
+   "neighborhood_quality": 0.7,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:4335244f270b268101226793",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.719685,
+    0.887063
+   ],
+   "entity_id": "synthetic-job-7-00264",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e346ec3ba3fed51fa15f59ce",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.130169,
+    -1.651212
+   ],
+   "entity_id": "synthetic-job-7-00268",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e60f4654011beec9c13309dd",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.55325,
+    1.240538
+   ],
+   "entity_id": "synthetic-job-7-00272",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:0fd420e4c2698dcb6be057d9",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.080913,
+    1.155749
+   ],
+   "entity_id": "synthetic-job-7-00276",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5cb3a14a6b852b6a3d998207",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.628819,
+    0.112961
+   ],
+   "entity_id": "synthetic-job-7-00280",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:4620ad2e26fb91ff6dd61fac",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.111682,
+    1.799046
+   ],
+   "entity_id": "synthetic-job-7-00284",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:39134d7083f4c9a09648d933",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.249087,
+    -0.130812
+   ],
+   "entity_id": "synthetic-job-7-00288",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:c73ad8c8a2368140acaa46e8",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.220559,
+    -1.201133
+   ],
+   "entity_id": "synthetic-job-7-00292",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:ad550229a808a6dee4264045",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    1.764112,
+    -0.502217
+   ],
+   "entity_id": "synthetic-job-7-00296",
+   "fit_metric_ref": null,
+   "label": "Director of AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5736df9738ee11b0d68da48e",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.618287,
+    1.48674
+   ],
+   "entity_id": "synthetic-job-7-00300",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:55a8b4eb4646707bd805d719",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    -0.519796,
+    0.449143
+   ],
+   "entity_id": "synthetic-job-7-00304",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:29b5855a2bcb5dcbecd3b267",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.26387,
+    1.485786
+   ],
+   "entity_id": "synthetic-job-7-00308",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e0a108e094450fbeb3a66476",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.116909,
+    -0.467448
+   ],
+   "entity_id": "synthetic-job-7-00312",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:3651dc7eedd4adb30be5eef7",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.167283,
+    -1.281258
+   ],
+   "entity_id": "synthetic-job-7-00316",
+   "fit_metric_ref": null,
+   "label": "AI Governance Counsel-Engineer",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5a6286c3c03e6f346b6664e0",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    0.29601,
+    -0.836705
+   ],
+   "entity_id": "synthetic-job-7-00320",
+   "fit_metric_ref": null,
+   "label": "Privacy Engineer, AI",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:62df30665882b1f60157d5d3",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.799505,
+    -0.098933
+   ],
+   "entity_id": "synthetic-job-7-00324",
+   "fit_metric_ref": null,
+   "label": "Director of AI",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:0381f0e08846e3c72c6afacc",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.916539,
+    1.033785
+   ],
+   "entity_id": "synthetic-job-7-00328",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:48af077f9f6fd6fd78b22fda",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.010213,
+    -0.290049
+   ],
+   "entity_id": "synthetic-job-7-00332",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:88420143c5f7be240d61361a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.704552,
+    0.885302
+   ],
+   "entity_id": "synthetic-job-7-00336",
+   "fit_metric_ref": null,
+   "label": "Lead AI Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:3043d5c4413d176014468232",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.525386,
+    1.070028
+   ],
+   "entity_id": "synthetic-job-7-00340",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:434ecc706055649050ff70ee",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.12129,
+    -0.221537
+   ],
+   "entity_id": "synthetic-job-7-00344",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:78eb8367e24bcc888a99e21c",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.321572,
+    0.020766
+   ],
+   "entity_id": "synthetic-job-7-00348",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:3c551e278883ef3612f757cb",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.114307,
+    0.042378
+   ],
+   "entity_id": "synthetic-job-7-00352",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:cc7a7966ac1b419bfa936d81",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.543484,
+    -1.526237
+   ],
+   "entity_id": "synthetic-job-7-00356",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2ccff7694650d0af7c5fbb73",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.90111,
+    0.102443
+   ],
+   "entity_id": "synthetic-job-7-00360",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:def4c7ccd721ee29fff88961",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.64535,
+    1.600367
+   ],
+   "entity_id": "synthetic-job-7-00364",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:0e9748a5ee7ae084474ebd45",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.988119,
+    1.211567
+   ],
+   "entity_id": "synthetic-job-7-00368",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:8e14a2a1ad776df70b3bfef0",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -1.289757,
+    0.142062
+   ],
+   "entity_id": "synthetic-job-7-00372",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e5b31cf3895d9202bfc60ab9",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.43249,
+    -0.431959
+   ],
+   "entity_id": "synthetic-job-7-00376",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:71a2b3fe5061f8841015ebbb",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.693379,
+    0.914213
+   ],
+   "entity_id": "synthetic-job-7-00380",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:01f59d83d47d5d24be2cf81e",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.345872,
+    -0.262283
+   ],
+   "entity_id": "synthetic-job-7-00384",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:bc022d13c55f485c6085639f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.733496,
+    -0.562848
+   ],
+   "entity_id": "synthetic-job-7-00388",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2a519a8e886988dc342fc586",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.125644,
+    1.472456
+   ],
+   "entity_id": "synthetic-job-7-00392",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f96315a8871f13f2d60d7c8a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.209781,
+    -0.260035
+   ],
+   "entity_id": "synthetic-job-7-00396",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:101d853b129fef7658ce7a3c",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.072991,
+    -0.930093
+   ],
+   "entity_id": "synthetic-job-7-00400",
+   "fit_metric_ref": null,
+   "label": "AI Governance Counsel-Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:a254d24d22d2d9a3d986e14e",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.36821,
+    -1.115899
+   ],
+   "entity_id": "synthetic-job-7-00404",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:18fbe290a91f9df6b71fcfaa",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.139064,
+    0.565364
+   ],
+   "entity_id": "synthetic-job-7-00408",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:fac012219cb6f806ef86388b",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.180963,
+    0.009395
+   ],
+   "entity_id": "synthetic-job-7-00412",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:ea654e7b02d6b88718fa7806",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.190856,
+    1.530132
+   ],
+   "entity_id": "synthetic-job-7-00416",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Lead",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:0d1ecec6d580e2768c50cef9",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.984953,
+    -1.425804
+   ],
+   "entity_id": "synthetic-job-7-00420",
+   "fit_metric_ref": null,
+   "label": "Site Reliability Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:79ff8bad226700316d4842e2",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.71672,
+    1.110567
+   ],
+   "entity_id": "synthetic-job-7-00424",
+   "fit_metric_ref": null,
+   "label": "LLM Systems Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:411b7b6090acc79a20b5f028",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.714454,
+    0.732653
+   ],
+   "entity_id": "synthetic-job-7-00428",
+   "fit_metric_ref": null,
+   "label": "Deployment Engineer",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:78145d6da49503514c798908",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    2.044959,
+    0.13197
+   ],
+   "entity_id": "synthetic-job-7-00432",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e024f25d5357b550b384cc01",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.465686,
+    -0.043511
+   ],
+   "entity_id": "synthetic-job-7-00436",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:0e7ab222a611b32b52afd94f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.054144,
+    -0.233696
+   ],
+   "entity_id": "synthetic-job-7-00440",
+   "fit_metric_ref": null,
+   "label": "Field Chief Technology Officer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:68a59b2a0422debc8f950b8f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.426907,
+    1.511907
+   ],
+   "entity_id": "synthetic-job-7-00444",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Lead",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:afccaccbb2b02f6cd611f304",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.275098,
+    -0.250127
+   ],
+   "entity_id": "synthetic-job-7-00448",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:cef69b89146fb065c287f715",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.612778,
+    1.176781
+   ],
+   "entity_id": "synthetic-job-7-00452",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:50759c4837a0ce7c4218c6af",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.228591,
+    -1.127602
+   ],
+   "entity_id": "synthetic-job-7-00456",
+   "fit_metric_ref": null,
+   "label": "AI Governance Counsel-Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f3c81fb05716a3c173aa5284",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.259834,
+    0.824737
+   ],
+   "entity_id": "synthetic-job-7-00460",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d8f477b97e6e53983a435b3e",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.366145,
+    -0.222299
+   ],
+   "entity_id": "synthetic-job-7-00464",
+   "fit_metric_ref": null,
+   "label": "Regional Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:77c7e63f75bc610885631351",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    0.727851,
+    -0.090463
+   ],
+   "entity_id": "synthetic-job-7-00468",
+   "fit_metric_ref": null,
+   "label": "Field Chief Technology Officer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:a98e64ea0f98c71d6d1f4031",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.70489,
+    0.082881
+   ],
+   "entity_id": "synthetic-job-7-00472",
+   "fit_metric_ref": null,
+   "label": "Director of AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2f82627295dfb220670552d5",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    1.11337,
+    -0.341193
+   ],
+   "entity_id": "synthetic-job-7-00476",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:2b195327277564bd327c8498",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.235239,
+    -1.761835
+   ],
+   "entity_id": "synthetic-job-7-00480",
+   "fit_metric_ref": null,
+   "label": "Platform Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:db65060e8cceaf350d454248",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    0.466252,
+    -1.300699
+   ],
+   "entity_id": "synthetic-job-7-00484",
+   "fit_metric_ref": null,
+   "label": "Legal AI Specialist",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:74933dbc3175fc2b6a4f64e5",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.6133,
+    -0.760807
+   ],
+   "entity_id": "synthetic-job-7-00488",
+   "fit_metric_ref": null,
+   "label": "Head of Applied AI",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e286fb749f488de11ff0a0da",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.19922,
+    0.251915
+   ],
+   "entity_id": "synthetic-job-7-00492",
+   "fit_metric_ref": null,
+   "label": "Backend Software Engineer",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d1d33bc79059b6521eb18d71",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    -1.632552,
+    -0.186207
+   ],
+   "entity_id": "synthetic-job-7-00496",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f32a999692d4efd0d9a8a8af",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -1.054898,
+    -1.176922
+   ],
+   "entity_id": "synthetic-job-7-00500",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:86df8de4cf309fac553434d9",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.16383,
+    0.957838
+   ],
+   "entity_id": "synthetic-job-7-00504",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f8026668acd09584ef51697a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.079606,
+    -1.177185
+   ],
+   "entity_id": "synthetic-job-7-00508",
+   "fit_metric_ref": null,
+   "label": "Privacy Engineer, AI",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f5a7fbd9f5f1b0f0a48b6e49",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.777867,
+    -0.542345
+   ],
+   "entity_id": "synthetic-job-7-00512",
+   "fit_metric_ref": null,
+   "label": "Director of AI",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:3e64dd151b08c5615a800cbe",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    0.09482,
+    0.630264
+   ],
+   "entity_id": "synthetic-job-7-00516",
+   "fit_metric_ref": null,
+   "label": "Lead AI Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:1dc6af586f12e0947a8be4af",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    0.039714,
+    0.630549
+   ],
+   "entity_id": "synthetic-job-7-00520",
+   "fit_metric_ref": null,
+   "label": "Lead AI Engineer",
+   "neighborhood_quality": 0.0,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d728b66bca4d2de7d82029db",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.651619,
+    -0.266071
+   ],
+   "entity_id": "synthetic-job-7-00524",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.5,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:4a6c061c15878ea4e365ce36",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -1.279005,
+    -1.54743
+   ],
+   "entity_id": "synthetic-job-7-00528",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:ce9e89b09a69277d7bb16f75",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    0.149429,
+    1.269613
+   ],
+   "entity_id": "synthetic-job-7-00532",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Manager",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:54ae57ef797cdcab12b1ce14",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.456887,
+    1.035037
+   ],
+   "entity_id": "synthetic-job-7-00536",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:a72ef42f5d8df9e86218859e",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.442426,
+    -0.124944
+   ],
+   "entity_id": "synthetic-job-7-00540",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d8c2e01e282d62f78283b780",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -1.221428,
+    -1.404993
+   ],
+   "entity_id": "synthetic-job-7-00544",
+   "fit_metric_ref": null,
+   "label": "Infrastructure Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:8a6270aaa0b37621e522ba24",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.911634,
+    0.214487
+   ],
+   "entity_id": "synthetic-job-7-00548",
+   "fit_metric_ref": null,
+   "label": "Senior Backend Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:57c41c91f918448cb2084571",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.364911,
+    0.28406
+   ],
+   "entity_id": "synthetic-job-7-00552",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed AI Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:5e4e3463a9cb306bc844210b",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.051568,
+    0.785064
+   ],
+   "entity_id": "synthetic-job-7-00556",
+   "fit_metric_ref": null,
+   "label": "Lead AI Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:214d0924ef8f8116f017be06",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.940069,
+    0.529893
+   ],
+   "entity_id": "synthetic-job-7-00560",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed AI Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:dabf31d7e075238803033b2a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -1.06172,
+    0.153087
+   ],
+   "entity_id": "synthetic-job-7-00564",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:1205d05f2e3e4ef9792935c6",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.26828,
+    1.221899
+   ],
+   "entity_id": "synthetic-job-7-00568",
+   "fit_metric_ref": null,
+   "label": "AI Solutions Architect",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:8856e62c43588427a01bd497",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.091394,
+    1.273352
+   ],
+   "entity_id": "synthetic-job-7-00572",
+   "fit_metric_ref": null,
+   "label": "Lead AI Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:397aa778b6d16b8a9242c253",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    1.411127,
+    -0.197544
+   ],
+   "entity_id": "synthetic-job-7-00576",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:d62c4bb274279906152d2007",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours"
+   ]
+  },
+  {
+   "coords": [
+    -0.971178,
+    0.52485
+   ],
+   "entity_id": "synthetic-job-7-00580",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.2,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:04c6f2c6be4558c30664c539",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    -0.54884,
+    0.484637
+   ],
+   "entity_id": "synthetic-job-7-00584",
+   "fit_metric_ref": null,
+   "label": "Deployment Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:b7b153555406e6dc90e0b8a4",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map"
+   ]
+  },
+  {
+   "coords": [
+    1.969634,
+    0.17389
+   ],
+   "entity_id": "synthetic-job-7-00588",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.4,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:7db3d6538d5884147d4a6ddd",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.559551,
+    0.55053
+   ],
+   "entity_id": "synthetic-job-7-00592",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": 0.1,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:e5980e1fe4a8f6c98d2848b7",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "low-neighbourhood-quality: map neighbours are mostly not true neighbours",
+    "poorly-represented: most of this point's variation is outside the map",
+    "unmapped-terms:1"
+   ]
+  },
+  {
+   "coords": [
+    1.491747,
+    -0.131986
+   ],
+   "entity_id": "synthetic-job-7-00596",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": 0.3,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "job",
+   "source_vector_ref": "vec:sha256:f6b7aecc9fd9c418adde17bd",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.466139,
+    1.091851
+   ],
+   "entity_id": "role:ai-architect",
+   "fit_metric_ref": null,
+   "label": "Applied AI Architect",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:f8cad31137da795c947697da",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.720634,
+    -0.157974
+   ],
+   "entity_id": "role:ai-director",
+   "fit_metric_ref": null,
+   "label": "AI Director",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:406b1b4e97c4b7fbf7410ceb",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    0.120783,
+    1.076422
+   ],
+   "entity_id": "role:ai-eng-lead",
+   "fit_metric_ref": null,
+   "label": "AI Engineering Lead",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:d479e1c57f2fe1251187a6b4",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -1.239768,
+    -0.023227
+   ],
+   "entity_id": "role:backend",
+   "fit_metric_ref": null,
+   "label": "Backend Engineer",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:8a8a09ba5280adb7ddb67c05",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -0.632602,
+    0.65878
+   ],
+   "entity_id": "role:fde",
+   "fit_metric_ref": null,
+   "label": "Forward Deployed Engineer",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:47ebb1c623cd2728df23b8d5",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    1.000151,
+    -0.107381
+   ],
+   "entity_id": "role:field-cto",
+   "fit_metric_ref": null,
+   "label": "Field CTO",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:c46f0334bbb80bbf15d0e39a",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -1.015619,
+    -1.320896
+   ],
+   "entity_id": "role:platform",
+   "fit_metric_ref": null,
+   "label": "Platform Engineer",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:870e7934ce48b3edcb785b44",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    0.226894,
+    -1.121935
+   ],
+   "entity_id": "role:privacy-legal-ai",
+   "fit_metric_ref": null,
+   "label": "Privacy / Legal AI Specialist",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "role-centroid",
+   "source_vector_ref": "vec:sha256:219ab668b8a668838458c697",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score"
+   ]
+  },
+  {
+   "coords": [
+    -1.082412,
+    0.210637
+   ],
+   "entity_id": "candidate-synthetic-001",
+   "fit_metric_ref": "role_table:requirement_shortfall",
+   "label": "Candidate (evidence on file)",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "candidate",
+   "source_vector_ref": "vec:sha256:950b1d46564e36f22edd7e2f",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "imputed-unknown-features:1"
+   ]
+  },
+  {
+   "coords": [
+    -1.09472,
+    0.30925
+   ],
+   "entity_id": "candidate-synthetic-001#scn-dce37724084e54cf",
+   "fit_metric_ref": "gap:fde:requirement_shortfall",
+   "label": "Hypothetical scenario",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "scenario",
+   "source_vector_ref": "vec:sha256:07b4cd87c255ec8e12b4ca80",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "hypothetical-scenario"
+   ]
+  },
+  {
+   "coords": [
+    -1.068059,
+    0.566696
+   ],
+   "entity_id": "candidate-synthetic-001#scn-181e458d8dfaa7d1",
+   "fit_metric_ref": "gap:ai-architect:requirement_shortfall",
+   "label": "Hypothetical scenario",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "scenario",
+   "source_vector_ref": "vec:sha256:e9245e1a4d1a7541c3485537",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "hypothetical-scenario"
+   ]
+  },
+  {
+   "coords": [
+    -0.879786,
+    0.251007
+   ],
+   "entity_id": "candidate-synthetic-001#scn-ff882c3ef2882692",
+   "fit_metric_ref": "gap:field-cto:requirement_shortfall",
+   "label": "Hypothetical scenario",
+   "neighborhood_quality": null,
+   "projection_id": "pca-8c1634a44e5a47de-2d",
+   "projection_method": "pca",
+   "representation_type": "scenario",
+   "source_vector_ref": "vec:sha256:6352e50db5ab2f9357d713b8",
+   "warnings": [
+    "map-position-is-not-a-fit-or-hiring-score",
+    "hypothetical-scenario"
+   ]
+  }
+ ],
+ "projection_id": "pca-8c1634a44e5a47de-2d",
+ "schema_version": "atlas-projection/0.1",
+ "synthetic_only": true,
+ "unplaced": [],
+ "warnings": [
+  "This 2-D map keeps 24.6% of the total variance across 52 features; 75.4% is not visible. On average 19% of a point's 10 nearest map neighbours are true nearest neighbours in the full feature space. Rank agreement between map distances and full-space distances is 0.69 (1.00 would be perfect). For the median posting, 78% of its squared distance from the average posting lies outside the map. Read the map as a sketch. Use full-space distances and the gap analysis for decisions.",
+  "mean-imputed 34 unknown cells (0.11%); variance along those features is understated"
+ ]
+}

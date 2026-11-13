@@ -1,0 +1,66 @@
+[
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-repo-orders",
+    "kind": "artifact",
+    "label": "Synthetic artifact: order-service repository summary",
+    "captured_at": "2026-09-11T09:00:00Z",
+    "note": "Fictional repository; no real code or employer."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-repo-console",
+    "kind": "artifact",
+    "label": "Synthetic artifact: internal console repository summary",
+    "captured_at": "2026-09-13T09:00:00Z",
+    "note": "Fictional."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-repo-evals",
+    "kind": "artifact",
+    "label": "Synthetic artifact: evaluation-suite repository summary",
+    "captured_at": "2026-09-26T09:00:00Z",
+    "note": "Fictional."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-doc-api-guidelines",
+    "kind": "document",
+    "label": "Synthetic document: API guidelines authored by the candidate",
+    "captured_at": "2026-08-12T09:00:00Z",
+    "note": "Fictional."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-doc-eval-report",
+    "kind": "document",
+    "label": "Synthetic document: evaluation report excerpt",
+    "captured_at": "2026-09-27T09:00:00Z",
+    "note": "Fictional."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-doc-latency-report",
+    "kind": "document",
+    "label": "Synthetic document: latency before/after report",
+    "captured_at": "2026-07-13T09:00:00Z",
+    "note": "Fictional measurements for a fictional service."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-ref-halcyon",
+    "kind": "attestation",
+    "label": "Synthetic attestation: employment confirmation letter",
+    "captured_at": "2026-10-11T09:00:00Z",
+    "note": "Fictional employer and signatory."
+  },
+  {
+    "schema_version": "evidence-item/0.1-proposed",
+    "id": "ev-record-cert-expired",
+    "kind": "record",
+    "label": "Synthetic record: certificate registry shows expiry on 2025-06-30",
+    "captured_at": "2026-10-31T09:00:00Z",
+    "note": "Contradicts the claim that the certificate is current."
+  }
+]

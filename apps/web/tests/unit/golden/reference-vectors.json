@@ -1,0 +1,895 @@
+{
+  "source": "tools/reference_engine.py on main (frozen baseline)",
+  "reference_engine_sha256": "0dd459286431e727c1298cea99235c6d4eeec7df18a983d3f86b07bc96be775a",
+  "assign": [
+    {
+      "experiment_id": "exp-0",
+      "stratum": "fde",
+      "unit_id": "employer-0-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "A"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "ai-architect",
+      "unit_id": "employer-1-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "",
+      "unit_id": "employer-2-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "s\u241fp",
+      "expected": "c"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "senior|remote",
+      "unit_id": "employer-3-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "w"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-4-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "A"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "fde",
+      "unit_id": "employer-5-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "s\u241fp",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "ai-architect",
+      "unit_id": "employer-6-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "c"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "",
+      "unit_id": "employer-7-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "x"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "senior|remote",
+      "unit_id": "employer-8-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "s\u241fp",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-9-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "fde",
+      "unit_id": "employer-10-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "a"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "ai-architect",
+      "unit_id": "employer-11-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "s\u241fp",
+      "expected": "x"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "",
+      "unit_id": "employer-12-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "senior|remote",
+      "unit_id": "employer-13-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-14-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "s\u241fp",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "fde",
+      "unit_id": "employer-15-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "x"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "ai-architect",
+      "unit_id": "employer-16-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "A"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "",
+      "unit_id": "employer-17-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "s\u241fp",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "senior|remote",
+      "unit_id": "employer-18-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-19-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "x"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "fde",
+      "unit_id": "employer-20-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "s\u241fp",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "ai-architect",
+      "unit_id": "employer-21-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "",
+      "unit_id": "employer-22-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "senior|remote",
+      "unit_id": "employer-23-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "s\u241fp",
+      "expected": "x"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-24-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "fde",
+      "unit_id": "employer-25-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "ai-architect",
+      "unit_id": "employer-26-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "s\u241fp",
+      "expected": "a"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "",
+      "unit_id": "employer-27-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "z"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "senior|remote",
+      "unit_id": "employer-28-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-29-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "s\u241fp",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "fde",
+      "unit_id": "employer-30-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "a"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "ai-architect",
+      "unit_id": "employer-31-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "y"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "",
+      "unit_id": "employer-32-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "s\u241fp",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "senior|remote",
+      "unit_id": "employer-33-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-34-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "fde",
+      "unit_id": "employer-35-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "s\u241fp",
+      "expected": "v"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "ai-architect",
+      "unit_id": "employer-36-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "A"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "",
+      "unit_id": "employer-37-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "senior|remote",
+      "unit_id": "employer-38-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "s\u241fp",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-39-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "v"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "fde",
+      "unit_id": "employer-40-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "A"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "ai-architect",
+      "unit_id": "employer-41-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "s\u241fp",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "",
+      "unit_id": "employer-42-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "c"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "senior|remote",
+      "unit_id": "employer-43-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "z"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-44-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "s\u241fp",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "fde",
+      "unit_id": "employer-45-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "ai-architect",
+      "unit_id": "employer-46-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "",
+      "unit_id": "employer-47-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "s\u241fp",
+      "expected": "w"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "senior|remote",
+      "unit_id": "employer-48-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "A"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-49-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "fde",
+      "unit_id": "employer-50-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "s\u241fp",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "ai-architect",
+      "unit_id": "employer-51-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "w"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "",
+      "unit_id": "employer-52-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-4",
+      "stratum": "senior|remote",
+      "unit_id": "employer-53-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "s\u241fp",
+      "expected": "skills-first"
+    },
+    {
+      "experiment_id": "exp-5",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-54-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-6",
+      "stratum": "fde",
+      "unit_id": "employer-55-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "z"
+    },
+    {
+      "experiment_id": "exp-0",
+      "stratum": "ai-architect",
+      "unit_id": "employer-56-\u00e9\u4e2d",
+      "variants": [
+        "A",
+        "B"
+      ],
+      "salt": "s\u241fp",
+      "expected": "B"
+    },
+    {
+      "experiment_id": "exp-1",
+      "stratum": "",
+      "unit_id": "employer-57-\u00e9\u4e2d",
+      "variants": [
+        "impact-first",
+        "skills-first"
+      ],
+      "salt": "synthetic-seed",
+      "expected": "impact-first"
+    },
+    {
+      "experiment_id": "exp-2",
+      "stratum": "senior|remote",
+      "unit_id": "employer-58-\u00e9\u4e2d",
+      "variants": [
+        "a",
+        "b",
+        "c"
+      ],
+      "salt": "careertwin-synthetic-fixture-salt-v1",
+      "expected": "b"
+    },
+    {
+      "experiment_id": "exp-3",
+      "stratum": "r\u00f4le-fam\u00edlia",
+      "unit_id": "employer-59-\u00e9\u4e2d",
+      "variants": [
+        "x",
+        "y",
+        "z",
+        "w",
+        "v"
+      ],
+      "salt": "s\u241fp",
+      "expected": "w"
+    }
+  ],
+  "sha256": [
+    {
+      "text": "",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "text": "abc",
+      "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    },
+    {
+      "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "9f4390f8d30c2dd92ec9f095b65e2b9ae9b0a925a5258e241c9f1e910f734318"
+    },
+    {
+      "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "b35439a4ac6f0948b6d6f9e3c6af0f5f590ce20f1bde7090ef7970686ec6738a"
+    },
+    {
+      "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "ffe054fe7ae0cb6dc65c3af9b61d5209f439851db43d0ba5997337df154668eb"
+    },
+    {
+      "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "31eba51c313a5c08226adf18d4a359cfdfd8d2e816b13f4af952f7ea6584dcfb"
+    },
+    {
+      "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sha256": "41edece42d63e8d9bf515a9ba6932e1c20cbc9f5a5d134645adb5db1b9737ea3"
+    },
+    {
+      "text": "r\u00e9sum\u00e9 \u4e2d\u6587 \ud83d\ude00",
+      "sha256": "a41ed42f4eefe608cb30149b38383a58d99b6ef4eee0d12071f70aaf7f15cbd3"
+    }
+  ],
+  "score_job": [
+    {
+      "job_id": "fake-fde-1",
+      "score": 84.9,
+      "score_type": "relative_heuristic_not_hiring_probability",
+      "explanation": {
+        "skill_coverage": 0.8,
+        "trajectory_score": 0.85,
+        "workstyle": 1.0
+      },
+      "missing_skills": [
+        "customer-delivery"
+      ],
+      "unknown_inputs": [
+        "compensation_verified",
+        "recruiter_preferences",
+        "job_activity_status"
+      ]
+    },
+    {
+      "job_id": "fake-ai-2",
+      "score": 80.6,
+      "score_type": "relative_heuristic_not_hiring_probability",
+      "explanation": {
+        "skill_coverage": 0.8,
+        "trajectory_score": 0.9,
+        "workstyle": 0.5
+      },
+      "missing_skills": [
+        "mlops"
+      ],
+      "unknown_inputs": [
+        "compensation_verified",
+        "recruiter_preferences",
+        "job_activity_status"
+      ]
+    },
+    {
+      "job_id": "fake-cto-3",
+      "score": 58.0,
+      "score_type": "relative_heuristic_not_hiring_probability",
+      "explanation": {
+        "skill_coverage": 0.0,
+        "trajectory_score": 1.0,
+        "workstyle": 1.0
+      },
+      "missing_skills": [
+        "ai-strategy",
+        "cloud-architecture",
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication"
+      ],
+      "unknown_inputs": [
+        "compensation_verified",
+        "recruiter_preferences",
+        "job_activity_status"
+      ]
+    },
+    {
+      "job_id": "fake-backend-4",
+      "score": 52.3,
+      "score_type": "relative_heuristic_not_hiring_probability",
+      "explanation": {
+        "skill_coverage": 1.0,
+        "trajectory_score": 0.2,
+        "workstyle": 0.1
+      },
+      "missing_skills": [],
+      "unknown_inputs": [
+        "compensation_verified",
+        "recruiter_preferences",
+        "job_activity_status"
+      ]
+    }
+  ],
+  "skill_gap": [
+    {
+      "target_role": "Forward Deployed Engineer",
+      "missing_skills": [
+        "customer-delivery"
+      ],
+      "already_evidenced": [
+        "ai-evaluation",
+        "api-design",
+        "python",
+        "typescript"
+      ],
+      "status": "hypothetical_gap_not_probability"
+    },
+    {
+      "target_role": "Applied AI Architect",
+      "missing_skills": [
+        "mlops"
+      ],
+      "already_evidenced": [
+        "ai-evaluation",
+        "api-design",
+        "aws",
+        "python"
+      ],
+      "status": "hypothetical_gap_not_probability"
+    },
+    {
+      "target_role": "Field CTO",
+      "missing_skills": [
+        "ai-strategy",
+        "cloud-architecture",
+        "customer-delivery",
+        "enterprise-sales",
+        "executive-communication"
+      ],
+      "already_evidenced": [],
+      "status": "hypothetical_gap_not_probability"
+    },
+    {
+      "target_role": "Backend Engineer",
+      "missing_skills": [],
+      "already_evidenced": [
+        "api-design",
+        "distributed-systems",
+        "python"
+      ],
+      "status": "hypothetical_gap_not_probability"
+    }
+  ],
+  "profile_skills": [
+    "python",
+    "typescript",
+    "aws",
+    "api-design",
+    "security",
+    "ai-evaluation",
+    "distributed-systems"
+  ]
+}

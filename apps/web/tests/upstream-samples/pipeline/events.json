@@ -1,0 +1,62 @@
+[
+ {
+  "actor": "user",
+  "application_id": "app-e2e-jp_47ba7eb37f34fea44e98",
+  "approval_token_ref": null,
+  "event_type": "saved",
+  "experiment_id": null,
+  "id": "evt-0000000",
+  "job_id": "jp_47ba7eb37f34fea44e98",
+  "notes": "",
+  "occurred_at": null,
+  "outcome_status": "observed",
+  "recorded_at": "2026-03-02T09:00:00Z",
+  "resume_variant_id": null,
+  "source": "user:manual"
+ },
+ {
+  "actor": "system",
+  "application_id": "app-e2e-jp_47ba7eb37f34fea44e98",
+  "approval_token_ref": null,
+  "event_type": "drafted",
+  "experiment_id": null,
+  "id": "evt-0000001",
+  "job_id": "jp_47ba7eb37f34fea44e98",
+  "notes": "",
+  "occurred_at": null,
+  "outcome_status": "observed",
+  "recorded_at": "2026-03-02T09:05:00Z",
+  "resume_variant_id": "rv-a985ea36c583ca861392",
+  "source": "system:resume-engine"
+ },
+ {
+  "actor": "user",
+  "application_id": "app-e2e-jp_47ba7eb37f34fea44e98",
+  "approval_token_ref": "apr-000001-41e5da1c",
+  "event_type": "approved",
+  "experiment_id": null,
+  "id": "evt-0000002",
+  "job_id": "jp_47ba7eb37f34fea44e98",
+  "notes": "",
+  "occurred_at": null,
+  "outcome_status": "observed",
+  "recorded_at": "2026-03-02T09:10:00Z",
+  "resume_variant_id": "rv-a985ea36c583ca861392",
+  "source": "user:approval-dialog"
+ },
+ {
+  "actor": "user",
+  "application_id": "app-e2e-jp_47ba7eb37f34fea44e98",
+  "approval_token_ref": "apr-000001-41e5da1c",
+  "event_type": "submitted",
+  "experiment_id": null,
+  "id": "evt-0000003",
+  "job_id": "jp_47ba7eb37f34fea44e98",
+  "notes": "",
+  "occurred_at": null,
+  "outcome_status": "self-reported",
+  "recorded_at": "2026-03-02T09:15:00Z",
+  "resume_variant_id": "rv-a985ea36c583ca861392",
+  "source": "user:manual-submission-report"
+ }
+]

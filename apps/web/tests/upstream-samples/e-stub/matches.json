@@ -1,0 +1,509 @@
+[
+ {
+  "job_id": "job-syn-s7-000020",
+  "score": 34.0,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.5,
+   "trajectory_score": 0.0,
+   "workstyle": 1.0
+  },
+  "missing_skills": [
+   "aws",
+   "ci-cd",
+   "distributed-systems"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000004",
+  "score": 29.8,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.4,
+   "trajectory_score": 0.0,
+   "workstyle": 1.0
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "mlops",
+   "roadmapping"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000006",
+  "score": 29.8,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.4,
+   "trajectory_score": 0.0,
+   "workstyle": 1.0
+  },
+  "missing_skills": [
+   "aws",
+   "ci-cd",
+   "communication"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000015",
+  "score": 25.0,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.286,
+   "trajectory_score": 0.0,
+   "workstyle": 1.0
+  },
+  "missing_skills": [
+   "aws",
+   "ci-cd",
+   "distributed-systems",
+   "documentation",
+   "testing"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000023",
+  "score": 22.2,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.375,
+   "trajectory_score": 0.0,
+   "workstyle": 0.5
+  },
+  "missing_skills": [
+   "aws",
+   "ci-cd",
+   "communication",
+   "distributed-systems",
+   "testing"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000012",
+  "score": 21.4,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.2,
+   "trajectory_score": 0.0,
+   "workstyle": 1.0
+  },
+  "missing_skills": [
+   "ai-strategy",
+   "cloud-architecture",
+   "customer-delivery",
+   "executive-communication"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000010",
+  "score": 20.5,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.333,
+   "trajectory_score": 0.0,
+   "workstyle": 0.5
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "code-review",
+   "documentation",
+   "roadmapping"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000013",
+  "score": 20.0,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.167,
+   "trajectory_score": 0.0,
+   "workstyle": 1.0
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "api-design",
+   "customer-delivery",
+   "solution-scoping",
+   "typescript"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000008",
+  "score": 18.1,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.4,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "api-design",
+   "documentation",
+   "sql"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000005",
+  "score": 17.0,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.25,
+   "trajectory_score": 0.0,
+   "workstyle": 0.5
+  },
+  "missing_skills": [
+   "api-design",
+   "distributed-systems",
+   "sql"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000011",
+  "score": 17.0,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.25,
+   "trajectory_score": 0.0,
+   "workstyle": 0.5
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "api-design",
+   "retrieval-systems"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000009",
+  "score": 15.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.333,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "solution-scoping",
+   "typescript"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000017",
+  "score": 14.9,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.2,
+   "trajectory_score": 0.0,
+   "workstyle": 0.5
+  },
+  "missing_skills": [
+   "ai-strategy",
+   "cloud-architecture",
+   "customer-delivery",
+   "executive-communication"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000002",
+  "score": 9.7,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.2,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "cloud-architecture",
+   "communication",
+   "customer-delivery",
+   "executive-communication"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000003",
+  "score": 9.7,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.2,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-strategy",
+   "executive-communication",
+   "roadmapping",
+   "testing"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000018",
+  "score": 7.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.143,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "api-design",
+   "communication",
+   "customer-delivery",
+   "solution-scoping",
+   "typescript"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000019",
+  "score": 7.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.143,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-strategy",
+   "cloud-architecture",
+   "communication",
+   "customer-delivery",
+   "executive-communication",
+   "mentoring"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000021",
+  "score": 7.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.143,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "api-design",
+   "customer-delivery",
+   "mentoring",
+   "solution-scoping",
+   "typescript"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000022",
+  "score": 7.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.143,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "api-design",
+   "mentoring",
+   "mlops",
+   "retrieval-systems",
+   "testing"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000001",
+  "score": 6.6,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.125,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "api-design",
+   "aws",
+   "documentation",
+   "mentoring",
+   "mlops",
+   "retrieval-systems"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000000",
+  "score": 1.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.0,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "api-design",
+   "customer-delivery",
+   "typescript"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000007",
+  "score": 1.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.0,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-governance",
+   "privacy-law",
+   "risk-assessment"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000014",
+  "score": 1.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.0,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "ai-evaluation",
+   "code-review",
+   "documentation",
+   "roadmapping"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ },
+ {
+  "job_id": "job-syn-s7-000016",
+  "score": 1.3,
+  "score_type": "relative_heuristic_not_hiring_probability",
+  "explanation": {
+   "skill_coverage": 0.0,
+   "trajectory_score": 0.0,
+   "workstyle": 0.1
+  },
+  "missing_skills": [
+   "api-design",
+   "customer-delivery",
+   "typescript"
+  ],
+  "unknown_inputs": [
+   "compensation_verified",
+   "recruiter_preferences",
+   "job_activity_status"
+  ]
+ }
+]

@@ -1,0 +1,1052 @@
+{
+ "continuity": 0.9385831469052945,
+ "distance_pairs_used": 4005,
+ "distance_pearson": 0.6333134527970714,
+ "distance_spearman": 0.6357936707333632,
+ "explained_variance_cumulative": 0.2718740151415536,
+ "explained_variance_ratio": [
+  0.15294012950882244,
+  0.11893388563273122
+ ],
+ "fit_refs": [
+  "a-skillvec/tax-3d9727353bec/jp_01a3867a6331d6abd521",
+  "a-skillvec/tax-3d9727353bec/jp_021323feeaf331e6f84b",
+  "a-skillvec/tax-3d9727353bec/jp_07f1b3d92806d964c525",
+  "a-skillvec/tax-3d9727353bec/jp_12d0c10a885898ddd73c",
+  "a-skillvec/tax-3d9727353bec/jp_1b885cf5f1e735f588dd",
+  "a-skillvec/tax-3d9727353bec/jp_26b534c63da8bf27e6a6",
+  "a-skillvec/tax-3d9727353bec/jp_2fc937eb1186b1cae451",
+  "a-skillvec/tax-3d9727353bec/jp_309f989f04eda0dda2b2",
+  "a-skillvec/tax-3d9727353bec/jp_33e82e5280cfde47cd8c",
+  "a-skillvec/tax-3d9727353bec/jp_391608999dde8dafc918",
+  "a-skillvec/tax-3d9727353bec/jp_3cda28242bf1d2c6470a",
+  "a-skillvec/tax-3d9727353bec/jp_3e6d8112b1cfbb0018ce",
+  "a-skillvec/tax-3d9727353bec/jp_3f9626d70fea40dde8e7",
+  "a-skillvec/tax-3d9727353bec/jp_45efe0e7c384ab078422",
+  "a-skillvec/tax-3d9727353bec/jp_47709947dc0c073946b5",
+  "a-skillvec/tax-3d9727353bec/jp_47ba7eb37f34fea44e98",
+  "a-skillvec/tax-3d9727353bec/jp_48a9c0ec48d8950335ad",
+  "a-skillvec/tax-3d9727353bec/jp_49ea3fc4d7c7b4b53507",
+  "a-skillvec/tax-3d9727353bec/jp_4a99c25afd13ca1282fa",
+  "a-skillvec/tax-3d9727353bec/jp_4c483780a82e6e9abff3",
+  "a-skillvec/tax-3d9727353bec/jp_4e4e844703a31bb93234",
+  "a-skillvec/tax-3d9727353bec/jp_4f2c77e4862e08c24499",
+  "a-skillvec/tax-3d9727353bec/jp_514f585292aeaf36a398",
+  "a-skillvec/tax-3d9727353bec/jp_5150a4525c98a3d208e0",
+  "a-skillvec/tax-3d9727353bec/jp_51b5051c298c8577e9ca",
+  "a-skillvec/tax-3d9727353bec/jp_550640e39c3ba517423f",
+  "a-skillvec/tax-3d9727353bec/jp_5672fefbf01ad86dc8e9",
+  "a-skillvec/tax-3d9727353bec/jp_5a52c451ecac36af6734",
+  "a-skillvec/tax-3d9727353bec/jp_5b6cda89bed49bc97f2b",
+  "a-skillvec/tax-3d9727353bec/jp_617121e1c1b178787813",
+  "a-skillvec/tax-3d9727353bec/jp_61c51faaae1db3e09dfc",
+  "a-skillvec/tax-3d9727353bec/jp_6c9069f2345dbd99ec05",
+  "a-skillvec/tax-3d9727353bec/jp_736e13cc8cd6b0cb2506",
+  "a-skillvec/tax-3d9727353bec/jp_773a8ac7c7444f8c14ae",
+  "a-skillvec/tax-3d9727353bec/jp_786250d89df084166bf3",
+  "a-skillvec/tax-3d9727353bec/jp_7b66062f70026158cde9",
+  "a-skillvec/tax-3d9727353bec/jp_8008ba97ffe927309367",
+  "a-skillvec/tax-3d9727353bec/jp_80ba8ffcb44e6d5cf255",
+  "a-skillvec/tax-3d9727353bec/jp_81d5036d92d51ca9c6c0",
+  "a-skillvec/tax-3d9727353bec/jp_8414802465fec53f114c",
+  "a-skillvec/tax-3d9727353bec/jp_88a49124462d6df00f5d",
+  "a-skillvec/tax-3d9727353bec/jp_8a47e07636d17d90877e",
+  "a-skillvec/tax-3d9727353bec/jp_8c3df01862b237feefac",
+  "a-skillvec/tax-3d9727353bec/jp_8f8dcb710a3ba7504b2a",
+  "a-skillvec/tax-3d9727353bec/jp_938874c91c06c065902d",
+  "a-skillvec/tax-3d9727353bec/jp_a17eb339f583d830f754",
+  "a-skillvec/tax-3d9727353bec/jp_a18abfc3c6eeb870ee20",
+  "a-skillvec/tax-3d9727353bec/jp_a22f316073d87c7d7c7b",
+  "a-skillvec/tax-3d9727353bec/jp_a2d5326b6e3231992d63",
+  "a-skillvec/tax-3d9727353bec/jp_a2deef5e11600d9ed963",
+  "a-skillvec/tax-3d9727353bec/jp_a6f319ad6970d1be7056",
+  "a-skillvec/tax-3d9727353bec/jp_ab78ed99062919c5e1b3",
+  "a-skillvec/tax-3d9727353bec/jp_acb2527d8b8f38ac49f8",
+  "a-skillvec/tax-3d9727353bec/jp_aeb196fb673f0e5879bc",
+  "a-skillvec/tax-3d9727353bec/jp_aed069c7b4158b5a395d",
+  "a-skillvec/tax-3d9727353bec/jp_af2c3fff42e8d1af5126",
+  "a-skillvec/tax-3d9727353bec/jp_b499f6969d2167b9a463",
+  "a-skillvec/tax-3d9727353bec/jp_b611287640c74905ffee",
+  "a-skillvec/tax-3d9727353bec/jp_b7157c2f19efa12f0cbb",
+  "a-skillvec/tax-3d9727353bec/jp_b78989bf475f77b9cd22",
+  "a-skillvec/tax-3d9727353bec/jp_b81768c4fe6d61298e24",
+  "a-skillvec/tax-3d9727353bec/jp_bc7a81d23da36bb569ff",
+  "a-skillvec/tax-3d9727353bec/jp_bd8395a1c894ddd11c8d",
+  "a-skillvec/tax-3d9727353bec/jp_bdf7b3a6de2b1cd29e9f",
+  "a-skillvec/tax-3d9727353bec/jp_bee4adfc6597dcbfc469",
+  "a-skillvec/tax-3d9727353bec/jp_c35cfd4a9fe6d926777b",
+  "a-skillvec/tax-3d9727353bec/jp_c3e735db0265d0594ed9",
+  "a-skillvec/tax-3d9727353bec/jp_c92d47927ee85c7920bb",
+  "a-skillvec/tax-3d9727353bec/jp_c959d26fdf754610a08d",
+  "a-skillvec/tax-3d9727353bec/jp_c9ae32653da1c5515df6",
+  "a-skillvec/tax-3d9727353bec/jp_cfe260eab87c22ecce7d",
+  "a-skillvec/tax-3d9727353bec/jp_d050f443c7e59dd4f9e5",
+  "a-skillvec/tax-3d9727353bec/jp_d1d2068567245ce94c7f",
+  "a-skillvec/tax-3d9727353bec/jp_d7e43939694ac7e7e89d",
+  "a-skillvec/tax-3d9727353bec/jp_ddc4a4378be458a9be47",
+  "a-skillvec/tax-3d9727353bec/jp_e2e088a82bbb9e3fa74b",
+  "a-skillvec/tax-3d9727353bec/jp_e2fd59a95386adf7a520",
+  "a-skillvec/tax-3d9727353bec/jp_e3a1b8bbd4085a78fa9a",
+  "a-skillvec/tax-3d9727353bec/jp_e3d40b21ae54d5afc3a5",
+  "a-skillvec/tax-3d9727353bec/jp_e8813ce6c50141457427",
+  "a-skillvec/tax-3d9727353bec/jp_e99669bc1a7409b6f4b7",
+  "a-skillvec/tax-3d9727353bec/jp_e9fc314efd45116eab2b",
+  "a-skillvec/tax-3d9727353bec/jp_ea0957aa9593533499d9",
+  "a-skillvec/tax-3d9727353bec/jp_ec717304a93b82492a63",
+  "a-skillvec/tax-3d9727353bec/jp_ee7ebf9ed8f07b560c1c",
+  "a-skillvec/tax-3d9727353bec/jp_f389ca2596c4215552dc",
+  "a-skillvec/tax-3d9727353bec/jp_fb68f04c03c33f8f208a",
+  "a-skillvec/tax-3d9727353bec/jp_fd159408d5d0dfa1bfe9",
+  "a-skillvec/tax-3d9727353bec/jp_fd5e0534aa1dd5d762b0",
+  "a-skillvec/tax-3d9727353bec/jp_fdf940b0269902634669"
+ ],
+ "flags": [
+  "low-explained-variance: the map shows 27.2% of total variance; 72.8% of the variation between points is not visible",
+  "distance-order-distorted: map distances rank pairs differently from full-space distances"
+ ],
+ "flags_bundle": {
+  "map_distortion_flagged": true,
+  "not_hiring_probability": true,
+  "two_d_geometry_is_not_match_metric": true
+ },
+ "information_loss": {
+  "median_residual_share": 0.751426,
+  "statement": "This 2-D map keeps 27.2% of the total variance across 58 features; 72.8% is not visible. On average 66% of a point's 10 nearest map neighbours are true nearest neighbours in the full feature space. Rank agreement between map distances and full-space distances is 0.64 (1.00 would be perfect). For the median posting, 75% of its squared distance from the average posting lies outside the map. Read the map as a sketch. Use full-space distances and the gap analysis for decisions.",
+  "variance_not_shown": 0.7281259848584464
+ },
+ "interpretation": "Geometric fidelity of the picture only. Not a match score and not a hiring probability.",
+ "k": 10,
+ "k_neighbours": 10,
+ "knn_recall_exact_mean": 0.6377777777777779,
+ "knn_recall_mean": 0.6611111111111111,
+ "knn_recall_note": "knn_recall_mean is tie-inclusive (an equidistant point counts as a true neighbour); knn_recall_exact_mean compares stable top-k sets and is the pessimistic end",
+ "method": "pca",
+ "n_features": 58,
+ "n_map_dims": 2,
+ "n_points": 90,
+ "neighbor_claims": [
+  {
+   "entity_id": "jp_01a3867a6331d6abd521",
+   "neighbors": [
+    "jp_49ea3fc4d7c7b4b53507",
+    "jp_391608999dde8dafc918",
+    "jp_61c51faaae1db3e09dfc",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_4c483780a82e6e9abff3"
+   ]
+  },
+  {
+   "entity_id": "jp_021323feeaf331e6f84b",
+   "neighbors": [
+    "jp_b499f6969d2167b9a463",
+    "jp_fb68f04c03c33f8f208a",
+    "jp_51b5051c298c8577e9ca",
+    "jp_4a99c25afd13ca1282fa",
+    "jp_45efe0e7c384ab078422"
+   ]
+  },
+  {
+   "entity_id": "jp_07f1b3d92806d964c525",
+   "neighbors": [
+    "jp_5150a4525c98a3d208e0",
+    "jp_8008ba97ffe927309367",
+    "jp_ddc4a4378be458a9be47",
+    "jp_e8813ce6c50141457427",
+    "jp_5a52c451ecac36af6734"
+   ]
+  },
+  {
+   "entity_id": "jp_12d0c10a885898ddd73c",
+   "neighbors": [
+    "jp_bdf7b3a6de2b1cd29e9f",
+    "jp_c3e735db0265d0594ed9",
+    "jp_3cda28242bf1d2c6470a",
+    "jp_c959d26fdf754610a08d",
+    "jp_ab78ed99062919c5e1b3"
+   ]
+  },
+  {
+   "entity_id": "jp_1b885cf5f1e735f588dd",
+   "neighbors": [
+    "jp_a18abfc3c6eeb870ee20",
+    "jp_550640e39c3ba517423f",
+    "jp_45efe0e7c384ab078422",
+    "jp_309f989f04eda0dda2b2",
+    "jp_021323feeaf331e6f84b"
+   ]
+  },
+  {
+   "entity_id": "jp_26b534c63da8bf27e6a6",
+   "neighbors": [
+    "jp_c959d26fdf754610a08d",
+    "jp_af2c3fff42e8d1af5126",
+    "jp_bee4adfc6597dcbfc469",
+    "jp_8414802465fec53f114c",
+    "jp_8a47e07636d17d90877e"
+   ]
+  },
+  {
+   "entity_id": "jp_2fc937eb1186b1cae451",
+   "neighbors": [
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_fdf940b0269902634669",
+    "jp_736e13cc8cd6b0cb2506",
+    "jp_a6f319ad6970d1be7056",
+    "jp_5672fefbf01ad86dc8e9"
+   ]
+  },
+  {
+   "entity_id": "jp_309f989f04eda0dda2b2",
+   "neighbors": [
+    "jp_45efe0e7c384ab078422",
+    "jp_550640e39c3ba517423f",
+    "jp_1b885cf5f1e735f588dd",
+    "jp_a18abfc3c6eeb870ee20",
+    "jp_51b5051c298c8577e9ca"
+   ]
+  },
+  {
+   "entity_id": "jp_33e82e5280cfde47cd8c",
+   "neighbors": [
+    "jp_45efe0e7c384ab078422",
+    "jp_514f585292aeaf36a398",
+    "jp_51b5051c298c8577e9ca",
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_fd159408d5d0dfa1bfe9"
+   ]
+  },
+  {
+   "entity_id": "jp_391608999dde8dafc918",
+   "neighbors": [
+    "jp_3f9626d70fea40dde8e7",
+    "jp_49ea3fc4d7c7b4b53507",
+    "jp_01a3867a6331d6abd521",
+    "jp_4c483780a82e6e9abff3",
+    "jp_61c51faaae1db3e09dfc"
+   ]
+  },
+  {
+   "entity_id": "jp_3cda28242bf1d2c6470a",
+   "neighbors": [
+    "jp_c3e735db0265d0594ed9",
+    "jp_ab78ed99062919c5e1b3",
+    "jp_12d0c10a885898ddd73c",
+    "jp_bdf7b3a6de2b1cd29e9f",
+    "jp_ec717304a93b82492a63"
+   ]
+  },
+  {
+   "entity_id": "jp_3e6d8112b1cfbb0018ce",
+   "neighbors": [
+    "jp_4e4e844703a31bb93234",
+    "jp_88a49124462d6df00f5d",
+    "jp_e2e088a82bbb9e3fa74b",
+    "jp_4a99c25afd13ca1282fa",
+    "jp_a22f316073d87c7d7c7b"
+   ]
+  },
+  {
+   "entity_id": "jp_3f9626d70fea40dde8e7",
+   "neighbors": [
+    "jp_391608999dde8dafc918",
+    "jp_4c483780a82e6e9abff3",
+    "jp_b81768c4fe6d61298e24",
+    "jp_cfe260eab87c22ecce7d",
+    "jp_49ea3fc4d7c7b4b53507"
+   ]
+  },
+  {
+   "entity_id": "jp_45efe0e7c384ab078422",
+   "neighbors": [
+    "jp_309f989f04eda0dda2b2",
+    "jp_1b885cf5f1e735f588dd",
+    "jp_550640e39c3ba517423f",
+    "jp_a18abfc3c6eeb870ee20",
+    "jp_b499f6969d2167b9a463"
+   ]
+  },
+  {
+   "entity_id": "jp_47709947dc0c073946b5",
+   "neighbors": [
+    "jp_b611287640c74905ffee",
+    "jp_aed069c7b4158b5a395d",
+    "jp_d1d2068567245ce94c7f",
+    "jp_c92d47927ee85c7920bb",
+    "jp_617121e1c1b178787813"
+   ]
+  },
+  {
+   "entity_id": "jp_47ba7eb37f34fea44e98",
+   "neighbors": [
+    "jp_6c9069f2345dbd99ec05",
+    "jp_c9ae32653da1c5515df6",
+    "jp_a17eb339f583d830f754",
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_d7e43939694ac7e7e89d"
+   ]
+  },
+  {
+   "entity_id": "jp_48a9c0ec48d8950335ad",
+   "neighbors": [
+    "jp_e3a1b8bbd4085a78fa9a",
+    "jp_8a47e07636d17d90877e",
+    "jp_8414802465fec53f114c",
+    "jp_5b6cda89bed49bc97f2b",
+    "jp_bee4adfc6597dcbfc469"
+   ]
+  },
+  {
+   "entity_id": "jp_49ea3fc4d7c7b4b53507",
+   "neighbors": [
+    "jp_01a3867a6331d6abd521",
+    "jp_391608999dde8dafc918",
+    "jp_61c51faaae1db3e09dfc",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_4c483780a82e6e9abff3"
+   ]
+  },
+  {
+   "entity_id": "jp_4a99c25afd13ca1282fa",
+   "neighbors": [
+    "jp_a2deef5e11600d9ed963",
+    "jp_fb68f04c03c33f8f208a",
+    "jp_4f2c77e4862e08c24499",
+    "jp_b499f6969d2167b9a463",
+    "jp_021323feeaf331e6f84b"
+   ]
+  },
+  {
+   "entity_id": "jp_4c483780a82e6e9abff3",
+   "neighbors": [
+    "jp_3f9626d70fea40dde8e7",
+    "jp_391608999dde8dafc918",
+    "jp_b81768c4fe6d61298e24",
+    "jp_cfe260eab87c22ecce7d",
+    "jp_49ea3fc4d7c7b4b53507"
+   ]
+  },
+  {
+   "entity_id": "jp_4e4e844703a31bb93234",
+   "neighbors": [
+    "jp_3e6d8112b1cfbb0018ce",
+    "jp_88a49124462d6df00f5d",
+    "jp_e2e088a82bbb9e3fa74b",
+    "jp_b499f6969d2167b9a463",
+    "jp_4a99c25afd13ca1282fa"
+   ]
+  },
+  {
+   "entity_id": "jp_4f2c77e4862e08c24499",
+   "neighbors": [
+    "jp_a2deef5e11600d9ed963",
+    "jp_4a99c25afd13ca1282fa",
+    "jp_fb68f04c03c33f8f208a",
+    "jp_47ba7eb37f34fea44e98",
+    "jp_021323feeaf331e6f84b"
+   ]
+  },
+  {
+   "entity_id": "jp_514f585292aeaf36a398",
+   "neighbors": [
+    "jp_fd159408d5d0dfa1bfe9",
+    "jp_fd5e0534aa1dd5d762b0",
+    "jp_8f8dcb710a3ba7504b2a",
+    "jp_7b66062f70026158cde9",
+    "jp_ea0957aa9593533499d9"
+   ]
+  },
+  {
+   "entity_id": "jp_5150a4525c98a3d208e0",
+   "neighbors": [
+    "jp_8008ba97ffe927309367",
+    "jp_07f1b3d92806d964c525",
+    "jp_e8813ce6c50141457427",
+    "jp_ddc4a4378be458a9be47",
+    "jp_5a52c451ecac36af6734"
+   ]
+  },
+  {
+   "entity_id": "jp_51b5051c298c8577e9ca",
+   "neighbors": [
+    "jp_bc7a81d23da36bb569ff",
+    "jp_773a8ac7c7444f8c14ae",
+    "jp_021323feeaf331e6f84b",
+    "jp_b499f6969d2167b9a463",
+    "jp_acb2527d8b8f38ac49f8"
+   ]
+  },
+  {
+   "entity_id": "jp_550640e39c3ba517423f",
+   "neighbors": [
+    "jp_1b885cf5f1e735f588dd",
+    "jp_a18abfc3c6eeb870ee20",
+    "jp_309f989f04eda0dda2b2",
+    "jp_45efe0e7c384ab078422",
+    "jp_021323feeaf331e6f84b"
+   ]
+  },
+  {
+   "entity_id": "jp_5672fefbf01ad86dc8e9",
+   "neighbors": [
+    "jp_8f8dcb710a3ba7504b2a",
+    "jp_736e13cc8cd6b0cb2506",
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_fdf940b0269902634669",
+    "jp_2fc937eb1186b1cae451"
+   ]
+  },
+  {
+   "entity_id": "jp_5a52c451ecac36af6734",
+   "neighbors": [
+    "jp_a2d5326b6e3231992d63",
+    "jp_ddc4a4378be458a9be47",
+    "jp_07f1b3d92806d964c525",
+    "jp_e8813ce6c50141457427",
+    "jp_5150a4525c98a3d208e0"
+   ]
+  },
+  {
+   "entity_id": "jp_5b6cda89bed49bc97f2b",
+   "neighbors": [
+    "jp_8a47e07636d17d90877e",
+    "jp_48a9c0ec48d8950335ad",
+    "jp_e3a1b8bbd4085a78fa9a",
+    "jp_8414802465fec53f114c",
+    "jp_bee4adfc6597dcbfc469"
+   ]
+  },
+  {
+   "entity_id": "jp_617121e1c1b178787813",
+   "neighbors": [
+    "jp_d050f443c7e59dd4f9e5",
+    "jp_a22f316073d87c7d7c7b",
+    "jp_47709947dc0c073946b5",
+    "jp_b611287640c74905ffee",
+    "jp_c92d47927ee85c7920bb"
+   ]
+  },
+  {
+   "entity_id": "jp_61c51faaae1db3e09dfc",
+   "neighbors": [
+    "jp_49ea3fc4d7c7b4b53507",
+    "jp_01a3867a6331d6abd521",
+    "jp_391608999dde8dafc918",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_786250d89df084166bf3"
+   ]
+  },
+  {
+   "entity_id": "jp_6c9069f2345dbd99ec05",
+   "neighbors": [
+    "jp_a17eb339f583d830f754",
+    "jp_47ba7eb37f34fea44e98",
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_c9ae32653da1c5515df6",
+    "jp_c35cfd4a9fe6d926777b"
+   ]
+  },
+  {
+   "entity_id": "jp_736e13cc8cd6b0cb2506",
+   "neighbors": [
+    "jp_2fc937eb1186b1cae451",
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_fdf940b0269902634669",
+    "jp_5672fefbf01ad86dc8e9",
+    "jp_a6f319ad6970d1be7056"
+   ]
+  },
+  {
+   "entity_id": "jp_773a8ac7c7444f8c14ae",
+   "neighbors": [
+    "jp_bc7a81d23da36bb569ff",
+    "jp_51b5051c298c8577e9ca",
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_d7e43939694ac7e7e89d",
+    "jp_ee7ebf9ed8f07b560c1c"
+   ]
+  },
+  {
+   "entity_id": "jp_786250d89df084166bf3",
+   "neighbors": [
+    "jp_8c3df01862b237feefac",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_391608999dde8dafc918",
+    "jp_61c51faaae1db3e09dfc",
+    "jp_4c483780a82e6e9abff3"
+   ]
+  },
+  {
+   "entity_id": "jp_7b66062f70026158cde9",
+   "neighbors": [
+    "jp_e3d40b21ae54d5afc3a5",
+    "jp_514f585292aeaf36a398",
+    "jp_fd159408d5d0dfa1bfe9",
+    "jp_fd5e0534aa1dd5d762b0",
+    "jp_8f8dcb710a3ba7504b2a"
+   ]
+  },
+  {
+   "entity_id": "jp_8008ba97ffe927309367",
+   "neighbors": [
+    "jp_5150a4525c98a3d208e0",
+    "jp_07f1b3d92806d964c525",
+    "jp_e8813ce6c50141457427",
+    "jp_ddc4a4378be458a9be47",
+    "jp_5a52c451ecac36af6734"
+   ]
+  },
+  {
+   "entity_id": "jp_80ba8ffcb44e6d5cf255",
+   "neighbors": [
+    "jp_8f8dcb710a3ba7504b2a",
+    "jp_ea0957aa9593533499d9",
+    "jp_514f585292aeaf36a398",
+    "jp_fd159408d5d0dfa1bfe9",
+    "jp_fd5e0534aa1dd5d762b0"
+   ]
+  },
+  {
+   "entity_id": "jp_81d5036d92d51ca9c6c0",
+   "neighbors": [
+    "jp_e8813ce6c50141457427",
+    "jp_ddc4a4378be458a9be47",
+    "jp_5a52c451ecac36af6734",
+    "jp_07f1b3d92806d964c525",
+    "jp_a2d5326b6e3231992d63"
+   ]
+  },
+  {
+   "entity_id": "jp_8414802465fec53f114c",
+   "neighbors": [
+    "jp_48a9c0ec48d8950335ad",
+    "jp_e3a1b8bbd4085a78fa9a",
+    "jp_8a47e07636d17d90877e",
+    "jp_f389ca2596c4215552dc",
+    "jp_5b6cda89bed49bc97f2b"
+   ]
+  },
+  {
+   "entity_id": "jp_88a49124462d6df00f5d",
+   "neighbors": [
+    "jp_3e6d8112b1cfbb0018ce",
+    "jp_4e4e844703a31bb93234",
+    "jp_e2e088a82bbb9e3fa74b",
+    "jp_b499f6969d2167b9a463",
+    "jp_4a99c25afd13ca1282fa"
+   ]
+  },
+  {
+   "entity_id": "jp_8a47e07636d17d90877e",
+   "neighbors": [
+    "jp_48a9c0ec48d8950335ad",
+    "jp_e3a1b8bbd4085a78fa9a",
+    "jp_5b6cda89bed49bc97f2b",
+    "jp_bee4adfc6597dcbfc469",
+    "jp_8414802465fec53f114c"
+   ]
+  },
+  {
+   "entity_id": "jp_8c3df01862b237feefac",
+   "neighbors": [
+    "jp_786250d89df084166bf3",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_391608999dde8dafc918",
+    "jp_61c51faaae1db3e09dfc",
+    "jp_4c483780a82e6e9abff3"
+   ]
+  },
+  {
+   "entity_id": "jp_8f8dcb710a3ba7504b2a",
+   "neighbors": [
+    "jp_514f585292aeaf36a398",
+    "jp_fd159408d5d0dfa1bfe9",
+    "jp_fd5e0534aa1dd5d762b0",
+    "jp_5672fefbf01ad86dc8e9",
+    "jp_80ba8ffcb44e6d5cf255"
+   ]
+  },
+  {
+   "entity_id": "jp_938874c91c06c065902d",
+   "neighbors": [
+    "jp_aeb196fb673f0e5879bc",
+    "jp_e9fc314efd45116eab2b",
+    "jp_e2fd59a95386adf7a520",
+    "jp_48a9c0ec48d8950335ad",
+    "jp_af2c3fff42e8d1af5126"
+   ]
+  },
+  {
+   "entity_id": "jp_a17eb339f583d830f754",
+   "neighbors": [
+    "jp_6c9069f2345dbd99ec05",
+    "jp_47ba7eb37f34fea44e98",
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_c35cfd4a9fe6d926777b",
+    "jp_c9ae32653da1c5515df6"
+   ]
+  },
+  {
+   "entity_id": "jp_a18abfc3c6eeb870ee20",
+   "neighbors": [
+    "jp_1b885cf5f1e735f588dd",
+    "jp_550640e39c3ba517423f",
+    "jp_45efe0e7c384ab078422",
+    "jp_309f989f04eda0dda2b2",
+    "jp_021323feeaf331e6f84b"
+   ]
+  },
+  {
+   "entity_id": "jp_a22f316073d87c7d7c7b",
+   "neighbors": [
+    "jp_d050f443c7e59dd4f9e5",
+    "jp_617121e1c1b178787813",
+    "jp_47709947dc0c073946b5",
+    "jp_b611287640c74905ffee",
+    "jp_c92d47927ee85c7920bb"
+   ]
+  },
+  {
+   "entity_id": "jp_a2d5326b6e3231992d63",
+   "neighbors": [
+    "jp_5a52c451ecac36af6734",
+    "jp_ddc4a4378be458a9be47",
+    "jp_07f1b3d92806d964c525",
+    "jp_e8813ce6c50141457427",
+    "jp_5150a4525c98a3d208e0"
+   ]
+  },
+  {
+   "entity_id": "jp_a2deef5e11600d9ed963",
+   "neighbors": [
+    "jp_4a99c25afd13ca1282fa",
+    "jp_4f2c77e4862e08c24499",
+    "jp_ee7ebf9ed8f07b560c1c",
+    "jp_c9ae32653da1c5515df6",
+    "jp_c35cfd4a9fe6d926777b"
+   ]
+  },
+  {
+   "entity_id": "jp_a6f319ad6970d1be7056",
+   "neighbors": [
+    "jp_ea0957aa9593533499d9",
+    "jp_2fc937eb1186b1cae451",
+    "jp_736e13cc8cd6b0cb2506",
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_fdf940b0269902634669"
+   ]
+  },
+  {
+   "entity_id": "jp_ab78ed99062919c5e1b3",
+   "neighbors": [
+    "jp_3cda28242bf1d2c6470a",
+    "jp_f389ca2596c4215552dc",
+    "jp_12d0c10a885898ddd73c",
+    "jp_ec717304a93b82492a63",
+    "jp_bdf7b3a6de2b1cd29e9f"
+   ]
+  },
+  {
+   "entity_id": "jp_acb2527d8b8f38ac49f8",
+   "neighbors": [
+    "jp_ee7ebf9ed8f07b560c1c",
+    "jp_c9ae32653da1c5515df6",
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_d7e43939694ac7e7e89d",
+    "jp_c35cfd4a9fe6d926777b"
+   ]
+  },
+  {
+   "entity_id": "jp_aeb196fb673f0e5879bc",
+   "neighbors": [
+    "jp_938874c91c06c065902d",
+    "jp_e9fc314efd45116eab2b",
+    "jp_e2fd59a95386adf7a520",
+    "jp_48a9c0ec48d8950335ad",
+    "jp_af2c3fff42e8d1af5126"
+   ]
+  },
+  {
+   "entity_id": "jp_aed069c7b4158b5a395d",
+   "neighbors": [
+    "jp_c92d47927ee85c7920bb",
+    "jp_47709947dc0c073946b5",
+    "jp_b611287640c74905ffee",
+    "jp_d1d2068567245ce94c7f",
+    "jp_b78989bf475f77b9cd22"
+   ]
+  },
+  {
+   "entity_id": "jp_af2c3fff42e8d1af5126",
+   "neighbors": [
+    "jp_f389ca2596c4215552dc",
+    "jp_bee4adfc6597dcbfc469",
+    "jp_c959d26fdf754610a08d",
+    "jp_8414802465fec53f114c",
+    "jp_8a47e07636d17d90877e"
+   ]
+  },
+  {
+   "entity_id": "jp_b499f6969d2167b9a463",
+   "neighbors": [
+    "jp_021323feeaf331e6f84b",
+    "jp_fb68f04c03c33f8f208a",
+    "jp_4a99c25afd13ca1282fa",
+    "jp_51b5051c298c8577e9ca",
+    "jp_acb2527d8b8f38ac49f8"
+   ]
+  },
+  {
+   "entity_id": "jp_b611287640c74905ffee",
+   "neighbors": [
+    "jp_47709947dc0c073946b5",
+    "jp_aed069c7b4158b5a395d",
+    "jp_d1d2068567245ce94c7f",
+    "jp_617121e1c1b178787813",
+    "jp_c92d47927ee85c7920bb"
+   ]
+  },
+  {
+   "entity_id": "jp_b7157c2f19efa12f0cbb",
+   "neighbors": [
+    "jp_3f9626d70fea40dde8e7",
+    "jp_391608999dde8dafc918",
+    "jp_4c483780a82e6e9abff3",
+    "jp_01a3867a6331d6abd521",
+    "jp_49ea3fc4d7c7b4b53507"
+   ]
+  },
+  {
+   "entity_id": "jp_b78989bf475f77b9cd22",
+   "neighbors": [
+    "jp_d1d2068567245ce94c7f",
+    "jp_47709947dc0c073946b5",
+    "jp_c92d47927ee85c7920bb",
+    "jp_aed069c7b4158b5a395d",
+    "jp_d050f443c7e59dd4f9e5"
+   ]
+  },
+  {
+   "entity_id": "jp_b81768c4fe6d61298e24",
+   "neighbors": [
+    "jp_cfe260eab87c22ecce7d",
+    "jp_4c483780a82e6e9abff3",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_391608999dde8dafc918",
+    "jp_49ea3fc4d7c7b4b53507"
+   ]
+  },
+  {
+   "entity_id": "jp_bc7a81d23da36bb569ff",
+   "neighbors": [
+    "jp_51b5051c298c8577e9ca",
+    "jp_773a8ac7c7444f8c14ae",
+    "jp_6c9069f2345dbd99ec05",
+    "jp_b499f6969d2167b9a463",
+    "jp_acb2527d8b8f38ac49f8"
+   ]
+  },
+  {
+   "entity_id": "jp_bd8395a1c894ddd11c8d",
+   "neighbors": [
+    "jp_d7e43939694ac7e7e89d",
+    "jp_c35cfd4a9fe6d926777b",
+    "jp_ee7ebf9ed8f07b560c1c",
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_c9ae32653da1c5515df6"
+   ]
+  },
+  {
+   "entity_id": "jp_bdf7b3a6de2b1cd29e9f",
+   "neighbors": [
+    "jp_12d0c10a885898ddd73c",
+    "jp_c3e735db0265d0594ed9",
+    "jp_3cda28242bf1d2c6470a",
+    "jp_ab78ed99062919c5e1b3",
+    "jp_ec717304a93b82492a63"
+   ]
+  },
+  {
+   "entity_id": "jp_bee4adfc6597dcbfc469",
+   "neighbors": [
+    "jp_8a47e07636d17d90877e",
+    "jp_af2c3fff42e8d1af5126",
+    "jp_c959d26fdf754610a08d",
+    "jp_5b6cda89bed49bc97f2b",
+    "jp_48a9c0ec48d8950335ad"
+   ]
+  },
+  {
+   "entity_id": "jp_c35cfd4a9fe6d926777b",
+   "neighbors": [
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_d7e43939694ac7e7e89d",
+    "jp_c9ae32653da1c5515df6",
+    "jp_ee7ebf9ed8f07b560c1c",
+    "jp_acb2527d8b8f38ac49f8"
+   ]
+  },
+  {
+   "entity_id": "jp_c3e735db0265d0594ed9",
+   "neighbors": [
+    "jp_3cda28242bf1d2c6470a",
+    "jp_12d0c10a885898ddd73c",
+    "jp_bdf7b3a6de2b1cd29e9f",
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_c9ae32653da1c5515df6"
+   ]
+  },
+  {
+   "entity_id": "jp_c92d47927ee85c7920bb",
+   "neighbors": [
+    "jp_aed069c7b4158b5a395d",
+    "jp_47709947dc0c073946b5",
+    "jp_b611287640c74905ffee",
+    "jp_b78989bf475f77b9cd22",
+    "jp_d1d2068567245ce94c7f"
+   ]
+  },
+  {
+   "entity_id": "jp_c959d26fdf754610a08d",
+   "neighbors": [
+    "jp_26b534c63da8bf27e6a6",
+    "jp_af2c3fff42e8d1af5126",
+    "jp_bee4adfc6597dcbfc469",
+    "jp_5b6cda89bed49bc97f2b",
+    "jp_8a47e07636d17d90877e"
+   ]
+  },
+  {
+   "entity_id": "jp_c9ae32653da1c5515df6",
+   "neighbors": [
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_c35cfd4a9fe6d926777b",
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_d7e43939694ac7e7e89d",
+    "jp_ee7ebf9ed8f07b560c1c"
+   ]
+  },
+  {
+   "entity_id": "jp_cfe260eab87c22ecce7d",
+   "neighbors": [
+    "jp_b81768c4fe6d61298e24",
+    "jp_4c483780a82e6e9abff3",
+    "jp_3f9626d70fea40dde8e7",
+    "jp_391608999dde8dafc918",
+    "jp_49ea3fc4d7c7b4b53507"
+   ]
+  },
+  {
+   "entity_id": "jp_d050f443c7e59dd4f9e5",
+   "neighbors": [
+    "jp_617121e1c1b178787813",
+    "jp_a22f316073d87c7d7c7b",
+    "jp_47709947dc0c073946b5",
+    "jp_b611287640c74905ffee",
+    "jp_b78989bf475f77b9cd22"
+   ]
+  },
+  {
+   "entity_id": "jp_d1d2068567245ce94c7f",
+   "neighbors": [
+    "jp_47709947dc0c073946b5",
+    "jp_b78989bf475f77b9cd22",
+    "jp_b611287640c74905ffee",
+    "jp_aed069c7b4158b5a395d",
+    "jp_c92d47927ee85c7920bb"
+   ]
+  },
+  {
+   "entity_id": "jp_d7e43939694ac7e7e89d",
+   "neighbors": [
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_c35cfd4a9fe6d926777b",
+    "jp_ee7ebf9ed8f07b560c1c",
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_c9ae32653da1c5515df6"
+   ]
+  },
+  {
+   "entity_id": "jp_ddc4a4378be458a9be47",
+   "neighbors": [
+    "jp_5a52c451ecac36af6734",
+    "jp_07f1b3d92806d964c525",
+    "jp_e8813ce6c50141457427",
+    "jp_a2d5326b6e3231992d63",
+    "jp_5150a4525c98a3d208e0"
+   ]
+  },
+  {
+   "entity_id": "jp_e2e088a82bbb9e3fa74b",
+   "neighbors": [
+    "jp_4e4e844703a31bb93234",
+    "jp_88a49124462d6df00f5d",
+    "jp_3e6d8112b1cfbb0018ce",
+    "jp_b499f6969d2167b9a463",
+    "jp_4a99c25afd13ca1282fa"
+   ]
+  },
+  {
+   "entity_id": "jp_e2fd59a95386adf7a520",
+   "neighbors": [
+    "jp_e9fc314efd45116eab2b",
+    "jp_938874c91c06c065902d",
+    "jp_aeb196fb673f0e5879bc",
+    "jp_48a9c0ec48d8950335ad",
+    "jp_aed069c7b4158b5a395d"
+   ]
+  },
+  {
+   "entity_id": "jp_e3a1b8bbd4085a78fa9a",
+   "neighbors": [
+    "jp_48a9c0ec48d8950335ad",
+    "jp_8a47e07636d17d90877e",
+    "jp_8414802465fec53f114c",
+    "jp_5b6cda89bed49bc97f2b",
+    "jp_bee4adfc6597dcbfc469"
+   ]
+  },
+  {
+   "entity_id": "jp_e3d40b21ae54d5afc3a5",
+   "neighbors": [
+    "jp_7b66062f70026158cde9",
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_fdf940b0269902634669",
+    "jp_2fc937eb1186b1cae451",
+    "jp_514f585292aeaf36a398"
+   ]
+  },
+  {
+   "entity_id": "jp_e8813ce6c50141457427",
+   "neighbors": [
+    "jp_07f1b3d92806d964c525",
+    "jp_ddc4a4378be458a9be47",
+    "jp_81d5036d92d51ca9c6c0",
+    "jp_5150a4525c98a3d208e0",
+    "jp_8008ba97ffe927309367"
+   ]
+  },
+  {
+   "entity_id": "jp_e99669bc1a7409b6f4b7",
+   "neighbors": [
+    "jp_fdf940b0269902634669",
+    "jp_2fc937eb1186b1cae451",
+    "jp_736e13cc8cd6b0cb2506",
+    "jp_5672fefbf01ad86dc8e9",
+    "jp_a6f319ad6970d1be7056"
+   ]
+  },
+  {
+   "entity_id": "jp_e9fc314efd45116eab2b",
+   "neighbors": [
+    "jp_938874c91c06c065902d",
+    "jp_aeb196fb673f0e5879bc",
+    "jp_e2fd59a95386adf7a520",
+    "jp_514f585292aeaf36a398",
+    "jp_fd159408d5d0dfa1bfe9"
+   ]
+  },
+  {
+   "entity_id": "jp_ea0957aa9593533499d9",
+   "neighbors": [
+    "jp_a6f319ad6970d1be7056",
+    "jp_514f585292aeaf36a398",
+    "jp_8f8dcb710a3ba7504b2a",
+    "jp_fd159408d5d0dfa1bfe9",
+    "jp_fd5e0534aa1dd5d762b0"
+   ]
+  },
+  {
+   "entity_id": "jp_ec717304a93b82492a63",
+   "neighbors": [
+    "jp_3cda28242bf1d2c6470a",
+    "jp_ab78ed99062919c5e1b3",
+    "jp_bdf7b3a6de2b1cd29e9f",
+    "jp_12d0c10a885898ddd73c",
+    "jp_c3e735db0265d0594ed9"
+   ]
+  },
+  {
+   "entity_id": "jp_ee7ebf9ed8f07b560c1c",
+   "neighbors": [
+    "jp_acb2527d8b8f38ac49f8",
+    "jp_bd8395a1c894ddd11c8d",
+    "jp_d7e43939694ac7e7e89d",
+    "jp_c35cfd4a9fe6d926777b",
+    "jp_c9ae32653da1c5515df6"
+   ]
+  },
+  {
+   "entity_id": "jp_f389ca2596c4215552dc",
+   "neighbors": [
+    "jp_af2c3fff42e8d1af5126",
+    "jp_8414802465fec53f114c",
+    "jp_c959d26fdf754610a08d",
+    "jp_bee4adfc6597dcbfc469",
+    "jp_26b534c63da8bf27e6a6"
+   ]
+  },
+  {
+   "entity_id": "jp_fb68f04c03c33f8f208a",
+   "neighbors": [
+    "jp_b499f6969d2167b9a463",
+    "jp_021323feeaf331e6f84b",
+    "jp_4a99c25afd13ca1282fa",
+    "jp_a2deef5e11600d9ed963",
+    "jp_4f2c77e4862e08c24499"
+   ]
+  },
+  {
+   "entity_id": "jp_fd159408d5d0dfa1bfe9",
+   "neighbors": [
+    "jp_514f585292aeaf36a398",
+    "jp_fd5e0534aa1dd5d762b0",
+    "jp_8f8dcb710a3ba7504b2a",
+    "jp_7b66062f70026158cde9",
+    "jp_ea0957aa9593533499d9"
+   ]
+  },
+  {
+   "entity_id": "jp_fd5e0534aa1dd5d762b0",
+   "neighbors": [
+    "jp_514f585292aeaf36a398",
+    "jp_fd159408d5d0dfa1bfe9",
+    "jp_8f8dcb710a3ba7504b2a",
+    "jp_7b66062f70026158cde9",
+    "jp_ea0957aa9593533499d9"
+   ]
+  },
+  {
+   "entity_id": "jp_fdf940b0269902634669",
+   "neighbors": [
+    "jp_e99669bc1a7409b6f4b7",
+    "jp_2fc937eb1186b1cae451",
+    "jp_736e13cc8cd6b0cb2506",
+    "jp_5672fefbf01ad86dc8e9",
+    "jp_a6f319ad6970d1be7056"
+   ]
+  }
+ ],
+ "neighbor_claims_space": "full feature space (never 2-D map coordinates)",
+ "neighborhood_quality_definition": "share of a point's k nearest 2-D neighbours that lie within its k-th nearest full-space distance (tie-inclusive), k = k_neighbours",
+ "normalized_stress": 0.38372653893807784,
+ "notes": [
+  "24 upstream feature(s) are unknown to lane C and use the default effort placeholder and 'study-or-project' acquisition: accessibility, account-management, azure, contract-negotiation, data-engineering, data-visualization, deep-learning, experimentation, gcp, identity-access, incident-response, linux, networking, penetration-testing, product-strategy, project-management, react, rust, spark, statistics, systems-integration, technical-writing, threat-modeling, user-research"
+ ],
+ "preprocessing": "center",
+ "projection_id": "pca-f0e937ba1f287585-2d",
+ "thresholds_are_heuristic": {
+  "continuity_low": 0.85,
+  "distance_spearman_low": 0.7,
+  "explained_variance_low": 0.5,
+  "knn_recall_low": 0.4,
+  "trustworthiness_low": 0.85
+ },
+ "trustworthiness": 0.9252647278150634,
+ "unplaced": [],
+ "variance_not_shown": 0.7281259848584464,
+ "warnings": [
+  "zero-variance features (no influence on the map): azure,contract-negotiation,rust",
+  "near-degenerate eigenvalues at the cut: the last kept axis and the first dropped axis explain almost the same variance, so the plane is not unique",
+  "6 posting(s) have no role_family and are excluded from role profiles"
+ ]
+}
