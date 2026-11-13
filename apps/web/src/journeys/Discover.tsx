@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Badge, Button, EmptyState, Icon, ScorePair, useAnnounce } from "@careertwin/ui";
+import { Button, Checkbox, EmptyState, Icon, ScorePair, SelectField, useAnnounce } from "@careertwin/ui";
 import { ExternalLinkDialog } from "@/components/common";
 import type { JobPosting } from "@/contracts/types";
-import { formatCompensation, formatDate, freshness, humanise, skillLabel } from "@/lib/format";
+import { duplicateKey, formatCompensation, formatDate, freshness, humanise, skillLabel } from "@/lib/format";
 import { newId } from "@/lib/safety";
 import { useApp } from "@/state/AppContext";
 import { useIndexes, userEvent } from "@/state/selectors";
-import { blockersFor, improvementsFor, rankByNearTerm, reasonsFor, rowReason, splitApplications, standingOf, STANDING_LABEL, type Reason } from "./lib";
-import { Screen } from "./Screen";
+import { blockersFor, improvementsFor, rankByNearTerm, reasonsFor, rowReason, standingOf, STANDING_LABEL, type Reason } from "./lib";
+import { Page as Screen } from "@/components/common";
 
 type View = "best" | "passes" | "strategic" | "shortlist" | "all";
 const VIEWS: { id: View; label: string }[] = [
@@ -39,25 +39,45 @@ function ReasonList({ items, empty, testId }: { items: Reason[]; empty: string; 
 
 export default function DiscoverJourney() {
   const { bundle, workspace, clock, dispatch } = useApp();
-  const { matchByJob, applications, familyLabel } = useIndexes();
+  const { matchByJob, applications, familyLabel, families } = useIndexes();
   const { jobId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const announce = useAnnounce();
   const [view, setView] = useState<View>(bundle.matches.length > 0 ? "best" : "all");
   const [query, setQuery] = useState("");
+  const [family, setFamily] = useState("all");
+  const [remote, setRemote] = useState("all");
+  const [fresh, setFresh] = useState("all");
+  const [collapse, setCollapse] = useState(false);
+  const activeFilters = [family !== "all", remote !== "all", fresh !== "all", collapse].filter(Boolean).length;
   const [limit, setLimit] = useState(PAGE);
   const [linkJob, setLinkJob] = useState<JobPosting | null>(null);
   const detailRef = useRef<HTMLElement>(null);
   const lastPicked = useRef<string | null>(null);
 
-  const { mine } = splitApplications(applications, bundle.experimentUnitApplicationIds);
+  const mine = applications;
   const myAppByJob = new Map(mine.map((a) => [a.job_id, a]));
   const { rankOf, scored } = useMemo(() => rankByNearTerm(bundle.matches), [bundle.matches]);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let items = bundle.jobs.filter((j) => !q || [j.title, j.organization, j.location ?? "", ...j.skills].join(" ").toLowerCase().includes(q));
+    let items = bundle.jobs.filter((j) => {
+      if (family !== "all" && j.role_family !== family) return false;
+      if (remote !== "all" && (j.remote_policy ?? "unknown") !== remote) return false;
+      if (fresh !== "all" && freshness(j.fetched_at, clock).level !== fresh) return false;
+      return !q || q.split(/\s+/).every((t) => [j.title, j.organization, j.location ?? "", j.role_family ?? "", ...j.skills].join(" ").toLowerCase().includes(t));
+    });
+    if (collapse) {
+      // Keep the most recently captured posting of each likely-duplicate group (lane A's clusters when present).
+      const key = (j: JobPosting) => bundle.jobFacets[j.id]?.duplicate_cluster ?? (Object.keys(bundle.jobFacets).length > 0 ? `single:${j.id}` : duplicateKey(j));
+      const keep = new Map<string, JobPosting>();
+      for (const j of items) {
+        const cur = keep.get(key(j));
+        if (!cur || j.fetched_at > cur.fetched_at) keep.set(key(j), j);
+      }
+      items = items.filter((j) => keep.get(key(j)) === j);
+    }
     const m = (j: JobPosting) => matchByJob.get(j.id);
     const failed = (j: JobPosting) => m(j)?.hard_constraints.some((h) => h.status === "fail") ?? false;
     if (view === "best") items = items.filter((j) => { const st = standingOf(m(j), rankOf, scored); return st === "closest" || st === "close"; });
@@ -67,9 +87,9 @@ export default function DiscoverJourney() {
     const near = (j: JobPosting) => m(j)?.near_term_fit.score ?? -1;
     const strat = (j: JobPosting) => m(j)?.strategic_value.score ?? -1;
     return [...items].sort((a, b) => (view === "strategic" ? strat(b) - strat(a) : near(b) - near(a)) || a.title.localeCompare(b.title));
-  }, [bundle.jobs, matchByJob, view, query, workspace.shortlist, rankOf, scored]);
+  }, [bundle.jobs, bundle.jobFacets, matchByJob, view, query, family, remote, fresh, collapse, clock, workspace.shortlist, rankOf, scored]);
 
-  useEffect(() => setLimit(PAGE), [view, query]);
+  useEffect(() => setLimit(PAGE), [view, query, family, remote, fresh, collapse]);
 
   const selectedJob = (jobId ? bundle.jobs.find((j) => j.id === jobId) : null) ?? null;
   const shown = selectedJob ?? list[0] ?? null;
@@ -99,9 +119,9 @@ export default function DiscoverJourney() {
     const refused = dispatch({ type: "event/append", event: userEvent({ application_id: appId, job_id: j.id, event_type: "saved", notes: "Saved from Discover." }) });
     if (refused) return announce(refused);
     announce(`Saved ${j.title} to your tracker. Nothing was sent to the employer.`);
-    navigate(`/track/${encodeURIComponent(appId)}`);
+    navigate(`/applications/${encodeURIComponent(appId)}`);
   };
-  const back = () => ((location.state as { fromList?: boolean } | null)?.fromList ? navigate(-1) : navigate("/discover"));
+  const back = () => ((location.state as { fromList?: boolean } | null)?.fromList ? navigate(-1) : navigate("/jobs"));
 
   return (
     <Screen
@@ -128,7 +148,21 @@ export default function DiscoverJourney() {
                 </button>
               ))}
             </div>
-            <p className="pt-muted pt-count" role="status">
+            <details className="pt-filters" data-testid="filters">
+              <summary>Filters{activeFilters > 0 ? ` (${activeFilters} on)` : ""}</summary>
+              <div className="pt-filters__grid">
+                <SelectField label="Role family" value={family} onChange={(e) => setFamily(e.target.value)} options={[{ value: "all", label: "All role families" }, ...families.map((f) => ({ value: f, label: familyLabel(f) }))]} data-testid="filter-family" />
+                <SelectField label="Work style" value={remote} onChange={(e) => setRemote(e.target.value)} options={[{ value: "all", label: "Any work style" }, ...["remote", "hybrid", "onsite", "unknown"].map((r) => ({ value: r, label: r === "unknown" ? "Not stated" : humanise(r) }))]} data-testid="filter-remote" />
+                <SelectField label="Captured" value={fresh} onChange={(e) => setFresh(e.target.value)} options={[{ value: "all", label: "Any time" }, { value: "fresh", label: "Within 7 days" }, { value: "aging", label: "8 to 21 days ago" }, { value: "stale", label: "Over 21 days ago" }]} data-testid="filter-fresh" />
+                <Checkbox label="Hide likely duplicates" checked={collapse} onChange={(e) => setCollapse(e.target.checked)} data-testid="filter-dupes" />
+              </div>
+              {activeFilters > 0 ? (
+                <Button size="sm" variant="ghost" onClick={() => { setFamily("all"); setRemote("all"); setFresh("all"); setCollapse(false); }}>
+                  Clear filters
+                </Button>
+              ) : null}
+            </details>
+            <p className="pt-muted pt-count" role="status" data-testid="job-count">
               {list.length} posting{list.length === 1 ? "" : "s"}
               {view === "best" ? ", closest first" : view === "strategic" ? ", most strategic first" : ""}
             </p>
@@ -148,7 +182,7 @@ export default function DiscoverJourney() {
                 return (
                   <li key={j.id}>
                     <Link
-                      to={`/discover/${encodeURIComponent(j.id)}`}
+                      to={`/jobs/${encodeURIComponent(j.id)}`}
                       state={{ fromList: true }}
                       onClick={() => (lastPicked.current = j.id)}
                       className={active ? "pt-row pt-row--on" : "pt-row"}
@@ -202,11 +236,11 @@ export default function DiscoverJourney() {
                 <Button variant={shortlisted ? "secondary" : "primary"} aria-pressed={shortlisted} onClick={() => toggleShortlist(shown)} data-testid="pt-shortlist">
                   <Icon name="bookmark" size={16} /> {shortlisted ? "Shortlisted" : "Shortlist"}
                 </Button>
-                <Link className="ct-btn ct-btn--secondary" to={`/tailor/${encodeURIComponent(shown.id)}`} data-testid="pt-tailor">
+                <Link className="ct-btn ct-btn--secondary" to={`/resume/tailor/${encodeURIComponent(shown.id)}`} data-testid="pt-tailor">
                   <Icon name="resume" size={16} /> Tailor résumé
                 </Link>
                 {myAppByJob.get(shown.id) ? (
-                  <Link className="ct-btn ct-btn--secondary" to={`/track/${encodeURIComponent(myAppByJob.get(shown.id)!.id)}`}>
+                  <Link className="ct-btn ct-btn--secondary" to={`/applications/${encodeURIComponent(myAppByJob.get(shown.id)!.id)}`}>
                     <Icon name="applications" size={16} /> In your tracker
                   </Link>
                 ) : (
@@ -269,7 +303,7 @@ export default function DiscoverJourney() {
       </div>
       {bundle.matchRefusals.length > 0 ? (
         <p className="pt-muted pt-footnote">
-          {bundle.matchRefusals.length} postings were not ranked because they failed a hard constraint upstream. They are listed in the current app under Matching.
+          {bundle.matchRefusals.length} postings were not ranked because they failed a hard constraint upstream. <Link to="/matching">See them, with their reasons, under Compare</Link>.
         </p>
       ) : null}
       <ExternalLinkDialog job={linkJob} onClose={() => setLinkJob(null)} />

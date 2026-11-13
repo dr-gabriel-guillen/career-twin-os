@@ -21,7 +21,7 @@ export type Stage = (typeof STAGES)[number];
 export const STAGE_LABELS: Record<Stage, string> = {
   saved: "Saved",
   drafted: "Drafted",
-  approved: "Approved by you",
+  approved: "Approved",
   submitted: "Submitted (manually)",
   recruiter_screen: "Recruiter screen",
   interview: "Interview",
@@ -32,7 +32,7 @@ export const STAGE_LABELS: Record<Stage, string> = {
 export const EVENT_LABELS: Record<ApplicationEventType, string> = {
   saved: "Saved",
   drafted: "Résumé variant drafted",
-  approved: "Approved by you",
+  approved: "Résumé approved",
   submitted: "Marked as submitted (manual)",
   recruiter_screen: "Recruiter screen",
   interview: "Interview",

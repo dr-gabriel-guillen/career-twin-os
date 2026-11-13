@@ -321,10 +321,10 @@ export default function ResumePage() {
   const findingsOf = (id: string) => review?.byBullet.get(id) ?? [];
   const activeLine = lines.find((b) => b.id === focusLine) ?? lines.find((b) => findingsOf(b.id).some((f) => f.severity === "block")) ?? lines[0] ?? null;
   const targetTitle = selected?.target_job_id ? jobById.get(selected.target_job_id)?.title ?? null : null;
-  const statusText = (v: ResumeVariant, r: VariantReview) => (v.approval ? (r.approvalCurrent ? "Approved by you" : "Approval out of date") : "Draft");
+  const statusText = (v: ResumeVariant, r: VariantReview) => (v.approval ? (r.approvalCurrent ? "Approved" : "Approval out of date") : "Draft");
 
   return (
-    <Page title="Resume Studio" lead="Each variant is assembled from claims in your evidence vault. The mark beside every line shows what it rests on; nothing can be exported until you approve the exact text.">
+    <Page title="Résumé Studio" lead="Every résumé version is assembled from claims in your evidence vault. The mark beside each line shows what it rests on; nothing can be exported until you approve the exact text." actions={<Link className="ct-btn ct-btn--primary" to="/resume/tailor" data-testid="tailor-start">Tailor for a job</Link>}>
       {tailorJob ? (
         <Banner tone="info" title={`Tailoring for: ${tailorJob.title}`} data-testid="tailor-banner" actions={<Button variant="primary" onClick={() => create(selected, `For ${truncate(tailorJob.title, 40)}`, tailorJob.id)} data-testid="tailor-create">Create a variant for this posting</Button>}>
           {tailorJob.organization}. The posting lists: {tailorJob.skills.map(skillLabel).join(", ")}. A new variant starts as a copy of the one selected; you then reorder and trim it. No text is generated for you.

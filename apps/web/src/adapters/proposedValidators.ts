@@ -354,5 +354,25 @@ export function isScenarioOutputs(v: unknown, c: Checker): v is ScenarioOutputs 
   ok = c.at("uncertainty").oneOf(v.uncertainty, ["low", "medium", "high"] as const) && ok;
   ok = c.at("uncertainty_note").string(v.uncertainty_note) && ok;
   ok = nullable(v.atlas_entity_id, () => c.at("atlas_entity_id").string(v.atlas_entity_id)) && ok;
+  if (v.movement !== undefined) {
+    const cm = c.at("movement");
+    if (!cm.isObject(v.movement)) ok = false;
+    else {
+      const m = v.movement;
+      if (m.full_space_distance_to_role !== undefined && m.full_space_distance_to_role !== null) {
+        const cd = cm.at("full_space_distance_to_role");
+        if (!cd.isObject(m.full_space_distance_to_role)) ok = false;
+        else {
+          const d = m.full_space_distance_to_role;
+          ok = cd.at("before").number(d.before, { min: 0 }) && ok;
+          ok = cd.at("after").number(d.after, { min: 0 }) && ok;
+          ok = cd.at("role").string(d.role) && ok;
+        }
+      }
+      if (m.full_space_shift_length !== undefined) ok = cm.at("full_space_shift_length").number(m.full_space_shift_length, { min: 0 }) && ok;
+      if (m.map_shift_length !== undefined) ok = cm.at("map_shift_length").number(m.map_shift_length, { min: 0 }) && ok;
+      if (m.note !== undefined) ok = cm.at("note").string(m.note) && ok;
+    }
+  }
   return ok;
 }

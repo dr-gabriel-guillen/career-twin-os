@@ -9,8 +9,9 @@ import { downloadText, newId } from "@/lib/safety";
 import { useApp } from "@/state/AppContext";
 import { useIndexes, userEvent } from "@/state/selectors";
 import { variantTitle } from "@/pages/ResumePage";
-import { rankByNearTerm, splitApplications, suggestedClaims } from "./lib";
-import { Screen } from "./Screen";
+import { ResumeDocument } from "@/components/ResumeDocument";
+import { rankByNearTerm, suggestedClaims } from "./lib";
+import { Page as Screen } from "@/components/common";
 
 const STEPS = ["Target role", "Choose content", "Review changes", "Approve and export"] as const;
 
@@ -101,7 +102,7 @@ function TailorSession() {
   const removed = baseLines.filter((b) => excluded.has(b.id));
   const addedLines = draft.sections.flatMap((s) => s.bullets).filter((b) => b.id.startsWith("b-") && added.includes(b.id.slice(2)));
   const locked = saved?.approval != null;
-  const { mine } = splitApplications(applications, bundle.experimentUnitApplicationIds);
+  const mine = applications;
   const app = mine.find((a) => a.job_id === job.id) ?? null;
 
   const saveDraft = () => {
@@ -144,11 +145,11 @@ function TailorSession() {
       }
     }
     announce("Recorded in your tracker as approved. CareerTwin does not submit anything.");
-    navigate(`/track/${encodeURIComponent(appId)}`);
+    navigate(`/applications/${encodeURIComponent(appId)}`);
   };
 
   return (
-    <Screen title="Tailor résumé" lead={<>For <strong>{job.title}</strong> at {job.organization}. You choose which of your own lines and claims to use; every line keeps its evidence, and nothing is written for you.</>}>
+    <Screen title="Tailor résumé" actions={<Link className="ct-btn ct-btn--ghost" to="/resume">Résumé Studio</Link>} lead={<>For <strong>{job.title}</strong> at {job.organization}. You choose which of your own lines and claims to use; every line keeps its evidence, and nothing is written for you.</>}>
       <ol className="pt-steps" aria-label="Steps">
         {STEPS.map((s, i) => (
           <li key={s} className={i === step ? "pt-step pt-step--on" : i < step ? "pt-step pt-step--done" : "pt-step"} aria-current={i === step ? "step" : undefined}>
@@ -284,9 +285,8 @@ function TailorSession() {
           {step === 3 && saved ? (
             <section className="pt-panel" aria-labelledby="pt-s4">
               <h2 id="pt-s4">{locked ? "Approved and ready to export" : "Approve the exact text"}</h2>
-              <article className="pt-paper" aria-label="Résumé preview">
-                <pre className="pt-paper__text">{variantToText(saved, candidateName)}</pre>
-              </article>
+              <p className="pt-muted">This is the exact text that will be locked and exported. Read every line; each note says what the line rests on.</p>
+              <ResumeDocument variant={saved} name={candidateName} role={job.title} claimById={claimById} added={new Set(addedLines.map((b) => b.id))} testId="pt-document" />
               {locked ? (
                 <>
                   <Banner tone="success" title="Approved snapshot, locked." data-testid="pt-approved">
@@ -303,7 +303,7 @@ function TailorSession() {
                   {trackerNote ? (
                     <Banner tone="warning" role="alert" title="Not added to the tracker" data-testid="pt-tracker-note">
                       {trackerNote}{" "}
-                      {app ? <Link to={`/track/${encodeURIComponent(app.id)}`}>Open that application</Link> : null}
+                      {app ? <Link to={`/applications/${encodeURIComponent(app.id)}`}>Open that application</Link> : null}
                     </Banner>
                   ) : null}
                   <p className="pt-muted">PDF and Word export are not available in this build. CareerTwin never sends a résumé anywhere.</p>
@@ -336,7 +336,7 @@ function TailorSession() {
             ))}
           </ul>
           <p className="pt-muted">AI rewriting is not available. Lines come only from your résumé and evidence vault.</p>
-          <Link to={`/discover/${encodeURIComponent(job.id)}`} className="pt-sidelink">Back to the posting</Link>
+          <Link to={`/jobs/${encodeURIComponent(job.id)}`} className="pt-sidelink">Back to the posting</Link>
         </aside>
       </div>
     </Screen>
@@ -353,7 +353,7 @@ function JobPicker() {
       <ul className="ct-list-plain pt-picker">
         {picks.map((j) => (
           <li key={j.id}>
-            <Link to={`/tailor/${encodeURIComponent(j.id)}`} className="pt-row">
+            <Link to={`/resume/tailor/${encodeURIComponent(j.id)}`} className="pt-row">
               <span className="pt-row__title">{j.title}{workspace.shortlist.includes(j.id) ? <Icon name="bookmark" size={14} className="pt-row__saved" /> : null}</span>
               <span className="pt-row__meta">{j.organization}</span>
             </Link>

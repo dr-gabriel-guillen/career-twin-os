@@ -11,7 +11,8 @@ import { mulberry32, seedFromString } from "@/lib/prng";
 import { newId } from "@/lib/safety";
 import { sha256Hex } from "@/lib/sha256";
 import { MIN_OBSERVED_PER_ARM, minimumDetectableIncrease, sampleSizePerArm, type EvidenceLevel } from "@/lib/stats";
-import { useApp } from "@/state/AppContext";
+import { artifactMode, useApp } from "@/state/AppContext";
+import { SimulatedActivity } from "@/journeys/SimulatedActivity";
 import { useIndexes } from "@/state/selectors";
 
 const STATUS_TONE: Record<ExperimentStatus, Tone> = { draft: "neutral", preregistered: "info", running: "success", paused: "warning", closed: "neutral" };
@@ -270,7 +271,7 @@ export default function ExperimentsPage() {
             <div className="ct-row">
               <Badge tone={STATUS_TONE[selected.status]}>{humanise(selected.status)}</Badge>
               {locked ? <Badge tone="info">Locked {formatDateTime(selected.design_locked_at)}</Badge> : null}
-              {!hasSalt ? <Badge tone="synthetic">Fixture example (read-only assignment)</Badge> : null}
+              {!hasSalt ? <Badge tone="synthetic">{artifactMode() ? "Pipeline run (read-only assignment)" : "Fixture example (read-only assignment)"}</Badge> : null}
             </div>
             <Tabs idBase="exp" label="Experiment" active={tab} onChange={setTab} tabs={[{ id: "design", label: "Design" }, { id: "assign", label: `Assignment (${assignments.length})` }, { id: "results", label: "Results" }, { id: "power", label: "Sample size" }]} />
 
@@ -552,6 +553,7 @@ export default function ExperimentsPage() {
       <ConfirmDialog open={lockOpen} title="Lock and preregister this design?" confirmLabel="Lock design" testId="lock-dialog" onClose={() => setLockOpen(false)} onConfirm={lock}>
         <p>After locking you cannot change the hypothesis, variants, unit, strata, metric, window, planned sample or analysis plan. You can still pause or close the experiment.</p>
       </ConfirmDialog>
+      <SimulatedActivity focus={params.get("view") === "simulated"} />
     </Page>
   );
 }

@@ -54,8 +54,6 @@ export default defineConfig({
   build: {
     sourcemap: true,
     target: "es2022",
-    // The journey prototypes ship beside the product so owners can review them on the same data.
-    rollupOptions: { input: { main: r("./index.html"), prototypes: r("./prototypes.html") } },
   },
   test: {
     environment: "node",

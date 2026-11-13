@@ -153,3 +153,13 @@
   .rs-new { border-top: 0; margin-top: 0; padding-top: 0; }
 }
 @media (max-width: 900px) { .rs-toolbar { justify-content: flex-start; } }
+
+/* Read-only document (Tailor approval and previews) */
+.rs-paper--read { gap: 18px; }
+.rs-doclines { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
+.rs-docline { font-family: var(--ct-serif); font-size: 1.04rem; line-height: 1.5; color: var(--ct-text); }
+.rs-docline::marker { color: var(--ct-text-2); }
+.rs-docline__text { display: block; max-width: 68ch; }
+.rs-docline__basis { display: block; font-family: var(--ct-font); font-size: 0.76rem; color: var(--ct-muted); }
+.rs-docline--added .rs-docline__text { background: color-mix(in srgb, var(--ct-success-bg, #e7f6ee) 70%, transparent); box-decoration-break: clone; padding: 0 3px; margin-left: -3px; border-radius: 2px; }
+@media (max-width: 640px) { .rs-paper--read { padding: 22px 18px 24px 22px; } }

@@ -59,7 +59,7 @@ export default function OverviewPage() {
       icon: "clock",
       title: `No reply recorded for ${daysWithoutFeedback(a, clock)} days`,
       detail: `${jobById.get(a.job_id)?.title ?? a.job_id}. An unknown outcome, not a rejection.`,
-      to: `/applications?app=${encodeURIComponent(a.id)}`,
+      to: `/applications/${encodeURIComponent(a.id)}`,
     });
   }
   for (const x of reviews.filter((y) => y.r.approvalStale)) {
@@ -75,7 +75,7 @@ export default function OverviewPage() {
   }
   const top = closest.find((x) => !x.m!.hard_constraints.some((h) => h.status === "fail") && !appByJob.has(x.j.id) && x.m!.near_term_fit.score !== null);
   if (top) {
-    actions.push({ icon: "discover", title: `Review ${top.j.title}`, detail: `${top.j.organization}: the highest near-term fit you have not acted on, and it passes your hard constraints.`, to: `/matching?job=${encodeURIComponent(top.j.id)}` });
+    actions.push({ icon: "discover", title: `Review ${top.j.title}`, detail: `${top.j.organization}: the highest near-term fit you have not acted on, and it passes your hard constraints.`, to: `/jobs/${encodeURIComponent(top.j.id)}` });
   }
   const gaps = new Map<string, number>();
   for (const x of closest.slice(0, 8)) for (const s of x.m!.skills) if (s.evidence_strength === "missing") gaps.set(s.skill, (gaps.get(s.skill) ?? 0) + 1);
@@ -84,7 +84,7 @@ export default function OverviewPage() {
     actions.push({ icon: "evidence", title: `${skillLabel(gap[0])} is missing in ${gap[1]} of your 8 closest postings`, detail: "No claim in your evidence vault covers it.", to: "/evidence" });
   }
   for (const r of dueReminders.slice(0, 3)) {
-    actions.push({ icon: "bookmark", title: `Reminder for ${formatDate(`${r.due_on}T00:00:00Z`)}`, detail: r.text, to: "/applications" });
+    actions.push({ icon: "bookmark", title: `Follow up on ${formatDate(`${r.due_on}T00:00:00Z`)}`, detail: r.text, to: `/applications/${encodeURIComponent(r.application_id)}` });
   }
 
   const stageCounts = STAGES.map((s) => ({ s, n: applications.filter((a) => a.stage === s).length }));
@@ -97,13 +97,13 @@ export default function OverviewPage() {
   ];
 
   const steps = [
-    { to: "/jobs", label: "Discover jobs", detail: "Search the synthetic feed and shortlist a posting.", done: workspace.shortlist.length > 0 },
-    { to: "/matching", label: "Understand the match", detail: "See why a posting scores high or low, and what is unknown.", done: workspace.shortlist.length > 0 },
+    { to: "/jobs", label: "Discover and decide", detail: "Search the synthetic feed, see why a posting could fit and what stands in the way, and shortlist it.", done: workspace.shortlist.length > 0 },
+    { to: "/matching", label: "Compare your options", detail: "Near-term fit and strategic value side by side, never merged.", done: workspace.shortlist.length > 1 },
     { to: "/evidence", label: "Check your evidence", detail: "Every résumé line must trace to a claim with a truth state.", done: blockedClaims === 0 && claims.length > 0 },
-    { to: "/resume", label: "Build and approve a résumé variant", detail: "Edit, compare, and approve the exact text before any export.", done: approved > 0 },
+    { to: "/resume/tailor", label: "Tailor and approve a résumé", detail: "Choose your own lines and claims for a posting, review the diff, approve the exact text, then export.", done: approved > 0 },
     { to: "/applications", label: "Track the application", detail: "Record each step yourself. Nothing is ever submitted for you.", done: applications.length > 0 },
     { to: "/experiments", label: "Run an honest experiment", detail: "Preregister, randomise, and read results with uncertainty.", done: workspace.experiments.some((e) => e.design_locked_at !== null) },
-    { to: "/atlas", label: "Explore the career atlas", detail: "A 2-D picture of skill space, with its distortion stated.", done: false },
+    { to: "/atlas", label: "Explore career transitions", detail: "Where your evidence places you, possible destinations and what each would take.", done: false },
     { to: "/simulator", label: "Compare transition scenarios", detail: "Hypothetical plans, costs you enter, and your own weights.", done: Object.keys(workspace.scenarioEdits).length > 0 },
   ];
 
@@ -113,7 +113,7 @@ export default function OverviewPage() {
         <Fact label="Postings" value={bundle.jobs.length} note={`${rejectedJobs} malformed record${rejectedJobs === 1 ? "" : "s"} rejected`} to="/jobs" />
         <Fact label="Shortlist" value={workspace.shortlist.length} note="saved by you" to="/jobs" />
         <Fact label="Evidence" value={`${supported}/${claims.length}`} note="claims supported by evidence" to="/evidence" />
-        <Fact label="Resume variants" value={workspace.resumeVariants.length} note={`${approved} approved by you`} to="/resume" />
+        <Fact label="Résumé versions" value={workspace.resumeVariants.length} note={`${approved} approved`} to="/resume" />
         <Fact label="Applications" value={open.length} note={`${waiting.length} with no reply recorded`} to="/applications" />
         <Fact label="Experiments" value={workspace.experiments.length} note={`${running} locked or running`} to="/experiments" />
       </div>
@@ -152,7 +152,7 @@ export default function OverviewPage() {
                 return (
                   <li key={j.id} className="ov-posting">
                     <div className="ov-posting__title">
-                      <Link to={`/matching?job=${encodeURIComponent(j.id)}`}>{j.title}</Link>
+                      <Link to={`/jobs/${encodeURIComponent(j.id)}`}>{j.title}</Link>
                       <span className="ct-small ct-muted">
                         {j.organization}
                         {failed.length > 0 ? null : comp.known ? `, ${comp.text}` : ", pay not disclosed"}

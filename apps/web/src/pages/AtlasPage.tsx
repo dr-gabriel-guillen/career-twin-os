@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Banner, Card, Checkbox, EmptyState, Facts, SelectField, TableRegion } from "@careertwin/ui";
 import { Page, SkillChips } from "@/components/common";
@@ -23,7 +23,13 @@ function Shape({ type, x, y, className }: { type: RepresentationType; x: number;
   return <polygon className={className} points={`${x},${y - 8} ${x + 8},${y + 7} ${x - 8},${y + 7}`} />;
 }
 
-export default function AtlasPage() {
+/** Inside the Career Atlas screen the page frame (title, focus) belongs to the parent. */
+function Bare({ children }: { title?: string; lead?: ReactNode; children: ReactNode }) {
+  return <div className="ct-stack ct-stack--lg">{children}</div>;
+}
+
+export default function AtlasPage({ embedded = false }: { embedded?: boolean }) {
+  const Frame = embedded ? Bare : Page;
   const { bundle } = useApp();
   const { familyLabel } = useIndexes();
   const [projectionId, setProjectionId] = useState(bundle.projections[0]?.projection_id ?? "");
@@ -75,11 +81,11 @@ export default function AtlasPage() {
 
   if (!projection || !view) {
     return (
-      <Page title="Career Atlas">
+      <Frame title="Career Atlas">
         <EmptyState title="No atlas projection is available.">
           <p>The analytics lane (C) has not provided a projection for this data.</p>
         </EmptyState>
-      </Page>
+      </Frame>
     );
   }
 
@@ -118,7 +124,7 @@ export default function AtlasPage() {
   const quality = (q: number | null | undefined) => (q === null || q === undefined ? "Unknown" : `${percent(q)} of its ${k === null ? "" : `${k} `}nearest neighbours are preserved`);
 
   return (
-    <Page
+    <Frame
       title="Career Atlas"
       lead="A two-dimensional picture of a many-dimensional skill space. It is useful for orientation and for asking questions. It is not a measure of fit, and distance on the map is not a chance of being hired."
     >
@@ -370,6 +376,6 @@ export default function AtlasPage() {
         </details>
         <p className="ct-small ct-muted">A 3-D view is deliberately not offered: with this little variance captured, a third axis adds visual complexity without making positions more trustworthy.</p>
       </Card>
-    </Page>
+    </Frame>
   );
 }

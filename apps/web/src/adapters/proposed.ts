@@ -236,6 +236,16 @@ export interface ScenarioOutputs {
   uncertainty: "low" | "medium" | "high";
   uncertainty_note: string;
   atlas_entity_id: string | null;
+  /**
+   * How far the plan moves the skill vector, in the full space and on the 2-D map (lane C). The map
+   * shows only part of a movement; the full-space distance to the role profile is the honest measure.
+   */
+  movement?: {
+    full_space_distance_to_role?: { before: number; after: number; role: string } | null;
+    full_space_shift_length?: number;
+    map_shift_length?: number;
+    note?: string;
+  };
 }
 
 // ---------- Candidate preferences (user-stated values; mirrors fixtures/synthetic_profile.json) ----------

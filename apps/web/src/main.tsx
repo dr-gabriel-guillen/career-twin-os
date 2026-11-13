@@ -4,6 +4,7 @@ import "@fontsource-variable/instrument-sans";
 import "@fontsource-variable/source-serif-4";
 import "../../../packages/ui/src/styles.css";
 import "./app.css";
+import "./journeys/journeys.css";
 import App from "./App";
 
 const root = document.getElementById("root");

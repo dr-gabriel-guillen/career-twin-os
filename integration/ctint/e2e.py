@@ -491,6 +491,45 @@ def v_scenarios(a: Path, count: int) -> list[str]:
                     f"scenarios.json: {scenario.get('id')!r} uses projection {ref!r}, the atlas stage fitted "
                     f"{atlas_projection!r}; its map points cannot be drawn on this run's atlas"
                 )
+    problems.extend(scenario_geometry(a, scenarios))
+    return problems
+
+
+def scenario_geometry(a: Path, scenarios: list[dict[str, Any]], tol: float = 1e-4) -> list[str]:
+    """A scenario's map movement must be the linear PCA image of its feature changes, on one projection.
+
+    Checks (Career Atlas validity review, consolidation): the per-feature map shifts add up to the
+    reported shift; the candidate and scenario points published in atlas.pca.json differ by exactly that
+    shift; and every point used shares the scenario's projection id. A failure means the drawn route is
+    not what the model computed. Proximity to a role centre on the map is deliberately NOT checked: it
+    is not a property the projection preserves.
+    """
+    problems: list[str] = []
+    view = read_json(a / "atlas.pca.json") if (a / "atlas.pca.json").is_file() else None
+    points = {p.get("entity_id"): p for p in view.get("points", [])} if isinstance(view, dict) else {}
+    for sc in scenarios:
+        o = sc.get("outputs") if isinstance(sc.get("outputs"), dict) else {}
+        mv, ref = o.get("movement"), (o.get("model_ref") or {}).get("projection_id")
+        if not isinstance(mv, dict) or not isinstance(mv.get("map_shift"), list):
+            continue
+        name = sc.get("id")
+        per = [f.get("map_shift") for f in mv.get("per_feature") or [] if isinstance(f, dict)]
+        if per:
+            total = [sum(x[i] for x in per) for i in range(len(mv["map_shift"]))]
+            if any(abs(t - r) > tol * 10 for t, r in zip(total, mv["map_shift"])):
+                problems.append(f"scenarios.json: {name!r} per-feature map shifts sum to {total}, reported {mv['map_shift']}")
+        cand, after = points.get(sc.get("candidate_ref")), points.get(o.get("atlas_entity_id"))
+        if not points:
+            continue
+        if cand is None or after is None:
+            problems.append(f"scenarios.json: {name!r} candidate or scenario point missing from atlas.pca.json")
+            continue
+        for pt in (cand, after):
+            if ref is not None and pt.get("projection_id") != ref:
+                problems.append(f"atlas.pca.json: {pt.get('entity_id')!r} is on {pt.get('projection_id')!r}, the scenario on {ref!r}")
+        drawn = [y - x for x, y in zip(cand.get("coords", []), after.get("coords", []))]
+        if len(drawn) != len(mv["map_shift"]) or any(abs(d - r) > tol * 10 for d, r in zip(drawn, mv["map_shift"])):
+            problems.append(f"scenarios.json: {name!r} drawn route {drawn} differs from the computed shift {mv['map_shift']}")
     return problems
 
 

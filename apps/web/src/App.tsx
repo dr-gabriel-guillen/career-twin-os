@@ -1,5 +1,5 @@
 import { Component, useEffect, useState, type ErrorInfo, type ReactNode } from "react";
-import { HashRouter, NavLink, Route, Routes, useLocation } from "react-router-dom";
+import { HashRouter, NavLink, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { AnnouncerProvider, Badge, Banner, Button, ErrorState, Icon, LoadingState, type IconName } from "@careertwin/ui";
 import { formatDate } from "@/lib/format";
 import { totalRejected, type DataBundle } from "@/adapters";
@@ -8,26 +8,27 @@ import { Page } from "@/components/common";
 import { AppProvider, artifactMode, useShell } from "@/state/AppContext";
 
 import OverviewPage from "@/pages/OverviewPage";
-import JobsPage from "@/pages/JobsPage";
-import MatchingPage from "@/pages/MatchingPage";
 import EvidencePage from "@/pages/EvidencePage";
 import ResumePage from "@/pages/ResumePage";
-import ApplicationsPage from "@/pages/ApplicationsPage";
 import ExperimentsPage from "@/pages/ExperimentsPage";
-import AtlasPage from "@/pages/AtlasPage";
 import SimulatorPage from "@/pages/SimulatorPage";
 import SettingsPage from "@/pages/SettingsPage";
+import DiscoverJourney from "@/journeys/Discover";
+import TailorJourney from "@/journeys/Tailor";
+import TrackJourney from "@/journeys/Track";
+import AtlasJourney from "@/journeys/Atlas";
+import CompareJourney from "@/journeys/Compare";
 
 export const NAV = [
-  { to: "/", label: "Overview", icon: "overview", group: "Work" },
-  { to: "/jobs", label: "Discover Jobs", icon: "discover", group: "Work" },
-  { to: "/matching", label: "Matching", icon: "match", group: "Work" },
-  { to: "/applications", label: "Applications", icon: "applications", group: "Work" },
+  { to: "/", label: "Overview", icon: "overview", group: "Search" },
+  { to: "/jobs", label: "Discover", icon: "discover", group: "Search" },
+  { to: "/matching", label: "Compare", icon: "match", group: "Search" },
+  { to: "/applications", label: "Applications", icon: "applications", group: "Search" },
+  { to: "/resume", label: "Résumé Studio", icon: "resume", group: "Profile" },
   { to: "/evidence", label: "Profile Evidence", icon: "evidence", group: "Profile" },
-  { to: "/resume", label: "Resume Studio", icon: "resume", group: "Profile" },
-  { to: "/experiments", label: "Experiments", icon: "experiments", group: "Insight" },
-  { to: "/atlas", label: "Career Atlas", icon: "atlas", group: "Insight" },
-  { to: "/simulator", label: "Career Simulator", icon: "simulator", group: "Insight" },
+  { to: "/atlas", label: "Career Atlas", icon: "atlas", group: "Strategy" },
+  { to: "/simulator", label: "Career Simulator", icon: "simulator", group: "Strategy" },
+  { to: "/experiments", label: "Experiments", icon: "experiments", group: "Strategy" },
   { to: "/settings", label: "Settings", icon: "settings", group: "System" },
 ] as const satisfies readonly { to: string; label: string; icon: IconName; group: string }[];
 
@@ -55,6 +56,12 @@ class ErrorBoundary extends Component<{ children: ReactNode; resetKey: string },
     }
     return this.props.children;
   }
+}
+
+/** Older addresses (the separate prototype pages and query-string selections) keep working. */
+function Redirect({ to }: { to: string }) {
+  const { id } = useParams();
+  return <Navigate to={id ? `${to}/${encodeURIComponent(id)}` : to} replace />;
 }
 
 function NotFound() {
@@ -250,13 +257,21 @@ function Shell() {
               <ErrorBoundary resetKey={location.pathname}>
                   <Routes>
                     <Route path="/" element={<OverviewPage />} />
-                    <Route path="/jobs" element={<JobsPage />} />
-                    <Route path="/matching" element={<MatchingPage />} />
+                    <Route path="/jobs" element={<DiscoverJourney />} />
+                    <Route path="/jobs/:jobId" element={<DiscoverJourney />} />
+                    <Route path="/matching" element={<CompareJourney />} />
                     <Route path="/evidence" element={<EvidencePage />} />
                     <Route path="/resume" element={<ResumePage />} />
-                    <Route path="/applications" element={<ApplicationsPage />} />
+                    <Route path="/resume/tailor" element={<TailorJourney />} />
+                    <Route path="/resume/tailor/:jobId" element={<TailorJourney />} />
+                    <Route path="/applications" element={<TrackJourney />} />
+                    <Route path="/applications/:appId" element={<TrackJourney />} />
                     <Route path="/experiments" element={<ExperimentsPage />} />
-                    <Route path="/atlas" element={<AtlasPage />} />
+                    <Route path="/atlas" element={<AtlasJourney />} />
+                    <Route path="/atlas/map" element={<AtlasJourney />} />
+                    <Route path="/discover/:id?" element={<Redirect to="/jobs" />} />
+                    <Route path="/tailor/:id?" element={<Redirect to="/resume/tailor" />} />
+                    <Route path="/track/:id?" element={<Redirect to="/applications" />} />
                     <Route path="/simulator" element={<SimulatorPage />} />
                     <Route path="/settings" element={<SettingsPage />} />
                     <Route path="*" element={<NotFound />} />
