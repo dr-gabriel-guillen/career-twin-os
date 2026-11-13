@@ -238,7 +238,12 @@ export function createArtifactSource(reader: ArtifactReader, label = "Pipeline a
       }
       const provenance: BundleProvenance = { data_source: "artifacts", dialects: { ...dialects }, mock_sources: [...mock].sort(), missing: [...missing].sort() };
       const jobFacets: Record<string, JobFacet> = facetsFromJobsExt(await peek("jobs_ext.json"));
-      return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes], jobFacets };
+      // Records in experiment_events.json are the experiment run's units, not the person's own log.
+      const expEvents = await peek("experiment_events.json").catch(() => undefined);
+      const experimentUnitApplicationIds = Array.isArray(expEvents)
+        ? [...new Set(expEvents.flatMap((e) => (isObj(e) && typeof e.application_id === "string" ? [e.application_id] : [])))]
+        : [];
+      return { analyses: [...analyses], matchRefusals: [...refusals], provenance, notes: [...notes], jobFacets, experimentUnitApplicationIds };
     },
   };
 }

@@ -51,7 +51,12 @@ export default defineConfig({
   },
   server: { port: 5173, strictPort: true, fs: { allow: [r("../..")] } },
   preview: { port: 4173, strictPort: true },
-  build: { sourcemap: true, target: "es2022" },
+  build: {
+    sourcemap: true,
+    target: "es2022",
+    // The journey prototypes ship beside the product so owners can review them on the same data.
+    rollupOptions: { input: { main: r("./index.html"), prototypes: r("./prototypes.html") } },
+  },
   test: {
     environment: "node",
     include: ["tests/unit/**/*.test.ts"],
